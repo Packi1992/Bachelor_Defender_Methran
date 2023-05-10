@@ -14,7 +14,7 @@ Game::Game( const char * windowTitle, const Point windowSize, const bool vSync )
 		exit( 2 );
 	}
 
-	constexpr IMG_InitFlags imgFlags = (IMG_InitFlags) (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP);
+	constexpr IMG_InitFlags imgFlags = (IMG_InitFlags) (IMG_INIT_JPG | IMG_INIT_PNG /*| IMG_INIT_TIF | IMG_INIT_WEBP*/);
 	if( IMG_Init( imgFlags ) != imgFlags )
 	{
 		cerr << "IMG_Init failed: " << IMG_GetError() << endl;
