@@ -54,6 +54,7 @@ public:
 		None,
 		Title,      // averaged and only updated every 250ms
 		OStream,    // averaged and only updated every 1000ms
+        //Overlay,    // Maybe Overlay mode?!
 	};
 
 	void SetPerfDrawMode( PerformanceDrawMode mode ) noexcept { perfDrawMode = mode; }

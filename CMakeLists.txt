@@ -12,23 +12,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
 add_compile_options("$<$<CONFIG:DEBUG>:-D_DEBUG>")
 
-add_executable(sdl_basegame
-        src/global.h
-        src/gamebase.h
-        src/gamebase.cpp
-        src/recthelper.h
+file(GLOB SOURCES src/*.cpp src/*.h src/BDDefender/*.h src/BDDefender/*.cpp)
 
-        src/example/pongmain.cpp
-
-        src/example/main.cpp
-        src/example/examplegame.h
-        src/example/examplegame.cpp
-        src/example/camerastate.cpp
-        src/example/introstate.cpp
-        src/example/plasmastate.cpp
-        src/example/shooterstate.cpp
-        src/example/sortstate.cpp
-)
+add_executable(sdl_basegame ${SOURCES})
 
 include(FindPkgConfig)
 
