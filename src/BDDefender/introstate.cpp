@@ -31,6 +31,14 @@ void IntroState::Init()
     {
         Mix_ResumeMusic();
     }
+    tcache = TextureCache::getCache(render);
+    SDL_Point size = game.GetWindowSize();
+    int left = size.x / 10;
+    int width = left*8;
+    int top = size.y / 5;
+    int height = top*2;
+    btn_start.set(render,"Start",30,{left,top,width,height});
+    btn_exit.set(render, "Beenden",30,{left, (int)(1.5*top+height),height});
 }
 
 void IntroState::UnInit()
@@ -61,27 +69,21 @@ void IntroState::Events( const u32 frame, const u32 totalMSec, const float delta
 
         switch( event.type )
         {
+            case SDL_MOUSEMOTION:
+                btn_exit.entered(event);
+                btn_start.entered(event);
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                if(btn_exit.clicked(event))
+                    game.SetNextState(99);
+                if(btn_start.clicked(event))
+                    game.SetNextState(1);
+                break;
             case SDL_KEYDOWN:
             {
                 const Keysym & what_key = event.key.keysym;
 
-                if( what_key.scancode == SDL_SCANCODE_F1 && event.key.repeat == 0 )
-                {
-                    if( Mix_PausedMusic() )
-                        Mix_ResumeMusic();
-                    else
-                        Mix_PauseMusic();
-
-                }
-                else if( what_key.scancode == SDL_SCANCODE_F2 && event.key.repeat == 0 )
-                {
-                    if( Mix_VolumeMusic( -1 ) == MIX_MAX_VOLUME )
-                        Mix_VolumeMusic( 0 );
-                    else
-                        Mix_VolumeMusic( MIX_MAX_VOLUME );
-
-                }
-                else if( what_key.scancode == SDL_SCANCODE_F9 )
+                if( what_key.scancode == SDL_SCANCODE_F9 )
                 {
                     // crash/shutdown, since State #6 does not exist
                     game.SetNextState( 99 );
@@ -93,11 +95,6 @@ void IntroState::Events( const u32 frame, const u32 totalMSec, const float delta
 
                 break;
             }
-
-            case SDL_MOUSEBUTTONDOWN:
-                game.SetNextState( 1 );
-                break;
-
             default:
                 break;
         }
@@ -115,45 +112,7 @@ void IntroState::Render( const u32 frame, const u32 totalMSec, const float delta
     {
         const Rect dst_rect { 0, 0, winSize.x, winSize.y };
         SDL_RenderCopy( render, image, EntireRect, &dst_rect /* same result as EntireRect */ );
-    }
-
-    // Poor persons benchmark
-    //for (uint x = 0; x < 100; ++x)
-    {
-        // uncomment to use the cache, comment out to disable
-        if( blendedText == nullptr )
-        {
-            constexpr const char * text =
-                    "                                          --== Introscreen of my Super Mega Gamey Game 3000 ==--\n\n"
-                    "Dies ist ein Typoblindtext. An ihm kann man sehen, ob alle Buchstaben da sind und wie sie aussehen. Manchmal benutzt man Worte wie Hamburgefonts, Rafgenduks oder Handgloves, um Schriften zu testen. Manchmal Sätze, die alle Buchstaben des Alphabets enthalten - man nennt diese Sätze »Pangrams«. Sehr bekannt ist dieser: The quick brown fox jumps over the lazy old dog. Oft werden in Typoblindtexte auch fremdsprachige Satzteile eingebaut (AVAIL® and Wefox™ are testing aussi la Kerning), um die Wirkung in anderen Sprachen zu testen. In Lateinisch sieht zum Beispiel fast jede Schrift gut aus. Quod erat demonstrandum. Seit 1975 fehlen in den meisten Testtexten die Zahlen, weswegen nach TypoGb. 204 § ab dem Jahr 2034 Zahlen in 86 der Texte zur Pflicht werden. Nichteinhaltung wird mit bis zu 245 € oder 368 $ bestraft. Genauso wichtig in sind mittlerweile auch Âçcèñtë, die in neueren Schriften aber fast immer enthalten sind. Ein wichtiges aber schwierig zu integrierendes Feld sind OpenType-Funktionalitäten. Je nach Software und Voreinstellungen können eingebaute Kapitälchen, Kerning oder Ligaturen (sehr pfiffig) nicht richtig dargestellt werden."
-                    "\n\nRoyality free music by Karl Casey @ White Bat Audio\n  - Press [F1] to (un)pause music.\n  - Press [F2] to (un)mute music.\nSource: https://www.youtube.com/watch?v=aFITtvK64B4"
-                    "\n\nPress any key to continue!";
-
-            if( blendedText != nullptr )
-                SDL_DestroyTexture( blendedText );
-
-            Surface * surf = TTF_RenderUTF8_Blended_Wrapped( font, text, white, winSize.x - 30 );
-            blendedText = SDL_CreateTextureFromSurface( render, surf );
-            SDL_FreeSurface( surf );
-
-            u32 fmt;
-            int access;
-            SDL_QueryTexture( blendedText, &fmt, &access, &blendedTextSize.x, &blendedTextSize.y );
-        }
-
-        // Draw the text on top
-        {
-            constexpr const Point p { 32, 50 };
-            SDL_SetTextureColorMod( blendedText, 0, 0, 0 );
-            for( const Point & pd : shadowOffsets )
-            {
-                const Rect dst_rect = Rect{ p.x + pd.x, p.y + pd.y, blendedTextSize.x, blendedTextSize.y };
-                SDL_RenderCopy( render, blendedText, EntireRect, &dst_rect );
-            }
-
-            SDL_SetTextureColorMod( blendedText, 255, 255, 255 );
-            const Rect dst_rect = { p.x, p.y, blendedTextSize.x, blendedTextSize.y };
-            SDL_RenderCopy( render, blendedText, EntireRect, &dst_rect );
-        }
+        btn_start.draw();
+        btn_exit.draw();
     }
 }

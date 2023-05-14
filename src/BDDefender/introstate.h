@@ -4,6 +4,8 @@
 #include "../global.h"
 #include "../gamebase.h"
 #include "../recthelper.h"
+#include "../util/Button.h"
+#include "../util/TextureCache.h"
 
 #ifndef SDL_BASEGAME_INTROSTATE_H
 #define SDL_BASEGAME_INTROSTATE_H
@@ -13,9 +15,9 @@ protected:
     Font *font = nullptr;
     Texture *image = nullptr;
     Music *music = nullptr;
-    Texture *blendetText = nullptr;
-    Point blendetTextSize = {0, 0};
-
+    TextureCache *tcache = nullptr;
+    Button btn_start;
+    Button btn_exit;
     static constexpr const Color white{255, 255, 255, 255};
     static constexpr const Color black{0, 0, 0, 255};
 

@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
 add_compile_options("$<$<CONFIG:DEBUG>:-D_DEBUG>")
 
-file(GLOB SOURCES src/*.cpp src/*.h src/BDDefender/*.h src/BDDefender/*.cpp)
+file(GLOB SOURCES src/*.cpp src/*.h src/BDDefender/*.h src/BDDefender/*.cpp src/util/*.h src/util/*.cpp)
 
 add_executable(sdl_basegame ${SOURCES})
 
