@@ -75,7 +75,7 @@ TextureCache::~TextureCache() {
 }
 
 void TextureCache::drawText(char *string, int size, int x, int y, SDL_Color fgC) {
-    auto font = TTF_OpenFont("../RobotoSlab-Regular.ttf", size);
+    auto font = TTF_OpenFont(ttf_path, size);
     if (!font) {
         printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
         exit(2);
@@ -93,7 +93,7 @@ void TextureCache::drawText(char *string, int size, int x, int y, SDL_Color fgC)
 }
 
 SDL_Texture *TextureCache::getText(const char *string, int size, SDL_Color TextColor, SDL_Rect *sRect) {
-    auto font = TTF_OpenFont("../RobotoSlab-Regular.ttf", size);
+    auto font = TTF_OpenFont(ttf_path, size);
     if (!font) {
         printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
         exit(2);
@@ -113,7 +113,7 @@ SDL_Texture *TextureCache::getText(const char *string, int size, SDL_Color TextC
 void TextureCache::drawCenteredText(const std::string &text, int size, SDL_Color fgc, int width, int height) {
     char buf[200];
     strcpy(buf, text.c_str());
-    auto font = TTF_OpenFont("../RobotoSlab-Regular.ttf", size);
+    auto font = TTF_OpenFont(ttf_path, size);
     if (!font) {
         printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
         exit(2);
@@ -133,7 +133,7 @@ void TextureCache::drawCenteredText(const std::string &text, int size, SDL_Color
 }
 
 SDL_Texture *TextureCache::getNumber(int Number, int size, SDL_Color color, SDL_Rect *sRect) {
-    auto font = TTF_OpenFont("../RobotoSlab-Regular.ttf", size);
+    auto font = TTF_OpenFont(ttf_path, size);
     if (!font) {
         printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
         exit(2);
@@ -158,6 +158,7 @@ TextureCache* TextureCache::getCache(Renderer *render) {
     }
     return cacheInstance;
 }
+TextureCache* TextureCache::cacheInstance = nullptr;
 
 void TextureCache::setRenderColor(SDL_Color color) {
     SDL_SetRenderDrawColor(renderer,color.r,color.g,color.b,color.a);
@@ -173,11 +174,17 @@ SDL_Color TextureCache::getSDL_Color(t_color color) {
             return {0,0,0,255};
         case WHITE:
             return {255,255,255,255};
+        default:
+            return {255,255,255,255};
     }
 }
 
 SDL_Texture *TextureCache::getText(const char *string, int size, t_color TextColor, SDL_Rect *sRect) {
     return getText(string,size, getSDL_Color(TextColor),sRect);
+}
+
+void TextureCache::render(SDL_Texture *t, SDL_Rect *dRect, SDL_Rect *sRect) const {
+    SDL_RenderCopy(renderer,t,sRect,dRect);
 }
 
 

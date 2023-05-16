@@ -6,11 +6,11 @@
 
 void Button::draw(bool highlighted) {
     if(highlighted)
-        t_cache->setRenderColor(highlightedColor);
+        tCache->setRenderColor(highlightedColor);
     else
-        t_cache->setRenderColor(drawColor);
+        tCache->setRenderColor(drawColor);
     SDL_RenderFillRect(render, &rect);
-    t_cache->setRenderColor(BLACK);
+    tCache->setRenderColor(BLACK);
     SDL_RenderDrawRect(render, &rect);
 
     SDL_RenderCopy(render, text, nullptr, &tRect);
@@ -44,14 +44,14 @@ Button::Button(const Button &b) {
     strcpy(textArr, b.textArr);
     std::cout<< "using Copy Constuctor: " << textArr << std::endl;
     this->render = b.render;
-    this->t_cache = b.t_cache;
+    this->tCache = b.tCache;
     this->size = b.size;
     this->rect = b.rect;
 
     this->buttonColor = b.buttonColor;
     this->drawColor = b.drawColor;
     setHighlightedColor();
-    this->text = t_cache->getText(textArr, size, {0, 0, 0, 255});
+    this->text = tCache->getText(textArr, size, {0, 0, 0, 255});
     SDL_QueryTexture(this->text, nullptr, nullptr, &tRect.w, &tRect.h);
 
     tRect.x = rect.x + (rect.w - tRect.w) / 2;
@@ -61,11 +61,13 @@ Button::Button(const Button &b) {
 void Button::set(Renderer *renderer, const std::string& label, int nSize, SDL_Rect nRect, Color btnColor) {
     this->render = renderer;
     this->size = nSize;
+    this->tCache = TextureCache::getCache(renderer);
     strcpy(textArr, label.c_str());
     this->rect = nRect;
     std::cout << "Button set " << textArr << std::endl;
     this->buttonColor = btnColor;
-    this->text = t_cache->getText(textArr, size, {0, 0, 0, 255});
+    setHighlightedColor();
+    this->text = tCache->getText(textArr, size, {0, 0, 0, 255});
     SDL_QueryTexture(this->text, nullptr, nullptr, &tRect.w, &tRect.h);
 
     tRect.x = rect.x + (rect.w - tRect.w) / 2;
@@ -82,14 +84,21 @@ int Button::getX() {
 }
 
 void Button::setHighlightedColor(SDL_Color high_color) {
-    if(high_color.r==0&&high_color.g==0&&high_color.a==0&&high_color.b==0){
+    if(high_color.r==0&&high_color.g==0&&high_color.a==255&&high_color.b==0){
         //define highlighted color depending on btn color
         this->highlightedColor = {((Uint8)(buttonColor.r+20)),
                                   (Uint8)(buttonColor.g+20),
                                   (Uint8)(buttonColor.b+20),255};
+        std::cout << "highlighted button color: "<<  highlightedColor.r << ", "<<highlightedColor.g << ", "<<highlightedColor.b<< std::endl;
     }
     else{
         this->highlightedColor = high_color;
     }
+}
+
+void Button::setSize(SDL_Rect nRect) {
+    this->rect = nRect;
+    tRect.x = rect.x + (rect.w - tRect.w) / 2;
+    tRect.y = rect.y + (rect.h - tRect.h) / 2;
 }
 

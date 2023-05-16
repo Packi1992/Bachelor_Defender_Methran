@@ -27,10 +27,11 @@ public:
     int getX();
     void set(Renderer *render, const std::string &label, int size,
              SDL_Rect rect, SDL_Color btn_color={150,150,150,255});
-    void setHighlightedColor(SDL_Color high_color={});
+    void setSize(SDL_Rect rect);
+    void setHighlightedColor(SDL_Color high_color={0,0,0,255});
 private:
     Renderer *render = nullptr;
-    TextureCache *t_cache = nullptr;
+    TextureCache *tCache = nullptr;
     // button background rect
     SDL_Rect rect{};
     // text rect

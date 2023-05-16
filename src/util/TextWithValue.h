@@ -1,18 +1,17 @@
-//
-// Created by banoodle on 24.04.23.
-//
 
-#ifndef BOULDERDASH_TEXTWITHVALUE_H
-#define BOULDERDASH_TEXTWITHVALUE_H
+#ifndef BBD_TEXTWITHVALUE_H
+#define BBD_TEXTWITHVALUE_H
 
 
-#include "../Global.h"
-
+#include <string>
+#include <SDL2/SDL.h>
+#include "../global.h"
+#include "TextureCache.h"
 
 class TextWithValue {
 public:
-    void set(Global *pGlobal, const std::string& Text,const int *value,
-             SDL_Point pos, int textSize, Color::colors TextColor);
+    void set(Game *game, Renderer *pRender, const std::string& Text,const int *value,
+             SDL_Point pos, int textSize, Color TextColor);
 
     void draw();
 
@@ -22,9 +21,11 @@ public:
 
 private:
     // base
-    Global *pg = nullptr;
+    Game *pGame = nullptr;
+    Renderer *pRenderer = nullptr;
+    TextureCache *tCache= nullptr;
     int size{};
-    Color::colors color{};
+    Color color{};
     bool centered = false;
 
     // label
@@ -46,4 +47,4 @@ private:
 };
 
 
-#endif //BOULDERDASH_TEXTWITHVALUE_H
+#endif //BBD_TEXTWITHVALUE_H

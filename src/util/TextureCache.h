@@ -35,6 +35,7 @@ public:
     SDL_Texture *getNumber(int Number, int size, SDL_Color fgC, SDL_Rect *sRect = nullptr);
     void setRenderColor(SDL_Color color);
     void setRenderColor(t_color color);
+    void render(SDL_Texture *t, SDL_Rect* dRect,SDL_Rect *sRect= nullptr) const;
     TextureCache(TextureCache &other)=delete;
     void operator=(const TextureCache &)=delete;
     static TextureCache* getCache(Renderer *render);
@@ -42,6 +43,7 @@ public:
 private:
     static TextureCache *cacheInstance;
     explicit TextureCache(SDL_Renderer *renderer);
+    const char *ttf_path = BasePath "asset/font/RobotoSlab-Bold.ttf";
     class obj {
     public:
         obj *next;

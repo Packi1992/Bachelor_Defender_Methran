@@ -41,5 +41,7 @@ public:
     void Events( const u32 frame, const u32 totalMSec, const float deltaT ) override;
     void Update( const u32 frame, const u32 totalMSec, const float deltaT ) override;
     void Render( const u32 frame, const u32 totalMSec, const float deltaT ) override;
+
+    void updateBtnSize(const Point &point);
 };
 #endif //SDL_BASEGAME_INTROSTATE_H

@@ -14,7 +14,7 @@ void IntroState::Init()
 
     if( !image )
     {
-        image = IMG_LoadTexture( render, BasePath "asset/graphic/background.png" );
+        image = IMG_LoadTexture( render, BasePath "asset/graphic/bg-main.png" );
         if( !image )
             cerr << "IMG_LoadTexture failed: " << IMG_GetError() << endl;
     }
@@ -33,12 +33,16 @@ void IntroState::Init()
     }
     tcache = TextureCache::getCache(render);
     SDL_Point size = game.GetWindowSize();
+    std::cout << "window size " << size.x << " " << size.y << std::endl;
     int left = size.x / 10;
     int width = left*8;
     int top = size.y / 5;
     int height = top*2;
-    btn_start.set(render,"Start",30,{left,top,width,height});
-    btn_exit.set(render, "Beenden",30,{left, (int)(1.5*top+height),height});
+    SDL_Color btnColor = {52,235,125,255};
+    btn_start.set( render,"Start",30,
+                   {left,top,width,height},btnColor);
+    btn_exit.set( render, "Beenden",30,
+                  {left, (int)(1.5*top+height),width, height},btnColor);
 }
 
 void IntroState::UnInit()
@@ -108,11 +112,20 @@ void IntroState::Update( const u32 frame, const u32 totalMSec, const float delta
 void IntroState::Render( const u32 frame, const u32 totalMSec, const float deltaT )
 {
     const Point & winSize = game.GetWindowSize();
-
+    updateBtnSize(winSize);
     {
         const Rect dst_rect { 0, 0, winSize.x, winSize.y };
         SDL_RenderCopy( render, image, EntireRect, &dst_rect /* same result as EntireRect */ );
         btn_start.draw();
         btn_exit.draw();
     }
+}
+
+void IntroState::updateBtnSize(const Point &size) {
+    int left = size.x / 10*2;
+    int width = left*3;
+    int top = size.y / 5*2;
+    int height = top/3;
+    btn_start.setSize({left,top,width,height});
+    btn_exit.setSize({left, (int)(top+height*1.5),width, height});
 }
