@@ -22,6 +22,8 @@ public:
 
     void showSizeDialog();
 
+    u_long getMapTime();
+
 private:
     SDL_Texture *t_tile;
     int scale = 30;
