@@ -16,7 +16,9 @@
 //  specific Colors to make things easier regarding drawing colors
 enum t_color{
     BLACK,
-    WHITE};
+    WHITE,
+    BTN_COLOR,
+    };
 
 class TextureCache {
 

@@ -174,6 +174,8 @@ SDL_Color TextureCache::getSDL_Color(t_color color) {
             return {0,0,0,255};
         case WHITE:
             return {255,255,255,255};
+        case BTN_COLOR:
+            return {52,235,125,255};
         default:
             return {255,255,255,255};
     }
