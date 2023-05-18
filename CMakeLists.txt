@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(sdl_basegame)
+project(sdl_bachelorDefender)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
@@ -12,9 +12,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
 add_compile_options("$<$<CONFIG:DEBUG>:-D_DEBUG>")
 
-file(GLOB SOURCES src/*.cpp src/*.h src/BDDefender/*.h src/BDDefender/*.cpp src/util/*.h src/util/*.cpp)
+file(GLOB SOURCES src/* src/BDDefender/* src/util/* src/BDDefender/tdUtil/*)
 
-add_executable(sdl_basegame ${SOURCES})
+add_executable(sdl_bachelorDefender ${SOURCES})
 
 include(FindPkgConfig)
 
