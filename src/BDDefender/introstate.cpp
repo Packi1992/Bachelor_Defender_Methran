@@ -4,17 +4,10 @@
 #include "introstate.h"
 void IntroState::Init()
 {
-    if( !font )
-    {
-        font = TTF_OpenFont( BasePath "asset/font/RobotoSlab-Bold.ttf", 24 );
-        TTF_SetFontHinting( font, TTF_HINTING_LIGHT );
-        if( !font )
-            cerr << "TTF_OpenFont failed: " << TTF_GetError() << endl;
-    }
-
+    tcache = TextureCache::getCache(render);
     if( !image )
     {
-        image = IMG_LoadTexture( render, BasePath "asset/graphic/bg-main.png" );
+        image = tcache->getTexture(BasePath "asset/graphic/bg-main.png");
         if( !image )
             cerr << "IMG_LoadTexture failed: " << IMG_GetError() << endl;
     }
@@ -31,34 +24,23 @@ void IntroState::Init()
     {
         Mix_ResumeMusic();
     }
-    tcache = TextureCache::getCache(render);
+
     SDL_Point size = game.GetWindowSize();
     std::cout << "window size " << size.x << " " << size.y << std::endl;
     int left = size.x / 10;
     int width = left*8;
     int top = size.y / 5;
     int height = top*2;
-    SDL_Color btnColor = {52,235,125,255};
     btn_start.set( render,"Start",30,
-                   {left,top,width,height},btnColor);
+                   {left,top,width,height},tcache->getSDL_Color(BTN_COLOR));
     btn_exit.set( render, "Beenden",30,
-                  {left, (int)(1.5*top+height),width, height},btnColor);
+                  {left, (int)(1.5*top+height),width, height},tcache->getSDL_Color(BTN_COLOR));
 }
 
 void IntroState::UnInit()
 {
     if( !Mix_PausedMusic() )
         Mix_PauseMusic();
-
-    // Keep everything loaded/allocated is also an option
-    /*
-    TTF_CloseFont( font );
-    SDL_DestroyTexture( image );
-    SDL_DestroyTexture( blendedText );
-    font = nullptr;
-    image = nullptr;
-    blendedText = nullptr;
-    */
 }
 
 void IntroState::Events( const u32 frame, const u32 totalMSec, const float deltaT )
@@ -70,7 +52,6 @@ void IntroState::Events( const u32 frame, const u32 totalMSec, const float delta
     {
         if( game.HandleEvent( event ) )
             continue;
-
         switch( event.type )
         {
             case SDL_MOUSEMOTION:
@@ -89,14 +70,11 @@ void IntroState::Events( const u32 frame, const u32 totalMSec, const float delta
 
                 if( what_key.scancode == SDL_SCANCODE_F9 )
                 {
-                    // crash/shutdown, since State #6 does not exist
+                    // crash/shutdown, since State #99 does not exist
                     game.SetNextState( 99 );
                 }
                 else if( what_key.scancode == SDL_SCANCODE_ESCAPE )
-                {
                     game.SetNextState( 0 );
-                }
-
                 break;
             }
             default:

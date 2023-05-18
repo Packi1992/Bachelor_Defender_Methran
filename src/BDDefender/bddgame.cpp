@@ -7,7 +7,7 @@ BddGame::BddGame():
 Game("Bachelor Defender: Methran und das goldene Zertifikat",{1280,720}){
     allStates = {
             new IntroState ( *this, render),
-            //new TestTD ( *this, render),
+            new TestTD ( *this, render),
     };
 
     SetNextState( 0);

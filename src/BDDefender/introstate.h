@@ -18,8 +18,6 @@ protected:
     TextureCache *tcache = nullptr;
     Button btn_start;
     Button btn_exit;
-    static constexpr const Color white{255, 255, 255, 255};
-    static constexpr const Color black{0, 0, 0, 255};
 
     static constexpr const Array<Point,8> shadowOffsets = {
             1_up   + 1_left,

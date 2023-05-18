@@ -6,7 +6,7 @@
 
 // gamestates
 #include "introstate.h"
-#include "testtd.h"
+#include "td/testtd.h"
 
 class BddGame final : public Game {
 public:
