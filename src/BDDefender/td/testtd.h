@@ -4,13 +4,14 @@
 #include "../../global.h"
 #include "../../gamebase.h"
 #include "../../recthelper.h"
+#include "../tdUtil/enemy.h"
 
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
 
 class TestTD final: public GameState{
 protected:
-    enemies
+    Enemy enemyArr[100];
 public:
     // ctor
     using GameState::GameState;

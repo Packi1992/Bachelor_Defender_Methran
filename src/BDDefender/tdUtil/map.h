@@ -27,7 +27,7 @@ private:
     int scale = 30;
     int width = 40;
     int height = 20;
-    std::vector<std::vector<MapObjects>> map;
+    std::vector<std::vector<tdTileHandler::MapObjects>> map;
 };
 
 
