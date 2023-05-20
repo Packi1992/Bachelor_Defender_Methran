@@ -34,8 +34,12 @@ bool Enemy::isAlive() {
 
 bool Enemy::takeDamage(uint16_t damage) {
     _health < damage ? _health = 0 : _health -= damage;
-    if (_health == 0)
+    if (_health == 0){
         startDeathAnimation();
+        return false;
+    }
+    return true;
+
 }
 
 void Enemy::stun(uint16_t time) {

@@ -7,6 +7,7 @@
 
 #include "../../global.h"
 #include "../../gamebase.h"
+#include "tdTileHandler.h"
 
 class Map {
 public:
@@ -26,6 +27,7 @@ public:
 
 private:
     SDL_Texture *t_tile;
+    u_long time=0;
     int scale = 30;
     int width = 40;
     int height = 20;
