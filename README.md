@@ -1,7 +1,7 @@
 # sdl_basegame
 
 A skeleton project to start your SDL2 journey
-test
+
 # Classes
 
 - Game: The base class for your own game
