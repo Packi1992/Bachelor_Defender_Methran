@@ -15,7 +15,8 @@ public:
         Empty,
         Start,
         Goal,
-        Table
+        Table,
+        Tower,
     };
     static MapObjects selectObject(int i);
 

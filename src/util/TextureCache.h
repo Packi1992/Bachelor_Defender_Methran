@@ -12,6 +12,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL_ttf.h>
 #include "../gamebase.h"
+#include "../BDDefender/tdUtil/tdTileHandler.h"
 
 //  specific Colors to make things easier regarding drawing colors
 enum t_color{
@@ -19,6 +20,7 @@ enum t_color{
     WHITE,
     BTN_COLOR,
     MAP_GRID,
+    EDITOR_UI_BG,
     };
 
 class TextureCache {
@@ -42,6 +44,7 @@ public:
     TextureCache(TextureCache &other)=delete;
     void operator=(const TextureCache &)=delete;
     static TextureCache* getCache(Renderer *render);
+    void drawHint(TdTileHandler::MapObjects object, int size, SDL_Point posOnScreen, t_color textColor, t_color bgColor);
     ~TextureCache();
 private:
     static TextureCache *cacheInstance;

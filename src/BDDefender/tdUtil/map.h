@@ -23,10 +23,15 @@ public:
     void set(Renderer *render, const Point *offset);
 
     void set(Event, TdTileHandler::MapObjects);
-
+    TdTileHandler::MapObjects getObjectAtScreenPos(Point p);
     void showSizeDialog();
-
+    SDL_Point getPosOnScreen(Point p);
+    TdTileHandler::MapObjects getObject(Point p, bool OutOfBoundsError=true);
     u_long getMapTime();
+
+    int scale = 30;
+    int width = 40;
+    int height = 20;
 
 private:
     Renderer *render={};
@@ -34,9 +39,7 @@ private:
     TextureCache* t_cache={};
     const Point *offset={};
     u_long time=0;
-    int scale = 30;
-    int width = 40;
-    int height = 20;
+
     std::vector<std::vector<TdTileHandler::MapObjects>> map;
 };
 

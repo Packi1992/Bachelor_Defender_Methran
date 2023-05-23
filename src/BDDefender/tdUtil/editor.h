@@ -13,9 +13,19 @@
 class Editor: public GameState{
 protected:
     TdTileHandler::MapObjects selected=TdTileHandler::Empty;
-    TextureCache *tcache = nullptr;
+    TextureCache *tCache = nullptr;
+    Texture *t_tile= nullptr;
     Map map;
     Point offset={};
+    int rainbowColor=0;
+    bool isLabelActive=false;
+    int labelTimer=0;
+    TdTileHandler::MapObjects labelObject;
+    Point labelPos={};
+    Rect Toolbox = {};
+    bool mbDown=false;
+    bool mouseScroll=false;
+    void handleSelection(Event event);
 public:
 
     // ctor

@@ -178,6 +178,8 @@ SDL_Color TextureCache::getSDL_Color(t_color color) {
             return {52,235,125,255};
         case MAP_GRID:
             return {255,255,255,255};
+        case EDITOR_UI_BG:
+            return {0,255,0,255};
         default:
             return {255,255,255,255};
     }
@@ -189,6 +191,31 @@ SDL_Texture *TextureCache::getText(const char *string, int size, t_color TextCol
 
 void TextureCache::render(SDL_Texture *t, SDL_Rect *dRect, SDL_Rect *sRect) const {
     SDL_RenderCopy(renderer,t,sRect,dRect);
+}
+
+void TextureCache::drawHint(TdTileHandler::MapObjects object, int size, SDL_Point posOnScreen, t_color textColor,
+                            t_color bgColor) {
+    auto font = TTF_OpenFont("../RobotoSlab-Regular.ttf", size);
+    if (!font) {
+        printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
+        exit(2);
+    }
+    SDL_Surface *surface;
+    char text[30];
+    strcpy(text, TdTileHandler::getName(object).c_str());
+    drawText(text,size,posOnScreen.x,posOnScreen.y,getSDL_Color(textColor));
+    surface = TTF_RenderUTF8_Blended(font, text, getSDL_Color(textColor));
+    SDL_Texture *texture;
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_Rect textLocation = {posOnScreen.x, posOnScreen.y, 0, 0};
+    SDL_QueryTexture(texture, nullptr, nullptr, &textLocation.w, &textLocation.h);
+    setRenderColor(bgColor);
+    SDL_Rect textBG = {textLocation.x-5,textLocation.y-5,textLocation.w+10,textLocation.h+10};
+    SDL_RenderFillRect(renderer, &textBG);
+    SDL_RenderCopy(renderer, texture, nullptr, &textLocation);
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
+    TTF_CloseFont(font);
 }
 
 
