@@ -33,8 +33,10 @@ void IntroState::Init()
     int height = top*2;
     btn_start.set( render,"Start",30,
                    {left,top,width,height},tcache->getSDL_Color(BTN_COLOR));
-    btn_exit.set( render, "Beenden",30,
+    btn_editor.set( render, "Editor",30,
                   {left, (int)(1.5*top+height),width, height},tcache->getSDL_Color(BTN_COLOR));
+    btn_exit.set( render, "Beenden",30,
+                  {left, (int)(2.5*top+2*height),width, height},tcache->getSDL_Color(BTN_COLOR));
 }
 
 void IntroState::UnInit()
@@ -63,6 +65,8 @@ void IntroState::Events( const u32 frame, const u32 totalMSec, const float delta
                     game.SetNextState(99);
                 if(btn_start.clicked(event))
                     game.SetNextState(1);
+                if(btn_editor.clicked(event))
+                    game.SetNextState(2);
                 break;
             case SDL_KEYDOWN:
             {
@@ -95,6 +99,7 @@ void IntroState::Render( const u32 frame, const u32 totalMSec, const float delta
         const Rect dst_rect { 0, 0, winSize.x, winSize.y };
         SDL_RenderCopy( render, image, EntireRect, &dst_rect /* same result as EntireRect */ );
         btn_start.draw();
+        btn_editor.draw();
         btn_exit.draw();
     }
 }
@@ -105,5 +110,6 @@ void IntroState::updateBtnSize(const Point &size) {
     int top = size.y / 5*2;
     int height = top/3;
     btn_start.setSize({left,top,width,height});
-    btn_exit.setSize({left, (int)(top+height*1.5),width, height});
+    btn_editor.setSize({left, (int)(top+height*1.5),width, height});
+    btn_exit.setSize({left, (int)(top+height*3),width, height});
 }

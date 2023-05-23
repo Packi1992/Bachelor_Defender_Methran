@@ -9,7 +9,7 @@
 #include <string>
 
 // using Tile png with Tile Size 50px x 50px
-class tdTileHandler {
+class TdTileHandler {
 public:
     enum MapObjects{
         Empty,

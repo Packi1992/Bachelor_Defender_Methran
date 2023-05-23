@@ -8,6 +8,7 @@
 #include "../../global.h"
 #include "../../gamebase.h"
 #include "tdTileHandler.h"
+#include "../../util/TextureCache.h"
 
 class Map {
 public:
@@ -18,20 +19,25 @@ public:
     void save(const std::string &path = "../Maps/neueMap");
 
     void draw(bool wire = false);
+    void drawWire();
+    void set(Renderer *render, const Point *offset);
 
-    void setMap(Game *game, std::string path);
+    void set(Event, TdTileHandler::MapObjects);
 
     void showSizeDialog();
 
     u_long getMapTime();
 
 private:
-    SDL_Texture *t_tile;
+    Renderer *render={};
+    SDL_Texture *t_tile={};
+    TextureCache* t_cache={};
+    const Point *offset={};
     u_long time=0;
     int scale = 30;
     int width = 40;
     int height = 20;
-    std::vector<std::vector<tdTileHandler::MapObjects>> map;
+    std::vector<std::vector<TdTileHandler::MapObjects>> map;
 };
 
 

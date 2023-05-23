@@ -17,6 +17,7 @@ protected:
     Music *music = nullptr;
     TextureCache *tcache = nullptr;
     Button btn_start;
+    Button btn_editor;
     Button btn_exit;
 
     static constexpr const Array<Point,8> shadowOffsets = {

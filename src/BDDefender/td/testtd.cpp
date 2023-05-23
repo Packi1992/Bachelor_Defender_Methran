@@ -5,6 +5,7 @@
 
 void TestTD::Init() {
     GameState::Init();
+    map.set(render,&offset);
 }
 
 void TestTD::UnInit() {
@@ -12,7 +13,7 @@ void TestTD::UnInit() {
 }
 
 void TestTD::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
-
+    map.draw(true);
 }
 
 void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {

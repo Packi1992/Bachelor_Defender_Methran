@@ -176,6 +176,8 @@ SDL_Color TextureCache::getSDL_Color(t_color color) {
             return {255,255,255,255};
         case BTN_COLOR:
             return {52,235,125,255};
+        case MAP_GRID:
+            return {255,255,255,255};
         default:
             return {255,255,255,255};
     }

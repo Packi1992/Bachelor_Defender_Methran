@@ -4,16 +4,16 @@
 
 #include "tdTileHandler.h"
 
-tdTileHandler::MapObjects tdTileHandler::selectObject(int i) {
+TdTileHandler::MapObjects TdTileHandler::selectObject(int i) {
     if (i >= 0 && i <= 3) {
         return static_cast<MapObjects>(i);
     }
     return Empty;
 }
 
-Rect tdTileHandler::src = {0,0,0,0};
+Rect TdTileHandler::src = {0,0,0,0};
 
-Rect *tdTileHandler::getSrcRect(tdTileHandler::MapObjects o, long anim) {
+Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long anim) {
     src = {0,0,50,50};
     switch (o) {
         case Empty:
@@ -36,11 +36,11 @@ Rect *tdTileHandler::getSrcRect(tdTileHandler::MapObjects o, long anim) {
     return &src;
 }
 
-Rect *tdTileHandler::getSrcRect(int o, long anim) {
+Rect *TdTileHandler::getSrcRect(int o, long anim) {
     return getSrcRect(selectObject(o),anim);
 }
 
-std::string tdTileHandler::getName(tdTileHandler::MapObjects object) {
+std::string TdTileHandler::getName(TdTileHandler::MapObjects object) {
     switch(object) {
         case Empty:
             return "Empty";

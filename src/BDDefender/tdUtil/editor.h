@@ -1,22 +1,23 @@
 //
-// Created by banoodle on 14.05.23.
+// Created by banoodle on 23.05.23.
 //
-#include "../../global.h"
+
+#ifndef SDL_BACHELORDEFENDER_EDITOR_H
+#define SDL_BACHELORDEFENDER_EDITOR_H
+
 #include "../../gamebase.h"
-#include "../../recthelper.h"
-#include "../tdUtil/enemy.h"
-#include "../tdUtil/tower.h"
+#include "../../util/TextureCache.h"
+#include "tdTileHandler.h"
+#include "map.h"
 
-#ifndef SDL_BASEGAME_TESTTD_H
-#define SDL_BASEGAME_TESTTD_H
-
-class TestTD final: public GameState{
+class Editor: public GameState{
 protected:
-    Enemy enemyArr[100];
+    TdTileHandler::MapObjects selected=TdTileHandler::Empty;
+    TextureCache *tcache = nullptr;
     Map map;
-    Tower* towerArr[50];
     Point offset={};
 public:
+
     // ctor
     using GameState::GameState;
 
@@ -26,6 +27,6 @@ public:
     void Events( const u32 frame, const u32 totalMSec, const float deltaT ) override;
     void Update( const u32 frame, const u32 totalMSec, const float deltaT ) override;
     void Render( const u32 frame, const u32 totalMSec, const float deltaT ) override;
-};
 
-#endif //SDL_BASEGAME_TESTTD_H
+};
+#endif //SDL_BACHELORDEFENDER_EDITOR_H
