@@ -44,6 +44,7 @@ public:
     TextureCache(TextureCache &other)=delete;
     void operator=(const TextureCache &)=delete;
     static TextureCache* getCache(Renderer *render);
+    void drawBackground(t_color color);
     void drawHint(TdTileHandler::MapObjects object, int size, SDL_Point posOnScreen, t_color textColor, t_color bgColor);
     ~TextureCache();
 private:
@@ -63,6 +64,8 @@ private:
     SDL_Renderer *renderer;
 
     SDL_Texture *addTexture(const std::string &basicString);
+
+
 };
 
 #endif //GRAFIK_TEXTURE_H

@@ -26,6 +26,9 @@ protected:
     bool mbDown=false;
     bool mouseScroll=false;
     void handleSelection(Event event);
+    void save();
+
+    void load();
 public:
 
     // ctor

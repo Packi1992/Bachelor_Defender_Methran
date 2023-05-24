@@ -2,6 +2,7 @@
 // Created by banoodle on 23.05.23.
 //
 #include "editor.h"
+#include "../../util/gui_selector.h"
 
 void Editor::Init() {
     GameState::Init();
@@ -15,7 +16,7 @@ void Editor::Init() {
 
 void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
     SDL_Event event;
-    Point wSize = game.GetWindowSize();
+    //Point wSize = game.GetWindowSize();
     labelTimer++;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -157,6 +158,22 @@ void Editor::handleSelection(Event event) {
 
             }
         }
+    }
+}
+
+void Editor::save() {
+    std::string returntxt;
+    //NameInputDialog nid(render,"neueMap",50,&returntxt);
+    //nid.show();
+    map.save(returntxt);
+}
+
+void Editor::load() {
+    GuiSelector ms;
+    ms.set(render,"path",".map");
+    ms.show();
+    if(ms.isFileSelected()){
+        map.load(ms.getSelectedFile());
     }
 }
 

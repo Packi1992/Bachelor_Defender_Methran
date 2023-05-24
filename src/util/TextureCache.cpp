@@ -193,6 +193,11 @@ void TextureCache::render(SDL_Texture *t, SDL_Rect *dRect, SDL_Rect *sRect) cons
     SDL_RenderCopy(renderer,t,sRect,dRect);
 }
 
+void TextureCache::drawBackground(t_color color) {
+    setRenderColor(color);
+    SDL_RenderClear(renderer);
+}
+
 void TextureCache::drawHint(TdTileHandler::MapObjects object, int size, SDL_Point posOnScreen, t_color textColor,
                             t_color bgColor) {
     auto font = TTF_OpenFont("../RobotoSlab-Regular.ttf", size);
