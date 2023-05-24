@@ -5,7 +5,7 @@
 #include "tdUtil/editor.h"
 
 BddGame::BddGame() :
-        Game("Bachelor Defender: Methran und das goldene Zertifikat", {1280, 720}) {
+        Game("Bachelor Defender: Methran und das goldene Zertifikat", {1280, 720},false) {
     allStates = {
             new IntroState(*this, render),
             new TestTD(*this, render),

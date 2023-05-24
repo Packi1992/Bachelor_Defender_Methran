@@ -12,12 +12,17 @@ TdTileHandler::MapObjects TdTileHandler::selectObject(int i) {
 }
 
 Rect TdTileHandler::src = {0, 0, 0, 0};
+int TdTileHandler::TOOLCOUNT = 6;
 
 Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
     src = {0, 0, 64, 64};
     int localAnimate;
     switch (o) {
         case Tower:
+            localAnimate = (int)((animate / 4) % 5);
+            src.x = 64+(localAnimate* 64);
+            src.y = 256;
+            break;
         case Empty:
             src.x = 9*64;
             src.y = 0;
@@ -40,10 +45,12 @@ Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
             break;
         case Table:
             src.x = 0;
-            src.y = 150; // 150-199
+            src.y = 128;
             break;
-
-
+        case Chair:
+            src.x = 128;
+            src.y = 128;
+            break;
     }
     return &src;
 }
@@ -62,6 +69,10 @@ std::string TdTileHandler::getName(TdTileHandler::MapObjects object) {
             return "Goal";
         case Table:
             return "Table";
+        case Tower:
+            return "Tower";
+        case Chair:
+            return "Chair";
         default:
             return "Error";
     }

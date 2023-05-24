@@ -19,7 +19,7 @@ void Map::set(Renderer *pRender, const Point *pOffset) {
     t_tile = this->t_cache->getTexture("../asset/graphic/td/tileTD.png");
     this->map = std::vector(width, std::vector<TdTileHandler::MapObjects>(height));
     map[0][0] = TdTileHandler::Start;
-    map[1][1] = TdTileHandler::Goal;
+    map[15][4] = TdTileHandler::Goal;
 }
 
 void Map::draw(bool wire) {
@@ -28,9 +28,9 @@ void Map::draw(bool wire) {
         drawWire();
     }
     for (int i = 0; i < width; i++) {
-        int x = (i * scale + i + 1) - offset->x;
+        int x = (i * scale) - offset->x;
         for (int j = 0; j < height; j++) {
-            int y = (j * scale + j + 1) - offset->y;
+            int y = (j * scale) - offset->y;
             SDL_Rect dstRect = {x, y, scale, scale};
             SDL_RenderCopy(render, t_tile, TdTileHandler::getSrcRect(map[i][j], time), &dstRect);
         }
@@ -56,11 +56,65 @@ void Map::drawWire() {
 }
 
 void Map::save(const std::string &path) {
-    std::cout << "\"map save\"not implemented yet";
+
+    char name[50];
+    strcpy(name,"../Maps/");
+    strcat(name, path.c_str());
+    // save map!
+    std::ofstream oStream;
+    strcat(name, ".map");
+    std::cout << "Save Map:" << name << std::endl;
+    oStream.open((name));
+    //checkPlayerStartSpot();
+    oStream << "WIDTH :" << width << "\n";
+    oStream << "HEIGHT:" << height << "\n";
+    oStream << "ARRAY :\n";
+    for (int j = 0; j < height; j++) {
+        oStream << "ROW " << j << ";";
+        for (int i = 0; i < width; i++) {
+            oStream << map[i][j] << "; ";
+        }
+        oStream << "\n";
+    }
+    oStream.close();
 }
 
 void Map::load(const std::string &path) {
-    std::cout << "\"Map load\"not implemented yet";
+    std::cout << "Load Map:" << path << std::endl;
+    std::string line;
+    std::ifstream iStream;
+
+    char mnName[50];
+    strcpy(mnName, path.c_str());
+    iStream.open(mnName);
+    bool widthLoaded = false;
+    bool heightLoaded = false;
+    if (iStream.is_open()) {
+        bool meta = true;
+        while (getline(iStream, line)) {
+            if (!meta) {
+                loadRow(line);
+            }
+            if (meta && line.substr(0, 7) == ("WIDTH :")) {
+                width = (int) strtol(line.substr(7).c_str(), nullptr, 10);
+                widthLoaded = true;
+            } else if (meta && (line.substr(0, 7) == ("HEIGHT:"))) {
+                height = (int) strtol(line.substr(7).c_str(), nullptr, 10);
+                heightLoaded = true;
+            } else if (meta && line.substr(0, 7) == ("ARRAY :")) {
+                std::cout << "start map content" << std::endl;
+                if (!widthLoaded || !heightLoaded) {
+                    std::cerr << "Map Data corrupted" << std::endl;
+                } else {
+                    meta = false;
+                    resizeMap();
+                }
+            }
+        }
+    }
+    if (!widthLoaded || !heightLoaded) {
+        std::cerr << "Map Data corrupted" << std::endl;
+    }
 }
 
 Map::Map() {
@@ -95,4 +149,23 @@ TdTileHandler::MapObjects Map::getObject(Point p, bool OutOfBoundsError) {
     if(OutOfBoundsError)
         std::cerr << "Out of Map Bounds" << std::endl;
     return TdTileHandler::MapObjects::Empty;
+}
+
+void Map::resizeMap() {
+    std::cout << "resize Map to Width = " << width << " Height = " << height << std::endl;
+    map.resize(width);
+    for (int i = 0; i < width; i++) {
+        map[i].resize(height);
+    }
+}
+
+void Map::loadRow(std::string line) {
+    ulong token = line.find(';');
+    int row = (int) strtol(line.substr(4, token).c_str(), nullptr, 10);
+    for (int i = 0; i < width; i++) {
+        line.erase(0, token + 1);
+        token = line.find(';');
+        int o = (int) strtol(line.substr(0, token).c_str(), nullptr, 10);
+        map[i][row] = TdTileHandler::selectObject(o);
+    }
 }

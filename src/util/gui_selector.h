@@ -6,22 +6,23 @@
 #define SDL_BACHELORDEFENDER_GUI_SELECTOR_H
 #include <vector>
 #include "../gamebase.h"
+#include <iostream>
+#include <filesystem>
 #include "Button.h"
 
 class GuiSelector {
 public:
-    void set(Renderer *pRender, std::string path, std::string ending);
+    void set(Renderer *pRender,Point wSize, std::string path, std::string ending);
     void show();
 
     std::string getSelectedFile();
 
     bool isFileSelected();
-    void Events();
-    void Update();
     void Render();
 
 private:
     void collectFiles();
+    Point wSize;
     void createButtons();
     Renderer *_render= nullptr;
     TextureCache *t_cache = nullptr;
@@ -31,6 +32,8 @@ private:
     std::vector<Button*> buttons;
     bool showSelector=true;
     bool fileSelected=false;
+    bool mapSelected=false;
+    void Input();
     std::string selectedFile;
 
     //std::vector<shared_ptr

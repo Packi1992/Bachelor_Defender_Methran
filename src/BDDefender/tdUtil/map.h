@@ -9,6 +9,8 @@
 #include "../../gamebase.h"
 #include "tdTileHandler.h"
 #include "../../util/TextureCache.h"
+#include <iostream>
+#include <fstream>
 
 class Map {
 public:
@@ -39,6 +41,9 @@ private:
     TextureCache* t_cache={};
     const Point *offset={};
     u_long time=0;
+    void resizeMap();
+
+    void loadRow(std::string basicString);
 
     std::vector<std::vector<TdTileHandler::MapObjects>> map;
 };

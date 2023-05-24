@@ -9,12 +9,16 @@
 #include "../../util/TextureCache.h"
 #include "tdTileHandler.h"
 #include "map.h"
+#include "../../util/Button.h"
 
 class Editor: public GameState{
 protected:
     TdTileHandler::MapObjects selected=TdTileHandler::Empty;
     TextureCache *tCache = nullptr;
     Texture *t_tile= nullptr;
+    Button btn_load;
+    Button btn_save;
+    Button btn_change_size;
     Map map;
     Point offset={};
     int rainbowColor=0;
@@ -27,7 +31,6 @@ protected:
     bool mouseScroll=false;
     void handleSelection(Event event);
     void save();
-
     void load();
 public:
 

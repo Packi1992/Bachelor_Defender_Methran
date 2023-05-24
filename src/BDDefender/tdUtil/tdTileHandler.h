@@ -11,12 +11,14 @@
 // using Tile png with Tile Size 50px x 50px
 class TdTileHandler {
 public:
+    static int TOOLCOUNT;
     enum MapObjects{
         Empty,
         Start,
         Goal,
         Table,
         Tower,
+        Chair,
     };
     static MapObjects selectObject(int i);
 

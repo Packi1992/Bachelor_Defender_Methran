@@ -3,6 +3,7 @@
 //
 #include "editor.h"
 #include "../../util/gui_selector.h"
+#include "../../util/nameInputDialog.h"
 
 void Editor::Init() {
     GameState::Init();
@@ -11,7 +12,12 @@ void Editor::Init() {
     t_tile = tCache->getTexture("../asset/graphic/td/tileTD.png");
     Point wSize = game.GetWindowSize();
     Toolbox = {0, wSize.y - 100, wSize.x, 100};
+    int yPos = wSize.y - 90
 
+            ;
+    btn_load.set(render, "Laden", 18, {5, yPos, 80, 80});
+    btn_save.set(render, "Speichern", 18, {wSize.x- 105, yPos, 100, 80});
+    btn_change_size.set(render, "Größe ändern", 18, {btn_save.getX()-135, yPos, 130, 80});
 }
 
 void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
@@ -32,12 +38,10 @@ void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
                         labelObject = selected;
                         labelPos = {event.motion.x, event.motion.y-30};
                     } else {
-                        //if (btn_save.clicked(event))save();
-                        //if (btn_load.clicked(event))load();
-                        //if (btn_physik.clicked(event))doPhysics();
-                        //if (btn_move.clicked(event))doMovement();
-                        //if (btn_change_size.clicked(event))map->showSizeDialog();
-                        handleSelection(event);
+                        if (btn_save.clicked(event))save();
+                        else if (btn_load.clicked(event))load();
+                        else if (btn_change_size.clicked(event))map.showSizeDialog();
+                        else handleSelection(event);
                     }
                 } else if (event.button.button == SDL_BUTTON_RIGHT) {
                     mouseScroll = true;
@@ -64,10 +68,9 @@ void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
                         offset.y -= event.motion.yrel;
                     }
                 }
-                //btn_load.entered(event);
-                //btn_save.entered(event);
-                //btn_physik.entered(event);
-                //btn_change_size.entered(event);
+                btn_load.entered(event);
+                btn_change_size.entered(event);
+                btn_save.entered(event);
                 break;
             case SDL_MOUSEWHEEL:
                 map.scale += event.wheel.y;
@@ -113,14 +116,14 @@ void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 }
 
 void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
+    tCache->drawBackground(BG);
     // draw mapss
-    map.draw(true);
+    map.draw(false);
     // now draw ui
     Rect tool,symbol;
     tool = {0, 0, 80, 80};
     symbol = {0, 0, 64, 64};
     Point wSize = game.GetWindowSize();
-    std::cout << wSize.x <<" "<< wSize.y << std::endl;
 
     tCache->setRenderColor(EDITOR_UI_BG);
     SDL_RenderFillRect(render, &Toolbox);
@@ -131,10 +134,10 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     symbol.x = tool.x + 8;
     tool.y = wSize.y - 90;
     symbol.y = tool.y + 8;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < TdTileHandler::TOOLCOUNT; i++) {
         tCache->setRenderColor(WHITE);
         SDL_RenderFillRect(render, &tool);
-        tCache->render(t_tile, &symbol, TdTileHandler::getSrcRect(i));
+        tCache->render(t_tile, &symbol, TdTileHandler::getSrcRect(i, map.getMapTime()));
         if (this->selected == i) {
             SDL_SetRenderDrawColor(render, 0, 0, rainbowColor, 255);
             SDL_RenderDrawRect(render, &tool);
@@ -146,13 +149,16 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     if (isLabelActive && labelTimer > 60) {
         tCache->drawHint(labelObject, 18, labelPos, BLACK, WHITE);
     }
+    btn_save.draw();
+    btn_load.draw();
+    btn_change_size.draw();
 }
 
 void Editor::handleSelection(Event event) {
     Point wSize = game.GetWindowSize();
     if (event.motion.y < wSize.y - 10 && event.motion.y > wSize.y - 90) {
         int x = event.motion.x - 100;
-        if (x > 0 && x < (5 * 90 - 10)) {
+        if (x > 0 && x < (TdTileHandler::TOOLCOUNT * 90 - 10)) {
             if (x % 90 < 81) {
                 selected = TdTileHandler::selectObject(x / 90);
 
@@ -162,15 +168,17 @@ void Editor::handleSelection(Event event) {
 }
 
 void Editor::save() {
-    std::string returntxt;
-    //NameInputDialog nid(render,"neueMap",50,&returntxt);
-    //nid.show();
-    map.save(returntxt);
+    std::string returnTxt;
+    NameInputDialog nid;
+    nid.set(render,game.GetWindowSize(),"neueMap",50,&returnTxt);
+    if(nid.show())
+        map.save(returnTxt);
 }
 
 void Editor::load() {
+    std::cout << "Editor: Start Load Function" <<std::endl;
     GuiSelector ms;
-    ms.set(render,"path",".map");
+    ms.set(render,game.GetWindowSize(),"../Maps/",".map");
     ms.show();
     if(ms.isFileSelected()){
         map.load(ms.getSelectedFile());
