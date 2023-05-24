@@ -200,7 +200,7 @@ void TextureCache::drawBackground(t_color color) {
 
 void TextureCache::drawHint(TdTileHandler::MapObjects object, int size, SDL_Point posOnScreen, t_color textColor,
                             t_color bgColor) {
-    auto font = TTF_OpenFont("../RobotoSlab-Regular.ttf", size);
+    auto font = TTF_OpenFont(ttf_path, size);
     if (!font) {
         printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
         exit(2);
