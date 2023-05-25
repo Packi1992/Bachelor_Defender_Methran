@@ -1,8 +1,14 @@
 
 #ifndef SDL_GAMEBASE_H
 #define SDL_GAMEBASE_H
+class Game;
 #include "global.h"
+#include "recthelper.h"
 #include "util/TextureCache.h"
+#include "util/gui.h"
+#include "util/Button.h"
+
+
 extern Renderer *render;
 extern TextureCache *t_cache;
 class Game;

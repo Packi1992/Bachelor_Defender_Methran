@@ -6,7 +6,7 @@
 #define GRAFIK_TEXTURE_H
 
 #include "../global.h"
-#include "../BDDefender/tdUtil/tdTileHandler.h"
+#include "../tdUtil/tdTileHandler.h"
 
 //  specific Colors to make things easier regarding drawing colors
 enum t_color {

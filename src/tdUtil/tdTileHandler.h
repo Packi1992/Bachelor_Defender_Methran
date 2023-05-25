@@ -5,8 +5,7 @@
 #ifndef SDL_BACHELOR_DEFENDER_TD_TILE_HANDLER_H
 #define SDL_BACHELOR_DEFENDER_TD_TILE_HANDLER_H
 
-#include "../../global.h"
-#include <string>
+#include "../global.h"
 
 // using Tile png with Tile Size 50px x 50px
 class TdTileHandler {

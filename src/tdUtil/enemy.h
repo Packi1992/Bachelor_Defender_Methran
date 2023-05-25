@@ -2,8 +2,8 @@
 #ifndef SDL_BASEGAME_ENEMY_H
 #define SDL_BASEGAME_ENEMY_H
 
-#include "../../global.h"
-#include "../../gamebase.h"
+#include "../global.h"
+#include "../gamebase.h"
 #include "tdTileHandler.h"
 #include "map.h"
 

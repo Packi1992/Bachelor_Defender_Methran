@@ -7,7 +7,6 @@
 
 #include <string>
 #include "../gamebase.h"
-#include "Button.h"
 #include "textbox.h"
 
 class NameInputDialog {
