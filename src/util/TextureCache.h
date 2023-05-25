@@ -5,66 +5,76 @@
 #ifndef GRAFIK_TEXTURE_H
 #define GRAFIK_TEXTURE_H
 
-#include <charconv>
-#include <array>
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL_ttf.h>
-#include "../gamebase.h"
+#include "../global.h"
 #include "../BDDefender/tdUtil/tdTileHandler.h"
 
 //  specific Colors to make things easier regarding drawing colors
-enum t_color{
+enum t_color {
     BLACK,
     WHITE,
     BTN_COLOR,
     MAP_GRID,
     EDITOR_UI_BG,
     BG,
-    };
+};
 
 class TextureCache {
 
 public:
-    static SDL_Texture *loadTexture(const std::string &path, SDL_Renderer *renderer);
+    Texture *loadTexture(const std::string &path);
 
-    SDL_Texture *getTexture(const std::string &path);
+    Texture *getTexture(const std::string &path);
 
-    void drawText(char *string, int size, int x, int y, SDL_Color fgC);
+    void drawText(char *string, int size, int x, int y, Color fgC);
 
-    void drawCenteredText(const std::string &text, int size, SDL_Color fgc, int width, int height);
+    void drawCenteredText(const std::string &text, int size, Color fgc, int width, int height);
 
-    SDL_Texture *getText(const char *string, int size, SDL_Color TextColor, SDL_Rect *sRect = nullptr);
-    SDL_Texture *getText(const char *string, int size, t_color TextColor, SDL_Rect *sRect = nullptr);
-    static SDL_Color getSDL_Color(t_color color);
-    SDL_Texture *getNumber(int Number, int size, SDL_Color fgC, SDL_Rect *sRect = nullptr);
-    void setRenderColor(SDL_Color color);
+    Texture *getText(const char *string, int size, Color TextColor, Rect *sRect = nullptr);
+
+    Texture *getText(const char *string, int size, t_color TextColor, Rect *sRect = nullptr);
+
+    static Color getSDL_Color(t_color color);
+
+    Texture *getNumber(int Number, int size, Color fgC, Rect *sRect = nullptr);
+
+    void setRenderColor(Color color);
+
     void setRenderColor(t_color color);
-    void render(SDL_Texture *t, SDL_Rect* dRect,SDL_Rect *sRect= nullptr) const;
-    TextureCache(TextureCache &other)=delete;
-    void operator=(const TextureCache &)=delete;
-    static TextureCache* getCache(Renderer *render);
+
+    void render(Texture *t, Rect *dRect, Rect *sRect = nullptr) const;
+
+    TextureCache(TextureCache &other) = delete;
+
+    void operator=(const TextureCache &) = delete;
+
+    static TextureCache *getCache(Renderer *render);
+
     void drawBackground(t_color color);
-    void drawHint(TdTileHandler::MapObjects object, int size, SDL_Point posOnScreen, t_color textColor, t_color bgColor);
+
+    void drawHint(TdTileHandler::MapObjects object, int size, Point posOnScreen, t_color textColor, t_color bgColor);
+
     ~TextureCache();
+
 private:
     static TextureCache *cacheInstance;
-    explicit TextureCache(SDL_Renderer *renderer);
+
+    explicit TextureCache(Renderer *renderer);
+
     const char *ttf_path = BasePath "asset/font/RobotoSlab-Bold.ttf";
+
     class obj {
     public:
         obj *next;
         obj *last;
-        SDL_Texture *texture;
+        Texture *texture;
         std::string name;
     };
 
     obj *head{};
     obj *tail{};
-    SDL_Renderer *renderer;
+    Renderer *renderer;
 
-    SDL_Texture *addTexture(const std::string &basicString);
+    Texture *addTexture(const std::string &basicString);
 
 
 };

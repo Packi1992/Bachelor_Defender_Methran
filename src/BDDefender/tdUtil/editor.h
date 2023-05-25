@@ -14,7 +14,6 @@
 class Editor: public GameState{
 protected:
     TdTileHandler::MapObjects selected=TdTileHandler::Empty;
-    TextureCache *tCache = nullptr;
     Texture *t_tile= nullptr;
     Button btn_load;
     Button btn_save;

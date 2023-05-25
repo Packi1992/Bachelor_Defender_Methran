@@ -4,22 +4,20 @@
 
 #include "TextWithValue.h"
 
-void TextWithValue::set(Game *game, Renderer *Renderer, const std::string& Text, const int *valueField,
+void TextWithValue::set(Game *game, const std::string& Text, const int *valueField,
                         SDL_Point pos, int textSize, Color TextColor) {
-    this->pRenderer = pRenderer;
     this->pGame= game;
-    tCache = TextureCache::getCache(pRenderer);
     strcpy(text,Text.c_str());
     exValue = valueField;
     size = textSize;
     color = TextColor;
     // generate Label
     rectLabel = {pos.x, pos.y, 0, 0};
-    texLabel = tCache->getText(text, size, color, &rectLabel);
+    texLabel = t_cache->getText(text, size, color, &rectLabel);
     rectValue = {rectLabel.x + rectLabel.w + 10, pos.y, 0, 0};
     // generate first Value
     value = *exValue;
-    texValue = tCache->getNumber(value, size, color, &rectValue);
+    texValue = t_cache->getNumber(value, size, color, &rectValue);
     if(centered){
         int width = getWidth();
         int x = game->GetWindowSize().x/2 - width/2;
@@ -38,8 +36,8 @@ TextWithValue::~TextWithValue() {
 void TextWithValue::draw() {
     if(value != *exValue)
         update();
-    tCache->render(texLabel,&rectLabel);
-    tCache->render(texValue,&rectValue);
+    t_cache->render(texLabel,&rectLabel);
+    t_cache->render(texValue,&rectValue);
 
 }
 
@@ -47,7 +45,7 @@ void TextWithValue::update() {
     value = *exValue;
     if(texValue!= nullptr)
         SDL_DestroyTexture(texValue);
-    texValue = tCache->getNumber(value, size, color, &rectValue);
+    texValue = t_cache->getNumber(value, size, color, &rectValue);
     if(centered){
         int width = getWidth();
         int x = pGame->GetWindowSize().x/2 - width/2;

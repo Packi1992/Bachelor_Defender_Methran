@@ -1,7 +1,10 @@
-#pragma once
 
+#ifndef SDL_GAMEBASE_H
+#define SDL_GAMEBASE_H
 #include "global.h"
-
+#include "util/TextureCache.h"
+extern Renderer *render;
+extern TextureCache *t_cache;
 class Game;
 class GameState;
 
@@ -9,7 +12,6 @@ class Game
 {
 protected:
 	Window   * window;
-	Renderer * render;
 
 	bool isRunning = true;
 	u32  frame     = 0;
@@ -75,16 +77,14 @@ class GameState
 {
 protected:
 	Game     & game;
-	Renderer * render;
 
 public:
 	[[nodiscard]] virtual bool  IsFPSLimited()  const { return true; }
 	[[nodiscard]] virtual Color GetClearColor() const { return Color { 0, 0, 0, SDL_ALPHA_OPAQUE }; }
 
-	explicit GameState( Game && game, Renderer * render ) = delete; // prevent taking an rvalue
-	explicit GameState( Game &  game, Renderer * render )
-		: game( game ),
-		  render( render )
+	explicit GameState( Game && game ) = delete; // prevent taking an rvalue
+	explicit GameState( Game &  game )
+		: game( game )
 	{}
 	GameState(              const GameState &  ) = delete;
 	GameState(                    GameState && ) = delete;
@@ -99,3 +99,5 @@ public:
 	virtual void Update( const u32 frame, const u32 totalMSec, const float deltaT ) = 0;
 	virtual void Render( const u32 frame, const u32 totalMSec, const float deltaT ) = 0;
 };
+
+#endif

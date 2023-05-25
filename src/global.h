@@ -3,7 +3,7 @@
 #include <cmath>
 #include <cstdarg>
 #include <cstddef>
-
+#include <charconv>
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -21,6 +21,7 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+
 
 using uint  = unsigned int;
 using u8    = std::uint8_t;
@@ -51,7 +52,7 @@ using Clock     = std::chrono::high_resolution_clock;
 using TimePoint = Clock::time_point;
 using Duration  = Clock::duration;
 
-using std::cout, std::cin, std::cerr, std::endl;
+using std::cout, std::cin, std::cerr, std::endl, std::string;
 
 #ifdef _MSC_VER
 #define BasePath ""

@@ -5,7 +5,7 @@
 #ifndef SDL_BACHELORDEFENDER_TOWER_H
 #define SDL_BACHELORDEFENDER_TOWER_H
 
-
+#include "../../gamebase.h"
 #include "map.h"
 
 class Tower {

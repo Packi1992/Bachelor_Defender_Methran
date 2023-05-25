@@ -4,12 +4,11 @@
 
 #ifndef SDL_BACHELORDEFENDER_TEXTBOX_H
 #define SDL_BACHELORDEFENDER_TEXTBOX_H
-#include "../global.h"
-#include "TextureCache.h"
+#include "../gamebase.h"
 
 class TextBox {
 public:
-    void set(Renderer *pRender, std::string label, int x, int y, bool Number = false);
+    void set(std::string label, int x, int y, bool Number = false);
     void setMaxLength(int size);
 
     void setText(std::string text);
@@ -29,11 +28,9 @@ public:
     ~TextBox();
 
 private:
-    TextureCache *t_cache= nullptr;
     Rect inputFieldRect{};
     Rect inputTextRect{};
     Rect labelRect{};
-    Renderer *pRender = nullptr;
     Texture *texLabel = nullptr;
     Texture *texInput = nullptr;
     std::string txtLabel;

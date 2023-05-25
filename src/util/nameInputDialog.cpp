@@ -50,9 +50,9 @@ void NameInputDialog::iniUI() {
 
     rInfo.x = rDialog.x + rDialog.w / 2 - rInfo.w / 2;
     rInfo.y = rDialog.y + 10;
-    btn_ok.set(pRender, "OK", 18, {rDialog.x + rDialog.w - 100, btnY, 80, 40});
-    btn_abb.set(pRender, "ABBRUCH", 18, {rDialog.x + 20, btnY, 100, 40});
-    txtb_input.set(pRender, "Name", rDialog.x + 20, rDialog.y + 80, false);
+    btn_ok.set( "OK", 18, {rDialog.x + rDialog.w - 100, btnY, 80, 40});
+    btn_abb.set( "ABBRUCH", 18, {rDialog.x + 20, btnY, 100, 40});
+    txtb_input.set( "Name", rDialog.x + 20, rDialog.y + 80, false);
 }
 
 std::string NameInputDialog::getInput() {
@@ -63,13 +63,12 @@ bool NameInputDialog::show() {
     while (dialog) {
         t_cache->drawBackground(BG);
         t_cache->setRenderColor(EDITOR_UI_BG);
-        SDL_RenderFillRect(pRender, &rDialog);
-        SDL_RenderCopy(pRender, texInfo, nullptr, &rInfo);
+        SDL_RenderFillRect(render, &rDialog);
+        SDL_RenderCopy(render, texInfo, nullptr, &rInfo);
         txtb_input.draw();
         btn_ok.draw();
         btn_abb.draw();
-        std::cout << "Render Dialog" << std::endl;
-        SDL_RenderPresent(pRender);
+        SDL_RenderPresent(render);
         inputs();
     }
     if (takeNewValues) {
@@ -83,10 +82,8 @@ NameInputDialog::~NameInputDialog() {
     SDL_DestroyTexture(texInfo);
 }
 
-void NameInputDialog::set(Renderer *pRender, Point winSize, std::string text, int maxSize, std::string *returnText) {
-    this->pRender = pRender;
+void NameInputDialog::set(Point winSize, std::string text, int maxSize, std::string *returnText) {
     this->wSize = winSize;
-    this->t_cache = TextureCache::getCache(pRender);
     this->size = maxSize;
     this->iniInput = std::move(text);
     this->inputText = std::move(text);

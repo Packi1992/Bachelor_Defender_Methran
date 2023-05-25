@@ -1,13 +1,13 @@
 //
 // Created by banoodle on 10.05.23.
 //
+
 #include "introstate.h"
 void IntroState::Init()
 {
-    tcache = TextureCache::getCache(render);
     if( !image )
     {
-        image = tcache->getTexture(BasePath "asset/graphic/bg-main.png");
+        image = t_cache->getTexture(BasePath "asset/graphic/bg-main.png");
         if( !image )
             cerr << "IMG_LoadTexture failed: " << IMG_GetError() << endl;
     }
@@ -31,12 +31,9 @@ void IntroState::Init()
     int width = left*8;
     int top = size.y / 5;
     int height = top*2;
-    btn_start.set( render,"Start",30,
-                   {left,top,width,height},tcache->getSDL_Color(BTN_COLOR));
-    btn_editor.set( render, "Editor",30,
-                  {left, (int)(1.5*top+height),width, height},tcache->getSDL_Color(BTN_COLOR));
-    btn_exit.set( render, "Beenden",30,
-                  {left, (int)(2.5*top+2*height),width, height},tcache->getSDL_Color(BTN_COLOR));
+    btn_start.set("Start",30,{left,top,width,height});
+    btn_editor.set("Editor",30,{left, (int)(1.5*top+height),width, height});
+    btn_exit.set( "Beenden",30,{left, (int)(2.5*top+2*height),width, height});
 }
 
 void IntroState::UnInit()

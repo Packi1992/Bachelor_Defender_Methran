@@ -3,10 +3,8 @@
 //
 #include "textbox.h"
 
-void TextBox::set(Renderer *pRender, std::string label, int x, int y, bool Number) {
+void TextBox::set( std::string label, int x, int y, bool Number) {
     onlyNumber = Number;
-    this->pRender = pRender;
-    t_cache = TextureCache::getCache(pRender);
     txtLabel = std::move(label);
     texLabel = t_cache->getText(txtLabel.c_str(), 18, {0, 0, 0, 255});
 
@@ -50,18 +48,18 @@ void TextBox::setNumber(int number) {
 }
 
 void TextBox::draw() {
-    SDL_RenderCopy(pRender, texLabel, nullptr, &labelRect);
-    SDL_SetRenderDrawColor(pRender, 255, 255, 255, 255); // white
-    SDL_RenderFillRect(pRender, &inputFieldRect);
-    SDL_SetRenderDrawColor(pRender, 0, 0, 0, 255); // black
-    SDL_RenderDrawRect(pRender, &inputFieldRect);
+    SDL_RenderCopy(render, texLabel, nullptr, &labelRect);
+    SDL_SetRenderDrawColor(render, 255, 255, 255, 255); // white
+    SDL_RenderFillRect(render, &inputFieldRect);
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 255); // black
+    SDL_RenderDrawRect(render, &inputFieldRect);
     if (!txtInput.empty())
-        SDL_RenderCopy(pRender, texInput, nullptr, &inputTextRect);
+        SDL_RenderCopy(render, texInput, nullptr, &inputTextRect);
     if (selected) {
         if (blink > 20) {
             int curX1 = inputTextRect.x + inputTextRect.w;
             int curY2 = inputTextRect.y + inputTextRect.h;
-            SDL_RenderDrawLine(pRender, curX1, inputTextRect.y, curX1, curY2);
+            SDL_RenderDrawLine(render, curX1, inputTextRect.y, curX1, curY2);
         }
         blink = (blink + 1) % 40;
 
@@ -73,7 +71,6 @@ void TextBox::fieldSelected(SDL_Event event) {
     bool left = event.motion.x < inputFieldRect.x + inputFieldRect.w;
     bool over = event.motion.y < inputFieldRect.y + inputFieldRect.h;
     bool under = event.motion.y > inputFieldRect.y;
-    std::cout << txtLabel << " check if selected " << std::endl;
     if (right && left && over && under) {
         selected = true;
         blink = 0;
@@ -83,7 +80,6 @@ void TextBox::fieldSelected(SDL_Event event) {
 }
 
 void TextBox::getInput() {
-    std::cout << txtLabel <<" getInput" << std::endl;
     SDL_bool done = SDL_FALSE;
     SDL_StartTextInput();
     while (!done) {
@@ -94,7 +90,6 @@ void TextBox::getInput() {
                     done = SDL_TRUE;
                     break;
                 case SDL_TEXTINPUT:
-                    std::cout << "input detected" << event.text.text << std::endl;
                     if (onlyNumber) {
                         char buf[50] = "";
                         strcat(buf, event.text.text);
@@ -107,7 +102,6 @@ void TextBox::getInput() {
                     }
                     break;
                 case SDL_KEYDOWN:
-                    std::cout << "Key Pressed" << event.key.keysym.sym << std::endl;
                     if (event.key.keysym.sym == SDLK_BACKSPACE && !txtInput.empty())
                         txtInput.erase(txtInput.size() - 1);
                     if (event.key.keysym.sym == SDLK_KP_ENTER)
@@ -126,7 +120,7 @@ void TextBox::getInput() {
         }
         updateInput();
         draw();
-        SDL_RenderPresent(pRender);
+        SDL_RenderPresent(render);
     }
     SDL_StopTextInput();
     selected = false;

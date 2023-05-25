@@ -7,17 +7,16 @@
 
 void Editor::Init() {
     GameState::Init();
-    tCache = TextureCache::getCache(render);
-    map.set(render, &offset);
-    t_tile = tCache->getTexture("../asset/graphic/td/tileTD.png");
+    map.set(&offset);
+    t_tile = t_cache->getTexture("../asset/graphic/td/tileTD.png");
     Point wSize = game.GetWindowSize();
     Toolbox = {0, wSize.y - 100, wSize.x, 100};
     int yPos = wSize.y - 90
 
             ;
-    btn_load.set(render, "Laden", 18, {5, yPos, 80, 80});
-    btn_save.set(render, "Speichern", 18, {wSize.x- 105, yPos, 100, 80});
-    btn_change_size.set(render, "Größe ändern", 18, {btn_save.getX()-135, yPos, 130, 80});
+    btn_load.set( "Laden", 18, {5, yPos, 80, 80});
+    btn_save.set( "Speichern", 18, {wSize.x- 105, yPos, 100, 80});
+    btn_change_size.set("Größe ändern", 18, {btn_save.getX()-135, yPos, 130, 80});
 }
 
 void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
@@ -116,8 +115,8 @@ void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 }
 
 void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
-    tCache->drawBackground(BG);
-    // draw mapss
+    t_cache->drawBackground(BG);
+    // draw maps
     map.draw(false);
     // now draw ui
     Rect tool,symbol;
@@ -125,7 +124,7 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     symbol = {0, 0, 64, 64};
     Point wSize = game.GetWindowSize();
 
-    tCache->setRenderColor(EDITOR_UI_BG);
+    t_cache->setRenderColor(EDITOR_UI_BG);
     SDL_RenderFillRect(render, &Toolbox);
 
 
@@ -135,9 +134,9 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     tool.y = wSize.y - 90;
     symbol.y = tool.y + 8;
     for (int i = 0; i < TdTileHandler::TOOLCOUNT; i++) {
-        tCache->setRenderColor(WHITE);
+        t_cache->setRenderColor(WHITE);
         SDL_RenderFillRect(render, &tool);
-        tCache->render(t_tile, &symbol, TdTileHandler::getSrcRect(i, map.getMapTime()));
+        t_cache->render(t_tile, &symbol, TdTileHandler::getSrcRect(i, map.getMapTime()));
         if (this->selected == i) {
             SDL_SetRenderDrawColor(render, 0, 0, rainbowColor, 255);
             SDL_RenderDrawRect(render, &tool);
@@ -147,7 +146,7 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
         symbol.x = tool.x + 8;
     }
     if (isLabelActive && labelTimer > 60) {
-        tCache->drawHint(labelObject, 18, labelPos, BLACK, WHITE);
+        t_cache->drawHint(labelObject, 18, labelPos, BLACK, WHITE);
     }
     btn_save.draw();
     btn_load.draw();
@@ -170,7 +169,7 @@ void Editor::handleSelection(Event event) {
 void Editor::save() {
     std::string returnTxt;
     NameInputDialog nid;
-    nid.set(render,game.GetWindowSize(),"neueMap",50,&returnTxt);
+    nid.set(game.GetWindowSize(),"neueMap",50,&returnTxt);
     if(nid.show())
         map.save(returnTxt);
 }
@@ -178,7 +177,7 @@ void Editor::save() {
 void Editor::load() {
     std::cout << "Editor: Start Load Function" <<std::endl;
     GuiSelector ms;
-    ms.set(render,game.GetWindowSize(),"../Maps/",".map");
+    ms.set(game.GetWindowSize(),"../Maps/",".map");
     ms.show();
     if(ms.isFileSelected()){
         map.load(ms.getSelectedFile());

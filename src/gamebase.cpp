@@ -1,4 +1,6 @@
 #include "gamebase.h"
+TextureCache *t_cache = nullptr;
+Renderer *render = nullptr;
 
 Game::Game( const char * windowTitle, const Point windowSize, const bool vSync )
 {
@@ -61,6 +63,13 @@ Game::Game( const char * windowTitle, const Point windowSize, const bool vSync )
 		cerr << "Renderer could not be created: " << SDL_GetError() << endl;
 		exit( 5 );
 	}
+
+    t_cache = TextureCache::getCache(render);
+    if( t_cache == nullptr )
+    {
+        cerr << "Texture Cache could not be created: " << SDL_GetError() << endl;
+        exit( 5 );
+    }
 
 	allStates.reserve( 10 );
 	std::fill( allStates.begin(), allStates.end(), nullptr );

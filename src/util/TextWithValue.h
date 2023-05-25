@@ -4,13 +4,12 @@
 
 
 #include <string>
-#include <SDL2/SDL.h>
-#include "../global.h"
-#include "TextureCache.h"
+#include "../gamebase.h"
+
 
 class TextWithValue {
 public:
-    void set(Game *game, Renderer *pRender, const std::string& Text,const int *value,
+    void set(Game *game, const std::string& Text,const int *value,
              SDL_Point pos, int textSize, Color TextColor);
 
     void draw();
@@ -22,8 +21,6 @@ public:
 private:
     // base
     Game *pGame = nullptr;
-    Renderer *pRenderer = nullptr;
-    TextureCache *tCache= nullptr;
     int size{};
     Color color{};
     bool centered = false;

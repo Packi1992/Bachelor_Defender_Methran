@@ -12,11 +12,9 @@ void Map::showSizeDialog() {
     std::cout << "\"map showSizeDialog\"not implemented yet";
 }
 
-void Map::set(Renderer *pRender, const Point *pOffset) {
-    this->render = pRender;
-    this->t_cache = TextureCache::getCache(render);
+void Map::set( const Point *pOffset) {
     this->offset = pOffset;
-    t_tile = this->t_cache->getTexture("../asset/graphic/td/tileTD.png");
+    t_tile = t_cache->getTexture("../asset/graphic/td/tileTD.png");
     this->map = std::vector(width, std::vector<TdTileHandler::MapObjects>(height));
     map[0][0] = TdTileHandler::Start;
     map[15][4] = TdTileHandler::Goal;
@@ -63,7 +61,6 @@ void Map::save(const std::string &path) {
     // save map!
     std::ofstream oStream;
     strcat(name, ".map");
-    std::cout << "Save Map:" << name << std::endl;
     oStream.open((name));
     //checkPlayerStartSpot();
     oStream << "WIDTH :" << width << "\n";
@@ -80,7 +77,6 @@ void Map::save(const std::string &path) {
 }
 
 void Map::load(const std::string &path) {
-    std::cout << "Load Map:" << path << std::endl;
     std::string line;
     std::ifstream iStream;
 

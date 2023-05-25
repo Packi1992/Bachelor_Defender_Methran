@@ -5,10 +5,9 @@
 #ifndef SDL_BASEGAME_MAP_H
 #define SDL_BASEGAME_MAP_H
 
-#include "../../global.h"
+
 #include "../../gamebase.h"
 #include "tdTileHandler.h"
-#include "../../util/TextureCache.h"
 #include <iostream>
 #include <fstream>
 
@@ -22,7 +21,7 @@ public:
 
     void draw(bool wire = false);
     void drawWire();
-    void set(Renderer *render, const Point *offset);
+    void set(const Point *offset);
 
     void set(Event, TdTileHandler::MapObjects);
     TdTileHandler::MapObjects getObjectAtScreenPos(Point p);
@@ -36,9 +35,7 @@ public:
     int height = 20;
 
 private:
-    Renderer *render={};
     SDL_Texture *t_tile={};
-    TextureCache* t_cache={};
     const Point *offset={};
     u_long time=0;
     void resizeMap();

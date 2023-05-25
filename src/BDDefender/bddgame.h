@@ -7,6 +7,7 @@
 // gamestates
 #include "introstate.h"
 #include "td/testtd.h"
+#include "tdUtil/editor.h"
 
 class BddGame final : public Game {
 public:

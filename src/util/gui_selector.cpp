@@ -6,27 +6,19 @@
 #include <utility>
 
 void GuiSelector::createButtons() {
-    std::cout << "GuiSelector: create Buttons Function" <<std::endl;
     SDL_Rect bRect{200, 100, wSize.x - 400, 80};
     for (const auto &mapName: maps) {
-        std::cout << "create Button: " << mapName << std::endl;
         Button *nb = new Button();
-        nb->set(_render, mapName, 18, bRect);
+        nb->set(mapName, 18, bRect);
         buttons.push_back(nb);
         bRect.y += 120;
     }
-    std::cout << buttons.size() << " buttons created" << std::endl;
-
-
 }
 
-void GuiSelector::set(Renderer *pRender, Point wSize, std::string path, std::string ending) {
-    std::cout << "GuiSelector: Start set Function" <<std::endl;
-    _render = pRender;
+void GuiSelector::set(Point wSize, std::string path, std::string ending) {
     _path = std::move(path);
     _ending = std::move(ending);
     this->wSize = wSize;
-    t_cache = TextureCache::getCache(_render);
     collectFiles();
     createButtons();
 }
@@ -37,16 +29,12 @@ std::string GuiSelector::getSelectedFile() {
 
 void GuiSelector::collectFiles() {
     int eSize = _ending.length();
-    std::cout << "eSize: " << eSize << std::endl;
-    std::cout << "GuiSelector: Collect Files Function" <<std::endl;
     for (const auto &entry: std::filesystem::directory_iterator(_path)) {
         std::string newPath = entry.path().c_str();
         if (newPath.substr(newPath.length() - eSize, eSize) == _ending) {
-            std::cout << newPath << " -> ending is [" << newPath.substr(newPath.length() - eSize, eSize) << "]" << std::endl;
             maps.push_back(newPath.substr(8, newPath.length() - 12));
         }
     }
-    std::cout << maps.size() << " Maps Collected" << std::endl;
 }
 
 void GuiSelector::Render() {
@@ -64,7 +52,7 @@ void GuiSelector::show() {
         for (Button *btn: buttons) {
             btn->draw();
         }
-        SDL_RenderPresent(_render);
+        SDL_RenderPresent(render);
         Input();
     }
 }

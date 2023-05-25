@@ -12,7 +12,7 @@
 
 class GuiSelector {
 public:
-    void set(Renderer *pRender,Point wSize, std::string path, std::string ending);
+    void set(Point wSize, std::string path, std::string ending);
     void show();
 
     std::string getSelectedFile();
@@ -24,8 +24,6 @@ private:
     void collectFiles();
     Point wSize;
     void createButtons();
-    Renderer *_render= nullptr;
-    TextureCache *t_cache = nullptr;
     std::string _path;
     std::string _ending;
     std::vector<std::string> maps;

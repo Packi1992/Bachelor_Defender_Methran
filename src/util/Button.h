@@ -5,41 +5,36 @@
 #ifndef JUMPNRUN_BUTTON_H
 #define JUMPNRUN_BUTTON_H
 
-#include <string>
-#include <SDL2/SDL.h>
-#include "../global.h"
-#include "TextureCache.h"
+#include "../gamebase.h"
 
 class Button {
 public:
-    Button(){};
+    Button()= default;
 
     Button(const Button &b);
 
     void draw(bool highlighted=false);
 
-    bool clicked(SDL_Event e);
+    bool clicked(Event e);
 
     ~Button();
 
-    void entered(SDL_Event e);
+    void entered(Event e);
     std::string getText();
-    int getX();
-    void set(Renderer *render, const std::string &label, int size,
-             SDL_Rect rect, SDL_Color btn_color={150,150,150,255});
-    void setSize(SDL_Rect rect);
-    void setHighlightedColor(SDL_Color high_color={0,0,0,255});
+    int getX() const;
+    void set(const std::string &label, int size,
+             Rect rect, t_color btn_color=BTN_COLOR);
+    void setSize(Rect rect);
+    void setHighlightedColor(t_color* high_color= nullptr);
 private:
-    Renderer *render = nullptr;
-    TextureCache *tCache = nullptr;
     // button background rect
-    SDL_Rect rect{};
+    Rect rect{};
     // text rect
-    SDL_Rect tRect{};
-    SDL_Texture *text = nullptr;
-    SDL_Color buttonColor{};
-    SDL_Color highlightedColor{};
-    SDL_Color drawColor{};
+    Rect tRect{};
+    Texture *text = nullptr;
+    Color buttonColor{};
+    Color highlightedColor{};
+    Color drawColor{};
     int size{};
     char textArr[50]{};
 };

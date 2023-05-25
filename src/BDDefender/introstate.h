@@ -15,7 +15,6 @@ protected:
     Font *font = nullptr;
     Texture *image = nullptr;
     Music *music = nullptr;
-    TextureCache *tcache = nullptr;
     Button btn_start;
     Button btn_editor;
     Button btn_exit;

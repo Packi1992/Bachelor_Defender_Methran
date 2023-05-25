@@ -5,7 +5,7 @@
 
 void TestTD::Init() {
     GameState::Init();
-    map.set(render,&offset);
+    map.set(&offset);
 }
 
 void TestTD::UnInit() {

@@ -4,15 +4,15 @@
 
 #include "TextureCache.h"
 
-SDL_Texture *TextureCache::loadTexture(const std::string &path, SDL_Renderer *renderer) {
+Texture *TextureCache::loadTexture(const std::string &path) {
     int imgFlags = IMG_INIT_PNG;
     if (!(IMG_Init(imgFlags) & imgFlags)) {
         std::cerr << "SDL_image could not initialize! SDL_img Error: " << IMG_GetError << std::endl;
         return nullptr;
     }
-    SDL_Texture *nt = nullptr;
+    Texture *nt = nullptr;
     std::cout << "iniValues texture " << path << std::endl;
-    SDL_Surface *loadedSurface = IMG_Load(path.c_str());
+    Surface *loadedSurface = IMG_Load(path.c_str());
     if (loadedSurface == nullptr) {
         std::cerr << "Unable to create TextureCache from " << path << " ! SDL Error: " << SDL_GetError() << std::endl;
     } else {
@@ -27,7 +27,7 @@ SDL_Texture *TextureCache::loadTexture(const std::string &path, SDL_Renderer *re
     return nt;
 }
 
-SDL_Texture *TextureCache::getTexture(const std::string &path) {
+Texture *TextureCache::getTexture(const std::string &path) {
     obj *p = head;
     while (p != nullptr) {
         if (path == p->name)
@@ -37,9 +37,9 @@ SDL_Texture *TextureCache::getTexture(const std::string &path) {
     return this->addTexture(path);
 }
 
-SDL_Texture *TextureCache::addTexture(const std::string &path) {
+Texture *TextureCache::addTexture(const std::string &path) {
     obj *newT = new obj();
-    newT->texture = loadTexture(path, renderer);
+    newT->texture = loadTexture(path);
     newT->name = path;
     if (head == nullptr || tail == nullptr) {
         newT->last = nullptr;
@@ -80,11 +80,11 @@ void TextureCache::drawText(char *string, int size, int x, int y, SDL_Color fgC)
         printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
         exit(2);
     }
-    SDL_Surface *surface;
+    Surface *surface;
     surface = TTF_RenderUTF8_Blended(font, string, fgC);
-    SDL_Texture *texture;
+    Texture *texture;
     texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_Rect textLocation = {x, y, 0, 0};
+    Rect textLocation = {x, y, 0, 0};
     SDL_QueryTexture(texture, nullptr, nullptr, &textLocation.w, &textLocation.h);
     SDL_RenderCopy(renderer, texture, nullptr, &textLocation);
     SDL_FreeSurface(surface);
@@ -92,15 +92,15 @@ void TextureCache::drawText(char *string, int size, int x, int y, SDL_Color fgC)
     TTF_CloseFont(font);
 }
 
-SDL_Texture *TextureCache::getText(const char *string, int size, SDL_Color TextColor, SDL_Rect *sRect) {
+Texture *TextureCache::getText(const char *string, int size, SDL_Color TextColor, SDL_Rect *sRect) {
     auto font = TTF_OpenFont(ttf_path, size);
     if (!font) {
         printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
         exit(2);
     }
-    SDL_Surface *surface;
+    Surface *surface;
     surface = TTF_RenderUTF8_Blended(font, string,TextColor);
-    SDL_Texture *texture;
+    Texture *texture;
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
     TTF_CloseFont(font);
@@ -118,11 +118,11 @@ void TextureCache::drawCenteredText(const std::string &text, int size, SDL_Color
         printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
         exit(2);
     }
-    SDL_Surface *surface;
+    Surface *surface;
     surface = TTF_RenderUTF8_Blended(font, buf, fgc);
-    SDL_Texture *texture;
+    Texture *texture;
     texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_Rect textLocation;
+    Rect textLocation;
     SDL_QueryTexture(texture, nullptr, nullptr, &textLocation.w, &textLocation.h);
     textLocation.x = width / 2 - textLocation.w / 2;
     textLocation.y = height / 2 - textLocation.h / 2;
