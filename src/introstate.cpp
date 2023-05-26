@@ -24,16 +24,10 @@ void IntroState::Init()
     {
         Mix_ResumeMusic();
     }
-
-    SDL_Point size = game.GetWindowSize();
-    std::cout << "window size " << size.x << " " << size.y << std::endl;
-    int left = size.x / 10;
-    int width = left*8;
-    int top = size.y / 5;
-    int height = top*2;
-    btn_start.set("Start",30,{left,top,width,height});
-    btn_editor.set("Editor",30,{left, (int)(1.5*top+height),width, height});
-    btn_exit.set( "Beenden",30,{left, (int)(2.5*top+2*height),width, height});
+    
+    btn_start.set("Start",30,{});
+    btn_editor.set("Editor",30,{});
+    btn_exit.set( "Beenden",30,{});
 }
 
 void IntroState::UnInit()

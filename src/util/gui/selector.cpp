@@ -1,21 +1,19 @@
 //
 // Created by banoodle on 24.05.23.
 //
-#include "gui_selector.h"
+#include "selector.h"
 
-#include <utility>
-
-void GuiSelector::createButtons() {
+void Selector::createButtons() {
     SDL_Rect bRect{200, 100, wSize.x - 400, 80};
     for (const auto &mapName: maps) {
-        Button *nb = new Button();
+        Button* nb = new Button();
         nb->set(mapName, 18, bRect);
         buttons.push_back(nb);
         bRect.y += 120;
     }
 }
 
-void GuiSelector::set(Point wSize, std::string path, std::string ending) {
+void Selector::set(Point wSize, std::string path, std::string ending) {
     _path = std::move(path);
     _ending = std::move(ending);
     this->wSize = wSize;
@@ -23,11 +21,11 @@ void GuiSelector::set(Point wSize, std::string path, std::string ending) {
     createButtons();
 }
 
-std::string GuiSelector::getSelectedFile() {
-    return std::string();
+std::string Selector::getSelectedFile() {
+    return selectedFile;
 }
 
-void GuiSelector::collectFiles() {
+void Selector::collectFiles() {
     int eSize = _ending.length();
     for (const auto &entry: std::filesystem::directory_iterator(_path)) {
         std::string newPath = entry.path().c_str();
@@ -37,45 +35,33 @@ void GuiSelector::collectFiles() {
     }
 }
 
-void GuiSelector::Render() {
-    while (!fileSelected && showSelector) {
-        t_cache->drawBackground(BLACK);
-        for (Button *btn: buttons) {
-            btn->draw();
+void Selector::Render() {
+    if (showSelector) {
+        t_cache->drawBackground(BG);
+        for(auto & button : buttons){
+            button->draw();
         }
     }
 }
 
-void GuiSelector::show() {
-    while (!mapSelected && showSelector) {
-        t_cache->drawBackground(WHITE);
-        for (Button *btn: buttons) {
-            btn->draw();
-        }
-        SDL_RenderPresent(render);
-        Input();
-    }
+void Selector::show(Gui **pFocus) {
+    focus = pFocus;
+    showSelector = true;
 }
 
-bool GuiSelector::isFileSelected() {
-    return mapSelected;
+bool Selector::isFileSelected() const {
+    return fileSelected;
 }
 
-void GuiSelector::Input() {
+void Selector::Input() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_WINDOWEVENT:
-                if (event.window.event == SDL_WINDOWEVENT_CLOSE)
-                    showSelector = false;
+                if (event.window.event == SDL_WINDOWEVENT_CLOSE)tidyUp();
                 break;
             case SDL_KEYDOWN:
-                switch (event.key.keysym.scancode) {
-                    case SDL_SCANCODE_ESCAPE:
-                        showSelector = false;
-                    default:
-                        break;
-                }
+                if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)tidyUp();
                 break;
             case SDL_MOUSEMOTION:
                 for (auto btn: buttons) {
@@ -86,13 +72,38 @@ void GuiSelector::Input() {
                 if (event.button.button == SDL_BUTTON_LEFT) {
                     for (auto btn: buttons) {
                         if (btn->clicked(event)) {
-                            mapSelected = true;
+                            fileSelected = true;
                             selectedFile = btn->getText();
+                            tidyUp();
                         }
                     }
                 }
         }
     }
+}
+
+void Selector::Update() {
+
+}
+
+void Selector::setFocus(Gui *next) {
+    last = next;
+}
+
+Selector::~Selector(){
+    for (auto btn: buttons) {
+        delete(btn);
+    }
+}
+
+void Selector::tidyUp() {
+    showSelector = false;
+    *focus = last;
+    for (auto btn: buttons) {
+        delete(btn);
+    }
+    buttons.clear();
+    maps.clear();
 }
 
 

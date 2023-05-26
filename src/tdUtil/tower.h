@@ -2,10 +2,10 @@
 // Created by banoodle on 23.05.23.
 //
 
-#ifndef SDL_BACHELORDEFENDER_TOWER_H
-#define SDL_BACHELORDEFENDER_TOWER_H
+#ifndef BACHELOR_DEFENDER_TOWER_H
+#define BACHELOR_DEFENDER_TOWER_H
 
-#include "../../gamebase.h"
+#include "../gamebase.h"
 #include "map.h"
 
 class Tower {
@@ -21,4 +21,4 @@ class Tower {
 };
 
 
-#endif //SDL_BACHELORDEFENDER_TOWER_H
+#endif //BACHELOR_DEFENDER_TOWER_H

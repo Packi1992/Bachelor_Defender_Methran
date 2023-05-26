@@ -12,6 +12,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include <SDL_stdinc.h>
 #include <SDL_error.h>
@@ -21,7 +22,6 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
-
 
 using uint  = unsigned int;
 using u8    = std::uint8_t;

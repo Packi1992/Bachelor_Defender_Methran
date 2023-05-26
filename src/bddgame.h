@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../global.h"
-#include "../gamebase.h"
-#include "../recthelper.h"
+#include "global.h"
+#include "gamebase.h"
+#include "recthelper.h"
 
 // gamestates
 #include "introstate.h"

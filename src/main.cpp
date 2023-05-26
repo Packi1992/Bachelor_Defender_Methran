@@ -1,4 +1,4 @@
-#include "../global.h"
+#include "global.h"
 #include "bddgame.h"
 
 extern "C"

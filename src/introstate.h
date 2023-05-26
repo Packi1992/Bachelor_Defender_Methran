@@ -1,21 +1,20 @@
 //
 // Created by banoodle on 14.05.23.
 //
-#include "../../global.h"
-#include "../../gamebase.h"
-#include "../../recthelper.h"
-#include "../tdUtil/enemy.h"
-#include "../tdUtil/tower.h"
+#include "global.h"
+#include "gamebase.h"
 
-#ifndef SDL_BASEGAME_TESTTD_H
-#define SDL_BASEGAME_TESTTD_H
+#ifndef SDL_BASEGAME_INTROSTATE_H
+#define SDL_BASEGAME_INTROSTATE_H
 
-class TestTD final: public GameState{
+class IntroState final : public GameState {
 protected:
-    Enemy enemyArr[100];
-    Map map;
-    Tower* towerArr[50];
-    Point offset={};
+    Texture *image = nullptr;
+    Music *music = nullptr;
+    Button btn_start;
+    Button btn_editor;
+    Button btn_exit;
+
 public:
     // ctor
     using GameState::GameState;
@@ -26,6 +25,7 @@ public:
     void Events( const u32 frame, const u32 totalMSec, const float deltaT ) override;
     void Update( const u32 frame, const u32 totalMSec, const float deltaT ) override;
     void Render( const u32 frame, const u32 totalMSec, const float deltaT ) override;
-};
 
-#endif //SDL_BASEGAME_TESTTD_H
+    void updateBtnSize(const Point &point);
+};
+#endif //SDL_BASEGAME_INTROSTATE_H
