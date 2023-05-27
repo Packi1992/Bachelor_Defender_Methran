@@ -33,10 +33,9 @@ public:
     int scale = 30;
     int width = 40;
     int height = 20;
-
+    const Point *offset={};
 private:
     SDL_Texture *t_tile={};
-    const Point *offset={};
     u_long time=0;
     void resizeMap();
 

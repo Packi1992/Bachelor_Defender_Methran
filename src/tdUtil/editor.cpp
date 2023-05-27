@@ -9,9 +9,7 @@ void Editor::Init() {
     t_tile = t_cache->getTexture("../asset/graphic/td/tileTD.png");
     Point wSize = game.GetWindowSize();
     Toolbox = {0, wSize.y - 100, wSize.x, 100};
-    int yPos = wSize.y - 90
-
-            ;
+    int yPos = wSize.y - 90;
     btn_load.set( "Laden", 18, {5, yPos, 80, 80});
     btn_save.set( "Speichern", 18, {wSize.x- 105, yPos, 100, 80});
     btn_change_size.set("Größe ändern", 18, {btn_save.getX()-135, yPos, 130, 80});

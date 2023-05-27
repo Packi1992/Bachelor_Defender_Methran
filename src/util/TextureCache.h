@@ -42,7 +42,7 @@ public:
     void setRenderColor(t_color color);
 
     void render(Texture *t, Rect *dRect, Rect *sRect = nullptr) const;
-
+    void render(Texture *t, Rect *dRect, uint16_t direction, Rect *sRect = nullptr) const;
     TextureCache(TextureCache &other) = delete;
 
     void operator=(const TextureCache &) = delete;

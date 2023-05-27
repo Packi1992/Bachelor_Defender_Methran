@@ -5,7 +5,7 @@
 #include "tdTileHandler.h"
 
 TdTileHandler::MapObjects TdTileHandler::selectObject(int i) {
-    if (i >= 0 && i <= 5) {
+    if (i >= 0 && i <= OBJECTCOUNT) {
         return static_cast<MapObjects>(i);
     }
     return Empty;
@@ -13,6 +13,8 @@ TdTileHandler::MapObjects TdTileHandler::selectObject(int i) {
 
 Rect TdTileHandler::src = {0, 0, 0, 0};
 int TdTileHandler::TOOLCOUNT = 6;
+int TdTileHandler::OBJECTCOUNT = 8;
+
 
 Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
     src = {0, 0, 64, 64};
@@ -51,6 +53,10 @@ Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
             src.x = 128;
             src.y = 128;
             break;
+        case ARROW:
+            src.x = 128;
+            src.y = 128;
+            break;
     }
     return &src;
 }
@@ -73,6 +79,8 @@ std::string TdTileHandler::getName(TdTileHandler::MapObjects object) {
             return "Tower";
         case Chair:
             return "Chair";
+        case ARROW:
+            return "Arrow";
         default:
             return "Error";
     }

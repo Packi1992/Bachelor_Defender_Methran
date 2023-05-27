@@ -11,6 +11,7 @@
 class TdTileHandler {
 public:
     static int TOOLCOUNT;
+    static int OBJECTCOUNT;
     enum MapObjects{
         Empty,
         Start,
@@ -18,6 +19,8 @@ public:
         Table,
         Tower,
         Chair,
+        ARROW,
+        BULLET,
     };
     static MapObjects selectObject(int i);
 
