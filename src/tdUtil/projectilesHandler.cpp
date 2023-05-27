@@ -53,6 +53,11 @@ void ProjectilesHandler::move() {
                     cout << "Projectile Move-Error: Projectile not valid: " << _projectiles[i]._type << endl;
             }
         }
+        //checking if Projectile still alive?
+        if(_projectiles[i]._ttl > 0)
+            _projectiles[i]._ttl --;
+        else
+            _projectiles[i]._alive = false;
     }
 }
 

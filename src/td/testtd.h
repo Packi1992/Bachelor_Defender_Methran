@@ -7,6 +7,7 @@
 #include "../tdUtil/enemy.h"
 #include "../tdUtil/tower.h"
 #include "../tdUtil/projectilesHandler.h"
+#include "../tdUtil/particlesHandler.h"
 
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
@@ -18,6 +19,7 @@ protected:
     Tower* towerArr[50];
     Point offset={-150,-100};
     ProjectilesHandler _ph;
+    ParticlesHandler _prh;
 public:
     // ctor
     using GameState::GameState;

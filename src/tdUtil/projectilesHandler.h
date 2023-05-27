@@ -27,12 +27,12 @@ public:
         bool _destroy = false;
         Enemy * _targetE = nullptr;
         Point _targetP = {0,0};
-        uint16_t _ttl = 0;
+        uint16_t _ttl = 1000;
     };
     void Render( const u32 frame, const u32 totalMSec, const float deltaT );
     void move();
     Projectile * getList(){ return _projectiles;};
-    static uint getSize(){ return  MAXPROJECTILES;};
+    static uint getSize(){ return MAXPROJECTILES;};
     void add(Projectile p);
     void set(Map* m);
 private:
