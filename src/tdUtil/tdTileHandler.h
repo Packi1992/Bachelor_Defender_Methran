@@ -19,8 +19,12 @@ public:
         Table,
         Tower,
         Chair,
+        // Projectiles
         ARROW,
         BULLET,
+        // Particles
+        BASEEXPLOSION,
+        FFIRE,
     };
     static MapObjects selectObject(int i);
 
