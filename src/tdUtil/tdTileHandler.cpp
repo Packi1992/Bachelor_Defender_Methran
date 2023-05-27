@@ -13,7 +13,7 @@ TdTileHandler::MapObjects TdTileHandler::selectObject(int i) {
 
 Rect TdTileHandler::src = {0, 0, 0, 0};
 int TdTileHandler::TOOLCOUNT = 6;
-int TdTileHandler::OBJECTCOUNT = 8;
+int TdTileHandler::OBJECTCOUNT = 9;
 
 
 Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
@@ -57,6 +57,10 @@ Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
             src.x = 128;
             src.y = 128;
             break;
+        case FFIRE:
+            src.x = 0;
+            src.y = 128;
+            break;
     }
     return &src;
 }
@@ -81,6 +85,8 @@ std::string TdTileHandler::getName(TdTileHandler::MapObjects object) {
             return "Chair";
         case ARROW:
             return "Arrow";
+        case FFIRE:
+            return "FollowFire";
         default:
             return "Error";
     }

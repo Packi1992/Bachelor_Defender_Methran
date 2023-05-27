@@ -7,6 +7,7 @@ void TestTD::Init() {
     GameState::Init();
     map.set(&offset);
     _ph.set(&map);
+    _prh.set(&map);
 }
 
 void TestTD::UnInit() {
@@ -17,6 +18,7 @@ void TestTD::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     t_cache->drawBackground(BG);
     map.draw(true);
     _ph.Render(frame, totalMSec, deltaT);
+    _prh.Render(frame, totalMSec, deltaT);
 }
 
 void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
@@ -55,11 +57,20 @@ void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
 }
 
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
-    ProjectilesHandler::Projectile p;
-    p._type = ProjectilesHandler::Projectile::ARROW;
-    p._direction = totalMSec % 360;
-    p._position = map.getPosOnScreen({8, 4}) + offset;
-    p._speed = 60;
-    _ph.add(p);
-    _ph.move();
+        ProjectilesHandler::Projectile p;
+        p._type = ProjectilesHandler::Projectile::ARROW;
+        p._direction = totalMSec % 360;
+        p._position = map.getPosOnScreen({8, 4}) + offset;
+        p._speed = 60;
+        _ph.add(p);
+        _ph.move();
+        ParticlesHandler::Particles pa;
+        pa._type = ParticlesHandler::Particles::FFIRE;
+        pa._direction = totalMSec % 360;
+        pa._position = map.getPosOnScreen({8, 4}) + offset;
+        pa._speed = 60;
+        pa._moveable = true;
+        pa._ttl = 40;
+        _prh.add(pa);
+        _prh.move();
 }
