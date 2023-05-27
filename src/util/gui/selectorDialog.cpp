@@ -25,7 +25,7 @@ void SelectorDialog::set(string path, string ending) {
 }
 
 std::string SelectorDialog::getSelectedFile() {
-    return selectedFile;
+    return _path+selectedFile+_ending;
 }
 
 void SelectorDialog::collectFiles() {

@@ -8,6 +8,8 @@
 #include "../global.h"
 #include "../tdUtil/tdTileHandler.h"
 
+using MapObjects = TdTileHandler::MapObjects;
+
 //  specific Colors to make things easier regarding drawing colors
 enum t_color {
     EMPTY,
@@ -22,28 +24,32 @@ enum t_color {
 class TextureCache {
 
 public:
-    Texture *loadTexture(const std::string &path);
+    // iniTexture cache run at programm start
+    static TextureCache *getCache(Renderer *render);
 
-    Texture *getTexture(const std::string &path);
-
-    void drawText(char *string, int size, int x, int y, Color fgC);
-
-    void drawCenteredText(const std::string &text, int size, Color fgc, int width, int height);
-
-    Texture *getText(const char *string, int size, Color TextColor, Rect *sRect = nullptr);
-
-    Texture *getText(const char *string, int size, t_color TextColor, Rect *sRect = nullptr);
-
+    // colors are handled by TextureCache
     static Color getColor(t_color color);
 
-    Texture *getNumber(int Number, int size, Color fgC, Rect *sRect = nullptr);
+    // get texture from cache
+    Texture *get(const std::string &path);
 
+    // get Text textures
+    Texture *getText(const char *string, u8 size, Rect *sRect = nullptr, t_color TextColor=BLACK);
+    Texture *getNumber(int Number, int size, t_color fgC, Rect *sRect = nullptr);
+
+    // render settings
     void setRenderColor(Color color);
-
     void setRenderColor(t_color color);
 
+    // draw to Render functions
+    void drawBackground(t_color color);
     void render(Texture *t, Rect *dRect, Rect *sRect = nullptr) const;
-    void render(Texture *t, Rect *dRect, uint16_t direction, Rect *sRect = nullptr) const;
+    void render(Texture *t, Rect *dRect, u16 direction, Rect *sRect = nullptr) const;
+    void drawHint(MapObjects object, int size, Point posOnScreen, t_color textColor=BLACK, t_color bgColor=WHITE);
+
+    // draw text to Screen
+    void drawText(char *string, int size, int x, int y, t_color fgC);
+    void drawCenteredText(const string &text, int size, t_color fgc, int width, int height);
 
     // if no color dialog, preselected color will be used
     void renderFillRect(Rect *dst, t_color color=EMPTY);
@@ -51,20 +57,12 @@ public:
     void renderRect(Rect *dst, u8 strokeThickness=1 ,t_color color=EMPTY);
 
     TextureCache(TextureCache &other) = delete;
-
     void operator=(const TextureCache &) = delete;
 
-    static TextureCache *getCache(Renderer *render);
-
-    void drawBackground(t_color color);
-
-    void drawHint(TdTileHandler::MapObjects object, int size, Point posOnScreen, t_color textColor, t_color bgColor);
-
     ~TextureCache();
-
 private:
+    Texture *loadTexture(const std::string &path);
     static TextureCache *cacheInstance;
-
     explicit TextureCache(Renderer *renderer);
 
     const char *ttf_path = BasePath "asset/font/RobotoSlab-Bold.ttf";
@@ -72,16 +70,12 @@ private:
     class obj {
     public:
         obj *next;
-        obj *last;
         Texture *texture;
         std::string name;
     };
-
     obj *head{};
     obj *tail{};
     Renderer *renderer;
-
-    Texture *addTexture(const std::string &basicString);
 
 
 };

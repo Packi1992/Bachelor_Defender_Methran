@@ -7,7 +7,7 @@ void IntroState::Init()
 {
     if( !image )
     {
-        image = t_cache->getTexture(BasePath "asset/graphic/bg-main.png");
+        image = t_cache->get(BasePath "asset/graphic/bg-main.png");
         if( !image )
             cerr << "IMG_LoadTexture failed: " << IMG_GetError() << endl;
     }

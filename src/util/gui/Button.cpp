@@ -49,20 +49,19 @@ Button::Button(const Button &b) {
     this->buttonColor = b.buttonColor;
     this->drawColor = b.drawColor;
     this->highlightedColor = b.highlightedColor;
-    this->text = t_cache->getText(textArr, size, {0, 0, 0, 255});
-    SDL_QueryTexture(this->text, nullptr, nullptr, &tRect.w, &tRect.h);
+    this->text = t_cache->getText(textArr, size,&tRect);
 
     tRect.x = rect.x + (rect.w - tRect.w) / 2;
     tRect.y = rect.y + (rect.h - tRect.h) / 2;
 }
 
-void Button::set(const std::string &label, int nSize, SDL_Rect nRect, t_color btnColor) {
+void Button::set(const string &label, int nSize, Rect nRect, t_color btnColor) {
     this->size = nSize;
     strcpy(textArr, label.c_str());
     this->rect = nRect;
     this->buttonColor = t_cache->getColor(btnColor);
     setHighlightedColor(&btnColor);
-    this->text = t_cache->getText(textArr, size, {0, 0, 0, 255});
+    this->text = t_cache->getText(textArr, size);
     SDL_QueryTexture(this->text, nullptr, nullptr, &tRect.w, &tRect.h);
 
     tRect.x = rect.x + (rect.w - tRect.w) / 2;

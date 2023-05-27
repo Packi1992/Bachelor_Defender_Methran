@@ -23,7 +23,7 @@ void InputDialog::iniUI(const string &fieldName) {
     Point wSize = pGame->GetWindowSize();
     _rDialog = {wSize.x / 2 - 250, wSize.y / 2 - 200, 500, 250};
     // Title as centered text at top
-    _texTitle = t_cache->getText(_title.c_str(), 30, {0, 0, 0, 255}, &_rTitle);
+    _texTitle = t_cache->getText(_title.c_str(), 30, &_rTitle);
     _rTitle.x = _rDialog.x + _rDialog.w / 2 - _rTitle.w / 2;
     _rTitle.y = _rDialog.y + 10;
     // Align Buttons

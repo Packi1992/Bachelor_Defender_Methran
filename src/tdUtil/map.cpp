@@ -12,12 +12,11 @@ void Map::showSizeDialog() {
     std::cout << "\"map showSizeDialog\"not implemented yet";
 }
 
-void Map::set( const Point *pOffset) {
+void Map::set(Point *pOffset) {
     this->offset = pOffset;
-    t_tile = t_cache->getTexture("../asset/graphic/td/tileTD.png");
+    t_tile = t_cache->get("../asset/graphic/td/tileTD.png");
     this->map = std::vector(width, std::vector<TdTileHandler::MapObjects>(height));
-    map[0][0] = TdTileHandler::Start;
-    map[15][4] = TdTileHandler::Goal;
+    iniOffset();
 }
 
 void Map::draw(bool wire) {
@@ -77,9 +76,9 @@ void Map::save(const std::string &path) {
 }
 
 void Map::load(const std::string &path) {
-    std::string line;
+    string line;
     std::ifstream iStream;
-
+    std::cout << "Load Map: "<< path << std::endl;
     char mnName[50];
     strcpy(mnName, path.c_str());
     iStream.open(mnName);
@@ -111,6 +110,7 @@ void Map::load(const std::string &path) {
     if (!widthLoaded || !heightLoaded) {
         std::cerr << "Map Data corrupted" << std::endl;
     }
+    iniOffset();
 }
 
 Map::Map() {
@@ -164,4 +164,12 @@ void Map::loadRow(std::string line) {
         int o = (int) strtol(line.substr(0, token).c_str(), nullptr, 10);
         map[i][row] = TdTileHandler::selectObject(o);
     }
+}
+
+void Map::iniOffset() {
+    Point wSize = pGame->GetWindowSize();
+    if(width*scale<wSize.x)
+        offset->x = -(wSize.x-width*scale)/2;
+    if(height*scale<(wSize.y-100))
+        offset->y = -(wSize.y -height*scale-100)/2;
 }

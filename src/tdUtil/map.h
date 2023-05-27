@@ -21,27 +21,29 @@ public:
 
     void draw(bool wire = false);
     void drawWire();
-    void set(const Point *offset);
+    void set(Point *offset);
 
     void set(Event, TdTileHandler::MapObjects);
     TdTileHandler::MapObjects getObjectAtScreenPos(Point p);
     void showSizeDialog();
-    SDL_Point getPosOnScreen(Point p);
+    Point getPosOnScreen(Point p);
     TdTileHandler::MapObjects getObject(Point p, bool OutOfBoundsError=true);
     u_long getMapTime();
 
     int scale = 30;
     int width = 40;
     int height = 20;
-    const Point *offset={};
+    Point *offset={};
 private:
-    SDL_Texture *t_tile={};
+    Texture *t_tile={};
     u_long time=0;
     void resizeMap();
 
     void loadRow(std::string basicString);
 
     std::vector<std::vector<TdTileHandler::MapObjects>> map;
+
+    void iniOffset();
 };
 
 

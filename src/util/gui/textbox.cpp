@@ -8,7 +8,7 @@ void TextBox::set(string label, Point pos, bool Number) {
 
     // ini label
     _label = std::move(label);
-    _texLabel = t_cache->getText(_label.c_str(), 18, BLACK, &_rLabel);
+    _texLabel = t_cache->getText(_label.c_str(), 18, &_rLabel);
     _rLabel.x = pos.x;
     _rLabel.y = pos.y;
 
@@ -34,7 +34,7 @@ void TextBox::setText(std::string text) {
     _input = std::move(text);
     if (_texInput != nullptr)
         SDL_DestroyTexture(_texInput);
-    _texInput = t_cache->getText(_input.c_str(), 18, BLACK, &_rInput);
+    _texInput = t_cache->getText(_input.c_str(), 18, &_rInput);
 }
 
 std::string TextBox::getText() {
@@ -128,6 +128,6 @@ TextBox::~TextBox() {
 void TextBox::Update() {
     if (_texInput != nullptr)
         SDL_DestroyTexture(_texInput);
-    _texInput = t_cache->getText(_input.c_str(), 18, BLACK, &_rInput);
+    _texInput = t_cache->getText(_input.c_str(), 18, &_rInput);
 }
 

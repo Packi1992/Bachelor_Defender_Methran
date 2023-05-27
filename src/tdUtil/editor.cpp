@@ -9,7 +9,7 @@ void Editor::Init() {
     GameState::Init();
     pGame = &game;
     map.set(&offset);
-    t_tile = t_cache->getTexture("../asset/graphic/td/tileTD.png");
+    t_tile = t_cache->get("../asset/graphic/td/tileTD.png");
     Point wSize = game.GetWindowSize();
     Toolbox = {0, wSize.y - 100, wSize.x, 100};
     int yPos = wSize.y - 90;

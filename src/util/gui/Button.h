@@ -26,7 +26,7 @@ public:
 
     int getX() const;
 
-    void set(const std::string &label, int size, Rect rect, t_color btn_color = BTN_COLOR);
+    void set(const string &label, int size, Rect rect, t_color btn_color = BTN_COLOR);
 
     void setSize(Rect rect);
 
