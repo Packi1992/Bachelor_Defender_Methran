@@ -7,11 +7,9 @@
 
 #include "../../gamebase.h"
 
-class Selector : public Gui {
+class SelectorDialog : public Gui {
 public:
-    void set(Point wSize, string path, string ending);
-
-    void show(Gui **focus);
+    void set(string path, string ending);
 
     string getSelectedFile();
 
@@ -23,23 +21,18 @@ public:
 
     void Update() override;
 
-    void setFocus(Gui *next) override;
-    ~Selector();
+    ~SelectorDialog();
 
 private:
     void collectFiles();
 
     void createButtons();
 
-    Point wSize{};
     string _path;
     string _ending;
     string selectedFile;
     Vector<string> maps;
     Vector<Button*> buttons;
-    Gui *last{};
-    Gui **focus{};
-    bool showSelector = false;
     bool fileSelected = false;
 
     void tidyUp();

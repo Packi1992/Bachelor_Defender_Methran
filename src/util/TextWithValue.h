@@ -9,8 +9,8 @@
 
 class TextWithValue {
 public:
-    void set(Game *game, const std::string& Text,const int *value,
-             SDL_Point pos, int textSize, Color TextColor);
+    void set(const string& Text,const int *value,
+             Point pos, int textSize, t_color TextColor);
 
     void draw();
 
@@ -22,17 +22,17 @@ private:
     // base
     Game *pGame = nullptr;
     int size{};
-    Color color{};
+    t_color color{};
     bool centered = false;
 
     // label
     char text[50]{};
-    SDL_Rect rectLabel{};
-    SDL_Texture *texLabel = nullptr;
+    Rect rectLabel{};
+    Texture *texLabel = nullptr;
 
     // value
-    SDL_Rect rectValue{};
-    SDL_Texture *texValue = nullptr;
+    Rect rectValue{};
+    Texture *texValue = nullptr;
     const int *exValue = nullptr;
     int value{};
 

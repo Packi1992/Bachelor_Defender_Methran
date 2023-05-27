@@ -21,3 +21,12 @@ Es verbleibt eine Markierung am Ziel, bis der Schuss einschlägt.
 ## doppelt verkettete Liste
 ### Aussehen
 ### Schuss 
+
+
+---
+# Code Style 
+Bisher haben wir keinen Style 
+
+-> Enum Types KOMPLETT GROSS
+-> Klassenname Anfangsbuchstaben Groß + CamelCase
+-> Funktionsnamen klein + CamelCase

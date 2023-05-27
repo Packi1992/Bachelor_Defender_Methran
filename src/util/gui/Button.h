@@ -5,7 +5,7 @@
 #ifndef JUMPNRUN_BUTTON_H
 #define JUMPNRUN_BUTTON_H
 class Button;
-#include "../gamebase.h"
+#include "../../gamebase.h"
 
 
 class Button {
@@ -26,7 +26,7 @@ public:
 
     int getX() const;
 
-    void set(const std::string &label, int size, Rect rect, t_color btn_color = BTN_COLOR);
+    void set(const string &label, int size, Rect rect, t_color btn_color = BTN_COLOR);
 
     void setSize(Rect rect);
 

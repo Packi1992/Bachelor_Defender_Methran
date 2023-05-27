@@ -1,10 +1,13 @@
 //
 // Created by banoodle on 24.05.23.
 //
-#include "selector.h"
+#include "selectorDialog.h"
 
-void Selector::createButtons() {
-    SDL_Rect bRect{200, 100, wSize.x - 400, 80};
+void SelectorDialog::createButtons() {
+    Point size = pGame->GetWindowSize();
+    int width = (int)(size.x*0.8);
+    int x = (int)(size.x*0.1);
+    SDL_Rect bRect{x, 100, width, 80};
     for (const auto &mapName: maps) {
         Button* nb = new Button();
         nb->set(mapName, 18, bRect);
@@ -13,19 +16,19 @@ void Selector::createButtons() {
     }
 }
 
-void Selector::set(Point wSize, std::string path, std::string ending) {
+void SelectorDialog::set(string path, string ending) {
     _path = std::move(path);
     _ending = std::move(ending);
-    this->wSize = wSize;
+
     collectFiles();
     createButtons();
 }
 
-std::string Selector::getSelectedFile() {
-    return selectedFile;
+std::string SelectorDialog::getSelectedFile() {
+    return _path+selectedFile+_ending;
 }
 
-void Selector::collectFiles() {
+void SelectorDialog::collectFiles() {
     int eSize = _ending.length();
     for (const auto &entry: std::filesystem::directory_iterator(_path)) {
         std::string newPath = entry.path().c_str();
@@ -35,8 +38,8 @@ void Selector::collectFiles() {
     }
 }
 
-void Selector::Render() {
-    if (showSelector) {
+void SelectorDialog::Render() {
+    if (dialog) {
         t_cache->drawBackground(BG);
         for(auto & button : buttons){
             button->draw();
@@ -44,16 +47,11 @@ void Selector::Render() {
     }
 }
 
-void Selector::show(Gui **pFocus) {
-    focus = pFocus;
-    showSelector = true;
-}
-
-bool Selector::isFileSelected() const {
+bool SelectorDialog::isFileSelected() const {
     return fileSelected;
 }
 
-void Selector::Input() {
+void SelectorDialog::Input() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -82,23 +80,19 @@ void Selector::Input() {
     }
 }
 
-void Selector::Update() {
+void SelectorDialog::Update() {
 
 }
 
-void Selector::setFocus(Gui *next) {
-    last = next;
-}
-
-Selector::~Selector(){
+SelectorDialog::~SelectorDialog(){
     for (auto btn: buttons) {
         delete(btn);
     }
 }
 
-void Selector::tidyUp() {
-    showSelector = false;
-    *focus = last;
+void SelectorDialog::tidyUp() {
+    dialog = false;
+    releaseFocus();
     for (auto btn: buttons) {
         delete(btn);
     }

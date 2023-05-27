@@ -11,14 +11,15 @@ enum EnemyType{
     Ordinary,
     Fast,
     Silly,
-    Strong
+    Strong,
+    Boss,
 };
 
 class Enemy {
 public:
     Enemy()= default;
-    // draw enemy on map -> show status effects?
-    void draw();
+    // Render enemy on map -> show status effects?
+    void Render();
 
     // move enemy -> status effects will impact here
     void move();

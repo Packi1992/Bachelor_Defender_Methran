@@ -5,12 +5,19 @@
 #ifndef SDL_BACHELORDEFENDER_GUI_H
 #define SDL_BACHELORDEFENDER_GUI_H
 class Gui;
-#include "../gamebase.h"
+#include "../../gamebase.h"
 class Gui{
 public:
     virtual void Input()=0;
     virtual void Render()=0;
     virtual void Update()=0;
-    virtual void setFocus(Gui *next)=0;
+    void releaseFocus(bool continueRender=false);
+    void show(Gui **focus);
+    void setNextFocus(Gui *next);
+protected:
+    bool dialog=false;
+    Gui **focus{};
+    Gui *nextFocus{};
 };
+
 #endif //SDL_BACHELORDEFENDER_GUI_H

@@ -53,6 +53,7 @@ Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
             src.x = 128;
             src.y = 128;
             break;
+
         case ARROW:
             src.x = 0;
             src.y = 320;
@@ -62,6 +63,8 @@ Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
             src.x = 64+(localAnimate* 64);
             src.y = 320;
             break;
+        default:
+            cerr << "Tile not found, please provide SRC rect in TdTileHandler.cpp" << endl;
     }
     return &src;
 }
