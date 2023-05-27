@@ -105,3 +105,7 @@ bool InputDialog::isDone() const {
 InputDialog::~InputDialog() {
     SDL_DestroyTexture(_texTitle);
 }
+
+void InputDialog::reset() {
+    _takeNewValues=false;
+}

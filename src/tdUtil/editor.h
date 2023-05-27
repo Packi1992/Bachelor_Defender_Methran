@@ -36,10 +36,8 @@ protected:
 
     // buttons
     Button btn_load;
-    void load();
     Button btn_save;
-    void save();
-    Button btn_change_size;
+    //Button btn_change_size;
     int rainbowColor=0;
 
     // Tile SelectorDialog

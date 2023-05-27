@@ -20,6 +20,9 @@ protected:
     Point offset={-150,-100};
     ProjectilesHandler _ph;
     ParticlesHandler _prh;
+
+    bool mbDown=false;
+    bool mouseScroll=false;
 public:
     // ctor
     using GameState::GameState;
@@ -30,6 +33,14 @@ public:
     void Events( const u32 frame, const u32 totalMSec, const float deltaT ) override;
     void Update( const u32 frame, const u32 totalMSec, const float deltaT ) override;
     void Render( const u32 frame, const u32 totalMSec, const float deltaT ) override;
+
+    void MouseDown(SDL_Event event);
+
+    void MouseMotion(SDL_Event event);
+
+    void MouseWheel(SDL_Event event);
+
+    void keyDown(SDL_Event event);
 };
 
 #endif //SDL_BASEGAME_TESTTD_H

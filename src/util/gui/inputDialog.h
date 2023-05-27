@@ -19,6 +19,8 @@ public:
     void Update() override;
     bool isDone() const;
 
+    void reset();
+
 private:
     void iniUI(const string& fieldName);
     void iniValues();
