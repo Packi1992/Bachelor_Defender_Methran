@@ -39,16 +39,16 @@ void Map::drawWire() {
     t_cache->setRenderColor(MAP_GRID);
     for (int i = 0; i <= width; i++) {
         int x2;
-        int x1 = x2 = i * (scale + 1) - offset->x;
+        int x1 = x2 = i * scale - offset->x;
         int y1 = -offset->y;
-        int y2 = height * (scale + 1) - offset->y;
+        int y2 = height * scale - offset->y;
         SDL_RenderDrawLine(render, x1, y1, x2, y2);
     }
     for (int j = 0; j <= height; j++) {
         int y2;
-        int y1 = y2 = j * (scale + 1) - offset->y;
+        int y1 = y2 = j * scale - offset->y;
         int x1 = 0 - offset->x;
-        int x2 = width * (scale + 1) - offset->x;
+        int x2 = width * scale - offset->x;
         SDL_RenderDrawLine(render, x1, y1, x2, y2);
     }
 }
@@ -129,13 +129,13 @@ void Map::set(Event event, TdTileHandler::MapObjects o) {
 
 TdTileHandler::MapObjects Map::getObjectAtScreenPos(SDL_Point p) {
     SDL_Point pos;
-    pos.x = (p.x + offset->x) / (scale + 1);
-    pos.y = (p.y + offset->y) / (scale + 1);
+    pos.x = (p.x + offset->x) / (scale);
+    pos.y = (p.y + offset->y) / (scale);
     return getObject(pos, false);
 }
 
 Point Map::getPosOnScreen(Point p) {
-    Point POS = {(p.x * scale + p.x + 1) - offset->x, (p.y * scale + p.y + 1) - offset->y};
+    Point POS = {(p.x * scale) - offset->x, (p.y * scale) - offset->y};
     return POS;
 }
 

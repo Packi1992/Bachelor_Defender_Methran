@@ -6,6 +6,7 @@
 #include "../recthelper.h"
 #include "../tdUtil/enemy.h"
 #include "../tdUtil/tower.h"
+#include "../tdUtil/projectilesHandler.h"
 
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
@@ -15,7 +16,8 @@ protected:
     Enemy enemyArr[100];
     Map map;
     Tower* towerArr[50];
-    Point offset={};
+    Point offset={-150,-100};
+    ProjectilesHandler _ph;
 public:
     // ctor
     using GameState::GameState;
