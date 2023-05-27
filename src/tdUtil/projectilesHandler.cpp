@@ -4,28 +4,22 @@
 
 #include "projectilesHandler.h"
 
-void ProjectilesHandler::set(Map *m) {
-    _map = m;
+void ProjectilesHandler::set() {
     this->_texture = t_cache->get("../asset/graphic/td/tileTD.png");
 }
 
 void ProjectilesHandler::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     for (auto &p: _projectiles) {
-        if (p._alive) {
-            int y = p._position.y - _map->offset->y;
-            int x = p._position.x - _map->offset->x;
-            int size = (int) ((float) _map->scale * (float) p._size / 100.0f);
-            Rect dstRect = {x, y, size, size};
-            /*if (!(x + _map->offset->x+ size > 0 && x + _map->offset->x < _map->width * _map->scale) ||
-                !(y + _map->offset->y+ size > 0 && y + _map->offset->y < _map->height * _map->scale)) {
-                continue;
-            }*/
-            t_cache->render(this->_texture, &dstRect, p._direction, TdTileHandler::getSrcRect(p._type,_map->getMapTime()));
+        Point pos = p._position - offset;
+        int size = (int) ((float) scale * (float) p._size / 100.0f);
+        if (p._alive && onScreen(pos, size)) {
+            Rect dstRect = {pos.x, pos.y, size, size};
+            t_cache->render(_texture, &dstRect, p._direction, TdTileHandler::getSrcRect(p._type, totalMSec));
         }
     }
 }
 
-void ProjectilesHandler::add(ProjectilesHandler::Projectile p) {
+void ProjectilesHandler::add(Projectile p) {
     for (int i = 0; i < MAXPROJECTILES; i++) {
         if (!_projectiles[i]._alive) {
             _projectiles[i] = p;
@@ -54,24 +48,27 @@ void ProjectilesHandler::move() {
             }
         }
         //checking if Projectile still alive?
-        if(_projectiles[i]._ttl > 0)
-            _projectiles[i]._ttl --;
+        if (_projectiles[i]._ttl > 0)
+            _projectiles[i]._ttl--;
         else
             _projectiles[i]._alive = false;
     }
 }
 
-void ProjectilesHandler::moveBullet(ProjectilesHandler::Projectile *p) {
-
+void ProjectilesHandler::moveBullet(Projectile *p) {
+    cerr << "Bullet movement is not implemented" << endl;
 }
 
-void ProjectilesHandler::moveArrow(ProjectilesHandler::Projectile *p) {
-    float speed = (float)p->_speed / 500.0f;
-    float direction = (float)(p->_direction % 360) / 180.0f * M_PI;
-    if (_map == nullptr) {
-        cerr << "ProjectilesHandler needs a valid Mappointer" << endl;
-    }
-    speed *= _map->scale;
-    p->_position.x += sin(direction) * speed;
-    p->_position.y += cos(direction) * speed;
+void ProjectilesHandler::moveArrow(Projectile *p) {
+    auto direction = (float) (((double) (p->_direction % 360) / 180.0f) * M_PI);
+    float speed = (float) ((float) p->_speed / 500.0f) * (float) scale;
+    p->_position.x += (int) (sin(direction) * speed);
+    p->_position.y += (int) (cos(direction) * speed);
+}
+
+bool ProjectilesHandler::onScreen(Point &posOnScreen, int &size) {
+    return (posOnScreen.x + size > 0) &&      // left
+           (posOnScreen.y + size > 0) &&             // top
+           (posOnScreen.y < windowSize.y) &&        // bot
+           (posOnScreen.x < windowSize.x);         // right
 }

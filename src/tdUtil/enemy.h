@@ -18,7 +18,7 @@ enum EnemyType{
 class Enemy {
 public:
     Enemy()= default;
-    // Render enemy on map -> show status effects?
+    // Render enemy on pMap -> show status effects?
     void Render();
 
     // move enemy -> status effects will impact here
@@ -30,7 +30,7 @@ public:
     // use Enemy slot for new enemy spawn
     void setEnemy(Game *game,Map* map, Point pos, uint16_t Health, uint8_t speed,EnemyType type=Ordinary);
 
-    // set enemy speed -- maybe a buff or something else
+    // setTile enemy speed -- maybe a buff or something else
     void setSpeed(uint8_t speed);
 
     // add slow effect for specific amount of time in ms

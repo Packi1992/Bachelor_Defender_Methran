@@ -5,7 +5,6 @@
 #ifndef SDL_BACHELORDEFENDER_PROJECTILESHANDLER_H
 #define SDL_BACHELORDEFENDER_PROJECTILESHANDLER_H
 
-#include "../global.h"
 #include "../gamebase.h"
 #include "../tdUtil/enemy.h"
 #define MAXPROJECTILES 1000
@@ -31,17 +30,15 @@ public:
     };
     void Render( const u32 frame, const u32 totalMSec, const float deltaT );
     void move();
-    Projectile * getList(){ return _projectiles;};
-    static uint getSize(){ return MAXPROJECTILES;};
-    void add(Projectile p);
-    void set(Map* m);
-private:
-    Map * _map = nullptr;
     Projectile _projectiles[MAXPROJECTILES];
+    void add(Projectile p);
+    void set();
+private:
     uint overflow = 0;
     void moveBullet(Projectile * p);
-    void moveArrow(Projectile * p);
+    static void moveArrow(Projectile * p);
     Texture * _texture = nullptr;
+    static bool onScreen(Point &posOnScreen, int &size);
 };
 
 

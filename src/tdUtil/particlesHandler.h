@@ -33,13 +33,15 @@ public:
     Particles * getList(){ return _particles;};
     static uint getSize(){ return MAXPARTICLES;};
     void add(Particles p);
-    void set(Map* m);
+    void set();
 private:
     Map * _map = nullptr;
     Particles _particles[MAXPARTICLES];
     uint overflow = 0;
     void moveFFire(Particles * p);
     Texture * _texture = nullptr;
+
+    bool onScreen(Point &posOnScreen, int &size);
 };
 
 

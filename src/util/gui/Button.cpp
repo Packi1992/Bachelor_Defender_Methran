@@ -9,11 +9,9 @@ void Button::draw(bool highlighted) {
         t_cache->setRenderColor(highlightedColor);
     else
         t_cache->setRenderColor(drawColor);
-    SDL_RenderFillRect(render, &rect);
-    t_cache->setRenderColor(BLACK);
-    SDL_RenderDrawRect(render, &rect);
-
-    SDL_RenderCopy(render, text, nullptr, &tRect);
+    t_cache->renderFillRect(&rect);
+    t_cache->renderRect(&rect,2,BLACK);
+    t_cache->render(text,&tRect);
 }
 
 bool Button::clicked(SDL_Event e) {
@@ -59,10 +57,10 @@ void Button::set(const string &label, int nSize, Rect nRect, t_color btnColor) {
     this->size = nSize;
     strcpy(textArr, label.c_str());
     this->rect = nRect;
-    this->buttonColor = t_cache->getColor(btnColor);
+    this->buttonColor = TextureCache::getColor(btnColor);
     setHighlightedColor(&btnColor);
-    this->text = t_cache->getText(textArr, size);
-    SDL_QueryTexture(this->text, nullptr, nullptr, &tRect.w, &tRect.h);
+
+    this->text = t_cache->getText(textArr, size,&tRect);
 
     tRect.x = rect.x + (rect.w - tRect.w) / 2;
     tRect.y = rect.y + (rect.h - tRect.h) / 2;

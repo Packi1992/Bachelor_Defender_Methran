@@ -7,14 +7,12 @@
 void Editor::Init() {
     GameState::Init();
     pGame = &game;
-    map.set(&offset);
-    t_tile = t_cache->get("../asset/graphic/td/tileTD.png");
-    Point wSize = game.GetWindowSize();
-    Toolbox = {0, wSize.y - 100, wSize.x, 100};
-    int yPos = wSize.y - 90;
+    t_tileMap = t_cache->get("../asset/graphic/td/tileTD.png");
+    Toolbox = {0, windowSize.y - 100, windowSize.x, 100};
+    int yPos = windowSize.y - 90;
     btn_load.set("Laden", 18, {5, yPos, 80, 80});
-    btn_save.set("Speichern", 18, {wSize.x - 105, yPos, 100, 80});
-    //btn_change_size.set("Größe ändern", 18, {btn_save.getX() - 135, yPos, 130, 80});
+    btn_save.set("Speichern", 18, {windowSize.x - 105, yPos, 100, 80});
+    //btn_change_size.setTile("Größe ändern", 18, {btn_save.getX() - 135, yPos, 130, 80});
 }
 
 void Editor::UnInit() {
@@ -37,23 +35,22 @@ void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     t_cache->drawBackground(BG);
     // Render maps
-    map.draw(true);
+    map.Render(true);
     // now Render ui
     Rect tool, symbol;
     tool = {0, 0, 80, 80};
     symbol = {0, 0, 64, 64};
-    Point wSize = game.GetWindowSize();
 
     t_cache->setRenderColor(EDITOR_UI_BG);
     SDL_RenderFillRect(render, &Toolbox);
 
     tool.x = 100;
     symbol.x = tool.x + 8;
-    tool.y = wSize.y - 90;
+    tool.y = windowSize.y - 90;
     symbol.y = tool.y + 8;
     for (int i = 0; i < TdTileHandler::TOOLCOUNT; i++) {
         t_cache->renderFillRect(&tool,WHITE);
-        t_cache->render(t_tile, &symbol, TdTileHandler::getSrcRect(i, map.getMapTime()));
+        t_cache->render(t_tileMap, &symbol, TdTileHandler::getSrcRect(i, map.getMapTime()));
         if (this->selected == i) {
             t_cache->setRenderColor({ 0, 0, (u8)rainbowColor, 255});
             t_cache->renderRect(&tool,5);
@@ -67,14 +64,13 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     }
     btn_save.draw();
     btn_load.draw();
-    //btn_change_size.draw();
+    //btn_change_size.Render();
     mapSelector.Render();
     mapNameInput.Render();
 }
 
 void Editor::handleSelection(Event event) {
-    Point wSize = game.GetWindowSize();
-    if (event.motion.y < wSize.y - 10 && event.motion.y > wSize.y - 90) {
+    if (event.motion.y < windowSize.y - 10 && event.motion.y > windowSize.y - 90) {
         int x = event.motion.x - 100;
         if (x > 0 && x < (TdTileHandler::TOOLCOUNT * 90 - 10)) {
             if (x % 90 < 81) {
@@ -121,7 +117,7 @@ void Editor::MouseDown(SDL_Event event) {
     if (event.button.button == SDL_BUTTON_LEFT) {
         if (event.motion.y < (Toolbox.y))mbDown = true;
         if (mbDown) {
-            map.set(event, selected);
+            map.setTile(event, selected);
             labelObject = selected;
             labelPos = {event.motion.x, event.motion.y - 30};
         } else {
@@ -133,7 +129,7 @@ void Editor::MouseDown(SDL_Event event) {
                 mapSelector.set( "../Maps/", ".map");
                 mapSelector.show(&focus);
             }
-                //else if (btn_change_size.clicked(event))map.showSizeDialog();
+                //else if (btn_change_size.clicked(event))pMap.showSizeDialog();
             else handleSelection(event);
         }
     } else if (event.button.button == SDL_BUTTON_RIGHT) {
@@ -146,7 +142,7 @@ void Editor::MouseMotion(SDL_Event event) {
     if (event.motion.y < (Toolbox.y)) {
         labelPos = {event.motion.x, event.motion.y};
         if (mbDown) {
-            map.set(event, selected);
+            map.setTile(event, selected);
             labelObject = selected;
         } else
             labelObject = map.getObjectAtScreenPos(labelPos);
@@ -189,7 +185,7 @@ void Editor::keyDown(SDL_Event event) {
 }
 
 void Editor::MouseWheel(SDL_Event event) {
-    map.scale += event.wheel.y;
+    scale += event.wheel.y;
     int posX,posY;
     SDL_GetMouseState(&posX, &posY);
     offset.y += event.wheel.y / abs(event.wheel.y) * map.height / 2;

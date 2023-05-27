@@ -8,36 +8,32 @@
 
 #include "../gamebase.h"
 #include "tdTileHandler.h"
-#include <iostream>
 #include <fstream>
 
 class Map {
 public:
     Map();
 
-    void load(const std::string &path = "../Maps/testMap.map");
+    void load(const string &path = "../Maps/neueMap.map");
 
-    void save(const std::string &path = "../Maps/neueMap");
+    void save(const string &path = "../Maps/neueMap");
 
-    void draw(bool wire = false);
-    void drawWire();
-    void set(Point *offset);
+    void Render(bool wire = false);
 
-    void set(Event, TdTileHandler::MapObjects);
-    TdTileHandler::MapObjects getObjectAtScreenPos(Point p);
+    void setTile(Event event, MapObjects object);
+    MapObjects getObjectAtScreenPos(Point p);
     void showSizeDialog();
     Point getPosOnScreen(Point p);
-    TdTileHandler::MapObjects getObject(Point p, bool OutOfBoundsError=true);
-    u_long getMapTime();
+    MapObjects getObject(Point p, bool OutOfBoundsError=true);
+    [[nodiscard]] u_long getMapTime() const;
 
-    int scale = 30;
     int width = 40;
     int height = 20;
-    Point *offset={};
 private:
-    Texture *t_tile={};
-    u_long time=0;
+    Texture *t_tileMap={};
+    ul time=0;
     void resizeMap();
+    void drawWire() const;
 
     void loadRow(std::string basicString);
 

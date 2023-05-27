@@ -1,21 +1,28 @@
 
 #ifndef SDL_GAMEBASE_H
 #define SDL_GAMEBASE_H
+
 class Game;
+class GameState;
+
 #include "global.h"
 #include "recthelper.h"
 #include "util/TextureCache.h"
 #include "util/gui/gui.h"
 #include "util/gui/Button.h"
-
-
+#include "tdUtil/map.h"
+class Map;
+// globals - introoduced at everything global
 extern Renderer *render;
+
+// TextureCache
 extern TextureCache *t_cache;
-
-
-class Game;
 extern Game *pGame;
-class GameState;
+extern Map *pMap;
+extern Point offset;
+extern Point windowSize;
+extern int scale;
+
 
 class Game
 {
@@ -31,12 +38,9 @@ protected:
 	GameState * currentState = nullptr;
 	Vector<GameState *> allStates;
 
-	Point windowSize;
 
 public:
-	[[nodiscard]]       bool    IsRunning()     const { return isRunning; }
-	[[nodiscard]]       Point & GetWindowSize()       { return windowSize; }
-	[[nodiscard]] const Point & GetWindowSize() const { return windowSize; }
+	[[nodiscard]]       bool    IsRunning()     const { return isRunning;  }
 
 	explicit Game(
 		const char * windowTitle = "SDL Game",
@@ -48,7 +52,7 @@ public:
 	Game && operator=(       Game && ) = delete;
 	virtual ~Game();
 
-	virtual bool HandleEvent( const Event event );
+	virtual bool HandleEvent( Event event );
 	virtual int Run();
 
 	virtual void SetNextState( int index ) { nextStateIdx = index; }

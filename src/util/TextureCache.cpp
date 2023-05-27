@@ -181,11 +181,11 @@ void TextureCache::drawHint(MapObjects object, int size, SDL_Point posOnScreen,
     SDL_Rect textLocation = {posOnScreen.x, posOnScreen.y, 0, 0};
     Texture *texture = getText(text, size, &textLocation, textColor);
 
-    // draw hint background
+    // Render hint background
     SDL_Rect textBG = {textLocation.x-5,textLocation.y-5,textLocation.w+10,textLocation.h+10};
     renderFillRect(&textBG,bgColor);
 
-    // draw hint
+    // Render hint
     render(texture,&textLocation);
 
     // tidy up

@@ -4,13 +4,14 @@
 #include "selectorDialog.h"
 
 void SelectorDialog::createButtons() {
-    Point size = pGame->GetWindowSize();
-    int width = (int)(size.x*0.8);
-    int x = (int)(size.x*0.1);
-    SDL_Rect bRect{x, 100, width, 80};
+    buttons.clear();
+    int width = (int)(windowSize.x*0.8);
+    int x = (int)(windowSize.x*0.1);
+    Rect bRect{x, 100, width, 80};
     for (const auto &mapName: maps) {
         Button* nb = new Button();
         nb->set(mapName, 18, bRect);
+        cout << "create button" << mapName << endl;
         buttons.push_back(nb);
         bRect.y += 120;
     }
@@ -19,7 +20,6 @@ void SelectorDialog::createButtons() {
 void SelectorDialog::set(string path, string ending) {
     _path = std::move(path);
     _ending = std::move(ending);
-
     collectFiles();
     createButtons();
 }
@@ -29,10 +29,12 @@ std::string SelectorDialog::getSelectedFile() {
 }
 
 void SelectorDialog::collectFiles() {
+    maps.clear();
     int eSize = _ending.length();
     for (const auto &entry: std::filesystem::directory_iterator(_path)) {
-        std::string newPath = entry.path().c_str();
+        string newPath = entry.path().c_str();
         if (newPath.substr(newPath.length() - eSize, eSize) == _ending) {
+            cout << "map found: " << newPath.substr(8, newPath.length() - 12) << endl;
             maps.push_back(newPath.substr(8, newPath.length() - 12));
         }
     }

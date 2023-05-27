@@ -16,7 +16,7 @@ int TdTileHandler::TOOLCOUNT = 6;
 int TdTileHandler::OBJECTCOUNT = 9;
 
 
-Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
+Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, ul animate) {
     src = {0, 0, 64, 64};
     int localAnimate;
     switch (o) {
@@ -69,7 +69,7 @@ Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
     return &src;
 }
 
-Rect *TdTileHandler::getSrcRect(int o, long anim) {
+Rect *TdTileHandler::getSrcRect(int o, ul anim) {
     return getSrcRect(selectObject(o), anim);
 }
 

@@ -28,9 +28,9 @@ public:
     };
     static MapObjects selectObject(int i);
 
-    static Rect *getSrcRect(MapObjects o, long anim=0);
+    static Rect *getSrcRect(MapObjects o, ul anim=0);
 
-    static Rect *getSrcRect(int o, long anim=0);
+    static Rect *getSrcRect(int o, ul anim=0);
 
     static std::string getName(MapObjects objects);
 private:
