@@ -3,7 +3,6 @@
 //
 #include "editor.h"
 
-Game *pGame = nullptr;
 
 void Editor::Init() {
     GameState::Init();
