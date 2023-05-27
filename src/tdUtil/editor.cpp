@@ -41,9 +41,7 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     tool = {0, 0, 80, 80};
     symbol = {0, 0, 64, 64};
 
-    t_cache->setRenderColor(EDITOR_UI_BG);
-    SDL_RenderFillRect(render, &Toolbox);
-
+    t_cache->renderFillRect(&Toolbox,EDITOR_UI_BG);
     tool.x = 100;
     symbol.x = tool.x + 8;
     tool.y = windowSize.y - 90;
@@ -188,7 +186,7 @@ void Editor::MouseWheel(SDL_Event event) {
     scale += event.wheel.y;
     int posX,posY;
     SDL_GetMouseState(&posX, &posY);
-    offset.y += event.wheel.y / abs(event.wheel.y) * map.height / 2;
-    offset.x += event.wheel.y / abs(event.wheel.y) * map.width / 2;
+    offset.y += event.wheel.y / abs(event.wheel.y) * map._height / 2;
+    offset.x += event.wheel.y / abs(event.wheel.y) * map._width / 2;
 }
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(sdl_bachelorDefender)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter")     # baseclass functions have plenty unused parameters
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-attributes")   # clang does not know [[(un)likely]]
@@ -14,7 +14,7 @@ add_compile_options("$<$<CONFIG:DEBUG>:-D_DEBUG>")
 
 file(GLOB SOURCES src/* src/util/* src/util/gui/* src/tdUtil/* src/td/*)
 
-add_executable(sdl_bachelorDefender ${SOURCES} src/tdUtil/projectilesHandler.cpp src/tdUtil/projectilesHandler.h src/tdUtil/particlesHandler.cpp src/tdUtil/particlesHandler.h)
+add_executable(sdl_bachelorDefender ${SOURCES})
 
 include(FindPkgConfig)
 

@@ -134,7 +134,7 @@ int Game::Run()
 	SDL_assert( nextStateIdx >= 0 );
 
 	Duration deltaT = Duration::zero();
-	Duration deltaTNeeded = Duration::zero();   // How much time was really necessary
+	Duration deltaTNeeded = Duration::zero();   // How much _time was really necessary
 	TimePoint start;
 
 	while( IsRunning() )

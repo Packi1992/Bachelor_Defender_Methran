@@ -14,30 +14,47 @@ void TestTD::Init() {
 
 void TestTD::UnInit() {
     GameState::UnInit();
+    _eh.UnInit();
 }
 
-void TestTD::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
+void TestTD::Render(u32 frame,  u32 totalMSec, float deltaT) {
     t_cache->drawBackground(BG);
     _map.Render(true);
     _ph.Render(frame, totalMSec, deltaT);
     _prh.Render(frame, totalMSec, deltaT);
+    _eh.Render();
 }
 
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
+        // add projektiles and particles
         ProjectilesHandler::Projectile p;
         ParticlesHandler::Particles pa;
         p._type = Projectile::ARROW;
         p._direction = totalMSec % 360;
-        p._position = _map.getPosOnScreen({8, 4}) + offset;
+        p._position = Map::getPosOnScreen({8, 4}) + offset;
         p._speed = 60;
         _ph.add(p);
         pa._type = ParticlesHandler::Particles::FFIRE;
         pa._direction = totalMSec % 360;
-        pa._position = _map.getPosOnScreen({8, 4}) + offset;
+        pa._position = Map::getPosOnScreen({8, 4}) + offset;
         pa._speed = 60;
         pa._moveable = true;
         pa._ttl = 80;
         _prh.add(pa);
+        if(totalMSec%10==0){
+            // add enemy
+            static int y = 0;
+            Enemy e;
+            e.setEnemy(Map::getCenterOfPosInLogic({0,y++}),1000,100);
+            e._nextPos={0,y};
+            cout << "enemy will spawn at :{" << e._pos.x << ", " << e._pos.y <<"}" << endl;
+            _eh.addEnemy(e);
+            if(y==8)
+                y=0;
+        }
+
+
+        _eh.Update();
         _prh.move();
         _ph.move();
 }
@@ -87,8 +104,8 @@ void TestTD::MouseWheel(SDL_Event event) {
     scale += event.wheel.y;
     int posX,posY;
     SDL_GetMouseState(&posX, &posY);
-    offset.y += 2*event.wheel.y / abs(event.wheel.y) * _map.height / 2;
-    offset.x += 2*event.wheel.y / abs(event.wheel.y) * _map.width / 2;
+    offset.y += 2 * event.wheel.y / abs(event.wheel.y) * _map._height / 2;
+    offset.x += 2 * event.wheel.y / abs(event.wheel.y) * _map._width / 2;
 }
 
 void TestTD::keyDown(SDL_Event event) {

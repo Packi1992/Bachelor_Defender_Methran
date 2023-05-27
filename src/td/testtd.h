@@ -8,6 +8,7 @@
 #include "../tdUtil/tower.h"
 #include "../tdUtil/projectilesHandler.h"
 #include "../tdUtil/particlesHandler.h"
+#include "../tdUtil/enemyHandler.h"
 
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
@@ -15,9 +16,10 @@ using Projectile = ProjectilesHandler::Projectile;
 
 class TestTD final: public GameState{
 protected:
-    Enemy enemyArr[100];
+
     Map _map;
     Tower* towerArr[50];
+    EnemyHandler _eh;
     ProjectilesHandler _ph;
     ParticlesHandler _prh;
 
