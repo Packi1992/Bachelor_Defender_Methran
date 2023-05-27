@@ -16,18 +16,16 @@ class Editor;
 
 class Editor: public GameState{
 protected:
-    Texture *t_tile= nullptr;
+    Texture *t_tileMap= nullptr;
     Map map;
     bool mbDown=false;
     bool mouseScroll=false;
-    // viewport
-    Point offset={};
 
     // label hint
     bool isLabelActive=false;
     int labelTimer=0;
     Point labelPos={};
-    TdTileHandler::MapObjects labelObject;
+    MapObjects labelObject;
 
     // window handling
     Gui *focus= nullptr;
@@ -42,7 +40,7 @@ protected:
 
     // Tile SelectorDialog
     Rect Toolbox = {};
-    TdTileHandler::MapObjects selected=TdTileHandler::Empty;
+    MapObjects selected=TdTileHandler::Empty;
     void handleSelection(Event event);
 public:
 

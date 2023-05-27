@@ -84,10 +84,9 @@ void IntroState::Update( const u32 frame, const u32 totalMSec, const float delta
 
 void IntroState::Render( const u32 frame, const u32 totalMSec, const float deltaT )
 {
-    const Point & winSize = game.GetWindowSize();
-    updateBtnSize(winSize);
+    updateBtnSize();
     {
-        const Rect dst_rect { 0, 0, winSize.x, winSize.y };
+        const Rect dst_rect { 0, 0, windowSize.x, windowSize.y };
         SDL_RenderCopy( render, image, EntireRect, &dst_rect /* same result as EntireRect */ );
         btn_start.draw();
         btn_editor.draw();
@@ -95,10 +94,10 @@ void IntroState::Render( const u32 frame, const u32 totalMSec, const float delta
     }
 }
 
-void IntroState::updateBtnSize(const Point &size) {
-    int left = size.x / 10*2;
+void IntroState::updateBtnSize() {
+    int left = windowSize.x / 10*2;
     int width = left*3;
-    int top = size.y / 5*2;
+    int top = windowSize.y / 5*2;
     int height = top/3;
     btn_start.setSize({left,top,width,height});
     btn_editor.setSize({left, (int)(top+height*1.5),width, height});

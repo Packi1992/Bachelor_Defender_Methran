@@ -20,7 +20,7 @@ void Enemy::move() {
         // pos == nextPos? -> evaluate next step
         // pos and nextPos are positions on pixel level
 
-        // if nextPos is reached ... get new Pos from map
+        // if nextPos is reached ... get new Pos from pMap
 
         // else go next step .. for fluid movement
         // if slowTimer != 0 enemy is slowed ... animation and movement are slowed

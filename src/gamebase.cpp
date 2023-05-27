@@ -1,9 +1,15 @@
 #include "gamebase.h"
-TextureCache *t_cache = nullptr;
-Renderer *render = nullptr;
-Game *pGame = nullptr;
 
-Game::Game( const char * windowTitle, const Point windowSize, const bool vSync )
+// ini globals
+TextureCache *t_cache{};
+Renderer *render{};
+Game *pGame{};
+Map *pMap{};
+Point offset{};
+Point windowSize{};
+int scale = 64;
+
+Game::Game( const char * windowTitle, const Point wSize, const bool vSync )
 {
 	if( SDL_Init( SDL_INIT_EVERYTHING ) )
 	{
@@ -41,8 +47,8 @@ Game::Game( const char * windowTitle, const Point windowSize, const bool vSync )
 		windowTitle,
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		windowSize.x,
-		windowSize.y,
+		wSize.x,
+		wSize.y,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN );
 
 	if( window == nullptr )
@@ -64,7 +70,6 @@ Game::Game( const char * windowTitle, const Point windowSize, const bool vSync )
 		cerr << "Renderer could not be created: " << SDL_GetError() << endl;
 		exit( 5 );
 	}
-
     t_cache = TextureCache::getCache(render);
     if( t_cache == nullptr )
     {

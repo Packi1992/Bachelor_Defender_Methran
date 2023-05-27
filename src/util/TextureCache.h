@@ -41,13 +41,13 @@ public:
     void setRenderColor(Color color);
     void setRenderColor(t_color color);
 
-    // draw to Render functions
+    // Render to Render functions
     void drawBackground(t_color color);
     void render(Texture *t, Rect *dRect, Rect *sRect = nullptr) const;
     void render(Texture *t, Rect *dRect, u16 direction, Rect *sRect = nullptr) const;
     void drawHint(MapObjects object, int size, Point posOnScreen, t_color textColor=BLACK, t_color bgColor=WHITE);
 
-    // draw text to Screen
+    // Render text to Screen
     void drawText(char *string, int size, int x, int y, t_color fgC);
     void drawCenteredText(const string &text, int size, t_color fgc, int width, int height);
 

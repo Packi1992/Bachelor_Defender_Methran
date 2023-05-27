@@ -11,13 +11,13 @@
 
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
+using Projectile = ProjectilesHandler::Projectile;
 
 class TestTD final: public GameState{
 protected:
     Enemy enemyArr[100];
-    Map map;
+    Map _map;
     Tower* towerArr[50];
-    Point offset={-150,-100};
     ProjectilesHandler _ph;
     ParticlesHandler _prh;
 

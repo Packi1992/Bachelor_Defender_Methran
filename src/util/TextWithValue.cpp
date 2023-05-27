@@ -19,7 +19,7 @@ void TextWithValue::set(const string &Text, const int *valueField,
     texValue = t_cache->getNumber(value, size, color, &rectValue);
     if (centered) {
         int width = getWidth();
-        int x = pGame->GetWindowSize().x / 2 - width / 2;
+        int x = windowSize.x / 2 - width / 2;
         rectLabel.x = x;
         rectValue.x = rectLabel.w + x + 10;
     }
@@ -47,7 +47,7 @@ void TextWithValue::update() {
     texValue = t_cache->getNumber(value, size, color, &rectValue);
     if (centered) {
         int width = getWidth();
-        int x = pGame->GetWindowSize().x / 2 - width / 2;
+        int x = windowSize.x / 2 - width / 2;
         rectLabel.x = x;
         rectValue.x = rectLabel.w + x + 10;
     }
