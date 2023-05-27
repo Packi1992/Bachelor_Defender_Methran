@@ -61,7 +61,7 @@ void ParticlesHandler::move() {
 }
 
 void ParticlesHandler::moveFFire(ParticlesHandler::Particles *p) {
-    if(p->_ttl < 20)
+    if(p->_ttl < 30)
         p->_moveable = false;
     float speed = (float)p->_speed / 500.0f;
     float direction = (float)(p->_direction % 360) / 180.0f * M_PI;

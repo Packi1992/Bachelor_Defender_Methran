@@ -54,12 +54,13 @@ Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, long animate) {
             src.y = 128;
             break;
         case ARROW:
-            src.x = 128;
-            src.y = 128;
+            src.x = 0;
+            src.y = 320;
             break;
         case FFIRE:
-            src.x = 0;
-            src.y = 128;
+            localAnimate = (int)((animate / 4) % 2);
+            src.x = 64+(localAnimate* 64);
+            src.y = 320;
             break;
     }
     return &src;

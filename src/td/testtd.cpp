@@ -70,7 +70,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         pa._position = map.getPosOnScreen({8, 4}) + offset;
         pa._speed = 60;
         pa._moveable = true;
-        pa._ttl = 40;
+        pa._ttl = 80;
         _prh.add(pa);
         _prh.move();
 }
