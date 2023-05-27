@@ -188,7 +188,7 @@ void Editor::keyDown(SDL_Event event) {
 
 void Editor::MouseWheel(SDL_Event event) {
     map.scale += event.wheel.y;
-    int posX, posY;
+    int posX,posY;
     SDL_GetMouseState(&posX, &posY);
     offset.y += event.wheel.y / abs(event.wheel.y) * map.height / 2;
     offset.x += event.wheel.y / abs(event.wheel.y) * map.width / 2;

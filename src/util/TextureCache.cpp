@@ -196,6 +196,10 @@ void TextureCache::render(SDL_Texture *t, SDL_Rect *dRect, SDL_Rect *sRect) cons
     SDL_RenderCopy(renderer,t,sRect,dRect);
 }
 
+void TextureCache::render(SDL_Texture *t, SDL_Rect *dRect, uint16_t direction, SDL_Rect *sRect) const {
+    SDL_RenderCopyEx(renderer,t,sRect,dRect,-(double)direction - 180.0, nullptr, SDL_FLIP_NONE);
+}
+
 void TextureCache::drawBackground(t_color color) {
     setRenderColor(color);
     SDL_RenderClear(renderer);

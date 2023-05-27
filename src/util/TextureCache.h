@@ -43,6 +43,7 @@ public:
     void setRenderColor(t_color color);
 
     void render(Texture *t, Rect *dRect, Rect *sRect = nullptr) const;
+    void render(Texture *t, Rect *dRect, uint16_t direction, Rect *sRect = nullptr) const;
 
     // if no color dialog, preselected color will be used
     void renderFillRect(Rect *dst, t_color color=EMPTY);

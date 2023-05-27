@@ -14,7 +14,7 @@ add_compile_options("$<$<CONFIG:DEBUG>:-D_DEBUG>")
 
 file(GLOB SOURCES src/* src/util/* src/util/gui/* src/tdUtil/* src/td/*)
 
-add_executable(sdl_bachelorDefender ${SOURCES})
+add_executable(sdl_bachelorDefender ${SOURCES} src/tdUtil/projectilesHandler.cpp src/tdUtil/projectilesHandler.h src/tdUtil/particlesHandler.cpp src/tdUtil/particlesHandler.h)
 
 include(FindPkgConfig)
 
