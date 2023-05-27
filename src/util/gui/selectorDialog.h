@@ -23,6 +23,8 @@ public:
 
     ~SelectorDialog();
 
+    void reset();
+
 private:
     void collectFiles();
 

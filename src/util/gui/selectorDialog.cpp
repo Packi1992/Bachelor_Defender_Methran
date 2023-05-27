@@ -100,6 +100,10 @@ void SelectorDialog::tidyUp() {
     maps.clear();
 }
 
+void SelectorDialog::reset() {
+    fileSelected=false;
+}
+
 
 
 

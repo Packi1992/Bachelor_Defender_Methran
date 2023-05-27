@@ -14,39 +14,7 @@ void Editor::Init() {
     int yPos = wSize.y - 90;
     btn_load.set("Laden", 18, {5, yPos, 80, 80});
     btn_save.set("Speichern", 18, {wSize.x - 105, yPos, 100, 80});
-    btn_change_size.set("Größe ändern", 18, {btn_save.getX() - 135, yPos, 130, 80});
-}
-
-void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
-    if (focus == nullptr) {
-        SDL_Event event;
-        labelTimer++;
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_WINDOWEVENT:
-                    if (event.window.event == SDL_WINDOWEVENT_CLOSE)
-                        game.SetNextState(99);
-                    break;
-                case SDL_MOUSEBUTTONDOWN:
-                    MouseDown(event);
-                    break;
-                case SDL_MOUSEBUTTONUP:
-                    mbDown = false;
-                    if (event.button.button == SDL_BUTTON_RIGHT && mouseScroll)mouseScroll = false;
-                    break;
-                case SDL_MOUSEMOTION:
-                    MouseMotion(event);
-                    break;
-                case SDL_MOUSEWHEEL:
-                    MouseWheel(event);
-                    break;
-                case SDL_KEYDOWN:
-                    keyDown(event);
-            }
-        }
-    } else {
-        focus->Input();
-    }
+    //btn_change_size.set("Größe ändern", 18, {btn_save.getX() - 135, yPos, 130, 80});
 }
 
 void Editor::UnInit() {
@@ -57,9 +25,12 @@ void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     if (focus == nullptr) {
         if (mapSelector.isFileSelected()) {
             map.load(mapSelector.getSelectedFile());
+            mapSelector.reset();
         }
-        if (mapNameInput.isDone())
+        if (mapNameInput.isDone()) {
             map.save(mapNameInput.getInput());
+            mapNameInput.reset();
+        }
     }
 }
 
@@ -114,6 +85,38 @@ void Editor::handleSelection(Event event) {
     }
 }
 
+void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
+    if (focus == nullptr) {
+        SDL_Event event;
+        labelTimer++;
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_WINDOWEVENT:
+                    if (event.window.event == SDL_WINDOWEVENT_CLOSE)
+                        game.SetNextState(99);
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    MouseDown(event);
+                    break;
+                case SDL_MOUSEBUTTONUP:
+                    mbDown = false;
+                    if (event.button.button == SDL_BUTTON_RIGHT && mouseScroll)mouseScroll = false;
+                    break;
+                case SDL_MOUSEMOTION:
+                    MouseMotion(event);
+                    break;
+                case SDL_MOUSEWHEEL:
+                    MouseWheel(event);
+                    break;
+                case SDL_KEYDOWN:
+                    keyDown(event);
+            }
+        }
+    } else {
+        focus->Input();
+    }
+}
+
 void Editor::MouseDown(SDL_Event event) {
     if (event.button.button == SDL_BUTTON_LEFT) {
         if (event.motion.y < (Toolbox.y))mbDown = true;
@@ -130,7 +133,7 @@ void Editor::MouseDown(SDL_Event event) {
                 mapSelector.set( "../Maps/", ".map");
                 mapSelector.show(&focus);
             }
-            //else if (btn_change_size.clicked(event))map.showSizeDialog();
+                //else if (btn_change_size.clicked(event))map.showSizeDialog();
             else handleSelection(event);
         }
     } else if (event.button.button == SDL_BUTTON_RIGHT) {
@@ -156,7 +159,7 @@ void Editor::MouseMotion(SDL_Event event) {
         }
     }
     btn_load.entered(event);
-    btn_change_size.entered(event);
+    //btn_change_size.entered(event);
     btn_save.entered(event);
 }
 
