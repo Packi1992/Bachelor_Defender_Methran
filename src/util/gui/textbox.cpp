@@ -66,7 +66,7 @@ void TextBox::Render() {
     }
 }
 
-bool TextBox::fieldSelected(SDL_Event event) {
+bool TextBox::fieldSelected(Event event) {
     bool right = event.motion.x > _rInputField.x;
     bool left = event.motion.x < _rInputField.x + _rInputField.w;
     bool over = event.motion.y < _rInputField.y + _rInputField.h;
@@ -75,6 +75,7 @@ bool TextBox::fieldSelected(SDL_Event event) {
         blink = 0;
         return true;
     }
+    return false;
 }
 
 void TextBox::Input() {
