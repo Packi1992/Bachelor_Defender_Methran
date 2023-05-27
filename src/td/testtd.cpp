@@ -5,6 +5,7 @@
 
 void TestTD::Init() {
     GameState::Init();
+    pGame = &game;
     map.set(&offset);
     _ph.set(&map);
     _prh.set(&map);

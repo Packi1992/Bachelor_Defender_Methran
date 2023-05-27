@@ -1,6 +1,7 @@
 #include "gamebase.h"
 TextureCache *t_cache = nullptr;
 Renderer *render = nullptr;
+Game *pGame = nullptr;
 
 Game::Game( const char * windowTitle, const Point windowSize, const bool vSync )
 {
