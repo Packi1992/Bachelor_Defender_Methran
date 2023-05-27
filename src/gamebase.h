@@ -5,13 +5,16 @@ class Game;
 #include "global.h"
 #include "recthelper.h"
 #include "util/TextureCache.h"
-#include "util/gui.h"
-#include "util/Button.h"
+#include "util/gui/gui.h"
+#include "util/gui/Button.h"
 
 
 extern Renderer *render;
 extern TextureCache *t_cache;
+
+
 class Game;
+extern Game *pGame;
 class GameState;
 
 class Game

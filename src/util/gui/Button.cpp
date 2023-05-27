@@ -60,7 +60,7 @@ void Button::set(const std::string &label, int nSize, SDL_Rect nRect, t_color bt
     this->size = nSize;
     strcpy(textArr, label.c_str());
     this->rect = nRect;
-    this->buttonColor = t_cache->getSDL_Color(btnColor);
+    this->buttonColor = t_cache->getColor(btnColor);
     setHighlightedColor(&btnColor);
     this->text = t_cache->getText(textArr, size, {0, 0, 0, 255});
     SDL_QueryTexture(this->text, nullptr, nullptr, &tRect.w, &tRect.h);
@@ -88,7 +88,7 @@ void Button::setHighlightedColor(t_color* high_color) {
         this->highlightedColor.a = c.a;
     }
     else{
-        c = t_cache->getSDL_Color(*high_color);
+        c = t_cache->getColor(*high_color);
         this->highlightedColor = c;
     }
 }

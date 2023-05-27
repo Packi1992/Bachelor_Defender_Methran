@@ -165,11 +165,13 @@ void TextureCache::setRenderColor(SDL_Color color) {
 }
 
 void TextureCache::setRenderColor(t_color color) {
-    setRenderColor(getSDL_Color(color));
+    setRenderColor(getColor(color));
 }
 
-SDL_Color TextureCache::getSDL_Color(t_color color) {
+SDL_Color TextureCache::getColor(t_color color) {
     switch(color){
+        case EMPTY:
+            cerr << "ERROR EMPTY Color should not be converted to actual color -> Black will be dialog to show you"<< endl;
         case MAP_GRID:
         case BLACK:
             return {0,0,0,255};
@@ -187,7 +189,7 @@ SDL_Color TextureCache::getSDL_Color(t_color color) {
 }
 
 SDL_Texture *TextureCache::getText(const char *string, int size, t_color TextColor, SDL_Rect *sRect) {
-    return getText(string,size, getSDL_Color(TextColor),sRect);
+    return getText(string, size, getColor(TextColor), sRect);
 }
 
 void TextureCache::render(SDL_Texture *t, SDL_Rect *dRect, SDL_Rect *sRect) const {
@@ -209,8 +211,8 @@ void TextureCache::drawHint(TdTileHandler::MapObjects object, int size, SDL_Poin
     SDL_Surface *surface;
     char text[30];
     strcpy(text, TdTileHandler::getName(object).c_str());
-    drawText(text,size,posOnScreen.x,posOnScreen.y,getSDL_Color(textColor));
-    surface = TTF_RenderUTF8_Blended(font, text, getSDL_Color(textColor));
+    drawText(text, size, posOnScreen.x, posOnScreen.y, getColor(textColor));
+    surface = TTF_RenderUTF8_Blended(font, text, getColor(textColor));
     SDL_Texture *texture;
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_Rect textLocation = {posOnScreen.x, posOnScreen.y, 0, 0};
@@ -222,6 +224,28 @@ void TextureCache::drawHint(TdTileHandler::MapObjects object, int size, SDL_Poin
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
     TTF_CloseFont(font);
+}
+
+void TextureCache::renderFillRect(Rect *dst, t_color color) {
+    if(color != EMPTY)
+        setRenderColor(color);
+    SDL_RenderFillRect(renderer,dst);
+}
+
+void TextureCache::renderRect(Rect *dst, u8 strokeThickness , t_color color) {
+    if(color != EMPTY)
+        setRenderColor(color);
+    for(u8 i= 0 ; i<strokeThickness; i++){
+        SDL_RenderDrawRect(renderer,dst);
+        dst->x++;
+        dst->y++;
+        dst->h -=2;
+        dst->w -=2;
+    }
+    dst->x -=strokeThickness;
+    dst->y -=strokeThickness;
+    dst->h +=2*strokeThickness;
+    dst->w +=2*strokeThickness;
 }
 
 

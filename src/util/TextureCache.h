@@ -10,6 +10,7 @@
 
 //  specific Colors to make things easier regarding drawing colors
 enum t_color {
+    EMPTY,
     BLACK,
     WHITE,
     BTN_COLOR,
@@ -33,7 +34,7 @@ public:
 
     Texture *getText(const char *string, int size, t_color TextColor, Rect *sRect = nullptr);
 
-    static Color getSDL_Color(t_color color);
+    static Color getColor(t_color color);
 
     Texture *getNumber(int Number, int size, Color fgC, Rect *sRect = nullptr);
 
@@ -42,6 +43,11 @@ public:
     void setRenderColor(t_color color);
 
     void render(Texture *t, Rect *dRect, Rect *sRect = nullptr) const;
+
+    // if no color dialog, preselected color will be used
+    void renderFillRect(Rect *dst, t_color color=EMPTY);
+    // if no color dialog, preselected color will be used
+    void renderRect(Rect *dst, u8 strokeThickness=1 ,t_color color=EMPTY);
 
     TextureCache(TextureCache &other) = delete;
 

@@ -5,7 +5,7 @@
 #ifndef JUMPNRUN_BUTTON_H
 #define JUMPNRUN_BUTTON_H
 class Button;
-#include "../gamebase.h"
+#include "../../gamebase.h"
 
 
 class Button {

@@ -3,22 +3,23 @@
 //
 #include "editor.h"
 
+Game *pGame = nullptr;
+
 void Editor::Init() {
     GameState::Init();
+    pGame = &game;
     map.set(&offset);
     t_tile = t_cache->getTexture("../asset/graphic/td/tileTD.png");
     Point wSize = game.GetWindowSize();
     Toolbox = {0, wSize.y - 100, wSize.x, 100};
-    int yPos = wSize.y - 90
-
-            ;
-    btn_load.set( "Laden", 18, {5, yPos, 80, 80});
-    btn_save.set( "Speichern", 18, {wSize.x- 105, yPos, 100, 80});
-    btn_change_size.set("Größe ändern", 18, {btn_save.getX()-135, yPos, 130, 80});
+    int yPos = wSize.y - 90;
+    btn_load.set("Laden", 18, {5, yPos, 80, 80});
+    btn_save.set("Speichern", 18, {wSize.x - 105, yPos, 100, 80});
+    btn_change_size.set("Größe ändern", 18, {btn_save.getX() - 135, yPos, 130, 80});
 }
 
 void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
-    if(focus == nullptr) {
+    if (focus == nullptr) {
         SDL_Event event;
         labelTimer++;
         while (SDL_PollEvent(&event)) {
@@ -44,8 +45,7 @@ void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
                     keyDown(event);
             }
         }
-    }
-    else{
+    } else {
         focus->Input();
     }
 }
@@ -55,17 +55,21 @@ void Editor::UnInit() {
 }
 
 void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
-    if(mapSelector.isFileSelected()){
-        map.load(mapSelector.getSelectedFile());
+    if (focus == nullptr) {
+        if (mapSelector.isFileSelected()) {
+            map.load(mapSelector.getSelectedFile());
+        }
+        if (mapNameInput.isDone())
+            map.save(mapNameInput.getInput());
     }
 }
 
 void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     t_cache->drawBackground(BG);
-    // draw maps
-    map.draw(false);
-    // now draw ui
-    Rect tool,symbol;
+    // Render maps
+    map.draw(true);
+    // now Render ui
+    Rect tool, symbol;
     tool = {0, 0, 80, 80};
     symbol = {0, 0, 64, 64};
     Point wSize = game.GetWindowSize();
@@ -78,12 +82,11 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     tool.y = wSize.y - 90;
     symbol.y = tool.y + 8;
     for (int i = 0; i < TdTileHandler::TOOLCOUNT; i++) {
-        t_cache->setRenderColor(WHITE);
-        SDL_RenderFillRect(render, &tool);
+        t_cache->renderFillRect(&tool,WHITE);
         t_cache->render(t_tile, &symbol, TdTileHandler::getSrcRect(i, map.getMapTime()));
         if (this->selected == i) {
-            SDL_SetRenderDrawColor(render, 0, 0, rainbowColor, 255);
-            SDL_RenderDrawRect(render, &tool);
+            t_cache->setRenderColor({ 0, 0, (u8)rainbowColor, 255});
+            t_cache->renderRect(&tool,5);
             rainbowColor += 10;
         }
         tool.x += 90;
@@ -94,8 +97,9 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     }
     btn_save.draw();
     btn_load.draw();
-    btn_change_size.draw();
+    //btn_change_size.draw();
     mapSelector.Render();
+    mapNameInput.Render();
 }
 
 void Editor::handleSelection(Event event) {
@@ -111,20 +115,6 @@ void Editor::handleSelection(Event event) {
     }
 }
 
-void Editor::save() {
-    std::string returnTxt;
-    NameInputDialog nid;
-    nid.set(game.GetWindowSize(),"neueMap",50,&returnTxt);
-    if(nid.show())
-        map.save(returnTxt);
-}
-
-void Editor::load() {
-    mapSelector.set(game.GetWindowSize(),"../Maps/",".map");
-    mapSelector.show(&focus);
-    focus = &mapSelector;
-}
-
 void Editor::MouseDown(SDL_Event event) {
     if (event.button.button == SDL_BUTTON_LEFT) {
         if (event.motion.y < (Toolbox.y))mbDown = true;
@@ -133,9 +123,15 @@ void Editor::MouseDown(SDL_Event event) {
             labelObject = selected;
             labelPos = {event.motion.x, event.motion.y - 30};
         } else {
-            if (btn_save.clicked(event))save();
-            else if (btn_load.clicked(event))load();
-            else if (btn_change_size.clicked(event))map.showSizeDialog();
+            if (btn_save.clicked(event)){
+                mapNameInput.set("Gib einen Mapnamen ein","Name","neueMap");
+                mapNameInput.show(&focus);
+            }
+            else if (btn_load.clicked(event)){
+                mapSelector.set( "../Maps/", ".map");
+                mapSelector.show(&focus);
+            }
+            //else if (btn_change_size.clicked(event))map.showSizeDialog();
             else handleSelection(event);
         }
     } else if (event.button.button == SDL_BUTTON_RIGHT) {
@@ -192,7 +188,7 @@ void Editor::keyDown(SDL_Event event) {
 
 void Editor::MouseWheel(SDL_Event event) {
     map.scale += event.wheel.y;
-    int posX,posY;
+    int posX, posY;
     SDL_GetMouseState(&posX, &posY);
     offset.y += event.wheel.y / abs(event.wheel.y) * map.height / 2;
     offset.x += event.wheel.y / abs(event.wheel.y) * map.width / 2;

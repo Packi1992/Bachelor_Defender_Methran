@@ -4,8 +4,8 @@
 
 #include "enemy.h"
 
-void Enemy::draw() {
-        // draw enemy on pos with angle
+void Enemy::Render() {
+        // Render enemy on pos with angle
         // (status like slowed maybe burning or poisoned in future)
 }
 
