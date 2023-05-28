@@ -4,8 +4,20 @@
     <Filter Include="src">
       <UniqueIdentifier>{e056440c-c3f6-4fef-996b-1c7f8de4e40a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\example">
+    <Filter Include="src\util">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\gui">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\tdutil">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\td">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Maps">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef43}</UniqueIdentifier>
     </Filter>
     <Filter Include="asset">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -21,6 +33,10 @@
     </Filter>
     <Filter Include="asset\graphic">
       <UniqueIdentifier>{323dc01d-da22-4f6e-92ef-39a77497c4d7}</UniqueIdentifier>
+      <Extensions>png</Extensions>
+    </Filter>
+    <Filter Include="asset\graphic\td">
+      <UniqueIdentifier>{323dc01d-da22-4f6e-92ef-39a77497c4d8}</UniqueIdentifier>
       <Extensions>png</Extensions>
     </Filter>
   </ItemGroup>
