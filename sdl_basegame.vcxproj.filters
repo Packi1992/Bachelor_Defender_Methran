@@ -41,74 +41,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\bddgame.cpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gamebase.cpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\introstate.cpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\recthelper.cpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\td\test_tower.cpp">
-      <Filter>src\td</Filter>
-    </ClInclude>
-    <ClInclude Include="src\td\testtd.cpp">
-      <Filter>src\td</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\editor.cpp">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\enemy.cpp">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\enemyHandler.cpp">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\map.cpp">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\particlesHandler.cpp">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\projectilesHandler.cpp">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\tdTileHandler.cpp">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\tower.cpp">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\TextureCache.cpp">
-      <Filter>src\util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\TextWithValue.cpp">
-      <Filter>src\util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\gui\Button.cpp">
-      <Filter>src\util\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\gui\gui.cpp">
-      <Filter>src\util\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\gui\inputDialog.cpp">
-      <Filter>src\util\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\gui\selectorDialog.cpp">
-      <Filter>src\util\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\gui\textbox.cpp">
-      <Filter>src\util\gui</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="src\bddgame.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -187,6 +119,14 @@
     <None Include="README.md" />
     <None Include="LICENSE" />
     <None Include="classdiagram.drawio" />
+    <None Include=".gitignore" />
+    <None Include="asset\graphic\td\tileTD.xcf">
+      <Filter>asset\graphic\td</Filter>
+    </None>
+    <None Include="old_README.md" />
+    <None Include="asset\graphic\Unbenannt.xcf">
+      <Filter>asset\graphic</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="asset\graphic\background.png">
@@ -222,19 +162,13 @@
     <Image Include="asset\graphic\poison.png">
       <Filter>asset\graphic</Filter>
     </Image>
-    <Image Include="asset\graphic\tf-tileSet.png">
-      <Filter>asset\graphic</Filter>
-    </Image>
-    <Image Include="asset\graphic\Unbenannt.xcf">
-      <Filter>asset\graphic</Filter>
-    </Image>
     <Image Include="asset\graphic\td\tileTD.png">
       <Filter>asset\graphic\td</Filter>
     </Image>
-    <Image Include="asset\graphic\td\tileTD.xcf">
-      <Filter>asset\graphic\td</Filter>
-    </Image>
     <Image Include="classdiagram.png" />
+    <Image Include="asset\graphic\tf_tileSet.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="asset\font\MonkeyIsland-1991-refined.ttf">
@@ -243,5 +177,73 @@
     <Font Include="asset\font\RobotoSlab-Bold.ttf">
       <Filter>asset\font</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\bddgame.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamebase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\introstate.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\test_tower.cpp">
+      <Filter>src\td</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\testtd.cpp">
+      <Filter>src\td</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\editor.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\enemy.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\enemyHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\map.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\particlesHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\projectilesHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\tdTileHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\tower.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\TextureCache.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\TextWithValue.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\Button.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\gui.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\inputDialog.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\selectorDialog.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\textbox.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
 </Project>
