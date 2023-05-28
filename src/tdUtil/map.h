@@ -20,8 +20,10 @@ public:
     void save(const string &path = "../Maps/neueMap");
 
     static Point getPosOnScreen(Point p);
-    static Point getCenterOfPosInLogic(Point p);
+    static FPoint getPrecisePosOnScreen(FPoint &fp);
+    static FPoint getPreciseCenterOfPos(Point &p);
     Point getNextPos(Point p);
+    Point getNextPos(FPoint p);
 
     void setTile(Event event, MapObjects object);
     MapObjects getObjectAtScreenPos(Point p);

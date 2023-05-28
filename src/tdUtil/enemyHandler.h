@@ -19,6 +19,7 @@ public:
 protected:
     Rect srcRect{};
     Rect dstRect{};
+    FPoint precisePosOnScreen{};
     int overflow=0;
     void updateSrcRect(Enemy &e);
     void updateDstRect(Enemy &enemy);

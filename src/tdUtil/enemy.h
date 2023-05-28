@@ -45,13 +45,16 @@ public:
     [[nodiscard]] bool isSlowed() const;
 
     EnemyType _type = Ordinary;
-    Point _pos = {};
+
     // logical pixel pos
     u16 _dir = 0;
     bool _alive = false;
     u16 _health = 0;
-// direction where the enemy is heading
-Point _nextPos{};
+    u16 _maxHealth = 0;
+    // target where the enemy is heading
+    Point _nextPos{};
+    // precise position
+    FPoint _pos = {};
 protected:
     void startDeathAnimation();
 
@@ -64,6 +67,8 @@ protected:
     u8 _poisenTimer = 0;
     u8 _poisenStrength = 0;
     u16 _slowTimer = 0;
+
+    void updateDir();
 };
 
 

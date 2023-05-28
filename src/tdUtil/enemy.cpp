@@ -5,55 +5,32 @@
 #include "enemy.h"
 
 void Enemy::Update() {
-    if (_stunTime != 0) {
+    if (_stunTime > 0) {
         _stunTime > pMap->getMapTimeDiff() ? _stunTime -= pMap->getMapTimeDiff() : _stunTime = 0;
     } else {
         // move ...
-        Point target = Map::getCenterOfPosInLogic(_nextPos);// getTargetPos
+        updateDir();
+        FPoint target = Map::getPreciseCenterOfPos(_nextPos);// getTargetPos
         if (_pos.x == target.x && _pos.y == target.y) {
             // updated Target if reached
             _nextPos = pMap->getNextPos(_nextPos);
-            target = Map::getCenterOfPosInLogic(_nextPos);// getTargetPos
-            Point diff = target - _nextPos;
-            /*if (diff.x == 1)
-                _dir = 90;
-            if (diff.x == -1)
-                _dir = 270;
-            if (diff.y == 1)
-                _dir = 0;
-            if (diff.y == -1)
-                _dir = 180;*/
-            _dir = 90;
         } else {
             // actually move
-            int runLength = pMap->getMapTimeDiff()*100 * _speed * scale;
-            if(runLength == 0)
-                runLength=10;
+            float runLength = (float) pMap->getMapTimeDiff() * 100 * (float) _speed;
+            if (runLength == 0)
+                runLength = 0.05;
             if (_slowTimer > 0) {
                 _slowTimer -= pMap->getMapTimeDiff();
-                runLength = (int)((double)runLength*(_speedDiff / 10.0));
-
+                runLength = (float) ((double) runLength * (_speedDiff / 10.0));
             }
-            if (_dir == 0) {
-                _pos.y -= runLength;
-                if (_pos.y < target.y)
-                    _pos.y = target.y;
-            }
-            if (_dir == 90) {
-                _pos.x +=  runLength;
-                if (_pos.x > target.x)
-                    _pos.x = target.x;
-            }
-            if (_dir == 180) {
-                _pos.y +=  runLength;
-                if (_pos.y > target.y)
-                    _pos.y = target.y;
-            }
-            if (_dir == 270) {
-                _pos.x -= runLength;
-                if (_pos.x < target.x)
-                    _pos.x = target.x;
-            }
+            if (_dir == 0)
+                _pos.y = (_pos.y + runLength) - target.y > 0 ? _pos.y -= runLength : _pos.y = target.y;
+            if (_dir == 90)
+                _pos.x = target.x - (_pos.x + runLength) > 0 ? _pos.x += runLength : _pos.x = target.x;
+            if (_dir == 180)
+                _pos.y = target.y - (_pos.y + runLength) > 0 ? _pos.y += runLength : _pos.y = target.y;
+            if (_dir == 270)
+                _pos.x = (_pos.x + runLength) - target.x > 0 ? _pos.x += runLength : _pos.x = target.x;
         }
     }
 }
@@ -73,8 +50,12 @@ void Enemy::stun(uint16_t time) {
 }
 
 void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, EnemyType type) {
-    _pos = pos;
+    _pos.x = (float) pos.x + 0.5f;
+    _pos.y = (float) pos.y + 0.5f;
+    _nextPos = pMap->getNextPos(_pos);
+    updateDir();
     _health = health;
+    _maxHealth = health;
     _speed = speed;
     _type = type;
     _alive = true;
@@ -103,6 +84,24 @@ bool Enemy::isPoisend() const {
 
 bool Enemy::isSlowed() const {
     return _slowTimer > 0;
+}
+
+void Enemy::updateDir() {
+    FPoint target = Map::getPreciseCenterOfPos(_nextPos);
+    if (target == _pos)
+        return;
+    if (target.x == _pos.x) { // up or down
+        if (target.y > _pos.y)
+            _dir = 180;
+        else
+            _dir = 0;
+    } else if (target.y == _pos.y) {// left or right
+        if (target.x > _pos.x)
+            _dir = 90;
+        else
+            _dir = 270;
+    }
+
 }
 
 

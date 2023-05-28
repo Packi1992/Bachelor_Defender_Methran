@@ -41,19 +41,15 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         pa._moveable = true;
         pa._ttl = 80;
         _prh.add(pa);
-        if(totalMSec%10==0){
-            // add enemy
-            static int y = 0;
-            Enemy e;
-            e.setEnemy(Map::getCenterOfPosInLogic({0,y++}),1000,100);
-            e._nextPos={0,y};
-            cout << "enemy will spawn at :{" << e._pos.x << ", " << e._pos.y <<"}" << endl;
-            _eh.addEnemy(e);
-            if(y==8)
-                y=0;
-        }
 
-
+        // add enemy
+        static int y = 0;
+        Enemy e;
+        e.setEnemy({y%2, y}, 1000, 100);
+        _eh.addEnemy(e);
+        y++;
+        if(y==8)
+            y=0;
         _eh.Update();
         _prh.move();
         _ph.move();

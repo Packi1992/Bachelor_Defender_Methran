@@ -173,13 +173,6 @@ void Map::iniOffset() const {
         offset.y = -(windowSize.y - _height * scale - 100) / 2;
 }
 
-Point Map::getCenterOfPosInLogic(Point p) {
-    int x = (int) (((p.x + 0.5) * scale) / 2.0);
-    int y = (int) (((p.y + 0.5) * scale) / 2.0);
-    Point POS = {x, y};
-    return POS;
-}
-
 void Map::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     _deltaTime = deltaT;
     _time = totalMSec;
@@ -191,14 +184,29 @@ void Map::updatePathFinding() {
     // enemies will head right
     for (int j = 0; j < _height; j++) {
         for (int i = 0; i < _width; i++) {
-            _pathMap[i][j] = {i+1,j};
+            _pathMap[i][j] = {i + 1, j};
         }
     }
 
 }
 
 Point Map::getNextPos(Point p) {
-    return {p.x+1,p.y};
+    return {p.x + 1, p.y};
     //return _pathMap[p.x][p.y];
-
 }
+Point Map::getNextPos(FPoint p) {
+    Point res;
+    res.x = (int) p.x + 1;
+    res.y = (int) p.y;
+    return res;
+}
+
+FPoint Map::getPrecisePosOnScreen(FPoint &fp) {
+    return {fp.x * (float) scale - (float) offset.x,fp.y * (float) scale - (float) offset.y};
+}
+
+FPoint Map::getPreciseCenterOfPos(Point &p) {
+    return { (float)p.x + 0.5f,(float) p.y + 0.5f};
+}
+
+

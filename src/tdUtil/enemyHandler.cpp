@@ -14,14 +14,16 @@ void EnemyHandler::Render() {
             updateDstRect(_enemies[i]);
             if (onScreen()){
                 updateSrcRect(_enemies[i]);
-                t_cache->render(_texture, &dstRect, _enemies[i]._dir+180, &srcRect);
+                t_cache->renderRect(&dstRect,BLACK);
+                //t_cache->render(_texture, &dstRect, _enemies[i]._dir+180, &srcRect);
+                t_cache->render(_texture,&dstRect,&srcRect);
             }
-
         }
     }
 }
 
 bool EnemyHandler::onScreen() const {
+    //cout << "dstRect -> " << dstRect.x << " " << dstRect.y << endl;
     return (dstRect.x + dstRect.w > 0) &&        // left
            (dstRect.y + dstRect.h > 0) &&        // top
            (dstRect.y < windowSize.y) &&        // bot
@@ -43,11 +45,12 @@ void EnemyHandler::updateSrcRect(Enemy &e) {
 }
 
 void EnemyHandler::updateDstRect(Enemy &enemy) {
-    Point posOnScreen = enemy._pos;
-    dstRect.x = posOnScreen.x-offset.x-scale/2;
-    dstRect.y = posOnScreen.y-offset.y-(scale);
     dstRect.w = scale;
-    dstRect.h = 2 * scale;
+    dstRect.h = scale + scale;
+    precisePosOnScreen = Map::getPrecisePosOnScreen(enemy._pos);
+    dstRect.x = (int)(precisePosOnScreen.x-dstRect.w/2.0);
+    dstRect.y = (int)(precisePosOnScreen.y-dstRect.h*0.8);
+
 }
 
 void EnemyHandler::Update() {
@@ -69,14 +72,12 @@ void EnemyHandler::addEnemy(Enemy e) {
         if (!_enemies[i]._alive) {
             _enemies[i] = e;
             _enemies[i]._alive = true;
-            cout << "enemy added" << endl;
             return;
 
         }
     }
     if (overflow >= MAXENEMIES)
         overflow = 0;
-    cout << "Overflow! enemy added anyway" << endl;
     _enemies[overflow] = e;
     _enemies[overflow++]._alive = true;
 }
