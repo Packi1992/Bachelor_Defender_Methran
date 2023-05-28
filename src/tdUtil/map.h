@@ -35,7 +35,7 @@ public:
     int _width = 40;
     int _height = 20;
 
-    ulong getMapTimeDiff();
+    unsigned long getMapTimeDiff();
 
 private:
     Texture *_tileMap={};

@@ -13,11 +13,11 @@ Map::Map() {
     updatePathFinding();
 }
 
-u_long Map::getMapTime() const {
+unsigned long Map::getMapTime() const {
     return _time;
 }
 
-ulong Map::getMapTimeDiff() {
+unsigned long Map::getMapTimeDiff() {
     return _deltaTime;
 }
 
@@ -156,7 +156,7 @@ void Map::resizeMap() {
 }
 
 void Map::loadRow(string line) {
-    ulong token = line.find(';');
+    unsigned long token = line.find(';');
     int row = (int) strtol(line.substr(4, token).c_str(), nullptr, 10);
     for (int i = 0; i < _width; i++) {
         line.erase(0, token + 1);
