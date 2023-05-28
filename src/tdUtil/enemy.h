@@ -7,7 +7,7 @@
 #include "tdTileHandler.h"
 #include "map.h"
 
-enum EnemyType{
+enum EnemyType {
     Ordinary,
     Fast,
     Silly,
@@ -17,49 +17,58 @@ enum EnemyType{
 
 class Enemy {
 public:
-    Enemy()= default;
-    // Render enemy on pMap -> show status effects?
-    void Render();
+    Enemy() = default;
 
     // move enemy -> status effects will impact here
-    void move();
-
-    // indicates, if enemy is alive --> dead enemies are empty spots for new enemies
-    bool isAlive();
+    void Update();
 
     // use Enemy slot for new enemy spawn
-    void setEnemy(Game *game,Map* map, Point pos, uint16_t Health, uint8_t speed,EnemyType type=Ordinary);
+    void setEnemy(Point pos, uint16_t Health, uint8_t speed, EnemyType type = Ordinary);
 
     // setTile enemy speed -- maybe a buff or something else
     void setSpeed(uint8_t speed);
 
-    // add slow effect for specific amount of time in ms
+    // add slow effect for specific amount of _time in ms
     void setSlow(uint8_t speedDiff, uint16_t time);
 
-    // stun time in ms / enemy will not move
+    // stun _time in ms / enemy will not move
     void stun(uint16_t time);
 
     // take damage
     bool takeDamage(uint16_t damage);
 
+    // status effects for Render decoration
+    [[nodiscard]] bool isStunned() const;
+
+    [[nodiscard]] bool isPoisend() const;
+
+    [[nodiscard]] bool isSlowed() const;
+
+    EnemyType _type = Ordinary;
+
+    // logical pixel pos
+    u16 _dir = 0;
+    bool _alive = false;
+    u16 _health = 0;
+    u16 _maxHealth = 0;
+    // target where the enemy is heading
+    Point _nextPos{};
+    // precise position
+    FPoint _pos = {};
 protected:
     void startDeathAnimation();
-    bool _alive=false;
-    uint16_t _dying=false;
-    Point _pos={};
-    std::uint16_t _dir=0;
-    Point _nextPos{};
 
-    Game *_pGame={};
-    Map *_pMap={};
+    u16 _dying = false;
+    //pos on _map
 
-    ulong _lastMapTime = 0;
-    std::uint16_t _stunTime = 0;
-    std::uint16_t _health = 0;
-    std::uint8_t _speed = 0;
-    std::uint8_t _speedDiff = 0;
-    std::uint16_t _slowTimer =0;
-    EnemyType _type=Ordinary;
+    u16 _stunTime = 0;
+    u8 _speed = 0;
+    u8 _speedDiff = 0;
+    u8 _poisenTimer = 0;
+    u8 _poisenStrength = 0;
+    u16 _slowTimer = 0;
+
+    void updateDir();
 };
 
 

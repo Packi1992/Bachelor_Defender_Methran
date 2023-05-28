@@ -4,7 +4,7 @@
 
 #ifndef SDL_BACHELORDEFENDER_TEST_TOWER_H
 #define SDL_BACHELORDEFENDER_TEST_TOWER_H
-#include "../BDDefender/tdUtil/tower.h"
+#include "../tdUtil/tower.h"
 
 class Test_Tower: public Tower{
 

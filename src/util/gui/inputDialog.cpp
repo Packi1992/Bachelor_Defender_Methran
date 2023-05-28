@@ -2,9 +2,8 @@
 // Created by banoodle on 24.05.23.
 //
 #include "inputDialog.h"
-
 #include <utility>
-#include "../../tdUtil/editor.h"
+
 
 void InputDialog::set(string title, const string &fieldName, string inputIniVal, int buffSize) {
     _buffSize = buffSize;
@@ -16,7 +15,7 @@ void InputDialog::set(string title, const string &fieldName, string inputIniVal,
 }
 
 void InputDialog::iniValues() {
-    _textBox.setText("neueMap");
+    _textBox.setText("");
 }
 
 void InputDialog::iniUI(const string &fieldName) {

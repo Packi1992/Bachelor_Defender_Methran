@@ -7,7 +7,7 @@
 #include "../global.h"
 #include "../gamebase.h"
 #include "../tdUtil/enemy.h"
-#define MAXPARTICLES 1000
+#define MAXPARTICLES 10000
 class ParticlesHandler {
 public:
     struct Particles {

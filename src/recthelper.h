@@ -15,6 +15,8 @@ constexpr SDL_Point   operator*  (const SDL_Point lhs, const SDL_Point rhs) { re
 constexpr SDL_Point   operator/  (const SDL_Point lhs, const SDL_Point rhs) { return { lhs.x / rhs.x, lhs.y / rhs.y }; }
 constexpr SDL_Point&  operator+= (SDL_Point& lhs, const SDL_Point rhs) { lhs = lhs + rhs; return lhs; }
 constexpr SDL_Point&  operator-= (SDL_Point& lhs, const SDL_Point rhs) { lhs = lhs - rhs; return lhs; }
+constexpr bool        operator== (SDL_Point& lhs, const SDL_Point rhs) { return lhs.x == rhs.x && lhs.y == rhs.y; }
+constexpr bool        operator== (SDL_FPoint& lhs, const SDL_FPoint rhs) { return lhs.x == rhs.x && lhs.y == rhs.y;}
 
 constexpr SDL_Point   operator*  (const SDL_Point lhs, const int rhs) { return { lhs.x * rhs, lhs.y * rhs }; }
 constexpr SDL_Point   operator/  (const SDL_Point lhs, const int rhs) { return { lhs.x / rhs, lhs.y / rhs }; }

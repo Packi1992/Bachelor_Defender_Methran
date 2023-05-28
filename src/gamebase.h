@@ -75,7 +75,7 @@ public:
 	void SetPerfDrawMode( PerformanceDrawMode mode ) noexcept { perfDrawMode = mode; }
 
 protected:
-	PerformanceDrawMode perfDrawMode = PerformanceDrawMode::None;
+	PerformanceDrawMode perfDrawMode = PerformanceDrawMode::Title;
 	u32 lastPerfInfoFrame = 0;
 	TimePoint lastPerfInfoTime = Clock::now();
 	Duration accumulatedNeeded = Duration::zero();
