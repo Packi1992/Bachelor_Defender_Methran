@@ -4,8 +4,20 @@
     <Filter Include="src">
       <UniqueIdentifier>{e056440c-c3f6-4fef-996b-1c7f8de4e40a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\example">
+    <Filter Include="src\util">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\gui">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\tdutil">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\td">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Maps">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef43}</UniqueIdentifier>
     </Filter>
     <Filter Include="asset">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -21,50 +33,79 @@
     </Filter>
     <Filter Include="asset\graphic">
       <UniqueIdentifier>{323dc01d-da22-4f6e-92ef-39a77497c4d7}</UniqueIdentifier>
-      <Extensions>png</Extensions>
+      <Extensions>png;xcf</Extensions>
+    </Filter>
+    <Filter Include="asset\graphic\td">
+      <UniqueIdentifier>{323dc01d-da22-4f6e-92ef-39a77497c4d8}</UniqueIdentifier>
+      <Extensions>png;xcf</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\example\camerastate.cpp">
-      <Filter>src\example</Filter>
-    </ClCompile>
-    <ClCompile Include="src\example\examplegame.cpp">
-      <Filter>src\example</Filter>
-    </ClCompile>
-    <ClCompile Include="src\example\introstate.cpp">
-      <Filter>src\example</Filter>
-    </ClCompile>
-    <ClCompile Include="src\example\main.cpp">
-      <Filter>src\example</Filter>
-    </ClCompile>
-    <ClCompile Include="src\example\plasmastate.cpp">
-      <Filter>src\example</Filter>
-    </ClCompile>
-    <ClCompile Include="src\example\pongmain.cpp">
-      <Filter>src\example</Filter>
-    </ClCompile>
-    <ClCompile Include="src\example\shooterstate.cpp">
-      <Filter>src\example</Filter>
-    </ClCompile>
-    <ClCompile Include="src\example\sortstate.cpp">
-      <Filter>src\example</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gamebase.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\global.h">
+    <ClInclude Include="src\bddgame.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\gamebase.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\example\examplegame.h">
-      <Filter>src\example</Filter>
+    <ClInclude Include="src\global.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\introstate.h">
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\recthelper.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\test_tower.h">
+      <Filter>src\td</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\testtd.h">
+      <Filter>src\td</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\editor.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\enemy.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\enemyHandler.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\map.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\particlesHandler.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\projectilesHandler.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\tdTileHandler.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\tower.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\TextureCache.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\TextWithValue.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\gui\Button.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\gui\gui.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\gui\inputDialog.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\gui\selectorDialog.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\gui\textbox.h">
+      <Filter>src\util\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -72,9 +113,20 @@
     <None Include="asset\music\severance.ogg">
       <Filter>asset\music</Filter>
     </None>
+    <None Include="Maps\neueMap.map">
+      <Filter>Maps</Filter>
+    </None>
     <None Include="README.md" />
     <None Include="LICENSE" />
     <None Include="classdiagram.drawio" />
+    <None Include=".gitignore" />
+    <None Include="asset\graphic\td\tileTD.xcf">
+      <Filter>asset\graphic\td</Filter>
+    </None>
+    <None Include="old_README.md" />
+    <None Include="asset\graphic\Unbenannt.xcf">
+      <Filter>asset\graphic</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="asset\graphic\background.png">
@@ -95,13 +147,28 @@
     <Image Include="asset\graphic\bg-layer-4.png">
       <Filter>asset\graphic</Filter>
     </Image>
+    <Image Include="asset\graphic\bg-main.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
+    <Image Include="asset\graphic\bg-testtd.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
+    <Image Include="asset\graphic\bg-ui-testtd.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
     <Image Include="asset\graphic\fire.png">
       <Filter>asset\graphic</Filter>
     </Image>
     <Image Include="asset\graphic\poison.png">
       <Filter>asset\graphic</Filter>
     </Image>
+    <Image Include="asset\graphic\td\tileTD.png">
+      <Filter>asset\graphic\td</Filter>
+    </Image>
     <Image Include="classdiagram.png" />
+    <Image Include="asset\graphic\tf_tileSet.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="asset\font\MonkeyIsland-1991-refined.ttf">
@@ -110,5 +177,73 @@
     <Font Include="asset\font\RobotoSlab-Bold.ttf">
       <Filter>asset\font</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\bddgame.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamebase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\introstate.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\test_tower.cpp">
+      <Filter>src\td</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\testtd.cpp">
+      <Filter>src\td</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\editor.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\enemy.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\enemyHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\map.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\particlesHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\projectilesHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\tdTileHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\tower.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\TextureCache.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\TextWithValue.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\Button.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\gui.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\inputDialog.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\selectorDialog.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\textbox.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
 </Project>

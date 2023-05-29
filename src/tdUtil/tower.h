@@ -14,7 +14,7 @@ class Tower {
     // Place Tower on Map
     virtual void set(Map map, Point pos)=0;
     // Do one ingame step
-    virtual void tick(timer_t callingTime)=0;
+    virtual void tick(u32 callingTime)=0;
     // give costs of tower back
     virtual int getCosts();
 
