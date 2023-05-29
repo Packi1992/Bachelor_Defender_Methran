@@ -7,7 +7,7 @@
 void Editor::Init() {
     GameState::Init();
     pGame = &game;
-    t_tileMap = t_cache->get("../asset/graphic/td/tileTD.png");
+    t_tileMap = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
     Toolbox = {0, windowSize.y - 100, windowSize.x, 100};
     int yPos = windowSize.y - 90;
     btn_load.set("Laden", 18, {5, yPos, 80, 80});

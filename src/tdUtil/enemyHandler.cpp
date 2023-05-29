@@ -5,7 +5,7 @@
 #include "enemyHandler.h"
 
 EnemyHandler::EnemyHandler() {
-    this->_texture = t_cache->get("../asset/graphic/td/tileTD.png");
+    this->_texture = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
 }
 
 void EnemyHandler::Render() {
@@ -14,7 +14,7 @@ void EnemyHandler::Render() {
             updateDstRect(_enemies[i]);
             if (onScreen()){
                 updateSrcRect(_enemies[i]);
-                t_cache->renderRect(&dstRect,BLACK);
+                //t_cache->renderRect(&dstRect,BLACK);
                 //t_cache->render(_texture, &dstRect, _enemies[i]._dir+180, &srcRect);
                 t_cache->render(_texture,&dstRect,&srcRect);
             }

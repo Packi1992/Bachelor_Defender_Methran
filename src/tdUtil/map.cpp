@@ -7,7 +7,7 @@
 Map::Map() {
     this->_height = 8;
     this->_width = 16;
-    _tileMap = t_cache->get("../asset/graphic/td/tileTD.png");
+    _tileMap = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
     this->_map = std::vector(_width, Vector<MapObjects>(_height));
     this->_pathMap = std::vector(_width, Vector<Point>(_height));
     updatePathFinding();

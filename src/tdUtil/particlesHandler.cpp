@@ -5,7 +5,7 @@
 #include "particlesHandler.h"
 
 void ParticlesHandler::set() {
-    this->_texture = t_cache->get("../asset/graphic/td/tileTD.png");
+    this->_texture = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
 }
 
 void ParticlesHandler::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
