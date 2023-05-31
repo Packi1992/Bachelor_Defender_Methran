@@ -38,6 +38,12 @@ public:
     unsigned long getMapTimeDiff();
 
 private:
+    struct PathEntry{
+        Point pos;
+        bool blocked;
+        bool goal;
+        bool set;
+    };
     Texture *_tileMap={};
     u32 _time=0;
     float _deltaTime=0;
@@ -48,11 +54,17 @@ private:
     void loadRow(string basicString);
 
     Vector<Vector<MapObjects>> _map;
-    Vector<Vector<Point>> _pathMap;
+    Vector<Vector<PathEntry>> _pathMap;
 
     void iniOffset() const;
 
     void updatePathFinding();
+
+    bool isBlocked(int i, int j);
+
+    void evaluatePath(int x, int y);
+
+    void setPathEntry(int x, int y, int i, int y1);
 };
 
 

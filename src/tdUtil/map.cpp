@@ -9,7 +9,7 @@ Map::Map() {
     this->_width = 16;
     _tileMap = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
     this->_map = std::vector(_width, Vector<MapObjects>(_height));
-    this->_pathMap = std::vector(_width, Vector<Point>(_height));
+    this->_pathMap = std::vector(_width, Vector<PathEntry>(_height));
     updatePathFinding();
 }
 
@@ -182,23 +182,44 @@ void Map::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 void Map::updatePathFinding() {
     // mockdata
     // enemies will head right
+
+    // clear path array
     for (int j = 0; j < _height; j++) {
         for (int i = 0; i < _width; i++) {
-            _pathMap[i][j] = {i + 1, j};
+            _pathMap[i][j].pos = {-1, -1}; //-1/-1 is not set
+            _pathMap[i][j].blocked = isBlocked(i,j);
+            _pathMap[i][j].goal = _map[i][j] == MapObjects::Goal;
+            _pathMap[i][j].set = isBlocked(i,j);
         }
     }
-
+    //  map should have spawn points, and at least one goal
+    bool allPathsFound = false;
+    int loopCounter = 0;
+    while(!allPathsFound && loopCounter<_width*_height){
+        loopCounter++;
+        allPathsFound = true;
+        for (int j = 0; j < _height; j++) {
+            for (int i = 0; i < _width; i++) {
+                if(!_pathMap[i][j].blocked&&!_pathMap[i][j].goal&&!_pathMap[i][j].set) {
+                    evaluatePath(i, j);
+                    allPathsFound = false;
+                }
+            }
+        }
+    }
+    if(!allPathsFound){
+        cerr << "updating Path failed" << endl;
+    }
 }
 
 Point Map::getNextPos(Point p) {
-    return {p.x + 1, p.y};
-    //return _pathMap[p.x][p.y];
+    return _pathMap[p.x][p.y].pos;
 }
 Point Map::getNextPos(FPoint p) {
     Point res;
-    res.x = (int) p.x + 1;
+    res.x = (int) p.x;
     res.y = (int) p.y;
-    return res;
+    return getNextPos(res);
 }
 
 FPoint Map::getPrecisePosOnScreen(FPoint &fp) {
@@ -207,6 +228,62 @@ FPoint Map::getPrecisePosOnScreen(FPoint &fp) {
 
 FPoint Map::getPreciseCenterOfPos(Point &p) {
     return { (float)p.x + 0.5f,(float) p.y + 0.5f};
+}
+
+bool Map::isBlocked(int i, int j) {
+    switch(_map[i][j]){
+        case MapObjects::Empty:
+        case MapObjects::Start:
+        case MapObjects::Goal:
+            return false;
+        default:
+            return true;
+    }
+}
+
+
+void Map::evaluatePath(int x, int y) {
+    // look around position if goal is reachable
+    // we use 4er neighborhood stuff
+    // look if a goal is reachable
+    if(x+1 < _width && _pathMap[x+1][y].goal){
+        setPathEntry(x,y,x+1,y);
+        return;
+    }
+    if(y+1<_height && _pathMap[x][y+1].goal){
+        setPathEntry(x,y,x,y+1);
+        return;
+    }
+    if(y-1>=0 && _pathMap[x][y-1].goal){
+        setPathEntry(x,y,x,y-1);
+        return;
+    }
+    if(x-1>=0 && _pathMap[x-1][y].goal){
+        setPathEntry(x,y,x-1,y);
+        return;
+    }
+    // if there is no goal found ... look for other path entries
+    if(x+1 < _width && _pathMap[x+1][y].set){
+        setPathEntry(x,y,x+1,y);
+        return;
+    }
+    if(y+1<_height && _pathMap[x][y+1].set){
+        setPathEntry(x,y,x,y+1);
+        return;
+    }
+    if(y-1>=0 && _pathMap[x][y-1].set){
+        setPathEntry(x,y,x,y-1);
+        return;
+    }
+    if(x-1>=0 && _pathMap[x-1][y].set){
+        setPathEntry(x,y,x-1,y);
+        return;
+    }
+}
+
+void Map::setPathEntry(int ex, int ey, int tx, int ty) {
+        _pathMap[ex][ey].pos = {tx,ty};
+        _pathMap[ex][ey].set = true;
 }
 
 

@@ -4,7 +4,7 @@
 #include "bddgame.h"
 
 BddGame::BddGame() :
-        Game("Bachelor Defender: Methran und das goldene Zertifikat", {1024, 800},false) {
+        Game("Bachelor Defender: Methran und das goldene Zertifikat", {1900, 1000},false) {
     allStates = {
             new IntroState(*this),
             new TestTD(*this),
