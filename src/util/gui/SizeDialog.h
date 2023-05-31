@@ -13,11 +13,11 @@
 class SizeDialog: public Gui{
 public:
     SizeDialog();
+    void set(int width, int height);
     ~SizeDialog();
     void Render() override;
     void Input() override;
     void Update() override;
-    bool show();
     int getHeight();
     int getWidth();
 
@@ -26,17 +26,13 @@ private:
 
     void iniValues();
 
-    void inputs();
-
-    int *return_width = nullptr;
-    int *return_height = nullptr;
-    int _width;
-    int _height;
+    int _width=0;
+    int _height=0;
     Rect rDialog{};
     Rect rInfo{};
     Texture *texInfo = nullptr;
-    TextBox *txtb_width = nullptr;
-    TextBox *txtb_height = nullptr;
+    TextBox txtb_width;
+    TextBox txtb_height;
     Button btn_ok;
     Button btn_abb;
     bool takeNewValues = false;
