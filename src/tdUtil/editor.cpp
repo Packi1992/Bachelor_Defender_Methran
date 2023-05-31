@@ -67,7 +67,7 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     btn_save.draw();
     btn_load.draw();
     btn_path.draw();
-    //btn_change_size.Render();
+    btn_change_size.draw();
     mapSelector.Render();
     mapNameInput.Render();
 }
