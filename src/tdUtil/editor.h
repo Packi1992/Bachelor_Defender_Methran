@@ -35,9 +35,10 @@ protected:
     // buttons
     Button btn_load;
     Button btn_save;
+    Button btn_change_size;
     Button btn_path;
     bool showPath=false;
-    //Button btn_change_size;
+
     int rainbowColor=0;
 
     // Tile SelectorDialog

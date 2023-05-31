@@ -16,7 +16,7 @@ void Editor::Init() {
     btn_save.setHighlightedColor(BTN_HIGHLIGHTED);
     btn_path.set("Show Path",18,{btn_save.getX()-105,yPos,100,80});
     btn_path.setHighlightedColor(BTN_HIGHLIGHTED);
-    //btn_change_size.setTile("Größe ändern", 18, {btn_save.getX() - 135, yPos, 130, 80});
+    btn_change_size.set("Größe ändern", 18, {btn_path.getX() - 135, yPos, 130, 80});
 }
 
 void Editor::UnInit() {
@@ -138,7 +138,7 @@ void Editor::MouseDown(SDL_Event event) {
                 else
                     btn_path.setColor(BTN_COLOR);
             }
-            //else if (btn_change_size.clicked(event))pMap.showSizeDialog();
+            else if (btn_change_size.clicked(event))pMap->showSizeDialog();
             else handleSelection(event);
         }
     } else if (event.button.button == SDL_BUTTON_RIGHT) {
@@ -165,7 +165,7 @@ void Editor::MouseMotion(SDL_Event event) {
     }
     btn_load.entered(event);
     btn_path.entered(event);
-    //btn_change_size.entered(event);
+    btn_change_size.entered(event);
     btn_save.entered(event);
 }
 
