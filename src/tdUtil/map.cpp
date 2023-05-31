@@ -58,9 +58,9 @@ void Map::drawWire() const {
     }
 }
 
-void Map::save(const std::string &path) {
+void Map::save(const string &path) {
     char name[50];
-    strcpy(name, "../Maps/");
+    strcpy(name, BasePath"Maps/");
     strcat(name, path.c_str());
     // save pMap!
     std::ofstream oStream;
@@ -80,7 +80,7 @@ void Map::save(const std::string &path) {
     oStream.close();
 }
 
-void Map::load(const std::string &path) {
+void Map::load(const string &path) {
     string line;
     std::ifstream iStream;
     cout << "Load Map: " << path << endl;
