@@ -6,15 +6,20 @@
 #define BOULDERDASH_SIZEDIALOG_H
 
 
-#include "../Global.h"
-#include "TextBox.h"
+#include "../../gamebase.h"
+#include "textbox.h"
 #include "Button.h"
 
-class SizeDialog {
+class SizeDialog: public Gui{
 public:
-    SizeDialog(Global *pGlobal, int &width, int &height);
+    SizeDialog();
     ~SizeDialog();
+    void Render() override;
+    void Input() override;
+    void Update() override;
     bool show();
+    int getHeight();
+    int getWidth();
 
 private:
     void iniUI();
@@ -25,12 +30,11 @@ private:
 
     int *return_width = nullptr;
     int *return_height = nullptr;
-    int width;
-    int height;
-    Global *pGlobal = nullptr;
-    SDL_Rect rDialog{};
-    SDL_Rect rInfo{};
-    SDL_Texture *texInfo = nullptr;
+    int _width;
+    int _height;
+    Rect rDialog{};
+    Rect rInfo{};
+    Texture *texInfo = nullptr;
     TextBox *txtb_width = nullptr;
     TextBox *txtb_height = nullptr;
     Button btn_ok;

@@ -44,7 +44,6 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     Rect tool, symbol;
     tool = {0, 0, 80, 80};
     symbol = {0, 0, 64, 64};
-
     t_cache->renderFillRect(&Toolbox,EDITOR_UI_BG);
     tool.x = 100;
     symbol.x = tool.x + 8;

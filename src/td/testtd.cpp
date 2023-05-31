@@ -95,11 +95,16 @@ void TestTD::MouseMotion(SDL_Event event) {
 }
 
 void TestTD::MouseWheel(SDL_Event event) {
-    scale += event.wheel.y;
-    int posX,posY;
-    SDL_GetMouseState(&posX, &posY);
-    offset.y += 2 * event.wheel.y / abs(event.wheel.y) * _map._height / 2;
-    offset.x += 2 * event.wheel.y / abs(event.wheel.y) * _map._width / 2;
+    Point cursor{};
+    SDL_GetMouseState(&cursor.x, &cursor.y);
+    if(event.wheel.y/abs(event.wheel.y)<1){// zoom out
+        scale = scale * 0.8;
+    }
+    else{                                     // zoom in
+        scale = scale * (1/0.8);
+        offset.y += 2 * event.wheel.y / abs(event.wheel.y) * _map._height / 2;
+        offset.x += 2 * event.wheel.y / abs(event.wheel.y) * _map._width / 2;
+    }
 }
 
 void TestTD::keyDown(SDL_Event event) {

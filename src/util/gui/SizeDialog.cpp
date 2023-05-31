@@ -22,18 +22,7 @@ void SizeDialog::iniValues() {
 }
 
 bool SizeDialog::show() {
-    while (dialog && !pGlobal->closeWindow) {
-        Color::set(pGlobal->renderer, Color::UIBG);
-        SDL_RenderFillRect(pGlobal->renderer, &rDialog);
-        SDL_RenderCopy(pGlobal->renderer, texInfo, nullptr, &rInfo);
-        txtb_width->draw();
-        txtb_height->draw();
-        btn_ok.draw();
-        btn_abb.draw();
-        std::cout << "Render Dialog" << std::endl;
-        SDL_RenderPresent(pGlobal->renderer);
-        inputs();
-    }
+
     if (takeNewValues) {
         *return_width = width;
         *return_height = height;
@@ -98,5 +87,32 @@ SizeDialog::~SizeDialog() {
     delete txtb_height;
     delete txtb_width;
     SDL_DestroyTexture(texInfo);
+}
+
+int SizeDialog::getHeight() {
+    return ;
+}
+
+int SizeDialog::getWidth() {
+    return 0;
+}
+
+void SizeDialog::Render() {
+    if(dialog){
+        t_cache->renderFillRect(&rDialog,EDITOR_UI_BG);
+        t_cache->render(texInfo,&rInfo);
+        txtb_width->Render();
+        txtb_height->Render();
+        btn_ok.draw();
+        btn_abb.draw();
+    }
+}
+
+void SizeDialog::Input() {
+
+}
+
+void SizeDialog::Update() {
+
 }
 
