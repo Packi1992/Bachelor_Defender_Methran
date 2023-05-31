@@ -43,13 +43,11 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         _prh.add(pa);
 
         // add enemy
-        static int y = 0;
-        Enemy e;
-        e.setEnemy({y%2, y}, 1000, 100);
-        _eh.addEnemy(e);
-        y++;
-        if(y==8)
-            y=0;
+        if(totalMSec%100==0){
+            Enemy e;
+            e.setEnemy({0, 0}, 1000, 100);
+            _eh.addEnemy(e);
+        }
         _eh.Update();
         _prh.move();
         _ph.move();

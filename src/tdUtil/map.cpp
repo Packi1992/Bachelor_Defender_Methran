@@ -8,9 +8,10 @@ Map::Map() {
     this->_height = 8;
     this->_width = 16;
     _tileMap = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
+    _blocked = t_cache->get(BasePath "asset/graphic/editor/blocked.png");
+    _arrow = t_cache->get(BasePath "asset/graphic/editor/arrow.png");
     this->_map = std::vector(_width, Vector<MapObjects>(_height));
     this->_pathMap = std::vector(_width, Vector<PathEntry>(_height));
-    updatePathFinding();
 }
 
 unsigned long Map::getMapTime() const {
@@ -25,7 +26,7 @@ void Map::showSizeDialog() {
     std::cout << "\"pMap showSizeDialog\"not implemented yet";
 }
 
-void Map::Render(bool wire) {
+void Map::Render(bool wire, bool pathFinding) {
     _time++;
     if (wire)
         drawWire();
@@ -36,6 +37,34 @@ void Map::Render(bool wire) {
             int y = (j * scale) - offset.y;
             dstRect = {x, y, scale, scale};
             t_cache->render(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][j], _time));
+        }
+    }
+    if(pathFinding){
+        for (int i = 0; i < _width; i++) {
+            int x = (i * scale) - offset.x;
+            for (int j = 0; j < _height; j++) {
+                int y = (j * scale) - offset.y;
+                dstRect = {x, y, scale, scale};
+                Point p= {i,j};
+                PathEntry e = _pathMap[i][j];
+                if(e.blocked)
+                    t_cache->render(_blocked,&dstRect);
+                else if(!e.set&&!e.goal){
+                    dstRect.x+=scale/6;
+                    dstRect.y+=scale/6;
+                    dstRect.w-=scale/3;
+                    dstRect.h-=scale/3;
+                    t_cache->renderFillRect(&dstRect,YELLOW);
+                    dstRect = {x, y, scale, scale};
+
+                }
+                else if(e.goal){
+                    continue;
+                }
+                else{
+                    t_cache->render(_arrow,&dstRect,getDir(i,j,e.pos.x,e.pos.y));
+                }
+            }
         }
     }
 }
@@ -115,14 +144,20 @@ void Map::load(const string &path) {
         std::cerr << "Map Data corrupted" << std::endl;
     }
     iniOffset();
+    updatePathFinding();
 }
 
 void Map::setTile(Event event, MapObjects object) {
-    int x = (event.motion.x + offset.x) / (scale + 1);
-    int y = (event.motion.y + offset.y) / (scale + 1);
-    if (x < _width && x >= 0 && y < _height && y >= 0) {
-        _map[x][y] = object;
+    int x = (event.motion.x + offset.x) / (scale);
+    int y = (event.motion.y + offset.y) / (scale);
+    setTile({x,y},object);
+}
+
+void Map::setTile(Point p, MapObjects object) {
+    if (p.x < _width && p.x >= 0 && p.y < _height && p.y >= 0) {
+        _map[p.x][p.y] = object;
     }
+    updatePathFinding();
 }
 
 TdTileHandler::MapObjects Map::getObjectAtScreenPos(Point p) {
@@ -143,6 +178,13 @@ TdTileHandler::MapObjects Map::getObject(Point p, bool OutOfBoundsError) {
     if (OutOfBoundsError)
         cerr << "Out of Map Bounds" << endl;
     return MapObjects::Empty;
+}
+
+MapObjects Map::getObject(FPoint p, bool OutOfBoundsError) {
+    Point res;
+    res.x = (int) p.x;
+    res.y = (int) p.y;
+    return getObject(res);
 }
 
 void Map::resizeMap() {
@@ -176,7 +218,6 @@ void Map::iniOffset() const {
 void Map::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     _deltaTime = deltaT;
     _time = totalMSec;
-    updatePathFinding();
 }
 
 void Map::updatePathFinding() {
@@ -263,19 +304,19 @@ void Map::evaluatePath(int x, int y) {
         return;
     }
     // if there is no goal found ... look for other path entries
-    if(x+1 < _width && _pathMap[x+1][y].set){
+    if(x+1 < _width && _pathMap[x+1][y].set && !_pathMap[x+1][y].blocked){
         setPathEntry(x,y,x+1,y);
         return;
     }
-    if(y+1<_height && _pathMap[x][y+1].set){
+    if(y+1<_height && _pathMap[x][y+1].set && !_pathMap[x][y+1].blocked){
         setPathEntry(x,y,x,y+1);
         return;
     }
-    if(y-1>=0 && _pathMap[x][y-1].set){
+    if(y-1>=0 && _pathMap[x][y-1].set && !_pathMap[x][y-1].blocked){
         setPathEntry(x,y,x,y-1);
         return;
     }
-    if(x-1>=0 && _pathMap[x-1][y].set){
+    if(x-1>=0 && _pathMap[x-1][y].set && !_pathMap[x-1][y].blocked){
         setPathEntry(x,y,x-1,y);
         return;
     }
@@ -285,5 +326,19 @@ void Map::setPathEntry(int ex, int ey, int tx, int ty) {
         _pathMap[ex][ey].pos = {tx,ty};
         _pathMap[ex][ey].set = true;
 }
+
+u16 Map::getDir(int ex, int ey, int tx, int ty) {
+    if(ex == tx && ey < ty)
+        return 0;
+    if(ex == tx && ey > ty)
+        return 180;
+    if(ex < tx && ey == ty)
+        return 90;
+    return 270;
+}
+
+
+
+
 
 

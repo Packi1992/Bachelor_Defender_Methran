@@ -13,7 +13,7 @@
 class Map {
 public:
     Map();
-    void Render(bool wire = false);
+    void Render(bool wire = false, bool path = false);
     void Update(const u32 frame, const u32 totalMSec, const float deltaT );
 
     void load(const string &path = "../Maps/neueMap.map");
@@ -26,10 +26,12 @@ public:
     Point getNextPos(FPoint p);
 
     void setTile(Event event, MapObjects object);
+    void setTile(Point p, MapObjects object);
     MapObjects getObjectAtScreenPos(Point p);
     void showSizeDialog();
 
     MapObjects getObject(Point p, bool OutOfBoundsError=true);
+    MapObjects getObject(FPoint p, bool OutOfBoundsError=true);
     [[nodiscard]] ul getMapTime() const;
 
     int _width = 40;
@@ -45,6 +47,8 @@ private:
         bool set;
     };
     Texture *_tileMap={};
+    Texture *_blocked={};
+    Texture *_arrow{};
     u32 _time=0;
     float _deltaTime=0;
     u32 _lastTime=0;
@@ -65,6 +69,8 @@ private:
     void evaluatePath(int x, int y);
 
     void setPathEntry(int x, int y, int i, int y1);
+
+    static u16 getDir(int ex, int ey, int tx, int ty);
 };
 
 

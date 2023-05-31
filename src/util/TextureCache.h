@@ -16,9 +16,12 @@ enum t_color {
     BLACK,
     WHITE,
     BTN_COLOR,
+    BTN_HIGHLIGHTED,
     MAP_GRID,
     EDITOR_UI_BG,
     BG,
+    YELLOW,
+    RED,
 };
 
 class TextureCache {

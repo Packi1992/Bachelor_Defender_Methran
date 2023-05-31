@@ -85,14 +85,23 @@ void Button::setHighlightedColor(t_color* high_color) {
         this->highlightedColor.a = c.a;
     }
     else{
-        c = t_cache->getColor(*high_color);
+        c = TextureCache::getColor(*high_color);
         this->highlightedColor = c;
     }
 }
+void Button::setHighlightedColor(t_color high_color) {
+    this->highlightedColor = TextureCache::getColor(high_color);
+}
+
 
 void Button::setSize(SDL_Rect nRect) {
     this->rect = nRect;
     tRect.x = rect.x + (rect.w - tRect.w) / 2;
     tRect.y = rect.y + (rect.h - tRect.h) / 2;
 }
+
+void Button::setColor(t_color color) {
+    this->buttonColor = TextureCache::getColor(color);
+}
+
 
