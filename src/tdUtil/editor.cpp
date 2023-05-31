@@ -124,7 +124,7 @@ void Editor::MouseDown(SDL_Event event) {
                 mapNameInput.show(&focus);
             }
             else if (btn_load.clicked(event)){
-                mapSelector.set( "../Maps/", ".map");
+                mapSelector.set( BasePath"Maps/", ".map");
                 mapSelector.show(&focus);
             }
                 //else if (btn_change_size.clicked(event))pMap.showSizeDialog();
