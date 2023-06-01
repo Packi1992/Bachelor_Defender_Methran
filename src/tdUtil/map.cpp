@@ -22,8 +22,19 @@ unsigned long Map::getMapTimeDiff() {
     return _deltaTime;
 }
 
-void Map::showSizeDialog() {
-    std::cout << "\"pMap showSizeDialog\"not implemented yet";
+void Map::resize(Point size){
+    if(!(size.x == -1 && size.y == -1)){
+        _width = size.x;
+        _height = size.y;
+    }
+
+    cout << "resize Map to Width = " << _width << " Height = " << _height << endl;
+    _map.resize(_width);
+    _pathMap.resize(_width);
+    for (int i = 0; i < _width; i++) {
+        _map[i].resize(_height);
+        _pathMap[i].resize(_height);
+    }
 }
 
 void Map::Render(bool wire, bool pathFinding) {
@@ -45,7 +56,7 @@ void Map::Render(bool wire, bool pathFinding) {
             for (int j = 0; j < _height; j++) {
                 int y = (j * scale) - offset.y;
                 dstRect = {x, y, scale, scale};
-                Point p= {i,j};
+                //Point p= {i,j};
                 PathEntry e = _pathMap[i][j];
                 if(e.blocked)
                     t_cache->render(_blocked,&dstRect);
@@ -135,7 +146,7 @@ void Map::load(const string &path) {
                     std::cerr << "Map Data corrupted" << std::endl;
                 } else {
                     meta = false;
-                    resizeMap();
+                    resize();
                 }
             }
         }
@@ -185,16 +196,6 @@ MapObjects Map::getObject(FPoint p, bool OutOfBoundsError) {
     res.x = (int) p.x;
     res.y = (int) p.y;
     return getObject(res);
-}
-
-void Map::resizeMap() {
-    cout << "resize Map to Width = " << _width << " Height = " << _height << endl;
-    _map.resize(_width);
-    _pathMap.resize(_width);
-    for (int i = 0; i < _width; i++) {
-        _map[i].resize(_height);
-        _pathMap[i].resize(_height);
-    }
 }
 
 void Map::loadRow(string line) {

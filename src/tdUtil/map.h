@@ -28,7 +28,7 @@ public:
     void setTile(Event event, MapObjects object);
     void setTile(Point p, MapObjects object);
     MapObjects getObjectAtScreenPos(Point p);
-    void showSizeDialog();
+    void resize(Point size={-1,-1});
 
     MapObjects getObject(Point p, bool OutOfBoundsError=true);
     MapObjects getObject(FPoint p, bool OutOfBoundsError=true);
@@ -52,7 +52,6 @@ private:
     u32 _time=0;
     float _deltaTime=0;
     u32 _lastTime=0;
-    void resizeMap();
     void drawWire() const;
 
     void loadRow(string basicString);

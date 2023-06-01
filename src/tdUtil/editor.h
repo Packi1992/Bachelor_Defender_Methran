@@ -13,6 +13,7 @@ class Editor;
 #include "../util/gui/Button.h"
 #include "../util/gui/selectorDialog.h"
 #include "../util/gui/inputDialog.h"
+#include "../util/gui/sizeDialog.h"
 
 class Editor: public GameState{
 protected:
@@ -31,6 +32,7 @@ protected:
     Gui *focus= nullptr;
     SelectorDialog mapSelector;
     InputDialog mapNameInput;
+    SizeDialog resizeMap;
 
     // buttons
     Button btn_load;
