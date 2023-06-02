@@ -13,7 +13,13 @@ void Enemy::Update() {
         FPoint target = Map::getPreciseCenterOfPos(_nextPos);// getTargetPos
         if (_pos.x == target.x && _pos.y == target.y) {
             // updated Target if reached
+            if(pMap->getObject(_pos) == MapObjects::Goal)
+            {
+                cout << "goal reached yesssss"<< endl;
+                _alive = false;
+            }
             _nextPos = pMap->getNextPos(_nextPos);
+            //cout << "my next target is: {"<<_nextPos.x << ", "<< _nextPos.y << "}" << endl;
         } else {
             // actually move
             float runLength = (float) pMap->getMapTimeDiff() * 100 * (float) _speed;
@@ -53,6 +59,7 @@ void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, EnemyType type) 
     _pos.x = (float) pos.x + 0.5f;
     _pos.y = (float) pos.y + 0.5f;
     _nextPos = pMap->getNextPos(_pos);
+    //cout << "my next target is: {"<<_nextPos.x << ", "<< _nextPos.y << "}" << endl;
     updateDir();
     _health = health;
     _maxHealth = health;

@@ -43,13 +43,11 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         _prh.add(pa);
 
         // add enemy
-        static int y = 0;
-        Enemy e;
-        e.setEnemy({y%2, y}, 1000, 100);
-        _eh.addEnemy(e);
-        y++;
-        if(y==8)
-            y=0;
+        if(totalMSec%100==0){
+            Enemy e;
+            e.setEnemy({0, 0}, 1000, 100);
+            _eh.addEnemy(e);
+        }
         _eh.Update();
         _prh.move();
         _ph.move();
@@ -97,11 +95,16 @@ void TestTD::MouseMotion(SDL_Event event) {
 }
 
 void TestTD::MouseWheel(SDL_Event event) {
-    scale += event.wheel.y;
-    int posX,posY;
-    SDL_GetMouseState(&posX, &posY);
-    offset.y += 2 * event.wheel.y / abs(event.wheel.y) * _map._height / 2;
-    offset.x += 2 * event.wheel.y / abs(event.wheel.y) * _map._width / 2;
+    Point cursor{};
+    SDL_GetMouseState(&cursor.x, &cursor.y);
+    if(event.wheel.y/abs(event.wheel.y)<1){// zoom out
+        scale = scale * 0.8;
+    }
+    else{                                     // zoom in
+        scale = scale * (1/0.8);
+        offset.y += 2 * event.wheel.y / abs(event.wheel.y) * _map._height / 2;
+        offset.x += 2 * event.wheel.y / abs(event.wheel.y) * _map._width / 2;
+    }
 }
 
 void TestTD::keyDown(SDL_Event event) {

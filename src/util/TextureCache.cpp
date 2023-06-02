@@ -15,10 +15,14 @@ SDL_Color TextureCache::getColor(t_color color) {
             return {255,255,255,255};
         case BTN_COLOR:
             return {52,235,125,255};
+        case BTN_HIGHLIGHTED:
+            return {255,0,0,255};
         case EDITOR_UI_BG:
             return {50,220,50,255};
         case BG:
             return {	82,198,255,255};
+        case YELLOW:
+            return {255,255,0,255};
         default:
             return {255,255,255,255};
     }
