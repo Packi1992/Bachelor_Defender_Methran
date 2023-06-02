@@ -36,6 +36,9 @@ void SizeDialog::iniUI() {
 
 
 void SizeDialog::Input() {
+    if(focus!= nullptr)
+        focus->Input();
+    if(focus == nullptr){
     Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -53,6 +56,7 @@ void SizeDialog::Input() {
                     default:
                         break;
                 }
+            }
         }
     }
 }
@@ -64,10 +68,10 @@ void SizeDialog::Input() {
 void SizeDialog::selection(Event event){
         if (event.button.button == SDL_BUTTON_LEFT) {
         if(_txtb_height.fieldSelected(event)){
-            _txtb_height.show(focus);
+            _txtb_height.show(&focus);
         }
         if(_txtb_width.fieldSelected(event)){
-            _txtb_width.show(focus);
+            _txtb_width.show(&focus);
         }
         if (_btn_ok.clicked(event)) {
             acceptInput();

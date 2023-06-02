@@ -5,7 +5,6 @@
 #ifndef BOULDERDASH_SIZEDIALOG_H
 #define BOULDERDASH_SIZEDIALOG_H
 
-
 #include "../../gamebase.h"
 #include "textbox.h"
 #include "Button.h"
@@ -23,7 +22,7 @@ public:
     void Render() override;
     void Update() override;
 
-    bool isDone() const;
+    [[nodiscard]] bool isDone() const;
 
     void reset();
 
@@ -42,8 +41,8 @@ private:
     Button _btn_ok;
     Button _btn_abb;
 
-    // Input handling 
-    Gui *_focus={};
+    // Input handling
+    Gui *focus{};
     int _width=0;
     int _height=0;
     TextBox _txtb_width;

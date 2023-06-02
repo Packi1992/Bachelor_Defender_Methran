@@ -143,7 +143,10 @@ void Editor::MouseDown(SDL_Event event) {
                 else
                     btn_path.setColor(BTN_COLOR);
             }
-            else if (btn_change_size.clicked(event))resizeMap.set(map._width,map._height);
+            else if (btn_change_size.clicked(event)) {
+                resizeMap.set(map._width, map._height);
+                resizeMap.show(&focus);
+            }
             else handleSelection(event);
         }
     } else if (event.button.button == SDL_BUTTON_RIGHT) {
