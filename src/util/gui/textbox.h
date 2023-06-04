@@ -41,6 +41,7 @@ private:
 
     // input
     string _input;
+    string _renderedInput;
     Rect _rInput{};
     Texture *_texInput = nullptr;
 

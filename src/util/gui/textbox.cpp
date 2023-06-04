@@ -19,6 +19,7 @@ void TextBox::set(string label, Point pos, bool Number) {
     _rInputField.w = max_length * 5 + 10;
 
     // ini actual inputText as empty
+    _renderedInput="";
     _input = "";
     _rInput.x = _rInputField.x + 5;
     _rInput.y = _rInputField.y + 5;
@@ -54,15 +55,13 @@ void TextBox::Render() {
     t_cache->render(_texLabel, &_rLabel);
     t_cache->renderFillRect(&_rInputField, WHITE);
     t_cache->renderRect(&_rInputField, BLACK);
-    if (!_input.empty())
+    if (!_renderedInput.empty())
         t_cache->render(_texInput, &_rInput);
     if (dialog) {
         if (blink > 20) {
-            int curX1 = _rInput.x + _rInput.w;
-            int curY2 = _rInput.y + _rInput.h;
-            SDL_RenderDrawLine(render, curX1, _rInput.y, curX1, curY2);
+            int curX = _rInput.x + _rInput.w;
+            t_cache->renderLine({curX,_rInput.y},{curX,_rInput.y + _rInput.h},BLACK);
         }
-        blink = (blink + 1) % 40;
     }
 }
 
@@ -110,7 +109,9 @@ void TextBox::Input() {
                 bool top = event.motion.y < _rInputField.y;
                 bool bottom = event.motion.y > _rInputField.y + _rInputField.h;
                 if (left || right || top || bottom) {
+                    SDL_PushEvent(&event);
                     releaseFocus();
+                    return;
                 }
                 break;
         }
@@ -127,8 +128,13 @@ TextBox::~TextBox() {
 }
 
 void TextBox::Update() {
-    if (_texInput != nullptr)
-        SDL_DestroyTexture(_texInput);
-    _texInput = t_cache->getText(_input.c_str(), 18, &_rInput);
+    if (_input.compare(_renderedInput) != 0) {
+        if (_texInput != nullptr)
+            SDL_DestroyTexture(_texInput);
+        _texInput = t_cache->getText(_input.c_str(), 18, &_rInput);
+        _renderedInput = _input;
+    }
+    if(dialog)
+        blink = (blink + 1) % 40;
 }
 

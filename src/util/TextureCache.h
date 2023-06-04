@@ -59,6 +59,8 @@ public:
     // if no color dialog, preselected color will be used
     void renderRect(Rect *dst, u8 strokeThickness=1 ,t_color color=EMPTY);
 
+    void renderLine(Point A, Point B, t_color color=EMPTY);
+
     TextureCache(TextureCache &other) = delete;
     void operator=(const TextureCache &) = delete;
 

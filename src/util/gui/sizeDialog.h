@@ -50,6 +50,7 @@ private:
 
     bool _takeNewValues = false;
 
+    void handleEvent(Event event);
     void selection(Event event);
     void acceptInput();
 };
