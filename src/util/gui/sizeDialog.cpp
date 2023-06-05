@@ -38,35 +38,38 @@ void SizeDialog::iniUI() {
 void SizeDialog::Input() {
     if(focus!= nullptr)
         focus->Input();
-    if(focus == nullptr){
-    Event event;
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_MOUSEBUTTONDOWN:
-                selection(event);
-                break;
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.scancode) {
-                    case SDL_SCANCODE_ESCAPE:
-                        releaseFocus();
-                        break;
-                    case SDL_SCANCODE_KP_ENTER:
-                        acceptInput();
-                        break;
-                    default:
-                        break;
-                }
+    if(focus == nullptr)
+    {
+        Event event;
+        while (SDL_PollEvent(&event))
+            handleEvent(event);
+    }
+}
+
+void SizeDialog::handleEvent(Event event) {
+    switch (event.type) {
+        case SDL_MOUSEBUTTONDOWN:
+            selection(event);
+            break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.scancode) {
+                case SDL_SCANCODE_ESCAPE:
+                    releaseFocus();
+                    break;
+                case SDL_SCANCODE_KP_ENTER:
+                    acceptInput();
+                    break;
+                default:
+                    break;
             }
-        }
     }
 }
 
 
 
 
-
 void SizeDialog::selection(Event event){
-        if (event.button.button == SDL_BUTTON_LEFT) {
+        if (event.button.button == SDL_BUTTON_LEFT) { //left mouse button
         if(_txtb_height.fieldSelected(event)){
             _txtb_height.show(&focus);
         }
@@ -127,3 +130,5 @@ SizeDialog::~SizeDialog() {
 void SizeDialog::reset(){
     _takeNewValues=false;
 }
+
+

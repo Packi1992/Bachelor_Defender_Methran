@@ -11,10 +11,11 @@ public:
     virtual void Input()=0;
     virtual void Render()=0;
     virtual void Update()=0;
-    void releaseFocus(bool continueRender=false);
+    void releaseFocus(Event *event=nullptr, bool continueRender=false);
     void show(Gui **focus);
     void setNextFocus(Gui *next);
 protected:
+    Event lastEvent{};
     bool dialog=false;
     Gui **focus{};
     Gui *nextFocus{};
