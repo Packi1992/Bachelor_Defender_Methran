@@ -13,6 +13,7 @@
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
 using Projectile = ProjectilesHandler::Projectile;
+using Particles = ParticlesHandler::Particles;
 
 class TestTD final: public GameState{
 protected:

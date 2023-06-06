@@ -35,6 +35,13 @@ void ParticlesHandler::add(ParticlesHandler::Particles p) {
 }
 
 void ParticlesHandler::remove(Particles &p) {
+    switch (p._type) {
+        case Particles::FFIRE:
+            p._alive = false;
+            break;
+        case Particles::BASEEXPLOSION:
+            break;
+    }
     return;
 }
 

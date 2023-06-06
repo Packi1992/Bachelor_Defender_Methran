@@ -27,17 +27,18 @@ public:
         Point _targetP = {0,0};
         uint16_t _ttl = 100;
         bool _moveable = false;
+        uint8_t _damage = 5;
     };
     void Render( const u32 frame, const u32 totalMSec, const float deltaT );
     void move();
     Particles * getList(){ return _particles;};
     static uint getSize(){ return MAXPARTICLES;};
+    Particles _particles[MAXPARTICLES];
     void add(Particles p);
     void set();
     void remove(Particles &p);
 private:
     Map * _map = nullptr;
-    Particles _particles[MAXPARTICLES];
     uint overflow = 0;
     void moveFFire(Particles * p);
     Texture * _texture = nullptr;

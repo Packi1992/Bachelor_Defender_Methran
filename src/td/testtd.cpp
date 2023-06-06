@@ -66,7 +66,16 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
                 }
             }
         }
-        // Then at the particles NOT IMPLEMENTED YET
+        // Then at the particles
+        for (auto& p : _prh._particles) {
+            if (p._type != Particles::DISABLED) {
+                // Collision Detection not implemented yet
+                if (true) {
+                    e.takeDamage(p._damage);
+                    _prh.remove(p);
+                }
+            }
+        }
     }
 
 }
