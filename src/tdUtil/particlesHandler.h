@@ -34,6 +34,7 @@ public:
     static uint getSize(){ return MAXPARTICLES;};
     void add(Particles p);
     void set();
+    void remove(Particles &p);
 private:
     Map * _map = nullptr;
     Particles _particles[MAXPARTICLES];

@@ -27,12 +27,14 @@ public:
         Enemy * _targetE = nullptr;
         Point _targetP = {0,0};
         uint16_t _ttl = 1000;
+        uint8_t _damage = 100;
     };
     void Render( const u32 frame, const u32 totalMSec, const float deltaT );
     void move();
     Projectile _projectiles[MAXPROJECTILES];
     void add(Projectile p);
     void set();
+    void remove(Projectile &p);
 private:
     uint overflow = 0;
     void moveBullet(Projectile * p);

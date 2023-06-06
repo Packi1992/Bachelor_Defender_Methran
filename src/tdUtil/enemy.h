@@ -35,7 +35,7 @@ public:
     void stun(uint16_t time);
 
     // take damage
-    bool takeDamage(uint16_t damage);
+    void takeDamage(uint16_t damage);
 
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;

@@ -26,33 +26,49 @@ void TestTD::Render(u32 frame,  u32 totalMSec, float deltaT) {
 }
 
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
-        // add projektiles and particles
-        ProjectilesHandler::Projectile p;
-        ParticlesHandler::Particles pa;
-        p._type = Projectile::ARROW;
-        p._direction = totalMSec % 360;
-        p._position = Map::getPosOnScreen({8, 4}) + offset;
-        p._speed = 60;
-        _ph.add(p);
-        pa._type = ParticlesHandler::Particles::FFIRE;
-        pa._direction = totalMSec % 360;
-        pa._position = Map::getPosOnScreen({8, 4}) + offset;
-        pa._speed = 60;
-        pa._moveable = true;
-        pa._ttl = 80;
-        _prh.add(pa);
+    // add projektiles and particles
+    ProjectilesHandler::Projectile p;
+    ParticlesHandler::Particles pa;
+    p._type = Projectile::ARROW;
+    p._direction = totalMSec % 360;
+    p._position = Map::getPosOnScreen({ 8, 4 }) + offset;
+    p._speed = 60;
+    _ph.add(p);
+    pa._type = ParticlesHandler::Particles::FFIRE;
+    pa._direction = totalMSec % 360;
+    pa._position = Map::getPosOnScreen({ 8, 4 }) + offset;
+    pa._speed = 60;
+    pa._moveable = true;
+    pa._ttl = 80;
+    _prh.add(pa);
 
-        // add enemy
-        static int y = 0;
-        Enemy e;
-        e.setEnemy({y%2, y}, 1000, 100);
-        _eh.addEnemy(e);
-        y++;
-        if(y==8)
-            y=0;
-        _eh.Update();
-        _prh.move();
-        _ph.move();
+    // add enemy
+    static int y = 0;
+    Enemy e;
+    e.setEnemy({ y % 2, y }, 1000, 100);
+    _eh.addEnemy(e);
+    y++;
+    if (y == 8)
+        y = 0;
+    _eh.Update();
+    _prh.move();
+    _ph.move();
+
+    // Look for collision to any given Enemey, added Damagenumber to Projectile
+    for (auto& e : _eh._enemies) {
+        // First take a look at the projectiles
+        for (auto& p : _ph._projectiles) {
+            if (p._type != Projectile::DISABLED) {
+                // Collision Detection not implemented yet
+                if (true) {
+                    e.takeDamage(p._damage);
+                    _ph.remove(p);
+                }
+            }
+        }
+        // Then at the particles NOT IMPLEMENTED YET
+    }
+
 }
 
 void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {

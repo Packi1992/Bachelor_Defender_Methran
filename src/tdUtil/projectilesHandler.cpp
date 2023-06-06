@@ -33,6 +33,17 @@ void ProjectilesHandler::add(Projectile p) {
     _projectiles[overflow++]._alive = true;
 }
 
+void ProjectilesHandler::remove(Projectile &p) {
+    switch (p._type) {
+        case Projectile::ARROW:
+            p._alive = false;
+            break;
+        case Projectile::BULLET:
+            break;
+    }
+    return;
+}
+
 void ProjectilesHandler::move() {
     for (int i = 0; i < MAXPROJECTILES; i++) {
         if (_projectiles[i]._alive) {

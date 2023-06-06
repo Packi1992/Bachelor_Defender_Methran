@@ -35,14 +35,13 @@ void Enemy::Update() {
     }
 }
 
-bool Enemy::takeDamage(uint16_t damage) {
+void Enemy::takeDamage(uint16_t damage) {
     _health < damage ? _health = 0 : _health -= damage;
     if (_health == 0) {
         startDeathAnimation();
-        return false;
+        _alive = false;
     }
-    return true;
-
+    return;
 }
 
 void Enemy::stun(uint16_t time) {

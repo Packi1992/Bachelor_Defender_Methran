@@ -34,6 +34,10 @@ void ParticlesHandler::add(ParticlesHandler::Particles p) {
     _particles[overflow++]._alive = true;
 }
 
+void ParticlesHandler::remove(Particles &p) {
+    return;
+}
+
 void ParticlesHandler::move() {
     for (int i = 0; i < MAXPARTICLES; i++) {
         if (_particles[i]._alive) {
