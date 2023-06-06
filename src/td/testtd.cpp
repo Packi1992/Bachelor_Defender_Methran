@@ -56,11 +56,13 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 
     // Look for collision to any given Enemey, added Damagenumber to Projectile
     for (auto& e : _eh._enemies) {
+        Rect en = { e._pos.x,e._pos.y,scale,scale+scale };
         // First take a look at the projectiles
         for (auto& p : _ph._projectiles) {
             if (p._type != Projectile::DISABLED) {
-                // Collision Detection not implemented yet
-                if (true) {
+                Rect pro = { p._position.x,p._position.y,p._size,p._size };
+                // Collision Detection not implemented yet, perhaps with SDL_intersectRect
+                if (SDL_HasIntersection(&en,&pro)) {
                     e.takeDamage(p._damage);
                     _ph.remove(p);
                 }
@@ -69,8 +71,9 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         // Then at the particles
         for (auto& p : _prh._particles) {
             if (p._type != Particles::DISABLED) {
+                Rect par = { p._position.x,p._position.y,p._size,p._size };
                 // Collision Detection not implemented yet
-                if (true) {
+                if (SDL_HasIntersection(&en, &par)) {
                     e.takeDamage(p._damage);
                     _prh.remove(p);
                 }
