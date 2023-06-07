@@ -218,4 +218,10 @@ void TextureCache::renderRect(Rect *dst, u8 strokeThickness , t_color color) {
     dst->w +=2*strokeThickness;
 }
 
+void TextureCache::renderLine(Point A, Point B, t_color color) {
+    if(color != EMPTY)
+        setRenderColor(color);
+    SDL_RenderDrawLine(renderer, A.x, A.y, B.x, B.y);
+}
+
 
