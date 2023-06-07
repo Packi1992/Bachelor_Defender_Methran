@@ -8,6 +8,9 @@
 #include "../tdUtil/tower.h"
 #include "../tdUtil/projectilesHandler.h"
 #include "../tdUtil/enemyHandler.h"
+#include "../tdUtil/waveHandler.h"
+#include "../tdUtil/player.h"
+#include "../tdUtil/dataHandler.h"
 
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
@@ -20,9 +23,10 @@ protected:
     Tower* towerArr[50];
     EnemyHandler _eh;
     ProjectilesHandler _ph;
-
-    bool mbDown = false;
-    bool mouseScroll = false;
+    WaveHandler _wh;
+    Player _pl;
+    bool mbDown=false;
+    bool mouseScroll=false;
     Point mousePos= {};
 public:
     // ctor

@@ -14,11 +14,15 @@ class Editor;
 #include "../util/gui/selectorDialog.h"
 #include "../util/gui/inputDialog.h"
 #include "../util/gui/sizeDialog.h"
+#include "dataHandler.h"
 
 class Editor: public GameState{
 protected:
     Texture *t_tileMap= nullptr;
     Map map;
+    WaveHandler waves;
+    Player player;
+
     bool mbDown=false;
     bool mouseScroll=false;
 
