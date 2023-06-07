@@ -108,7 +108,6 @@ bool Game::HandleEvent( const Event event )
 		case SDL_QUIT:
 			isRunning = false;
 			return true;
-			break;
 
 		case SDL_KEYDOWN:
 		{

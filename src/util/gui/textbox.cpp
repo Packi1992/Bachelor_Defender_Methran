@@ -81,10 +81,9 @@ void TextBox::Input() {
     SDL_StartTextInput();
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+        if(pGame->HandleEvent(event))
+            return;
         switch (event.type) {
-            case SDL_QUIT:
-                releaseFocus();
-                break;
             case SDL_TEXTINPUT:
                 if (_isNumber) {
                     char buf[50] = "";

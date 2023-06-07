@@ -39,6 +39,8 @@ void InputDialog::Input() {
     if(focus == nullptr){
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
+            if(pGame->HandleEvent(event))
+                return;
             switch (event.type) {
                 case SDL_MOUSEBUTTONDOWN:
                     selection(event);

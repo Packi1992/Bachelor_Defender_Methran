@@ -27,17 +27,17 @@ void Editor::UnInit() {
 void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     if (focus == nullptr) {
         if (mapSelector.isFileSelected()) {
-            map.load(mapSelector.getSelectedFile());
+            DataHandler::load(player,waves,map,mapSelector.getSelectedFile());
             mapSelector.reset();
         }
         if (mapNameInput.isDone()) {
-            map.save(mapNameInput.getInput());
+            DataHandler::save(player,waves,map,mapNameInput.getInput());
             mapNameInput.reset();
-        }if(resizeMap.isDone()){
+        }
+        if(resizeMap.isDone()){
             map.resize(resizeMap.getInput());
             resizeMap.reset();
         }
-
     }
 }
 
@@ -94,6 +94,8 @@ void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
         SDL_Event event;
         labelTimer++;
         while (SDL_PollEvent(&event)) {
+            if(pGame->HandleEvent(event))
+                return;
             switch (event.type) {
                 case SDL_WINDOWEVENT:
                     if (event.window.event == SDL_WINDOWEVENT_CLOSE)

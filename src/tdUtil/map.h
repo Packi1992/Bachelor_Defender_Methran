@@ -16,12 +16,18 @@ public:
     void Render(bool wire = false, bool path = false);
     void Update(const u32 frame, const u32 totalMSec, const float deltaT );
 
-    void load(const string &path = BasePath"Maps/neueMap.map");
-    void save(const string &path = BasePath"Maps/neueMap");
+    bool load(const Vector<string>& data);
+    string save();
 
+    // give Screen Pos for a logical position
     static Point getPosOnScreen(Point p);
     static FPoint getPrecisePosOnScreen(FPoint &fp);
+
+    // use Map coordinate to give back center of tile
     static FPoint getPreciseCenterOfPos(Point &p);
+
+    // use screen position to calculate logical map position
+    static FPoint calculateLogicalPos(Point &p);
     Point getNextPos(Point p);
     Point getNextPos(FPoint p);
 

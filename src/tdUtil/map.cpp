@@ -98,64 +98,66 @@ void Map::drawWire() const {
     }
 }
 
-void Map::save(const string &path) {
-    char name[50];
-    strcpy(name, BasePath"Maps/");
-    strcat(name, path.c_str());
+string Map::save() {
     // save pMap!
-    std::ofstream oStream;
-    strcat(name, ".map");
-    oStream.open((name));
+    std::stringstream s;
     //checkPlayerStartSpot();
-    oStream << "WIDTH :" << _width << "\n";
-    oStream << "HEIGHT:" << _height << "\n";
-    oStream << "ARRAY :\n";
+    s << "WIDTH :" << _width << "\n";
+    s << "HEIGHT:" << _height << "\n";
+    s << "ARRAY :\n";
     for (int j = 0; j < _height; j++) {
-        oStream << "ROW " << j << ";";
+        s << "ROW " << j << ";";
         for (int i = 0; i < _width; i++) {
-            oStream << _map[i][j] << "; ";
+            s << _map[i][j] << "; ";
         }
-        oStream << "\n";
+        s << "\n";
     }
-    oStream.close();
+    return s.str();
+}
+void Map::loadRow(string line) {
+    cout << "Load " <<line << endl;
+    unsigned long token = line.find(';');
+    int row = (int) strtol(line.substr(4, token).c_str(), nullptr, 10);
+    cout << "Load Row " << row << endl;
+    for (int i = 0; i < _width; i++) {
+        line.erase(0, token + 1);
+        token = line.find(';');
+        int o = (int) strtol(line.substr(0, token).c_str(), nullptr, 10);
+        _map[i][row] = TdTileHandler::selectObject(o);
+    }
 }
 
-void Map::load(const string &path) {
-    string line;
-    std::ifstream iStream;
-    cout << "Load Map: " << path << endl;
-    char mnName[50];
-    strcpy(mnName, path.c_str());
-    iStream.open(mnName);
+bool Map::load(const Vector<string>& data) {
     bool widthLoaded = false;
     bool heightLoaded = false;
-    if (iStream.is_open()) {
-        bool meta = true;
-        while (getline(iStream, line)) {
-            if (!meta) {
-                loadRow(line);
-            }
-            if (meta && line.substr(0, 7) == ("WIDTH :")) {
-                _width = (int) strtol(line.substr(7).c_str(), nullptr, 10);
-                widthLoaded = true;
-            } else if (meta && (line.substr(0, 7) == ("HEIGHT:"))) {
-                _height = (int) strtol(line.substr(7).c_str(), nullptr, 10);
-                heightLoaded = true;
-            } else if (meta && line.substr(0, 7) == ("ARRAY :")) {
-                if (!widthLoaded || !heightLoaded) {
-                    std::cerr << "Map Data corrupted" << std::endl;
-                } else {
-                    meta = false;
-                    resize();
-                }
+    bool meta = true;
+    // now we need to load lines out of Map string
+    for(const string& line: data) {
+        if (!meta) {
+            loadRow(line);
+        }
+        if (meta && line.substr(0, 7) == ("WIDTH :")) {
+            _width = (int) strtol(line.substr(7).c_str(), nullptr, 10);
+            widthLoaded = true;
+        } else if (meta && (line.substr(0, 7) == ("HEIGHT:"))) {
+            _height = (int) strtol(line.substr(7).c_str(), nullptr, 10);
+            heightLoaded = true;
+        } else if (meta && line.substr(0, 7) == ("ARRAY :")) {
+            if (!widthLoaded || !heightLoaded) {
+                std::cerr << "Map Data corrupted" << std::endl;
+            } else {
+                meta = false;
+                resize();
             }
         }
     }
+
     if (!widthLoaded || !heightLoaded) {
         std::cerr << "Map Data corrupted" << std::endl;
     }
     iniOffset();
     updatePathFinding();
+    return widthLoaded && heightLoaded && !meta;
 }
 
 void Map::setTile(Event event, MapObjects object) {
@@ -196,17 +198,6 @@ MapObjects Map::getObject(FPoint p, bool OutOfBoundsError) {
     res.x = (int) p.x;
     res.y = (int) p.y;
     return getObject(res);
-}
-
-void Map::loadRow(string line) {
-    unsigned long token = line.find(';');
-    int row = (int) strtol(line.substr(4, token).c_str(), nullptr, 10);
-    for (int i = 0; i < _width; i++) {
-        line.erase(0, token + 1);
-        token = line.find(';');
-        int o = (int) strtol(line.substr(0, token).c_str(), nullptr, 10);
-        _map[i][row] = TdTileHandler::selectObject(o);
-    }
 }
 
 void Map::iniOffset() const {
@@ -270,6 +261,10 @@ FPoint Map::getPrecisePosOnScreen(FPoint &fp) {
 
 FPoint Map::getPreciseCenterOfPos(Point &p) {
     return { (float)p.x + 0.5f,(float) p.y + 0.5f};
+}
+FPoint Map::calculateLogicalPos(Point &p) {
+    FPoint fp = {float(p.x + offset.x)/(float)scale, float(p.y + offset.y)/(float)scale};
+    return fp;
 }
 
 bool Map::isBlocked(int i, int j) {
@@ -337,6 +332,7 @@ u16 Map::getDir(int ex, int ey, int tx, int ty) {
         return 90;
     return 270;
 }
+
 
 
 
