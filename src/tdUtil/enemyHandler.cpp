@@ -84,5 +84,7 @@ void EnemyHandler::addEnemy(Enemy e) {
 
 bool EnemyHandler::isPointInside(Point p, Enemy e) {
     updateDstRect(e);
-    return SDL_PointInRect(&p, &dstRect);
+    Point po = {p.x - offset.x,p.y - offset.y};
+    bool inside = SDL_PointInRect(&po, &dstRect);
+    return inside;
 }
