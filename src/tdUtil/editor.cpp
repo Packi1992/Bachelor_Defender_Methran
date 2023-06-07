@@ -11,8 +11,13 @@ void Editor::Init() {
     Toolbox = {0, windowSize.y - 100, windowSize.x, 100};
     int yPos = windowSize.y - 90;
     btn_load.set("Laden", 18, {5, yPos, 80, 80});
+    btn_load.setHighlightedColor(BTN_HIGHLIGHTED);
     btn_save.set("Speichern", 18, {windowSize.x - 105, yPos, 100, 80});
-    //btn_change_size.setTile("Größe ändern", 18, {btn_save.getX() - 135, yPos, 130, 80});
+    btn_save.setHighlightedColor(BTN_HIGHLIGHTED);
+    btn_path.set("Show Path",18,{btn_save.getX()-105,yPos,100,80});
+    btn_path.setHighlightedColor(BTN_HIGHLIGHTED);
+    btn_change_size.set("Größe ändern", 18, {btn_path.getX() - 135, yPos, 130, 80});
+    btn_change_size.setHighlightedColor(BTN_HIGHLIGHTED);
 }
 
 void Editor::UnInit() {
@@ -28,19 +33,22 @@ void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         if (mapNameInput.isDone()) {
             map.save(mapNameInput.getInput());
             mapNameInput.reset();
+        }if(resizeMap.isDone()){
+            map.resize(resizeMap.getInput());
+            resizeMap.reset();
         }
+
     }
 }
 
 void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     t_cache->drawBackground(BG);
     // Render maps
-    map.Render(true);
+    map.Render(true,showPath);
     // now Render ui
     Rect tool, symbol;
     tool = {0, 0, 80, 80};
     symbol = {0, 0, 64, 64};
-
     t_cache->renderFillRect(&Toolbox,EDITOR_UI_BG);
     tool.x = 100;
     symbol.x = tool.x + 8;
@@ -62,9 +70,11 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     }
     btn_save.draw();
     btn_load.draw();
-    //btn_change_size.Render();
+    btn_path.draw();
+    btn_change_size.draw();
     mapSelector.Render();
     mapNameInput.Render();
+    resizeMap.Render();
 }
 
 void Editor::handleSelection(Event event) {
@@ -126,8 +136,17 @@ void Editor::MouseDown(SDL_Event event) {
             else if (btn_load.clicked(event)){
                 mapSelector.set( BasePath"Maps/", ".map");
                 mapSelector.show(&focus);
+            }else if (btn_path.clicked(event)){
+                showPath = !showPath;
+                if(showPath)
+                    btn_path.setColor(YELLOW);
+                else
+                    btn_path.setColor(BTN_COLOR);
             }
-                //else if (btn_change_size.clicked(event))pMap.showSizeDialog();
+            else if (btn_change_size.clicked(event)) {
+                resizeMap.set(map._width, map._height);
+                resizeMap.show(&focus);
+            }
             else handleSelection(event);
         }
     } else if (event.button.button == SDL_BUTTON_RIGHT) {
@@ -153,7 +172,8 @@ void Editor::MouseMotion(SDL_Event event) {
         }
     }
     btn_load.entered(event);
-    //btn_change_size.entered(event);
+    btn_path.entered(event);
+    btn_change_size.entered(event);
     btn_save.entered(event);
 }
 

@@ -13,7 +13,9 @@ class InputDialog: public Gui {
 public:
     void set(string title, const string& fieldName, string inputIniVal ="", int buffSize=50);
     ~InputDialog();
+    // read value
     string getInput();
+
     void Input() override;
     void Render() override;
     void Update() override;
@@ -40,7 +42,7 @@ private:
     Button _btn_abb;
 
     // input handling
-    Gui *focus= nullptr;
+    Gui *focus{};
     string _input;
     int _buffSize=0;
     TextBox _textBox{};

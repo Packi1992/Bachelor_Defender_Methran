@@ -6,7 +6,7 @@
 #define SDL_BACHELORDEFENDER_ENEMYHANDLER_H
 #include "../gamebase.h"
 #include "enemy.h"
-#define MAXENEMIES 1000
+#define MAXENEMIES 250
 class EnemyHandler {
 public:
     EnemyHandler();

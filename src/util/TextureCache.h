@@ -16,9 +16,12 @@ enum t_color {
     BLACK,
     WHITE,
     BTN_COLOR,
+    BTN_HIGHLIGHTED,
     MAP_GRID,
     EDITOR_UI_BG,
     BG,
+    YELLOW,
+    RED,
 };
 
 class TextureCache {
@@ -55,6 +58,8 @@ public:
     void renderFillRect(Rect *dst, t_color color=EMPTY);
     // if no color dialog, preselected color will be used
     void renderRect(Rect *dst, u8 strokeThickness=1 ,t_color color=EMPTY);
+
+    void renderLine(Point A, Point B, t_color color=EMPTY);
 
     TextureCache(TextureCache &other) = delete;
     void operator=(const TextureCache &) = delete;

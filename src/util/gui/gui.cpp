@@ -8,7 +8,9 @@ void Gui::show(Gui **pFocus) {
     *pFocus = this;
 }
 
-void Gui::releaseFocus(bool continueRender) {
+void Gui::releaseFocus(Event *event, bool continueRender) {
+    if(event != nullptr)
+        lastEvent=*event;
     *focus = nextFocus;
     dialog = continueRender;
 }
