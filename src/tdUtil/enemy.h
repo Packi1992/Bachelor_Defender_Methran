@@ -1,4 +1,4 @@
-
+ 
 #ifndef SDL_BASEGAME_ENEMY_H
 #define SDL_BASEGAME_ENEMY_H
 
@@ -35,7 +35,7 @@ public:
     void stun(uint16_t time);
 
     // take damage
-    bool takeDamage(uint16_t damage);
+    void takeDamage(uint16_t damage);
 
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;
@@ -55,6 +55,9 @@ public:
     Point _nextPos{};
     // precise position
     FPoint _pos = {};
+
+    bool isPointInside(FPoint p);
+
 protected:
     void startDeathAnimation();
 

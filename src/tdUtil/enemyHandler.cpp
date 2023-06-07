@@ -81,5 +81,3 @@ void EnemyHandler::addEnemy(Enemy e) {
     _enemies[overflow] = e;
     _enemies[overflow++]._alive = true;
 }
-
-

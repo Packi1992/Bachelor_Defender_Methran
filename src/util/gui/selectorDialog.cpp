@@ -34,8 +34,8 @@ void SelectorDialog::collectFiles() {
     for (const auto &entry: std::filesystem::directory_iterator(_path)) {
         string newPath = entry.path().string();
         if (newPath.substr(newPath.length() - eSize, eSize) == _ending) {
-            cout << "_map found: " << newPath.substr(8, newPath.length() - 12) << endl;
-            maps.push_back(newPath.substr(8, newPath.length() - 12));
+            cout << "_map found: " << newPath.substr(5 + PathLength, newPath.length() - (9 + PathLength)) << endl;
+            maps.push_back(newPath.substr(5 + PathLength, newPath.length() - (9 + PathLength)));
         }
     }
 }

@@ -8,7 +8,7 @@
 #include "../global.h"
 #include "../gamebase.h"
 #include "../tdUtil/enemy.h"
-#define MAXPROJECTILES 1000
+#define MAXPROJECTILES 100
 
 class ProjectilesHandler {
 public:
@@ -25,7 +25,7 @@ public:
         Type _type = DISABLED;
         uint16_t _size = 100;
         uint16_t _speed = 100;
-        uint16_t _direction = 0;
+        uint16_t _direction = 270;
         bool _destroy = false;
         Enemy* _targetE = nullptr;
         FPoint _targetP = { 0,0 };

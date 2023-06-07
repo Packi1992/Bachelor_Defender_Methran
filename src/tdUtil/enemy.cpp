@@ -41,14 +41,13 @@ void Enemy::Update() {
     }
 }
 
-bool Enemy::takeDamage(uint16_t damage) {
+void Enemy::takeDamage(uint16_t damage) {
     _health < damage ? _health = 0 : _health -= damage;
     if (_health == 0) {
         startDeathAnimation();
-        return false;
+        _alive = false;
     }
-    return true;
-
+    return;
 }
 
 void Enemy::stun(uint16_t time) {
@@ -111,6 +110,7 @@ void Enemy::updateDir() {
 
 }
 
-
-
-
+bool Enemy::isPointInside(FPoint p) {
+    FRect en = { _pos.x-0.5, _pos.y-1.6, 0.9, 1.8 };
+    return SDL_PointInFRect(&p,&en);
+}
