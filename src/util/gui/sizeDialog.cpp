@@ -41,8 +41,10 @@ void SizeDialog::Input() {
     if(focus == nullptr)
     {
         Event event;
-        while (SDL_PollEvent(&event))
-            handleEvent(event);
+        while (SDL_PollEvent(&event)){
+            if(pGame->HandleEvent(event))
+                return;
+            handleEvent(event);}
     }
 }
 
@@ -100,6 +102,7 @@ void SizeDialog::Render() {
         _txtb_height.Render();
         _btn_ok.draw();
         _btn_abb.draw();
+        t_cache->renderRect(&_rDialog,3,BLACK);
     }
 }
 

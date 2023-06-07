@@ -45,7 +45,7 @@ public:
     // you should be able to pop Spawn Events
     // is it possible to sort a vector with specific element attribute?
     // sort with given time
-    explicit Wave(int SpawnCount);
+    explicit Wave(int EventCount);
     // add Event takes a String should be easier to load
     void addEvent(string Event);
     // add Event kann also handle an actual spawn event
@@ -57,10 +57,11 @@ public:
     bool PollEvent(SpawnEvent &event);
     void Update(const u32 totalMSec);
     // index showing wave progress
+    bool isOver();
     int index=0;
     ~Wave();
 private:
-    Vector<SpawnEvent> enemies;    // i want to implement a min heap ...
+    Vector<SpawnEvent> Events;    // i want to implement a min heap ... but i dont
     std::list<SpawnEvent> pendingEvents;
     u32 waveStart=0;
     bool hasStarted = false;

@@ -56,10 +56,9 @@ bool SelectorDialog::isFileSelected() const {
 void SelectorDialog::Input() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+        if(pGame->HandleEvent(event))
+            return;
         switch (event.type) {
-            case SDL_WINDOWEVENT:
-                if (event.window.event == SDL_WINDOWEVENT_CLOSE)tidyUp();
-                break;
             case SDL_KEYDOWN:
                 if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)tidyUp();
                 break;

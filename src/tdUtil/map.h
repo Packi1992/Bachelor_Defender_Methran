@@ -16,8 +16,8 @@ public:
     void Render(bool wire = false, bool path = false);
     void Update(const u32 frame, const u32 totalMSec, const float deltaT );
 
-    void load(const string &path = BasePath"Maps/neueMap.map");
-    void save(const string &path = BasePath"Maps/neueMap");
+    bool load(const Vector<string>& data);
+    string save();
 
     static Point getPosOnScreen(Point p);
     static FPoint getPrecisePosOnScreen(FPoint &fp);
