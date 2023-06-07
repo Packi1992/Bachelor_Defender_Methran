@@ -33,13 +33,13 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         p._speed = 60;
         _ph.add(p);
     }
-    /*p._type = ProjectilesHandler::Projectile::FFIRE;
-    p._direction = totalMSec % 360;
+    p._type = ProjectilesHandler::Projectile::FFIRE;
+    //p._direction = totalMSec % 360;
     p._position = Map::getPosOnScreen({ 8, 4 }) + offset;
     p._speed = 60;
     p._moveable = true;
     p._ttl = 80;
-    _ph.add(p);*/
+    _ph.add(p);
 
     // add enemy
     if (totalMSec % 100 == 0) {
