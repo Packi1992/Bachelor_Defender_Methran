@@ -43,38 +43,38 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     _prh.add(pa);
 
     // add enemy
-    static int y = 0;
-    Enemy e;
-    e.setEnemy({ y % 2, y }, 1000, 100);
-    _eh.addEnemy(e);
-    y++;
-    if (y == 8)
-        y = 0;
+    if (totalMSec % 100 == 0) {
+        Enemy e;
+        e.setEnemy({ 0, 0 }, 1000, 100);
+        _eh.addEnemy(e);
+    }
     _eh.Update();
     _prh.move();
     _ph.move();
 
     // Look for collision to any given Enemey, added Damagenumber to Projectile
     for (auto& e : _eh._enemies) {
-        Rect en = { e._pos.x,e._pos.y,scale,scale+scale };
-        // First take a look at the projectiles
-        for (auto& p : _ph._projectiles) {
-            if (p._type != Projectile::DISABLED) {    
-                // Collision Detection not implemented yet, perhaps with SDL_intersectRect
-                if (e.isPointInside(p._position)) {
-                    e.takeDamage(p._damage);
-                    _ph.remove(p);
+        if (e._alive) {
+            Rect en = { e._pos.x,e._pos.y,scale,scale + scale };
+            // First take a look at the projectiles
+            for (auto& p : _ph._projectiles) {
+                if (p._alive) {
+                    // Collision Detection not implemented yet, perhaps with SDL_intersectRect
+                    if (e.isPointInside(p._position) && false) {
+                        e.takeDamage(p._damage);
+                        _ph.remove(p);
+                    }
                 }
             }
-        }
-        // Then at the particles
-        for (auto& p : _prh._particles) {
-            if (p._type != Particles::DISABLED) {
-                Rect par = { p._position.x,p._position.y,p._size,p._size };
-                // Collision Detection not implemented yet
-                if (SDL_HasIntersection(&en, &par)) {
-                    e.takeDamage(p._damage);
-                    _prh.remove(p);
+            // Then at the particles
+            for (auto& p : _prh._particles) {
+                if (p._alive) {
+                    Rect par = { p._position.x,p._position.y,p._size,p._size };
+                    // Collision Detection not implemented yet
+                    if (SDL_HasIntersection(&en, &par)) {
+                        e.takeDamage(p._damage);
+                        _prh.remove(p);
+                    }
                 }
             }
         }

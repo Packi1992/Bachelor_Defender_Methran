@@ -107,6 +107,7 @@
     <ClInclude Include="src\util\gui\textbox.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\gui\sizeDialog.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -242,6 +243,7 @@
     <ClCompile Include="src\util\gui\textbox.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\gui\sizeDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
