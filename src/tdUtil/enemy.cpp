@@ -67,10 +67,6 @@ void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, EnemyType type) 
     _alive = true;
 }
 
-bool Enemy::isPointInside(Point p) {
-    return true;
-}
-
 void Enemy::startDeathAnimation() {
     _dying = 1000;
 }

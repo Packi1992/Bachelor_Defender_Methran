@@ -26,18 +26,20 @@ void TestTD::Render(u32 frame,  u32 totalMSec, float deltaT) {
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // add projektiles and particles
     ProjectilesHandler::Projectile p;
-    p._type = Projectile::ARROW;
-    p._direction = totalMSec % 360;
-    p._position = Map::getPosOnScreen({ 8, 4 }) + offset;
-    p._speed = 60;
-    _ph.add(p);
-    p._type = ProjectilesHandler::Projectile::FFIRE;
+    if (totalMSec % 25 == 10) {
+        p._type = Projectile::ARROW;
+        //p._direction = totalMSec % 360;
+        p._position = Map::getPosOnScreen({ 8, 4 }) + offset;
+        p._speed = 60;
+        _ph.add(p);
+    }
+    /*p._type = ProjectilesHandler::Projectile::FFIRE;
     p._direction = totalMSec % 360;
     p._position = Map::getPosOnScreen({ 8, 4 }) + offset;
     p._speed = 60;
     p._moveable = true;
     p._ttl = 80;
-    _ph.add(p);
+    _ph.add(p);*/
 
     // add enemy
     if (totalMSec % 100 == 0) {
@@ -56,7 +58,8 @@ void TestTD::collision() {
             for (auto& p : _ph._projectiles) {
                 if (p._alive) {
                     // Collision Detection not implemented yet, perhaps with SDL_intersectRect
-                    if (e.isPointInside(p._position)) {
+                    if (_eh.isPointInside(p._position, e)) {
+                        cout << "Hit" << endl;
                         e.takeDamage(p._damage);
                         _ph.remove(p);
                         if (!e._alive) {

@@ -23,6 +23,8 @@ SDL_Color TextureCache::getColor(t_color color) {
             return {	82,198,255,255};
         case YELLOW:
             return {255,255,0,255};
+        case RED:
+            return { 255,0,0,255 };
         default:
             return {255,255,255,255};
     }

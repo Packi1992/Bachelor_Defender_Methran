@@ -27,7 +27,7 @@ public:
         Point _targetP = {0,0};
         uint16_t _ttl = 100;
         bool _moveable = false;
-        uint8_t _damage = 5;
+        uint8_t _damage = 1000;
     };
     void Render( const u32 frame, const u32 totalMSec, const float deltaT );
     void move();

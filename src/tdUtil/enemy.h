@@ -1,4 +1,4 @@
-
+ 
 #ifndef SDL_BASEGAME_ENEMY_H
 #define SDL_BASEGAME_ENEMY_H
 
@@ -55,7 +55,6 @@ public:
     Point _nextPos{};
     // precise position
     FPoint _pos = {};
-    bool isPointInside(Point p);
 protected:
     void startDeathAnimation();
 

@@ -164,7 +164,6 @@
     <ClCompile Include="src\tdUtil\enemy.cpp" />
     <ClCompile Include="src\tdUtil\enemyHandler.cpp" />
     <ClCompile Include="src\tdUtil\map.cpp" />
-    <ClCompile Include="src\tdUtil\particlesHandler.cpp" />
     <ClCompile Include="src\tdUtil\projectilesHandler.cpp" />
     <ClCompile Include="src\tdUtil\tdTileHandler.cpp" />
     <ClCompile Include="src\tdUtil\tower.cpp" />
@@ -188,7 +187,6 @@
     <ClInclude Include="src\tdUtil\enemy.h" />
     <ClInclude Include="src\tdUtil\enemyHandler.h" />
     <ClInclude Include="src\tdUtil\map.h" />
-    <ClInclude Include="src\tdUtil\particlesHandler.h" />
     <ClInclude Include="src\tdUtil\projectilesHandler.h" />
     <ClInclude Include="src\tdUtil\tdTileHandler.h" />
     <ClInclude Include="src\tdUtil\tower.h" />

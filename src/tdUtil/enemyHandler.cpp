@@ -17,6 +17,7 @@ void EnemyHandler::Render() {
                 //t_cache->renderRect(&dstRect,BLACK);
                 //t_cache->render(_texture, &dstRect, _enemies[i]._dir+180, &srcRect);
                 t_cache->render(_texture,&dstRect,&srcRect);
+                t_cache->renderFillRect(&dstRect, BLACK);
             }
         }
     }
@@ -82,4 +83,8 @@ void EnemyHandler::addEnemy(Enemy e) {
     _enemies[overflow++]._alive = true;
 }
 
-
+bool EnemyHandler::isPointInside(Point p, Enemy e) {
+    updateDstRect(e);
+    bool inside = SDL_PointInRect(&p, &dstRect);
+    return inside;
+}

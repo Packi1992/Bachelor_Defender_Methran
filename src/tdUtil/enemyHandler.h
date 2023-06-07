@@ -16,6 +16,7 @@ public:
     void Update();
     void UnInit();
     void addEnemy(Enemy e);
+    bool isPointInside(Point p, Enemy e);
 protected:
     Rect srcRect{};
     Rect dstRect{};
