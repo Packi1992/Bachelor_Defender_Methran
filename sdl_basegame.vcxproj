@@ -223,6 +223,8 @@
     <Image Include="asset\graphic\bg-main.png" />
     <Image Include="asset\graphic\bg-testtd.png" />
     <Image Include="asset\graphic\bg-ui-testtd.png" />
+    <Image Include="asset\graphic\editor\arrow.png" />
+    <Image Include="asset\graphic\editor\blocked.png" />
     <Image Include="asset\graphic\fire.png" />
     <Image Include="asset\graphic\poison.png" />
     <Image Include="asset\graphic\td\tileTD.png" />
