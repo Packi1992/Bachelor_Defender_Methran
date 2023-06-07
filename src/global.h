@@ -58,8 +58,10 @@ using std::cout, std::cin, std::cerr, std::endl, std::string;
 
 #ifdef _MSC_VER
 #define BasePath ""
+#define PathLength 0
 #else
 #define BasePath "../"
+#define PathLength 3
 #endif
 
 #if defined( _DEBUG )

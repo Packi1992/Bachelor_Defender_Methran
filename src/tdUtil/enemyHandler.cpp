@@ -81,8 +81,3 @@ void EnemyHandler::addEnemy(Enemy e) {
     _enemies[overflow] = e;
     _enemies[overflow++]._alive = true;
 }
-
-bool EnemyHandler::isPointInside(Point p, Enemy e) {
-    updateDstRect(e);
-    return SDL_PointInRect(&p, &dstRect);
-}

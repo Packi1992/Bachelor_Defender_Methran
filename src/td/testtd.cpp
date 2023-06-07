@@ -32,13 +32,13 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         p._position = Map::calculateLogicalPos(mousePos);
         p._speed = 10;
         _ph.add(p);
-        p._type = ProjectilesHandler::Projectile::FFIRE;
+/*      p._type = ProjectilesHandler::Projectile::FFIRE;
         p._direction = 270;
         p._position = Map::calculateLogicalPos(mousePos);
         p._speed = 10;
         p._moveable = true;
         p._ttl = 80;
-        _ph.add(p);
+        _ph.add(p);*/
         mbDown = false;
     }
 
@@ -46,12 +46,12 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // add enemy
     if (totalMSec % 100 == 0) {
         Enemy e;
-        e.setEnemy({ 0, 0 }, 1000, 100);
+        e.setEnemy({ 0, 0 }, 10, 100);
         _eh.addEnemy(e);
     }
+    collision();
     _eh.Update();
     _ph.move();
-    collision();
 }
 
 void TestTD::collision() {
@@ -60,7 +60,8 @@ void TestTD::collision() {
             for (auto& p : _ph._projectiles) {
                 if (p._alive) {
                     // Collision Detection not implemented yet, perhaps with SDL_intersectRect
-                    if (_eh.isPointInside({ p._position.x - offset.x, p._position.y - offset.y }, e)) {
+                    if (e.isPointInside(p._position)) {
+                        cout << "HIT" << endl;
                         e.takeDamage(p._damage);
                         _ph.remove(p);
                         if (!e._alive) {

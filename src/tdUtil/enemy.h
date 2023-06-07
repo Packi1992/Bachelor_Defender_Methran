@@ -55,6 +55,9 @@ public:
     Point _nextPos{};
     // precise position
     FPoint _pos = {};
+
+    bool isPointInside(FPoint p);
+
 protected:
     void startDeathAnimation();
 

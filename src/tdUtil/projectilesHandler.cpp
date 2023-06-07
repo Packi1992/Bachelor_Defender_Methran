@@ -13,8 +13,12 @@ void ProjectilesHandler::Render(const u32 frame, const u32 totalMSec, const floa
         FPoint pos = Map::getPrecisePosOnScreen(p._position);
         int size = (int)((float)scale * (float)p._size / 100.0f);
         if (p._alive && onScreen(pos, size)) {
-            Rect dstRect = { (int)pos.x, (int)pos.y, size, size };
+            Rect dstRect = { (int)pos.x, (int)pos.y-size*0.5, size, size };
             t_cache->render(_texture, &dstRect, p._direction, TdTileHandler::getSrcRect(p._type, totalMSec));
+            dstRect.y += size * 0.5;
+            dstRect.w = 5;
+            dstRect.h = 5;
+            t_cache->renderFillRect(&dstRect, BLACK);
         }
     }
 }
