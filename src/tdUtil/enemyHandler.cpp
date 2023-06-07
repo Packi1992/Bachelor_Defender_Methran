@@ -17,7 +17,6 @@ void EnemyHandler::Render() {
                 //t_cache->renderRect(&dstRect,BLACK);
                 //t_cache->render(_texture, &dstRect, _enemies[i]._dir+180, &srcRect);
                 t_cache->render(_texture,&dstRect,&srcRect);
-                t_cache->renderFillRect(&dstRect, BLACK);
             }
         }
     }
@@ -85,6 +84,5 @@ void EnemyHandler::addEnemy(Enemy e) {
 
 bool EnemyHandler::isPointInside(Point p, Enemy e) {
     updateDstRect(e);
-    Point po = {p.x - offset.x,p.y - offset.y};
-    return SDL_PointInRect(&po, &dstRect);
+    return SDL_PointInRect(&p, &dstRect);
 }

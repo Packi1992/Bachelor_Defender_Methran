@@ -58,8 +58,7 @@ void TestTD::collision() {
             for (auto& p : _ph._projectiles) {
                 if (p._alive) {
                     // Collision Detection not implemented yet, perhaps with SDL_intersectRect
-                    if (_eh.isPointInside(p._position, e)) {
-                        cout << "Hit" << endl;
+                    if (_eh.isPointInside({ p._position.x - offset.x, p._position.y - offset.y }, e)) {
                         e.takeDamage(p._damage);
                         _ph.remove(p);
                         if (!e._alive) {

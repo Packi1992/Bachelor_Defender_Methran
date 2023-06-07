@@ -15,8 +15,6 @@ void ProjectilesHandler::Render(const u32 frame, const u32 totalMSec, const floa
         if (p._alive && onScreen(pos, size)) {
             Rect dstRect = {pos.x, pos.y, size, size};
             t_cache->render(_texture, &dstRect, p._direction, TdTileHandler::getSrcRect(p._type, totalMSec));
-            Rect test = { pos.x, pos.y, 5, 5 };
-            t_cache->renderFillRect(&test, RED);
         }
     }
 }
