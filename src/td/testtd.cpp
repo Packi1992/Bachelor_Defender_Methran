@@ -59,10 +59,9 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         Rect en = { e._pos.x,e._pos.y,scale,scale+scale };
         // First take a look at the projectiles
         for (auto& p : _ph._projectiles) {
-            if (p._type != Projectile::DISABLED) {
-                Rect pro = { p._position.x,p._position.y,p._size,p._size };
+            if (p._type != Projectile::DISABLED) {    
                 // Collision Detection not implemented yet, perhaps with SDL_intersectRect
-                if (SDL_HasIntersection(&en,&pro)) {
+                if (e.isPointInside(p._position)) {
                     e.takeDamage(p._damage);
                     _ph.remove(p);
                 }
