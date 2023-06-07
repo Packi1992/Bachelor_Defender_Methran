@@ -23,6 +23,7 @@ protected:
 
     bool mbDown = false;
     bool mouseScroll = false;
+    Point mousePos= {};
 public:
     // ctor
     using GameState::GameState;

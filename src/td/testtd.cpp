@@ -25,19 +25,23 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
 
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // add projektiles and particles
-    ProjectilesHandler::Projectile p;
-    p._type = Projectile::ARROW;
-    p._direction = totalMSec % 360;
-    p._position = Map::getPosOnScreen({ 8, 4 }) + offset;
-    p._speed = 60;
-    _ph.add(p);
-    p._type = ProjectilesHandler::Projectile::FFIRE;
-    p._direction = totalMSec % 360;
-    p._position = Map::getPosOnScreen({ 8, 4 }) + offset;
-    p._speed = 60;
-    p._moveable = true;
-    p._ttl = 80;
-    _ph.add(p);
+    if(mbDown){
+        ProjectilesHandler::Projectile p;
+        p._type = Projectile::ARROW;
+        p._direction = 270;
+        p._position = Map::calculateLogicalPos(mousePos);
+        p._speed = 10;
+        _ph.add(p);
+        p._type = ProjectilesHandler::Projectile::FFIRE;
+        p._direction = 270;
+        p._position = Map::calculateLogicalPos(mousePos);
+        p._speed = 10;
+        p._moveable = true;
+        p._ttl = 80;
+        _ph.add(p);
+        mbDown = false;
+    }
+
 
     // add enemy
     if (totalMSec % 100 == 0) {
@@ -78,8 +82,13 @@ void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
 }
 
 void TestTD::MouseDown(SDL_Event event) {
+
     if (event.button.button == SDL_BUTTON_RIGHT) {
         mouseScroll = true;
+    }
+    if (event.button.button == SDL_BUTTON_LEFT){
+        mbDown = true;
+        mousePos ={ event.motion.x , event.motion.y};
     }
 }
 

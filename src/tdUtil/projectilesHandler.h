@@ -21,14 +21,14 @@ public:
             FFIRE = TdTileHandler::MapObjects::FFIRE,
         };
         bool _alive = false;
-        Point _position = { -1,-1 };
+        FPoint _position = { -1,-1 };
         Type _type = DISABLED;
         uint16_t _size = 100;
         uint16_t _speed = 100;
         uint16_t _direction = 0;
         bool _destroy = false;
         Enemy* _targetE = nullptr;
-        Point _targetP = { 0,0 };
+        FPoint _targetP = { 0,0 };
         uint16_t _ttl = 1000;
         uint8_t _damage = 100;
         bool _moveable = false;
@@ -44,7 +44,7 @@ private:
     void moveBullet(Projectile* p);
     static void moveArrow(Projectile* p);
     Texture* _texture = nullptr;
-    static bool onScreen(Point& posOnScreen, int& size);
+    static bool onScreen(FPoint& posOnScreen, int& size);
     void moveFFire(Projectile* p);
 };
 

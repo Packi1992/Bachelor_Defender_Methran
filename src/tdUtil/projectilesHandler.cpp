@@ -10,10 +10,10 @@ void ProjectilesHandler::set() {
 
 void ProjectilesHandler::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     for (auto& p : _projectiles) {
-        Point pos = p._position - offset;
+        FPoint pos = Map::getPrecisePosOnScreen(p._position);
         int size = (int)((float)scale * (float)p._size / 100.0f);
         if (p._alive && onScreen(pos, size)) {
-            Rect dstRect = { pos.x, pos.y, size, size };
+            Rect dstRect = { (int)pos.x, (int)pos.y, size, size };
             t_cache->render(_texture, &dstRect, p._direction, TdTileHandler::getSrcRect(p._type, totalMSec));
         }
     }
@@ -83,12 +83,12 @@ void ProjectilesHandler::moveBullet(Projectile* p) {
 
 void ProjectilesHandler::moveArrow(Projectile* p) {
     auto direction = (float)(((double)(p->_direction % 360) / 180.0f) * M_PI);
-    float speed = (float)((float)p->_speed / 500.0f) * (float)scale;
-    p->_position.x += (int)(sin(direction) * speed);
-    p->_position.y += (int)(cos(direction) * speed);
+    float speed = (float)(((float)p->_speed) *0.01);
+    p->_position.x += (sin(direction) * speed);
+    p->_position.y += (cos(direction) * speed);
 }
 
-bool ProjectilesHandler::onScreen(Point& posOnScreen, int& size) {
+bool ProjectilesHandler::onScreen(FPoint& posOnScreen, int& size) {
     return (posOnScreen.x + size > 0) &&      // left
         (posOnScreen.y + size > 0) &&             // top
         (posOnScreen.y < windowSize.y) &&        // bot
@@ -99,8 +99,8 @@ void ProjectilesHandler::moveFFire(ProjectilesHandler::Projectile* p) {
     if (p->_ttl < 30)
         p->_moveable = false;
 
-    auto direction = (float)(((double)(p->_direction % 360) / 180.0f) * M_PI);
-    float speed = (float)p->_speed / 500.0f * (float)scale;
-    p->_position.x += (int)(sin(direction) * speed);
-    p->_position.y += (int)(cos(direction) * speed);
+    auto direction = (float) (((double) (p->_direction % 360) / 180.0f) * M_PI);
+    float speed = (float) p->_speed / 100.0f;
+    p->_position.x += (sin(direction) * speed);
+    p->_position.y += (cos(direction) * speed);
 }
