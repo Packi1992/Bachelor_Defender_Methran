@@ -19,9 +19,15 @@ public:
     bool load(const Vector<string>& data);
     string save();
 
+    // give Screen Pos for a logical position
     static Point getPosOnScreen(Point p);
     static FPoint getPrecisePosOnScreen(FPoint &fp);
+
+    // use Map coordinate to give back center of tile
     static FPoint getPreciseCenterOfPos(Point &p);
+
+    // use screen position to calculate logical map position
+    static FPoint calculateLogicalPos(Point &p);
     Point getNextPos(Point p);
     Point getNextPos(FPoint p);
 

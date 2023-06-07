@@ -262,6 +262,10 @@ FPoint Map::getPrecisePosOnScreen(FPoint &fp) {
 FPoint Map::getPreciseCenterOfPos(Point &p) {
     return { (float)p.x + 0.5f,(float) p.y + 0.5f};
 }
+FPoint Map::calculateLogicalPos(Point &p) {
+    FPoint fp = {float(p.x + offset.x)/(float)scale, float(p.y + offset.y)/(float)scale};
+    return fp;
+}
 
 bool Map::isBlocked(int i, int j) {
     switch(_map[i][j]){
@@ -328,6 +332,7 @@ u16 Map::getDir(int ex, int ey, int tx, int ty) {
         return 90;
     return 270;
 }
+
 
 
 
