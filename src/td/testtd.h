@@ -7,13 +7,11 @@
 #include "../tdUtil/enemy.h"
 #include "../tdUtil/tower.h"
 #include "../tdUtil/projectilesHandler.h"
-#include "../tdUtil/particlesHandler.h"
 #include "../tdUtil/enemyHandler.h"
 
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
 using Projectile = ProjectilesHandler::Projectile;
-using Particles = ParticlesHandler::Particles;
 
 class TestTD final: public GameState{
 protected:
@@ -22,7 +20,6 @@ protected:
     Tower* towerArr[50];
     EnemyHandler _eh;
     ProjectilesHandler _ph;
-    ParticlesHandler _prh;
 
     bool mbDown=false;
     bool mouseScroll=false;
@@ -36,6 +33,8 @@ public:
     void Events( const u32 frame, const u32 totalMSec, const float deltaT ) override;
     void Update( const u32 frame, const u32 totalMSec, const float deltaT ) override;
     void Render( const u32 frame, const u32 totalMSec, const float deltaT ) override;
+
+    void collision();
 
     void MouseDown(SDL_Event event);
 

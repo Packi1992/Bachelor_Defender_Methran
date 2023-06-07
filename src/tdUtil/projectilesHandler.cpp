@@ -40,6 +40,11 @@ void ProjectilesHandler::remove(Projectile &p) {
             break;
         case Projectile::BULLET:
             break;
+        case Projectile::FFIRE:
+            p._alive = false;
+            break;
+        case Projectile::BASEEXPLOSION:
+            break;
     }
     return;
 }
@@ -53,6 +58,12 @@ void ProjectilesHandler::move() {
                     break;
                 case (Projectile::Type::BULLET):
                     moveBullet(&_projectiles[i]);
+                    break;
+                case (Projectile::Type::BASEEXPLOSION):
+                    break;
+                case (Projectile::Type::FFIRE):
+                    if (_projectiles[i]._moveable)
+                        moveFFire(&_projectiles[i]);
                     break;
                 default:
                     cout << "Projectile Move-Error: Projectile not valid: " << _projectiles[i]._type << endl;
@@ -82,4 +93,14 @@ bool ProjectilesHandler::onScreen(Point &posOnScreen, int &size) {
            (posOnScreen.y + size > 0) &&             // top
            (posOnScreen.y < windowSize.y) &&        // bot
            (posOnScreen.x < windowSize.x);         // right
+}
+
+void ProjectilesHandler::moveFFire(ProjectilesHandler::Projectile* p) {
+    if (p->_ttl < 30)
+        p->_moveable = false;
+
+    auto direction = (float)(((double)(p->_direction % 360) / 180.0f) * M_PI);
+    float speed = (float)p->_speed / 500.0f * (float)scale;
+    p->_position.x += (int)(sin(direction) * speed);
+    p->_position.y += (int)(cos(direction) * speed);
 }

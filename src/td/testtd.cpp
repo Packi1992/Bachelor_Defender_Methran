@@ -9,7 +9,6 @@ void TestTD::Init() {
     pMap = &_map;
     _map.load();
     _ph.set();
-    _prh.set();
 }
 
 void TestTD::UnInit() {
@@ -21,26 +20,24 @@ void TestTD::Render(u32 frame,  u32 totalMSec, float deltaT) {
     t_cache->drawBackground(BG);
     _map.Render(true);
     _ph.Render(frame, totalMSec, deltaT);
-    _prh.Render(frame, totalMSec, deltaT);
     _eh.Render();
 }
 
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // add projektiles and particles
     ProjectilesHandler::Projectile p;
-    ParticlesHandler::Particles pa;
     p._type = Projectile::ARROW;
     p._direction = totalMSec % 360;
     p._position = Map::getPosOnScreen({ 8, 4 }) + offset;
     p._speed = 60;
     _ph.add(p);
-    pa._type = ParticlesHandler::Particles::FFIRE;
-    pa._direction = totalMSec % 360;
-    pa._position = Map::getPosOnScreen({ 8, 4 }) + offset;
-    pa._speed = 60;
-    pa._moveable = true;
-    pa._ttl = 80;
-    _prh.add(pa);
+    p._type = ProjectilesHandler::Projectile::FFIRE;
+    p._direction = totalMSec % 360;
+    p._position = Map::getPosOnScreen({ 8, 4 }) + offset;
+    p._speed = 60;
+    p._moveable = true;
+    p._ttl = 80;
+    _ph.add(p);
 
     // add enemy
     if (totalMSec % 100 == 0) {
@@ -49,37 +46,27 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         _eh.addEnemy(e);
     }
     _eh.Update();
-    _prh.move();
     _ph.move();
+    collision();
+}
 
-    // Look for collision to any given Enemey, added Damagenumber to Projectile
+void TestTD::collision() {
     for (auto& e : _eh._enemies) {
         if (e._alive) {
-            Rect en = { e._pos.x,e._pos.y,scale,scale + scale };
-            // First take a look at the projectiles
             for (auto& p : _ph._projectiles) {
                 if (p._alive) {
                     // Collision Detection not implemented yet, perhaps with SDL_intersectRect
-                    if (e.isPointInside(p._position) && false) {
+                    if (e.isPointInside(p._position)) {
                         e.takeDamage(p._damage);
                         _ph.remove(p);
-                    }
-                }
-            }
-            // Then at the particles
-            for (auto& p : _prh._particles) {
-                if (p._alive) {
-                    Rect par = { p._position.x,p._position.y,p._size,p._size };
-                    // Collision Detection not implemented yet
-                    if (SDL_HasIntersection(&en, &par)) {
-                        e.takeDamage(p._damage);
-                        _prh.remove(p);
+                        if (!e._alive) {
+                            break;
+                        }
                     }
                 }
             }
         }
     }
-
 }
 
 void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
