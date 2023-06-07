@@ -7,7 +7,7 @@ void TestTD::Init() {
     GameState::Init();
     pGame = &game;
     pMap = &_map;
-    _map.load();
+    DataHandler::load(_pl,_wh,_map);
     _ph.set();
     _prh.set();
 }
@@ -56,7 +56,10 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+        if(pGame->HandleEvent(event))
+            return;
         switch (event.type) {
+
             case SDL_WINDOWEVENT:
                 if (event.window.event == SDL_WINDOWEVENT_CLOSE)
                     game.SetNextState(99);

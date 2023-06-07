@@ -9,6 +9,9 @@
 #include "../tdUtil/projectilesHandler.h"
 #include "../tdUtil/particlesHandler.h"
 #include "../tdUtil/enemyHandler.h"
+#include "../tdUtil/waveHandler.h"
+#include "../tdUtil/player.h"
+#include "../tdUtil/dataHandler.h"
 
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
@@ -16,13 +19,13 @@ using Projectile = ProjectilesHandler::Projectile;
 
 class TestTD final: public GameState{
 protected:
-
     Map _map;
     Tower* towerArr[50];
     EnemyHandler _eh;
     ProjectilesHandler _ph;
     ParticlesHandler _prh;
-
+    WaveHandler _wh;
+    Player _pl;
     bool mbDown=false;
     bool mouseScroll=false;
 public:

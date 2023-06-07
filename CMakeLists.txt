@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter")     # baseclass 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-attributes")   # clang does not know [[(un)likely]]
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 
-set(CMAKE_CXX_FLAGS_DEBUG   "-Og")
+#set(CMAKE_CXX_FLAGS_DEBUG   "-Og")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
 add_compile_options("$<$<CONFIG:DEBUG>:-D_DEBUG>")
