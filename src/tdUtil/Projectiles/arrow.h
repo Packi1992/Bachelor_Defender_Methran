@@ -6,8 +6,8 @@
 #define SDL_BACHELORDEFENDER_ARROW_H
 #include "projectile.h"
 
-// Maybe changing to class?
-struct Arrow:Projectile {
+class Arrow:public Projectile {
+public:
     Arrow();
     void move() override;
 };

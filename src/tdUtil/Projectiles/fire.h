@@ -7,8 +7,8 @@
 
 #include "projectile.h"
 
-// Maybe changing to class?
-struct Fire:Projectile {
+class Fire:public Projectile {
+public:
     Fire();
     void move() override;
 };

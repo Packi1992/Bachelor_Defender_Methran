@@ -13,12 +13,13 @@
 
 class ProjectilesHandler {
 public:
+    ~ProjectilesHandler();
     void Render(const u32 frame, const u32 totalMSec, const float deltaT);
     void move();
-    Projectile _projectiles[MAXPROJECTILES];
-    void add(Projectile p);
+    Projectile * _projectiles[MAXPROJECTILES] = {};
+    void add(Projectile *p);
     void set();
-    void remove(Projectile& p);
+    void remove(Projectile ** p);
 private:
     uint overflow = 0;
     void moveBullet(Projectile* p);

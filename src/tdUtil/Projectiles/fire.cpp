@@ -9,9 +9,9 @@ Fire::Fire() {
 }
 
 void Fire::move() {
-    if (_ttl < 30)
+    if (_ttl < 30) {
         _moveable = false;
-
+    }
     auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
     float speed = (float) _speed / 100.0f;
     _position.x += (sin(direction) * speed);

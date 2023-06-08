@@ -10,42 +10,45 @@ void ProjectilesHandler::set() {
 
 void ProjectilesHandler::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     for (auto& p : _projectiles) {
-        FPoint pos = Map::getPrecisePosOnScreen(p._position);
-        int size = (int)((float)scale * (float)p._size / 100.0f);
-        if (p._alive && onScreen(pos, size)) {
-            Rect dstRect = { (int)pos.x, (int)(pos.y - (float)size * 0.5f), size, size };
-            t_cache->render(_texture, &dstRect, p._direction, TdTileHandler::getSrcRect(p._type, totalMSec));
-            dstRect.y += size * 0.5;
-            dstRect.w = 5;
-            dstRect.h = 5;
-            t_cache->renderFillRect(&dstRect, BLACK);
+        if(p != nullptr){
+            FPoint pos = Map::getPrecisePosOnScreen(p->_position);
+            int size = (int)((float)scale * (float)p->_size / 100.0f);
+            if (p->_alive && onScreen(pos, size)) {
+                Rect dstRect = { (int)pos.x, (int)(pos.y - (float)size * 0.5f), size, size };
+                t_cache->render(_texture, &dstRect, p->_direction, TdTileHandler::getSrcRect(p->_type, totalMSec));
+                dstRect.y += size * 0.5;
+                dstRect.w = 5;
+                dstRect.h = 5;
+                t_cache->renderFillRect(&dstRect, BLACK);
+            }
         }
     }
 }
 
-void ProjectilesHandler::add(Projectile p) {
+void ProjectilesHandler::add(Projectile *p) {
     for (int i = 0; i < MAXPROJECTILES; i++) {
-        if (!_projectiles[i]._alive) {
+        if (_projectiles[i] == nullptr) {
             _projectiles[i] = p;
-            _projectiles[i]._alive = true;
+            _projectiles[i]->_alive = true;
             return;
         }
     }
     if (overflow >= MAXPROJECTILES)
         overflow = 0;
+    delete _projectiles[overflow];
     _projectiles[overflow] = p;
-    _projectiles[overflow++]._alive = true;
+    _projectiles[overflow++]->_alive = true;
 }
 
-void ProjectilesHandler::remove(Projectile &p) {
-    switch (p._type) {
+void ProjectilesHandler::remove(Projectile **p) {
+    switch ((*p)->_type) {
         case Projectile::ARROW:
-            p._alive = false;
+            (*p)->_alive = false;
             break;
         case Projectile::BULLET:
             break;
         case Projectile::FFIRE:
-            p._alive = false;
+            (*p)->_alive = false;
             break;
         case Projectile::BASEEXPLOSION:
             break;
@@ -54,19 +57,25 @@ void ProjectilesHandler::remove(Projectile &p) {
         default:
             break;
     }
+    if(!(*p)->_alive){
+        delete *p;
+        *p = nullptr;
+    }
     return;
 }
 
 void ProjectilesHandler::move() {
     for (int i = 0; i < MAXPROJECTILES; i++) {
-        if (_projectiles[i]._alive) {
-            _projectiles[i].move();
+        if(_projectiles[i] != nullptr ) {
+            if (_projectiles[i]->_alive) {
+                _projectiles[i]->move();
+            }
+            //checking if Projectile still alive?
+            if (_projectiles[i]->_ttl > 0)
+                _projectiles[i]->_ttl--;
+            else
+                _projectiles[i]->_alive = false;
         }
-        //checking if Projectile still alive?
-        if (_projectiles[i]._ttl > 0)
-            _projectiles[i]._ttl--;
-        else
-            _projectiles[i]._alive = false;
     }
 }
 
@@ -75,4 +84,12 @@ bool ProjectilesHandler::onScreen(FPoint& posOnScreen, int& size) {
         (posOnScreen.y + size > 0) &&             // top
         (posOnScreen.y < windowSize.y) &&        // bot
         (posOnScreen.x < windowSize.x);         // right
+}
+
+ProjectilesHandler::~ProjectilesHandler() {
+    for (int i = 0; i < MAXPROJECTILES; i++) {
+        if (_projectiles[i] != nullptr) {
+            delete _projectiles[i];
+        }
+    }
 }
