@@ -20,7 +20,7 @@ public:
     Enemy() = default;
 
     // move enemy -> status effects will impact here
-    void Update();
+    void Update(const float deltaT );
 
     // use Enemy slot for new enemy spawn
     void setEnemy(Point pos, uint16_t Health, uint8_t speed, EnemyType type = Ordinary);
@@ -50,9 +50,10 @@ public:
     bool _alive = false;
     u16 _health = 0;
     u16 _maxHealth = 0;
+
     // target where the enemy is heading
-    Point _nextPos{};
-    // precise position
+    FPoint _nextPos{};
+    //pos on _map
     FPoint _pos = {};
 
     // used to handle collision detection - is not necessarily same as dstRect
@@ -61,13 +62,15 @@ public:
 protected:
     void startDeathAnimation();
     u16 _dying = false;
-    //pos on _map
-    u16 _stunTime = 0;
+
+
     u8 _speed = 0;
     u8 _speedDiff = 0;
-    u8 _poisenTimer = 0;
-    u8 _poisenStrength = 0;
-    u16 _slowTimer = 0;
+
+    u8 _poisonStrength = 0;
+    float _stunTime = 0;
+    float _slowTimer = 0;
+    float _poisonTimer = 0;
 
     void updateDir();
 };

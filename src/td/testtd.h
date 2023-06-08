@@ -11,11 +11,12 @@
 #include "../tdUtil/waveHandler.h"
 #include "../tdUtil/player.h"
 #include "../tdUtil/dataHandler.h"
+#include "../tdUtil/coordinateTransformer.h"
 
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
 using Projectile = ProjectilesHandler::Projectile;
-
+using CT = CoordinateTransformer;
 class TestTD final : public GameState {
 protected:
 

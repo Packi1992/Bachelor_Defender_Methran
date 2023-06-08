@@ -10,10 +10,10 @@ void ProjectilesHandler::set() {
 
 void ProjectilesHandler::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     for (auto& p : _projectiles) {
-        FPoint pos = Map::getPrecisePosOnScreen(p._position);
+        Point pos = CT::getPosOnScreen(p._position);
         int size = (int)((float)scale * (float)p._size / 100.0f);
         if (p._alive && onScreen(pos, size)) {
-            Rect dstRect = { (int)pos.x, (int)pos.y-size*0.5, size, size };
+            Rect dstRect = { pos.x, (int)(pos.y-size*0.5), size, size };
             t_cache->render(_texture, &dstRect, p._direction, TdTileHandler::getSrcRect(p._type, totalMSec));
             dstRect.y += size * 0.5;
             dstRect.w = 5;
@@ -49,6 +49,8 @@ void ProjectilesHandler::remove(Projectile &p) {
             break;
         case Projectile::BASEEXPLOSION:
             break;
+        case Projectile::DISABLED:
+            cerr << "you removed a disabled Projectile";
     }
     return;
 }
@@ -92,7 +94,7 @@ void ProjectilesHandler::moveArrow(Projectile* p) {
     p->_position.y += (cos(direction) * speed);
 }
 
-bool ProjectilesHandler::onScreen(FPoint& posOnScreen, int& size) {
+bool ProjectilesHandler::onScreen(Point& posOnScreen, int& size) {
     return (posOnScreen.x + size > 0) &&      // left
         (posOnScreen.y + size > 0) &&             // top
         (posOnScreen.y < windowSize.y) &&        // bot

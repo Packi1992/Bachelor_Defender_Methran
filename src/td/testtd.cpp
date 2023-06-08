@@ -29,7 +29,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         ProjectilesHandler::Projectile p;
         p._type = Projectile::ARROW;
         p._direction = 270;
-        p._position = Map::calculateLogicalPos(mousePos);
+        p._position = CT::getPosInGame(mousePos);
         p._speed = 10;
         _ph.add(p);
         mbDown = false;
@@ -43,7 +43,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         _eh.addEnemy(e);
     }
     collision();
-    _eh.Update();
+    _eh.Update(deltaT);
     _ph.move();
 }
 

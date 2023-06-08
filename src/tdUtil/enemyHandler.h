@@ -13,13 +13,13 @@ public:
     Enemy _enemies[MAXENEMIES];
     Texture *_texture={};
     void Render();
-    void Update();
+    void Update(float deltaT);
     void UnInit();
     void addEnemy(Enemy e);
 protected:
     Rect srcRect{};
     Rect dstRect{};
-    FPoint precisePosOnScreen{};
+    Point PosOnScreen{};
     int overflow=0;
     void updateSrcRect(Enemy &e);
     void updateDstRect(Enemy &enemy);

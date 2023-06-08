@@ -8,6 +8,9 @@
 #include "../global.h"
 #include "../gamebase.h"
 #include "../tdUtil/enemy.h"
+#include "../tdUtil/coordinateTransformer.h"
+
+using CT = CoordinateTransformer;
 #define MAXPROJECTILES 100
 
 class ProjectilesHandler {
@@ -44,7 +47,7 @@ private:
     void moveBullet(Projectile* p);
     static void moveArrow(Projectile* p);
     Texture* _texture = nullptr;
-    static bool onScreen(FPoint& posOnScreen, int& size);
+    static bool onScreen(Point& posOnScreen, int& size);
     void moveFFire(Projectile* p);
 };
 
