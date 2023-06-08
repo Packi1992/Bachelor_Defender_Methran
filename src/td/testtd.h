@@ -7,6 +7,9 @@
 #include "../tdUtil/enemy.h"
 #include "../tdUtil/tower.h"
 #include "../tdUtil/projectilesHandler.h"
+#include "../tdUtil/Projectiles/projectile.h"
+#include "../tdUtil/Projectiles/arrow.h"
+#include "../tdUtil/Projectiles/fire.h"
 #include "../tdUtil/enemyHandler.h"
 #include "../tdUtil/waveHandler.h"
 #include "../tdUtil/player.h"
@@ -14,7 +17,7 @@
 
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
-using Projectile = ProjectilesHandler::Projectile;
+using Projectile = Projectile;
 
 class TestTD final : public GameState {
 protected:

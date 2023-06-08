@@ -8,31 +8,11 @@
 #include "../global.h"
 #include "../gamebase.h"
 #include "../tdUtil/enemy.h"
+#include "Projectiles/projectile.h"
 #define MAXPROJECTILES 100
 
 class ProjectilesHandler {
 public:
-    struct Projectile {
-        enum Type {
-            DISABLED = TdTileHandler::MapObjects::Empty,
-            ARROW = TdTileHandler::MapObjects::ARROW,
-            BULLET = TdTileHandler::MapObjects::BULLET,
-            BASEEXPLOSION = TdTileHandler::MapObjects::BASEEXPLOSION,
-            FFIRE = TdTileHandler::MapObjects::FFIRE,
-        };
-        bool _alive = false;
-        FPoint _position = { -1,-1 };
-        Type _type = DISABLED;
-        uint16_t _size = 100;
-        uint16_t _speed = 100;
-        uint16_t _direction = 270;
-        bool _destroy = false;
-        Enemy* _targetE = nullptr;
-        FPoint _targetP = { 0,0 };
-        uint16_t _ttl = 1000;
-        uint8_t _damage = 100;
-        bool _moveable = false;
-    };
     void Render(const u32 frame, const u32 totalMSec, const float deltaT);
     void move();
     Projectile _projectiles[MAXPROJECTILES];

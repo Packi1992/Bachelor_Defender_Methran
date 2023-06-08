@@ -26,19 +26,18 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // add projektiles and particles
     if(mbDown){
-        ProjectilesHandler::Projectile p;
-        p._type = Projectile::ARROW;
+        Arrow p;
         p._direction = 270;
         p._position = Map::calculateLogicalPos(mousePos);
         p._speed = 10;
         _ph.add(p);
-/*      p._type = ProjectilesHandler::Projectile::FFIRE;
-        p._direction = 270;
-        p._position = Map::calculateLogicalPos(mousePos);
-        p._speed = 10;
-        p._moveable = true;
-        p._ttl = 80;
-        _ph.add(p);*/
+        Fire f;
+        f._direction = 270;
+        f._position = Map::calculateLogicalPos(mousePos);
+        f._speed = 10;
+        f._moveable = true;
+        f._ttl = 80;
+        _ph.add(f);
         mbDown = false;
     }
 

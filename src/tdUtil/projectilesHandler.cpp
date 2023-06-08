@@ -13,7 +13,7 @@ void ProjectilesHandler::Render(const u32 frame, const u32 totalMSec, const floa
         FPoint pos = Map::getPrecisePosOnScreen(p._position);
         int size = (int)((float)scale * (float)p._size / 100.0f);
         if (p._alive && onScreen(pos, size)) {
-            Rect dstRect = { (int)pos.x, (int)pos.y-size*0.5, size, size };
+            Rect dstRect = { (int)pos.x, (int)(pos.y - (float)size * 0.5f), size, size };
             t_cache->render(_texture, &dstRect, p._direction, TdTileHandler::getSrcRect(p._type, totalMSec));
             dstRect.y += size * 0.5;
             dstRect.w = 5;
@@ -49,6 +49,10 @@ void ProjectilesHandler::remove(Projectile &p) {
             break;
         case Projectile::BASEEXPLOSION:
             break;
+        case Projectile::DISABLED:
+            break;
+        default:
+            break;
     }
     return;
 }
@@ -56,22 +60,7 @@ void ProjectilesHandler::remove(Projectile &p) {
 void ProjectilesHandler::move() {
     for (int i = 0; i < MAXPROJECTILES; i++) {
         if (_projectiles[i]._alive) {
-            switch (_projectiles[i]._type) {
-                case (Projectile::Type::ARROW):
-                    moveArrow(&_projectiles[i]);
-                    break;
-                case (Projectile::Type::BULLET):
-                    moveBullet(&_projectiles[i]);
-                    break;
-                case (Projectile::Type::BASEEXPLOSION):
-                    break;
-                case (Projectile::Type::FFIRE):
-                    if (_projectiles[i]._moveable)
-                        moveFFire(&_projectiles[i]);
-                    break;
-                default:
-                    cout << "Projectile Move-Error: Projectile not valid: " << _projectiles[i]._type << endl;
-            }
+            _projectiles[i].move();
         }
         //checking if Projectile still alive?
         if (_projectiles[i]._ttl > 0)
@@ -81,30 +70,9 @@ void ProjectilesHandler::move() {
     }
 }
 
-void ProjectilesHandler::moveBullet(Projectile* p) {
-    cerr << "Bullet movement is not implemented" << endl;
-}
-
-void ProjectilesHandler::moveArrow(Projectile* p) {
-    auto direction = (float)(((double)(p->_direction % 360) / 180.0f) * M_PI);
-    float speed = (float)(((float)p->_speed) *0.01);
-    p->_position.x += (sin(direction) * speed);
-    p->_position.y += (cos(direction) * speed);
-}
-
 bool ProjectilesHandler::onScreen(FPoint& posOnScreen, int& size) {
     return (posOnScreen.x + size > 0) &&      // left
         (posOnScreen.y + size > 0) &&             // top
         (posOnScreen.y < windowSize.y) &&        // bot
         (posOnScreen.x < windowSize.x);         // right
-}
-
-void ProjectilesHandler::moveFFire(ProjectilesHandler::Projectile* p) {
-    if (p->_ttl < 30)
-        p->_moveable = false;
-
-    auto direction = (float) (((double) (p->_direction % 360) / 180.0f) * M_PI);
-    float speed = (float) p->_speed / 100.0f;
-    p->_position.x += (sin(direction) * speed);
-    p->_position.y += (cos(direction) * speed);
 }

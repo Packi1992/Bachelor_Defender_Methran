@@ -111,6 +111,8 @@ void Enemy::updateDir() {
 }
 
 bool Enemy::isPointInside(FPoint p) {
-    FRect en = { _pos.x-0.5, _pos.y-1.6, 0.9, 1.8 };
-    return SDL_PointInFRect(&p,&en);
+    FRect r = { _pos.x - 0.5f, _pos.y - 1.6f, 0.9, 1.8 };
+    //return SDL_PointInRect(&p,&en);
+    return ( (p.x >= r.x) && (p.x < (r.x + r.w)) &&
+             (p.y >= r.y) && (p.y < (r.y + r.h)) ) ? SDL_TRUE : SDL_FALSE;
 }
