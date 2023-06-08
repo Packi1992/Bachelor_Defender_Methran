@@ -18,7 +18,8 @@ public:
         BASEEXPLOSION = TdTileHandler::MapObjects::BASEEXPLOSION,
         FFIRE = TdTileHandler::MapObjects::FFIRE,
     };
-    bool _alive = false;
+
+    bool _alive = true;
     FPoint _position = {-1, -1};
     Type _type = DISABLED;
     uint16_t _size = 100;

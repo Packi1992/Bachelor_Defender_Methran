@@ -21,10 +21,6 @@ Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, ul animate) {
     int localAnimate;
     switch (o) {
         case Tower:
-            localAnimate = (int)((animate / 4) % 5);
-            src.x = 64+(localAnimate* 64);
-            src.y = 256;
-            break;
         case Empty:
             src.x = 9*64;
             src.y = 0;
@@ -73,6 +69,34 @@ Rect *TdTileHandler::getSrcRect(int o, ul anim) {
     return getSrcRect(selectObject(o), anim);
 }
 
+Rect *TdTileHandler::getEnemySrcRect(EnemyType e, ul anim) {
+    // get map time using global
+    src = {0, 0, 64, 128};
+    switch (e) {
+        case Ordinary:
+        case Fast:
+        case Silly:
+        case Strong:
+        case Boss:
+            src.y = 6 * 64;
+            break;
+    }
+    return &src;
+}
+
+Rect *TdTileHandler::getTowerSrcRect(TowerType t, ul anim) {
+    src = {0, 0, 64, 64};
+    switch (t) {
+        case Base:
+            src.y = 256;
+            return &src;
+        case Pointer:
+            src.y = 256;
+            src.x = 64 + (int)(anim%6)*64;
+            return &src;
+    }
+}
+
 std::string TdTileHandler::getName(TdTileHandler::MapObjects object) {
     switch (object) {
         case Empty:
@@ -95,4 +119,8 @@ std::string TdTileHandler::getName(TdTileHandler::MapObjects object) {
             return "Error";
     }
 }
+
+
+
+
 

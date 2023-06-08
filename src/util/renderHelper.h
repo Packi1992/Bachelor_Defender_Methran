@@ -24,7 +24,6 @@ enum t_color {
     RED,
 };
 #include "../global.h"
-
 #include "TextureCache.h"
 #include "../gamebase.h"
 
@@ -41,7 +40,8 @@ public:
     void background(t_color color);
     void texture(Texture *t, Rect *dRect, Rect *sRect = nullptr) const;
     void texture(Texture *t, Rect *dRect, u16 direction, Rect *sRect = nullptr) const;
-
+    void tile(Rect *dRect, Rect *sRect = nullptr);
+    void tile(Rect *dRect, u16 direction, Rect *sRect = nullptr);
     // if no color dialog, preselected color will be used
     void fillRect(Rect *dst, t_color color=EMPTY);
     // if no color dialog, preselected color will be used
@@ -59,9 +59,11 @@ public:
     void operator=(const RenderHelper &) = delete;
 
 private:
-    Renderer *renderer;
+    Texture *_texture={};
+    Renderer *_renderer{};
     static RenderHelper *helperInstance;
     explicit RenderHelper(Renderer *renderer);
 
+    void loadTileSheet();
 };
 #endif //SDL_BACHELORDEFENDER_RENDERHELPER_H

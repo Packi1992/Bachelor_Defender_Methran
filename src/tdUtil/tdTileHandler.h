@@ -12,6 +12,13 @@ class TdTileHandler {
 public:
     static int TOOLCOUNT;
     static int OBJECTCOUNT;
+    enum EnemyType{
+        Ordinary,
+        Fast,
+        Silly,
+        Strong,
+        Boss,
+    };
     enum MapObjects{
         Empty,
         Start,
@@ -26,13 +33,21 @@ public:
         BASEEXPLOSION,
         FFIRE,
     };
+    enum TowerType{
+        Base,
+        Pointer,
+    };
     static MapObjects selectObject(int i);
 
     static Rect *getSrcRect(MapObjects o, ul anim=0);
-
     static Rect *getSrcRect(int o, ul anim=0);
 
+    static Rect *getEnemySrcRect(EnemyType e, ul anim=0);
+
+    static Rect *getTowerSrcRect(TowerType t, ul anim=0);
+
     static std::string getName(MapObjects objects);
+
 private:
     static Rect src;
 };

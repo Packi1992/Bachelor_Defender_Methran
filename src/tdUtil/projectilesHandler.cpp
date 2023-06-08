@@ -11,7 +11,7 @@ void ProjectilesHandler::set() {
 void ProjectilesHandler::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     for (auto& p : _projectiles) {
         if(p != nullptr){
-            FPoint pos = CT::getPosOnScreen(p->_position);
+            Point pos = CT::getPosOnScreen(p->_position);
             int size = (int)((float)scale * (float)p->_size / 100.0f);
             if (p->_alive && onScreen(pos, size)) {
                 Rect dstRect = { (int)pos.x, (int)(pos.y - (float)size * 0.5f), size, size };

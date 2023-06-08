@@ -1,38 +1,49 @@
 //
 // Created by banoodle on 14.05.23.
 //
+#ifndef SDL_BASEGAME_TESTTD_H
+
 #include "../global.h"
 #include "../gamebase.h"
 #include "../recthelper.h"
 #include "../tdUtil/enemy.h"
-#include "../tdUtil/tower.h"
+
 #include "../tdUtil/projectilesHandler.h"
 #include "../tdUtil/Projectiles/projectile.h"
 #include "../tdUtil/Projectiles/arrow.h"
 #include "../tdUtil/Projectiles/fire.h"
-#include "../tdUtil/enemyHandler.h"
 #include "../tdUtil/waveHandler.h"
 #include "../tdUtil/player.h"
 #include "../tdUtil/dataHandler.h"
 #include "../tdUtil/coordinateTransformer.h"
+#include "../tdUtil/tdTileHandler.h"
 
-#ifndef SDL_BASEGAME_TESTTD_H
+class Tower;
 #define SDL_BASEGAME_TESTTD_H
+#define MAXENEMIES 500
 using CT = CoordinateTransformer;
 
 class TestTD final : public GameState {
 protected:
-
+    Texture *_tileSheet = {};
     Map _map;
-    Tower *towerArr[50];
-    EnemyHandler _eh;
-    ProjectilesHandler _ph;
-    WaveHandler _wh;
-    Player _pl;
+
+    int enemyOverflow = 0;
+    void addEnemy(Enemy e);
+
+    //  debug stuff
     bool mbDown = false;
     bool mouseScroll = false;
     Point mousePos = {};
 public:
+    struct TDglobals{
+        Enemy _enemies[MAXENEMIES];
+        ProjectilesHandler _ph;
+        WaveHandler _wh;
+        Vector<std::shared_ptr<Tower>> _towers{};
+        Player _pl;
+    };
+    TDglobals globals;
     // ctor
     using GameState::GameState;
 
@@ -55,6 +66,8 @@ public:
     void MouseWheel(SDL_Event event);
 
     void keyDown(SDL_Event event);
-};
 
+
+};
+#include "tower/tower.h"
 #endif //SDL_BASEGAME_TESTTD_H

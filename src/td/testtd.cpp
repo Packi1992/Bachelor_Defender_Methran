@@ -7,68 +7,112 @@ void TestTD::Init() {
     GameState::Init();
     pGame = &game;
     pMap = &_map;
-    DataHandler::load(_pl, _wh, _map);
-    _ph.set();
+    DataHandler::load(globals._pl, globals._wh, _map);
+    globals._ph.set();
+    Point pos = {13,6};
+    globals._towers.push_back(std::make_shared<PointerTower>(pos));
+    Enemy e;
+    e.setEnemy({5, 6}, 10, 50);
+    addEnemy(e);
+    pos.y -=2;
+    globals._towers.push_back(std::make_shared<PointerTower>(pos));
 }
 
 void TestTD::UnInit() {
     GameState::UnInit();
-    _eh.UnInit();
+    for (auto & enemy : globals._enemies) {
+        enemy._alive = false;
+    }
 }
 
 void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
+    // Background
     rh->background(BG);
-    _map.Render(true);
-    _ph.Render(frame, totalMSec, deltaT);
-    _eh.Render();
+    // Map
+    _map.Render();
+    // Tower
+    for (auto &tower: globals._towers){
+        tower->Render(deltaT);
+    }
+    //  render Enemies
+    for (auto &enemy : globals._enemies) {
+        enemy.Render();
+    }
+    // projectiles and particles
+    globals._ph.Render(frame, totalMSec, deltaT);
+}
+
+void TestTD::addEnemy(Enemy e) {
+    for (auto & enemy : globals._enemies) {
+        if (!enemy._alive) {
+            enemy = e;
+            enemy._alive = true;
+            return;
+        }
+    }
+    if (enemyOverflow >= MAXENEMIES)
+        enemyOverflow = 0;
+    globals._enemies[enemyOverflow] = e;
+    globals._enemies[enemyOverflow++]._alive = true;
 }
 
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
+    collision();
+    // Update Enemies
+    for (auto & enemy : globals._enemies) {
+        if (enemy._alive) {
+            enemy.Update(deltaT);
+        }
+    }
+    // Update towers
+    // Tower
+    for (auto &tower: globals._towers){
+        tower->Update(deltaT, globals);
+    }
+    globals._ph.move();
+
     // add projectiles and particles
     if (mbDown) {
         Arrow *p = new Arrow();
         p->_direction = 270;
         p->_position = CT::getPosInGame(mousePos);
         p->_speed = 10;
-        _ph.add(p);
+        globals._ph.add(p);
         Fire *f = new Fire();
         f->_direction = 270;
         f->_position = CT::getPosInGame(mousePos);
         f->_speed = 10;
         f->_moveable = true;
         f->_ttl = 80;
-        _ph.add(f);
+        globals._ph.add(f);
         mbDown = false;
     }
-
-
     // add enemy
     if (totalMSec % 100 == 0) {
         Enemy e;
-        e.setEnemy({0, 0}, 10, 100);
-        _eh.addEnemy(e);
+        e.setEnemy({7, 3}, 10, 100);
+        addEnemy(e);
     }
-    collision();
-    _eh.Update(deltaT);
-    _ph.move();
+
+
 }
 
 void TestTD::collision() {
-    for (auto &e: _eh._enemies) {
+    for (auto &e: globals._enemies) {
         if (e._alive) {
-            for (auto &p: _ph._projectiles) {
+            for (auto &p: globals._ph._projectiles) {
                 if (p != nullptr) {
-                    if (p->_alive) {
-                        // Collision Detection not implemented yet, perhaps with SDL_intersectRect
-                        if (e.isPointInside(p->_position)) {
-                            cout << "HIT" << endl;
-                            e.takeDamage(p->_damage);
-                            _ph.remove(&p);
-                            if (!e._alive) {
-                                break;
-                            }
+                if (p->_alive) {
+                    // Collision Detection not implemented yet, perhaps with SDL_intersectRect
+                    if (e.isPointInside(p->_position)) {
+                        cout << "HIT" << endl;
+                        e.takeDamage(p->_damage);
+                        globals._ph.remove(&p);
+                        if (!e._alive) {
+                            break;
                         }
                     }
+                }
                 }
             }
         }
@@ -128,9 +172,9 @@ void TestTD::MouseWheel(SDL_Event event) {
     Point cursor{};
     SDL_GetMouseState(&cursor.x, &cursor.y);
     if (event.wheel.y / abs(event.wheel.y) < 1) {// zoom out
-        scale = scale * 0.8;
+        scale = (int)(scale * 0.8);
     } else {                                     // zoom in
-        scale = scale * (1 / 0.8);
+        scale = (int)(scale * (1 / 0.8));
         offset.y += 2 * event.wheel.y / abs(event.wheel.y) * _map._height / 2;
         offset.x += 2 * event.wheel.y / abs(event.wheel.y) * _map._width / 2;
     }

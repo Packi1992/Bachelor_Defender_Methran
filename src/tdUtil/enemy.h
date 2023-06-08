@@ -6,15 +6,7 @@
 #include "../gamebase.h"
 #include "tdTileHandler.h"
 #include "map.h"
-
-enum EnemyType {
-    Ordinary,
-    Fast,
-    Silly,
-    Strong,
-    Boss,
-};
-
+using EnemyType = TdTileHandler::EnemyType;
 class Enemy {
 public:
     Enemy() = default;
@@ -22,10 +14,10 @@ public:
     // move enemy -> status effects will impact here
     void Update(float deltaT);
 
-    void Render(Texture *t, Rect *srcRect);
+    void Render() const;
 
     // use Enemy slot for new enemy spawn
-    void setEnemy(Point pos, uint16_t Health, uint8_t speed, EnemyType type = Ordinary);
+    void setEnemy(Point pos, uint16_t Health, uint8_t speed, EnemyType type = EnemyType::Ordinary);
 
     // setTile enemy speed -- maybe a buff or something else
     void setSpeed(uint8_t speed);
@@ -48,7 +40,7 @@ public:
 
     [[nodiscard]] bool hasReachedGoal() const;
 
-    EnemyType _type = Ordinary;
+    EnemyType _type = EnemyType::Ordinary;
 
     // logical pixel pos
     u16 _dir = 0;
