@@ -28,7 +28,7 @@ void Enemy::Update(const float deltaT) {
             if (_dir == 180)
                 _pos.y = _nextPos.y - (_pos.y + runLength) > 0 ? _pos.y += runLength : _pos.y = _nextPos.y;
             if (_dir == 270)
-                _pos.x = (_pos.x + runLength) - _nextPos.x > 0 ? _pos.x += runLength : _pos.x = _nextPos.x;
+                _pos.x = (_pos.x + runLength) - _nextPos.x > 0 ? _pos.x -= runLength : _pos.x = _nextPos.x;
         }
     }
 }
@@ -109,19 +109,20 @@ bool Enemy::hasReachedGoal() const {
     return _reachedGoal;
 }
 
-void Enemy::Render(Texture *t, Rect *srcRect) {
-    // make dstRect
-    Point POS = CT::getPosOnScreen(_pos);
-    Rect dstRect = {POS.x, POS.y, scale, scale + scale};
-    dstRect.x = (int) (POS.x - dstRect.w * 0.5);
-    dstRect.y = (int) (POS.y - dstRect.h * 0.8);
-    // check if enemy is on screen
-    if ((dstRect.x + dstRect.w > 0) &&        // left
-        (dstRect.y + dstRect.h > 0) &&        // top
-        (dstRect.y < windowSize.y) &&        // bot
-        (dstRect.x < windowSize.x))         // right
-    {
-        rh->texture(t, &dstRect, srcRect);
+void Enemy::Render() const {
+    if(_alive){
+        // make dstRect
+        Point POS = CT::getPosOnScreen(_pos);
+        Rect dstRect = {POS.x, POS.y, scale, scale + scale};
+        dstRect.x = (int) (POS.x - dstRect.w * 0.5);
+        dstRect.y = (int) (POS.y - dstRect.h * 0.8);
+        // check if enemy is on screen
+        if ((dstRect.x + dstRect.w > 0) &&        // left
+            (dstRect.y + dstRect.h > 0) &&        // top
+            (dstRect.y < windowSize.y) &&        // bot
+            (dstRect.x < windowSize.x))         // right
+        {
+            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type));
+        }
     }
-
 }

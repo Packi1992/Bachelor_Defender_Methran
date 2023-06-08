@@ -36,7 +36,7 @@ RenderHelper *RenderHelper::getHelper(Renderer *render) {
 }
 
 RenderHelper::RenderHelper(Renderer *renderer) {
-    this->renderer = renderer;
+    this->_renderer = renderer;
 }
 
 void RenderHelper::Text(char *string, int size, int x, int y, t_color fgC) {
@@ -57,7 +57,7 @@ void RenderHelper::CenteredText(const string &text, int size, t_color fgc, int w
 }
 
 void RenderHelper::setColor(Color color) {
-    SDL_SetRenderDrawColor(renderer,color.r,color.g,color.b,color.a);
+    SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
 }
 
 void RenderHelper::setColor(t_color color) {
@@ -67,7 +67,7 @@ void RenderHelper::setColor(t_color color) {
 
 void RenderHelper::background(t_color color) {
     setColor(color);
-    SDL_RenderClear(renderer);
+    SDL_RenderClear(_renderer);
 }
 
 void RenderHelper::hint(TdTileHandler::MapObjects object, int size, Point posOnScreen, t_color textColor, t_color bgColor) {
@@ -91,11 +91,11 @@ void RenderHelper::hint(TdTileHandler::MapObjects object, int size, Point posOnS
 }
 
 void RenderHelper::texture(Texture *t, Rect *dRect, Rect *sRect) const {
-    SDL_RenderCopy(renderer,t,sRect,dRect);
+    SDL_RenderCopy(_renderer, t, sRect, dRect);
 }
 
 void RenderHelper::texture(Texture *t, Rect *dRect, u16 direction, Rect *sRect) const {
-    SDL_RenderCopyEx(renderer,t,sRect,dRect,-(double)direction - 180.0, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(_renderer, t, sRect, dRect, (double)direction, nullptr, SDL_FLIP_NONE);
 
 }
 
@@ -103,7 +103,7 @@ void RenderHelper::rect(Rect *dst, u8 strokeThickness, t_color color) {
     if(color != EMPTY)
         setColor(color);
     for(u8 i= 0 ; i<strokeThickness; i++){
-        SDL_RenderDrawRect(renderer,dst);
+        SDL_RenderDrawRect(_renderer, dst);
         dst->x++;
         dst->y++;
         dst->h -=2;
@@ -118,13 +118,30 @@ void RenderHelper::rect(Rect *dst, u8 strokeThickness, t_color color) {
 void RenderHelper::fillRect(Rect *dst, t_color color) {
     if(color != EMPTY)
         setColor(color);
-    SDL_RenderFillRect(renderer,dst);
+    SDL_RenderFillRect(_renderer, dst);
 }
 
 void RenderHelper::line(Point &A, Point &B, t_color color) {
     if(color != EMPTY)
         setColor(color);
-    SDL_RenderDrawLine(renderer, A.x, A.y, B.x, B.y);
+    SDL_RenderDrawLine(_renderer, A.x, A.y, B.x, B.y);
+}
+
+void RenderHelper::tile(Rect *dRect, Rect *sRect){
+    if(_texture== nullptr)
+        loadTileSheet();
+    texture(_texture,dRect,sRect);
+
+}
+
+void RenderHelper::tile(Rect *dRect, u16 direction, Rect *sRect){
+    if(_texture==nullptr)
+        loadTileSheet();
+    texture(_texture,dRect,direction,sRect);
+}
+
+void RenderHelper::loadTileSheet(){
+    _texture = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
 }
 
 

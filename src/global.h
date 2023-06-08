@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cmath>
+#include <math.h>
 #include <cstdarg>
 #include <cstddef>
 #include <charconv>
@@ -43,6 +43,7 @@ using Renderer  = SDL_Renderer;
 using Window    = SDL_Window;
 using Font      = TTF_Font;
 using Music     = Mix_Music;
+
 
 using std::min;
 using std::max;
