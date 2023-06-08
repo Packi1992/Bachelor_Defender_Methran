@@ -1,4 +1,4 @@
- 
+
 #ifndef SDL_BASEGAME_ENEMY_H
 #define SDL_BASEGAME_ENEMY_H
 
@@ -20,10 +20,13 @@ public:
     Enemy() = default;
 
     // move enemy -> status effects will impact here
-    void Update(const float deltaT );
+    void Update(float deltaT);
+
+    void Render(Texture *t, Rect *srcRect);
 
     // use Enemy slot for new enemy spawn
     void setEnemy(Point pos, uint16_t Health, uint8_t speed, EnemyType type = Ordinary);
+
     // setTile enemy speed -- maybe a buff or something else
     void setSpeed(uint8_t speed);
 
@@ -39,15 +42,18 @@ public:
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;
 
-    [[nodiscard]] bool isPoisend() const;
+    [[nodiscard]] bool isPoisoned() const;
 
     [[nodiscard]] bool isSlowed() const;
+
+    [[nodiscard]] bool hasReachedGoal() const;
 
     EnemyType _type = Ordinary;
 
     // logical pixel pos
     u16 _dir = 0;
     bool _alive = false;
+
     u16 _health = 0;
     u16 _maxHealth = 0;
 
@@ -61,6 +67,7 @@ public:
 
 protected:
     void startDeathAnimation();
+
     u16 _dying = false;
 
 
@@ -71,6 +78,7 @@ protected:
     float _stunTime = 0;
     float _slowTimer = 0;
     float _poisonTimer = 0;
+    bool _reachedGoal = false;
 
     void updateDir();
 };

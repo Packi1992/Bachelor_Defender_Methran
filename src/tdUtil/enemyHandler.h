@@ -21,8 +21,8 @@ protected:
     Rect dstRect{};
     Point PosOnScreen{};
     int overflow=0;
-    void updateSrcRect(Enemy &e);
-    void updateDstRect(Enemy &enemy);
+    Rect * getSrcRect(Enemy &e);
+    Rect * getDstRect(Enemy &enemy);
     [[nodiscard]] bool onScreen() const;
 };
 

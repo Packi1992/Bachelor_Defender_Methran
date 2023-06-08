@@ -9,25 +9,14 @@ EnemyHandler::EnemyHandler() {
 }
 
 void EnemyHandler::Render() {
-    for (auto & enemy : _enemies) {
+    for (auto &enemy : _enemies) {
         if (enemy._alive) {
-            updateDstRect(enemy);
-            if (onScreen()){
-                updateSrcRect(enemy);
-                t_cache->render(_texture,&dstRect,&srcRect);
-            }
+            enemy.Render(_texture,getSrcRect(enemy));
         }
     }
 }
 
-bool EnemyHandler::onScreen() const {
-    return (dstRect.x + dstRect.w > 0) &&        // left
-           (dstRect.y + dstRect.h > 0) &&        // top
-           (dstRect.y < windowSize.y) &&        // bot
-           (dstRect.x < windowSize.x);         // right
-}
-
-void EnemyHandler::updateSrcRect(Enemy &e) {
+Rect * EnemyHandler::getSrcRect(Enemy &e) {
     // get map time using global
     srcRect = {0, 0, 64, 128};
     switch (e._type) {
@@ -39,16 +28,7 @@ void EnemyHandler::updateSrcRect(Enemy &e) {
             srcRect.y = 6 * 64;
             break;
     }
-}
-
-void EnemyHandler::updateDstRect(Enemy &enemy) {
-    dstRect.w = scale;
-    dstRect.h = scale + scale;
-    PosOnScreen = CT::getPosOnScreen(enemy._pos);
-
-    dstRect.x = (int)(PosOnScreen.x-dstRect.w*0.5);
-    dstRect.y = (int)(PosOnScreen.y-dstRect.h*0.8);
-
+    return &srcRect;
 }
 
 void EnemyHandler::Update(const float deltaT) {

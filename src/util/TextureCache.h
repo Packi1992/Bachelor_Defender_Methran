@@ -27,7 +27,7 @@ enum t_color {
 class TextureCache {
 
 public:
-    // iniTexture cache run at programm start
+    // iniTexture cache run at program start
     static TextureCache *getCache(Renderer *render);
 
     // colors are handled by TextureCache
@@ -58,8 +58,8 @@ public:
     void renderFillRect(Rect *dst, t_color color=EMPTY);
     // if no color dialog, preselected color will be used
     void renderRect(Rect *dst, u8 strokeThickness=1 ,t_color color=EMPTY);
-
-    void renderLine(Point A, Point B, t_color color=EMPTY);
+    // if no color dialog, preselected color will be used
+    void renderLine(Point &A, Point &B, t_color color=EMPTY);
 
     TextureCache(TextureCache &other) = delete;
     void operator=(const TextureCache &) = delete;

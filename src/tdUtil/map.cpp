@@ -82,19 +82,19 @@ void Map::Render(bool wire, bool pathFinding) {
 
 void Map::drawWire() const {
     t_cache->setRenderColor(MAP_GRID);
+    Point p1, p2;
+
+    p1.y = -offset.y;
+    p2.y = _height * scale - offset.y;
     for (int i = 0; i <= _width; i++) {
-        int x2;
-        int x1 = x2 = i * scale - offset.x;
-        int y1 = -offset.y;
-        int y2 = _height * scale - offset.y;
-        SDL_RenderDrawLine(render, x1, y1, x2, y2);
+        p1.x = p2.x = i * scale - offset.x;
+        t_cache->renderLine(p1,p2);
     }
+    p1.x = 0 - offset.x;
+    p2.x = _width * scale - offset.x;
     for (int j = 0; j <= _height; j++) {
-        int y2;
-        int y1 = y2 = j * scale - offset.y;
-        int x1 = 0 - offset.x;
-        int x2 = _width * scale - offset.x;
-        SDL_RenderDrawLine(render, x1, y1, x2, y2);
+        p1.y = p2.y = j * scale - offset.y;
+        t_cache->renderLine(p1,p2);
     }
 }
 
