@@ -19,31 +19,25 @@ public:
     bool load(const Vector<string>& data);
     string save();
 
-    // give Screen Pos for a logical position
-    static Point getPosOnScreen(Point p);
-    static FPoint getPrecisePosOnScreen(FPoint &fp);
-
-    // use Map coordinate to give back center of tile
-    static FPoint getPreciseCenterOfPos(Point &p);
-
-    // use screen position to calculate logical map position
-    static FPoint calculateLogicalPos(Point &p);
+    // used by editor
     Point getNextPos(Point p);
-    Point getNextPos(FPoint p);
+    // used in game
+    FPoint getNextPosCentre(FPoint p);
 
-    void setTile(Event event, MapObjects object);
+    void setTile(Event &event, MapObjects object);
     void setTile(Point p, MapObjects object);
-    MapObjects getObjectAtScreenPos(Point p);
+    MapObjects getObjectAtScreenPos(Point &p);
     void resize(Point size={-1,-1});
 
     MapObjects getObject(Point p, bool OutOfBoundsError=true);
     MapObjects getObject(FPoint p, bool OutOfBoundsError=true);
+
     [[nodiscard]] ul getMapTime() const;
+    float getMapTimeDiff() const;
 
     int _width = 40;
     int _height = 20;
 
-    unsigned long getMapTimeDiff();
 
 private:
     struct PathEntry{

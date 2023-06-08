@@ -35,8 +35,8 @@ TextWithValue::~TextWithValue() {
 void TextWithValue::draw() {
     if (value != *exValue)
         update();
-    t_cache->render(texLabel, &rectLabel);
-    t_cache->render(texValue, &rectValue);
+    rh->texture(texLabel, &rectLabel);
+    rh->texture(texValue, &rectValue);
 
 }
 

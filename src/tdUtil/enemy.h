@@ -1,4 +1,4 @@
- 
+
 #ifndef SDL_BASEGAME_ENEMY_H
 #define SDL_BASEGAME_ENEMY_H
 
@@ -20,7 +20,9 @@ public:
     Enemy() = default;
 
     // move enemy -> status effects will impact here
-    void Update();
+    void Update(float deltaT);
+
+    void Render(Texture *t, Rect *srcRect);
 
     // use Enemy slot for new enemy spawn
     void setEnemy(Point pos, uint16_t Health, uint8_t speed, EnemyType type = Ordinary);
@@ -40,36 +42,43 @@ public:
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;
 
-    [[nodiscard]] bool isPoisend() const;
+    [[nodiscard]] bool isPoisoned() const;
 
     [[nodiscard]] bool isSlowed() const;
+
+    [[nodiscard]] bool hasReachedGoal() const;
 
     EnemyType _type = Ordinary;
 
     // logical pixel pos
     u16 _dir = 0;
     bool _alive = false;
+
     u16 _health = 0;
     u16 _maxHealth = 0;
+
     // target where the enemy is heading
-    Point _nextPos{};
-    // precise position
+    FPoint _nextPos{};
+    //pos on _map
     FPoint _pos = {};
 
-    bool isPointInside(FPoint p);
+    // used to handle collision detection - is not necessarily same as dstRect
+    [[nodiscard]] bool isPointInside(const FPoint &p) const;
 
 protected:
     void startDeathAnimation();
 
     u16 _dying = false;
-    //pos on _map
 
-    u16 _stunTime = 0;
+
     u8 _speed = 0;
     u8 _speedDiff = 0;
-    u8 _poisenTimer = 0;
-    u8 _poisenStrength = 0;
-    u16 _slowTimer = 0;
+
+    u8 _poisonStrength = 0;
+    float _stunTime = 0;
+    float _slowTimer = 0;
+    float _poisonTimer = 0;
+    bool _reachedGoal = false;
 
     void updateDir();
 };

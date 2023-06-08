@@ -42,31 +42,31 @@ void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 }
 
 void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
-    t_cache->drawBackground(BG);
+    rh->background(BG);
     // Render maps
     map.Render(true,showPath);
     // now Render ui
     Rect tool, symbol;
     tool = {0, 0, 80, 80};
     symbol = {0, 0, 64, 64};
-    t_cache->renderFillRect(&Toolbox,EDITOR_UI_BG);
+    rh->fillRect(&Toolbox,EDITOR_UI_BG);
     tool.x = 100;
     symbol.x = tool.x + 8;
     tool.y = windowSize.y - 90;
     symbol.y = tool.y + 8;
     for (int i = 0; i < TdTileHandler::TOOLCOUNT; i++) {
-        t_cache->renderFillRect(&tool,WHITE);
-        t_cache->render(t_tileMap, &symbol, TdTileHandler::getSrcRect(i, map.getMapTime()));
+        rh->fillRect(&tool,WHITE);
+        rh->texture(t_tileMap, &symbol, TdTileHandler::getSrcRect(i, map.getMapTime()));
         if (this->selected == i) {
-            t_cache->setRenderColor({ 0, 0, (u8)rainbowColor, 255});
-            t_cache->renderRect(&tool,5);
+            rh->setColor({ 0, 0, (u8)rainbowColor, 255});
+            rh->rect(&tool,5);
             rainbowColor += 10;
         }
         tool.x += 90;
         symbol.x = tool.x + 8;
     }
     if (isLabelActive && labelTimer > 60) {
-        t_cache->drawHint(labelObject, 18, labelPos, BLACK, WHITE);
+        rh->hint(labelObject, 18, labelPos, BLACK, WHITE);
     }
     btn_save.draw();
     btn_load.draw();

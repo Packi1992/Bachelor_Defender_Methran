@@ -18,7 +18,7 @@ unsigned long Map::getMapTime() const {
     return _time;
 }
 
-unsigned long Map::getMapTimeDiff() {
+float Map::getMapTimeDiff() const {
     return _deltaTime;
 }
 
@@ -47,7 +47,7 @@ void Map::Render(bool wire, bool pathFinding) {
         for (int j = 0; j < _height; j++) {
             int y = (j * scale) - offset.y;
             dstRect = {x, y, scale, scale};
-            t_cache->render(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][j], _time));
+            rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][j], _time));
         }
     }
     if(pathFinding){
@@ -59,13 +59,13 @@ void Map::Render(bool wire, bool pathFinding) {
                 //Point p= {i,j};
                 PathEntry e = _pathMap[i][j];
                 if(e.blocked)
-                    t_cache->render(_blocked,&dstRect);
+                    rh->texture(_blocked,&dstRect);
                 else if(!e.set&&!e.goal){
                     dstRect.x+=scale/6;
                     dstRect.y+=scale/6;
                     dstRect.w-=scale/3;
                     dstRect.h-=scale/3;
-                    t_cache->renderFillRect(&dstRect,YELLOW);
+                    rh->fillRect(&dstRect,YELLOW);
                     dstRect = {x, y, scale, scale};
 
                 }
@@ -73,7 +73,7 @@ void Map::Render(bool wire, bool pathFinding) {
                     continue;
                 }
                 else{
-                    t_cache->render(_arrow,&dstRect,getDir(i,j,e.pos.x,e.pos.y));
+                    rh->texture(_arrow,&dstRect,getDir(i,j,e.pos.x,e.pos.y));
                 }
             }
         }
@@ -81,20 +81,20 @@ void Map::Render(bool wire, bool pathFinding) {
 }
 
 void Map::drawWire() const {
-    t_cache->setRenderColor(MAP_GRID);
+    rh->setColor(MAP_GRID);
+    Point p1, p2;
+
+    p1.y = -offset.y;
+    p2.y = _height * scale - offset.y;
     for (int i = 0; i <= _width; i++) {
-        int x2;
-        int x1 = x2 = i * scale - offset.x;
-        int y1 = -offset.y;
-        int y2 = _height * scale - offset.y;
-        SDL_RenderDrawLine(render, x1, y1, x2, y2);
+        p1.x = p2.x = i * scale - offset.x;
+        rh->line(p1,p2);
     }
+    p1.x = 0 - offset.x;
+    p2.x = _width * scale - offset.x;
     for (int j = 0; j <= _height; j++) {
-        int y2;
-        int y1 = y2 = j * scale - offset.y;
-        int x1 = 0 - offset.x;
-        int x2 = _width * scale - offset.x;
-        SDL_RenderDrawLine(render, x1, y1, x2, y2);
+        p1.y = p2.y = j * scale - offset.y;
+        rh->line(p1,p2);
     }
 }
 
@@ -115,10 +115,8 @@ string Map::save() {
     return s.str();
 }
 void Map::loadRow(string line) {
-    cout << "Load " <<line << endl;
     unsigned long token = line.find(';');
     int row = (int) strtol(line.substr(4, token).c_str(), nullptr, 10);
-    cout << "Load Row " << row << endl;
     for (int i = 0; i < _width; i++) {
         line.erase(0, token + 1);
         token = line.find(';');
@@ -160,10 +158,9 @@ bool Map::load(const Vector<string>& data) {
     return widthLoaded && heightLoaded && !meta;
 }
 
-void Map::setTile(Event event, MapObjects object) {
-    int x = (event.motion.x + offset.x) / (scale);
-    int y = (event.motion.y + offset.y) / (scale);
-    setTile({x,y},object);
+void Map::setTile(Event &event, MapObjects object) {
+    Point p = {event.motion.x,event.motion.y};
+    setTile(CT::getTileInGame(p),object);
 }
 
 void Map::setTile(Point p, MapObjects object) {
@@ -173,16 +170,8 @@ void Map::setTile(Point p, MapObjects object) {
     updatePathFinding();
 }
 
-TdTileHandler::MapObjects Map::getObjectAtScreenPos(Point p) {
-    Point pos;
-    pos.x = (p.x + offset.x) / (scale);
-    pos.y = (p.y + offset.y) / (scale);
-    return getObject(pos, false);
-}
-
-Point Map::getPosOnScreen(Point p) {
-    Point POS = {(p.x * scale), (p.y * scale)};
-    return POS - offset;
+TdTileHandler::MapObjects Map::getObjectAtScreenPos(Point &p) {
+    return getObject(CT::getTileInGame(p), false);
 }
 
 TdTileHandler::MapObjects Map::getObject(Point p, bool OutOfBoundsError) {
@@ -194,10 +183,8 @@ TdTileHandler::MapObjects Map::getObject(Point p, bool OutOfBoundsError) {
 }
 
 MapObjects Map::getObject(FPoint p, bool OutOfBoundsError) {
-    Point res;
-    res.x = (int) p.x;
-    res.y = (int) p.y;
-    return getObject(res);
+    Point p_int = {(int)p.x,(int)p.y};
+    return getObject(p_int,OutOfBoundsError);
 }
 
 void Map::iniOffset() const {
@@ -213,9 +200,6 @@ void Map::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 }
 
 void Map::updatePathFinding() {
-    // mockdata
-    // enemies will head right
-
     // clear path array
     for (int j = 0; j < _height; j++) {
         for (int i = 0; i < _width; i++) {
@@ -248,23 +232,12 @@ void Map::updatePathFinding() {
 Point Map::getNextPos(Point p) {
     return _pathMap[p.x][p.y].pos;
 }
-Point Map::getNextPos(FPoint p) {
+FPoint Map::getNextPosCentre(FPoint p) {
     Point res;
     res.x = (int) p.x;
     res.y = (int) p.y;
-    return getNextPos(res);
-}
-
-FPoint Map::getPrecisePosOnScreen(FPoint &fp) {
-    return {fp.x * (float) scale - (float) offset.x,fp.y * (float) scale - (float) offset.y};
-}
-
-FPoint Map::getPreciseCenterOfPos(Point &p) {
-    return { (float)p.x + 0.5f,(float) p.y + 0.5f};
-}
-FPoint Map::calculateLogicalPos(Point &p) {
-    FPoint fp = {float(p.x + offset.x)/(float)scale, float(p.y + offset.y)/(float)scale};
-    return fp;
+    res = getNextPos(res);
+    return {(float)res.x+0.5f,(float)res.y+0.5f};
 }
 
 bool Map::isBlocked(int i, int j) {

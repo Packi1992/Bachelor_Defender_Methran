@@ -9,29 +9,15 @@ EnemyHandler::EnemyHandler() {
 }
 
 void EnemyHandler::Render() {
-    for (int i = 0; i < MAXENEMIES; i++) {
-        if (_enemies[i]._alive) {
-            updateDstRect(_enemies[i]);
-            if (onScreen()){
-                updateSrcRect(_enemies[i]);
-                //t_cache->renderRect(&dstRect,BLACK);
-                //t_cache->render(_texture, &dstRect, _enemies[i]._dir+180, &srcRect);
-                t_cache->render(_texture,&dstRect,&srcRect);
-            }
+    for (auto &enemy : _enemies) {
+        if (enemy._alive) {
+            enemy.Render(_texture,getSrcRect(enemy));
         }
     }
 }
 
-bool EnemyHandler::onScreen() const {
-    //cout << "dstRect -> " << dstRect.x << " " << dstRect.y << endl;
-    return (dstRect.x + dstRect.w > 0) &&        // left
-           (dstRect.y + dstRect.h > 0) &&        // top
-           (dstRect.y < windowSize.y) &&        // bot
-           (dstRect.x < windowSize.x);         // right
-}
-
-void EnemyHandler::updateSrcRect(Enemy &e) {
-    // get maptime using global
+Rect * EnemyHandler::getSrcRect(Enemy &e) {
+    // get map time using global
     srcRect = {0, 0, 64, 128};
     switch (e._type) {
         case Ordinary:
@@ -42,36 +28,28 @@ void EnemyHandler::updateSrcRect(Enemy &e) {
             srcRect.y = 6 * 64;
             break;
     }
+    return &srcRect;
 }
 
-void EnemyHandler::updateDstRect(Enemy &enemy) {
-    dstRect.w = scale;
-    dstRect.h = scale + scale;
-    precisePosOnScreen = Map::getPrecisePosOnScreen(enemy._pos);
-    dstRect.x = (int)(precisePosOnScreen.x-dstRect.w/2.0);
-    dstRect.y = (int)(precisePosOnScreen.y-dstRect.h*0.8);
-
-}
-
-void EnemyHandler::Update() {
-    for (int i = 0; i < MAXENEMIES; i++) {
-        if (_enemies[i]._alive) {
-            _enemies[i].Update();
+void EnemyHandler::Update(const float deltaT) {
+    for (auto & enemy : _enemies) {
+        if (enemy._alive) {
+            enemy.Update(deltaT);
         }
     }
 }
 
 void EnemyHandler::UnInit() {
-    for (int i = 0; i < MAXENEMIES; i++) {
-        _enemies[i]._alive = false;
+    for (auto & enemy : _enemies) {
+        enemy._alive = false;
     }
 }
 
 void EnemyHandler::addEnemy(Enemy e) {
-    for (int i = 0; i < MAXENEMIES; i++) {
-        if (!_enemies[i]._alive) {
-            _enemies[i] = e;
-            _enemies[i]._alive = true;
+    for (auto & enemy : _enemies) {
+        if (!enemy._alive) {
+            enemy = e;
+            enemy._alive = true;
             return;
 
         }

@@ -7,6 +7,7 @@ Game *pGame{};
 Map *pMap{};
 Point offset{};
 Point windowSize{};
+RenderHelper *rh{};
 int scale = 64;
 
 Game::Game( const char * windowTitle, const Point wSize, const bool vSync )
@@ -70,7 +71,8 @@ Game::Game( const char * windowTitle, const Point wSize, const bool vSync )
 		cerr << "Renderer could not be created: " << SDL_GetError() << endl;
 		exit( 5 );
 	}
-    t_cache = TextureCache::getCache(render);
+    rh = RenderHelper::getHelper(render);
+    t_cache = TextureCache::getCache();
     if( t_cache == nullptr )
     {
         cerr << "Texture Cache could not be created: " << SDL_GetError() << endl;

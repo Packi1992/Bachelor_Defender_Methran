@@ -11,17 +11,20 @@ class GameState;
 #include "util/gui/gui.h"
 #include "util/gui/Button.h"
 #include "tdUtil/map.h"
+
 class Map;
 // globals - introoduced at everything global
 extern Renderer *render;
 
 // TextureCache
 extern TextureCache *t_cache;
+extern RenderHelper *rh;
 extern Game *pGame;
 extern Map *pMap;
 extern Point offset;
 extern Point windowSize;
 extern int scale;
+
 
 
 class Game
@@ -113,4 +116,6 @@ public:
 	virtual void Render( const u32 frame, const u32 totalMSec, const float deltaT ) = 0;
 };
 
+#include "tdUtil/coordinateTransformer.h"
+using CT = CoordinateTransformer;
 #endif

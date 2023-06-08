@@ -42,7 +42,7 @@ void SelectorDialog::collectFiles() {
 
 void SelectorDialog::Render() {
     if (dialog) {
-        t_cache->drawBackground(BG);
+        rh->background(BG);
         for(auto & button : buttons){
             button->draw();
         }

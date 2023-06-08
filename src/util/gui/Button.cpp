@@ -6,12 +6,12 @@
 
 void Button::draw(bool highlighted) {
     if (highlighted)
-        t_cache->setRenderColor(highlightedColor);
+        rh->setColor(highlightedColor);
     else
-        t_cache->setRenderColor(drawColor);
-    t_cache->renderFillRect(&rect);
-    t_cache->renderRect(&rect,2,BLACK);
-    t_cache->render(text,&tRect);
+        rh->setColor(drawColor);
+    rh->fillRect(&rect);
+    rh->rect(&rect,2,BLACK);
+    rh->texture(text,&tRect);
 }
 
 bool Button::clicked(SDL_Event e) {
@@ -57,7 +57,7 @@ void Button::set(const string &label, int nSize, Rect nRect, t_color btnColor) {
     this->size = nSize;
     strcpy(textArr, label.c_str());
     this->rect = nRect;
-    this->buttonColor = TextureCache::getColor(btnColor);
+    this->buttonColor = RenderHelper::getColor(btnColor);
     setHighlightedColor(&btnColor);
 
     this->text = t_cache->getText(textArr, size,&tRect);
@@ -85,12 +85,12 @@ void Button::setHighlightedColor(t_color* high_color) {
         this->highlightedColor.a = c.a;
     }
     else{
-        c = TextureCache::getColor(*high_color);
+        c = RenderHelper::getColor(*high_color);
         this->highlightedColor = c;
     }
 }
 void Button::setHighlightedColor(t_color high_color) {
-    this->highlightedColor = TextureCache::getColor(high_color);
+    this->highlightedColor = RenderHelper::getColor(high_color);
 }
 
 
@@ -101,7 +101,7 @@ void Button::setSize(SDL_Rect nRect) {
 }
 
 void Button::setColor(t_color color) {
-    this->buttonColor = TextureCache::getColor(color);
+    this->buttonColor = RenderHelper::getColor(color);
 }
 
 
