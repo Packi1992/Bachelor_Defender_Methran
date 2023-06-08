@@ -26,12 +26,18 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // add projectiles and particles
     if (mbDown) {
-        ProjectilesHandler::Projectile p;
-        p._type = Projectile::ARROW;
-        p._direction = 270;
-        p._position = CT::getPosInGame(mousePos);
-        p._speed = 10;
+        Arrow *p = new Arrow();
+        p->_direction = 270;
+        p->_position = CT::getPosInGame(mousePos);
+        p->_speed = 10;
         _ph.add(p);
+        Fire *f = new Fire();
+        f->_direction = 270;
+        f->_position = CT::getPosInGame(mousePos);
+        f->_speed = 10;
+        f->_moveable = true;
+        f->_ttl = 80;
+        _ph.add(f);
         mbDown = false;
     }
 
@@ -51,14 +57,16 @@ void TestTD::collision() {
     for (auto &e: _eh._enemies) {
         if (e._alive) {
             for (auto &p: _ph._projectiles) {
-                if (p._alive) {
-                    // Collision Detection not implemented yet, perhaps with SDL_intersectRect
-                    if (e.isPointInside(p._position)) {
-                        cout << "HIT" << endl;
-                        e.takeDamage(p._damage);
-                        _ph.remove(p);
-                        if (!e._alive) {
-                            break;
+                if (p != nullptr) {
+                    if (p->_alive) {
+                        // Collision Detection not implemented yet, perhaps with SDL_intersectRect
+                        if (e.isPointInside(p->_position)) {
+                            cout << "HIT" << endl;
+                            e.takeDamage(p->_damage);
+                            _ph.remove(&p);
+                            if (!e._alive) {
+                                break;
+                            }
                         }
                     }
                 }
