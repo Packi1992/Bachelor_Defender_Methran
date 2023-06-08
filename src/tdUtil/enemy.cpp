@@ -121,7 +121,7 @@ void Enemy::Render(Texture *t, Rect *srcRect) {
         (dstRect.y < windowSize.y) &&        // bot
         (dstRect.x < windowSize.x))         // right
     {
-        t_cache->render(t, &dstRect, srcRect);
+        rh->texture(t, &dstRect, srcRect);
     }
 
 }

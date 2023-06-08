@@ -47,7 +47,7 @@ void Map::Render(bool wire, bool pathFinding) {
         for (int j = 0; j < _height; j++) {
             int y = (j * scale) - offset.y;
             dstRect = {x, y, scale, scale};
-            t_cache->render(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][j], _time));
+            rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][j], _time));
         }
     }
     if(pathFinding){
@@ -59,13 +59,13 @@ void Map::Render(bool wire, bool pathFinding) {
                 //Point p= {i,j};
                 PathEntry e = _pathMap[i][j];
                 if(e.blocked)
-                    t_cache->render(_blocked,&dstRect);
+                    rh->texture(_blocked,&dstRect);
                 else if(!e.set&&!e.goal){
                     dstRect.x+=scale/6;
                     dstRect.y+=scale/6;
                     dstRect.w-=scale/3;
                     dstRect.h-=scale/3;
-                    t_cache->renderFillRect(&dstRect,YELLOW);
+                    rh->fillRect(&dstRect,YELLOW);
                     dstRect = {x, y, scale, scale};
 
                 }
@@ -73,7 +73,7 @@ void Map::Render(bool wire, bool pathFinding) {
                     continue;
                 }
                 else{
-                    t_cache->render(_arrow,&dstRect,getDir(i,j,e.pos.x,e.pos.y));
+                    rh->texture(_arrow,&dstRect,getDir(i,j,e.pos.x,e.pos.y));
                 }
             }
         }
@@ -81,20 +81,20 @@ void Map::Render(bool wire, bool pathFinding) {
 }
 
 void Map::drawWire() const {
-    t_cache->setRenderColor(MAP_GRID);
+    rh->setColor(MAP_GRID);
     Point p1, p2;
 
     p1.y = -offset.y;
     p2.y = _height * scale - offset.y;
     for (int i = 0; i <= _width; i++) {
         p1.x = p2.x = i * scale - offset.x;
-        t_cache->renderLine(p1,p2);
+        rh->line(p1,p2);
     }
     p1.x = 0 - offset.x;
     p2.x = _width * scale - offset.x;
     for (int j = 0; j <= _height; j++) {
         p1.y = p2.y = j * scale - offset.y;
-        t_cache->renderLine(p1,p2);
+        rh->line(p1,p2);
     }
 }
 
@@ -183,7 +183,8 @@ TdTileHandler::MapObjects Map::getObject(Point p, bool OutOfBoundsError) {
 }
 
 MapObjects Map::getObject(FPoint p, bool OutOfBoundsError) {
-    return getObject(CT::getTileInGame(p));
+    Point p_int = {(int)p.x,(int)p.y};
+    return getObject(p_int,OutOfBoundsError);
 }
 
 void Map::iniOffset() const {

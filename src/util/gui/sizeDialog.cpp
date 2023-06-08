@@ -96,13 +96,13 @@ void SizeDialog::acceptInput() {
 
 void SizeDialog::Render() {
     if(dialog){
-        t_cache->renderFillRect(&_rDialog,EDITOR_UI_BG);
-        t_cache->render(_texTitle,&_rTitle);
+        rh->fillRect(&_rDialog,EDITOR_UI_BG);
+        rh->texture(_texTitle,&_rTitle);
         _txtb_width.Render();
         _txtb_height.Render();
         _btn_ok.draw();
         _btn_abb.draw();
-        t_cache->renderRect(&_rDialog,3,BLACK);
+        rh->rect(&_rDialog,3,BLACK);
     }
 }
 

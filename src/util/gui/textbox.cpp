@@ -52,18 +52,18 @@ void TextBox::setNumber(int number) {
 }
 
 void TextBox::Render() {
-    t_cache->render(_texLabel, &_rLabel);
-    t_cache->renderFillRect(&_rInputField, WHITE);
-    t_cache->renderRect(&_rInputField, 1,BLACK);
+    rh->texture(_texLabel, &_rLabel);
+    rh->fillRect(&_rInputField, WHITE);
+    rh->rect(&_rInputField, 1,BLACK);
     if (!_renderedInput.empty())
-        t_cache->render(_texInput, &_rInput);
+        rh->texture(_texInput, &_rInput);
     if (dialog) {
         if (blink > 20) {
             Point curA,curB;
             curA.x = curB.x= _rInput.x + _rInput.w;
             curA.y = _rInput.y;
             curB.y = _rInput.y + _rInput.h;
-            t_cache->renderLine(curA,curB);
+            rh->line(curA,curB);
         }
     }
 }

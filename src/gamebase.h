@@ -18,6 +18,7 @@ extern Renderer *render;
 
 // TextureCache
 extern TextureCache *t_cache;
+extern RenderHelper *rh;
 extern Game *pGame;
 extern Map *pMap;
 extern Point offset;
@@ -114,6 +115,7 @@ public:
 	virtual void Update( const u32 frame, const u32 totalMSec, const float deltaT ) = 0;
 	virtual void Render( const u32 frame, const u32 totalMSec, const float deltaT ) = 0;
 };
+
 #include "tdUtil/coordinateTransformer.h"
 using CT = CoordinateTransformer;
 #endif

@@ -17,7 +17,7 @@ void TestTD::UnInit() {
 }
 
 void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
-    t_cache->drawBackground(BG);
+    rh->background(BG);
     _map.Render(true);
     _ph.Render(frame, totalMSec, deltaT);
     _eh.Render();
