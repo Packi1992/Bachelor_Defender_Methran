@@ -32,13 +32,6 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         p._position = Map::calculateLogicalPos(mousePos);
         p._speed = 10;
         _ph.add(p);
-/*      p._type = ProjectilesHandler::Projectile::FFIRE;
-        p._direction = 270;
-        p._position = Map::calculateLogicalPos(mousePos);
-        p._speed = 10;
-        p._moveable = true;
-        p._ttl = 80;
-        _ph.add(p);*/
         mbDown = false;
     }
 

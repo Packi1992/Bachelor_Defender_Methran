@@ -24,7 +24,6 @@ public:
 
     // use Enemy slot for new enemy spawn
     void setEnemy(Point pos, uint16_t Health, uint8_t speed, EnemyType type = Ordinary);
-
     // setTile enemy speed -- maybe a buff or something else
     void setSpeed(uint8_t speed);
 
@@ -56,14 +55,13 @@ public:
     // precise position
     FPoint _pos = {};
 
-    bool isPointInside(FPoint p);
+    // used to handle collision detection - is not necessarily same as dstRect
+    [[nodiscard]] bool isPointInside(const FPoint &p) const;
 
 protected:
     void startDeathAnimation();
-
     u16 _dying = false;
     //pos on _map
-
     u16 _stunTime = 0;
     u8 _speed = 0;
     u8 _speedDiff = 0;
