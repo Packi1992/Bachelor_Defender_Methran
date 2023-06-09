@@ -74,9 +74,6 @@
     <ClInclude Include="src\tdUtil\map.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
-    <ClInclude Include="src\tdUtil\particlesHandler.h">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
     <ClInclude Include="src\tdUtil\projectilesHandler.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
@@ -108,6 +105,12 @@
       <Filter>src\util\gui</Filter>
     </ClInclude>
     <ClInclude Include="src\util\gui\sizeDialog.h" />
+    <ClInclude Include="src\tdUtil\dataHandler.h" />
+    <ClInclude Include="src\tdUtil\player.h" />
+    <ClInclude Include="src\tdUtil\Wave.h" />
+    <ClInclude Include="src\tdUtil\waveHandler.h" />
+    <ClInclude Include="src\util\renderHelper.h" />
+    <ClInclude Include="src\tdUtil\coordinateTransformer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -170,6 +173,12 @@
     <Image Include="asset\graphic\tf_tileSet.png">
       <Filter>asset\graphic</Filter>
     </Image>
+    <Image Include="asset\graphic\editor\arrow.png">
+      <Filter>asset\graphic\td</Filter>
+    </Image>
+    <Image Include="asset\graphic\editor\blocked.png">
+      <Filter>asset\graphic\td</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="asset\font\MonkeyIsland-1991-refined.ttf">
@@ -210,9 +219,6 @@
     <ClCompile Include="src\tdUtil\map.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
-    <ClCompile Include="src\tdUtil\particlesHandler.cpp">
-      <Filter>src\tdutil</Filter>
-    </ClCompile>
     <ClCompile Include="src\tdUtil\projectilesHandler.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
@@ -244,6 +250,12 @@
       <Filter>src\util\gui</Filter>
     </ClCompile>
     <ClCompile Include="src\util\gui\sizeDialog.cpp" />
+    <ClCompile Include="src\tdUtil\dataHandler.cpp" />
+    <ClCompile Include="src\tdUtil\player.cpp" />
+    <ClCompile Include="src\tdUtil\Wave.cpp" />
+    <ClCompile Include="src\tdUtil\waveHandler.cpp" />
+    <ClCompile Include="src\util\renderHelper.cpp" />
+    <ClCompile Include="src\tdUtil\coordinateTransformer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

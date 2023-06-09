@@ -160,6 +160,7 @@
     <ClCompile Include="src\bddgame.cpp" />
     <ClCompile Include="src\introstate.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\tdUtil\coordinateTransformer.cpp" />
     <ClCompile Include="src\tdUtil\dataHandler.cpp" />
     <ClCompile Include="src\tdUtil\editor.cpp" />
     <ClCompile Include="src\tdUtil\enemy.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="src\util\gui\selectorDialog.cpp" />
     <ClCompile Include="src\util\gui\sizeDialog.cpp" />
     <ClCompile Include="src\util\gui\textbox.cpp" />
+    <ClCompile Include="src\util\renderHelper.cpp" />
     <ClCompile Include="src\util\TextureCache.cpp" />
     <ClCompile Include="src\util\TextWithValue.cpp" />
     <ClInclude Include="src\bddgame.h" />
@@ -187,6 +189,7 @@
     <ClCompile Include="src\gamebase.cpp" />
     <ClInclude Include="src\introstate.h" />
     <ClInclude Include="src\recthelper.h" />
+    <ClInclude Include="src\tdUtil\coordinateTransformer.h" />
     <ClInclude Include="src\tdUtil\dataHandler.h" />
     <ClInclude Include="src\tdUtil\editor.h" />
     <ClInclude Include="src\tdUtil\enemy.h" />
@@ -206,6 +209,7 @@
     <ClInclude Include="src\util\gui\selectorDialog.h" />
     <ClInclude Include="src\util\gui\sizeDialog.h" />
     <ClInclude Include="src\util\gui\textbox.h" />
+    <ClInclude Include="src\util\renderHelper.h" />
     <ClInclude Include="src\util\TextureCache.h" />
     <ClInclude Include="src\util\TextWithValue.h" />
   </ItemGroup>
