@@ -49,8 +49,29 @@ enum t_color {
     GREEN,
 };
 
+enum musicType {
+    MusicMainMenu,
+    MusicEditor,
+    MusicGame,
+    MusicError,
+    MusicDisabled
+};
+
+enum soundType {
+    SoundTowerPointer,
+    SoundEnemyOrdinary,
+    SoundArrowFire,
+    SoundArrowHit,
+    SoundBullet,
+    SoundFFire,
+    SoundBaseExplosion,
+    SoundError,
+    SoundDisabled,
+};
+
 // Menu Entries for displaying Icons in FloatingMenu
 enum MenuEntries{
     DEFAULT
 };
+
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

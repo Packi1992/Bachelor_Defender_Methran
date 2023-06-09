@@ -7,6 +7,8 @@
 extern Renderer *render;
 
 // TextureCache
+class AudioHandler;
+extern AudioHandler *audioHandler;
 class TextureCache;
 extern TextureCache *t_cache;
 class RenderHelper;

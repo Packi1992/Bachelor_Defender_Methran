@@ -42,4 +42,3 @@ void Projectile::Render(u32 totalMSec) {
         rh->fillRect(&dstRect, BLACK);
     }
 }
-

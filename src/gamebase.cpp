@@ -1,6 +1,7 @@
 #include "gamebase.h"
 
 // ini globals
+AudioHandler *audioHandler{};
 TextureCache *t_cache{};
 Renderer *render{};
 Game *pGame{};
@@ -73,6 +74,7 @@ Game::Game( const char * windowTitle, const Point wSize, const bool vSync )
 	}
     rh = RenderHelper::getHelper(render);
     t_cache = TextureCache::getCache();
+	audioHandler = AudioHandler::getHandler();
     if( t_cache == nullptr )
     {
         cerr << "Texture Cache could not be created: " << SDL_GetError() << endl;
