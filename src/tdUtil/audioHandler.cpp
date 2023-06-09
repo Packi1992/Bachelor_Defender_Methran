@@ -28,9 +28,18 @@ void AudioHandler::pauseMusic() {
 	return;
 }
 
-void AudioHandler::playSound(soundType sound) {
+// playStereoSound using Mix_SetPanning, MixVolume, ChunkVolume 
+
+void AudioHandler::playSound(soundType sound, float x) {
+	if (x > 1) {
+		x = 1;
+	}
+	else if (x < 0) {
+		x = 0;
+	}
 	if (_soundmixArray[sound]) {
-		Mix_PlayChannelTimed(-1, _soundmixArray[sound],0, 1500);
+		int channel = Mix_PlayChannelTimed(-1, _soundmixArray[sound],0, 1500);
+		Mix_SetPanning(channel, (int)255*(1-x), (int)255*x);
 	}
 	return;
 }
