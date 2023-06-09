@@ -155,6 +155,23 @@ void RenderHelper::loadTileSheet(){
     _texture = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
 }
 
+void RenderHelper::symbol(SDL_Rect *center, MenuEntries &entries) {
+    Rect src {};
+    switch (entries) {
+
+        case MenuEntry_DEFAULT:
+            break;
+        case MenuEntry_POINTER:
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Base));
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Pointer));
+            break;
+        case MenuEntry_Error:
+            break;
+        case MenuEntry_Disabled:
+            break;
+    }
+}
+
 
 
 
