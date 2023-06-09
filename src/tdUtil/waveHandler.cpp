@@ -3,6 +3,7 @@
 //
 
 #include "waveHandler.h"
+#include "Wave.h"
 
 void WaveHandler::pullEvent(SpawnEvent &event) {
 

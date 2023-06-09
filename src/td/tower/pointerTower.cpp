@@ -8,7 +8,15 @@ void PointerTower::Render(float deltaT) {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
     rh->tile(&dst, TdTileHandler::getTowerSrcRect(Base));
-    rh->tile(&dst, ((int)_direction)%360,TdTileHandler::getTowerSrcRect(Pointer));
+    int anim = ((int)((_shootCoolDown-_reloadTime)))/2;
+    long animT = (anim >4) ? 0 : anim;
+    if(_reloadTime<=1) {
+        rh->tile(&dst, ((int)_direction)%360,TdTileHandler::getTowerSrcRect(Pointer, 1));
+        //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
+    }
+    else{
+        rh->tile(&dst, ((int)_direction)%360,TdTileHandler::getTowerSrcRect(Pointer, animT));
+    }
 }
 
 void PointerTower::Update(float deltaT) {

@@ -3,27 +3,29 @@
 //
 #include "testtd.h"
 #include "../tdUtil/dataHandler.h"
+
 TDGlobals *tdGlobals{};
+
 void TestTD::Init() {
     GameState::Init();
     pGame = &game;
     pMap = &_map;
     DataHandler::load(globals._pl, globals._wh, _map);
     globals._ph.set();
-    Point pos = {14,6};
+    Point pos = {14, 6};
     globals._towers.push_back(std::make_shared<PointerTower>(pos));
-    pos.y -=2;
+    pos.y -= 2;
     globals._towers.push_back(std::make_shared<PointerTower>(pos));
-    pos = {1,6};
+    pos = {1, 6};
     globals._towers.push_back(std::make_shared<PointerTower>(pos));
-    pos = {1,3};
+    pos = {1, 3};
     globals._towers.push_back(std::make_shared<PointerTower>(pos));
     tdGlobals = &globals;
 }
 
 void TestTD::UnInit() {
     GameState::UnInit();
-    for (auto & enemy : globals._enemies) {
+    for (auto &enemy: globals._enemies) {
         enemy._alive = false;
     }
 }
@@ -34,11 +36,11 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     // Map
     _map.Render(true);
     // Tower
-    for (auto &tower: globals._towers){
+    for (auto &tower: globals._towers) {
         tower->Render(deltaT);
     }
     //  render Enemies
-    for (auto &enemy : globals._enemies) {
+    for (auto &enemy: globals._enemies) {
         enemy.Render(totalMSec);
     }
     // projectiles and particles
@@ -46,7 +48,7 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
 }
 
 void TestTD::addEnemy(Enemy e) {
-    for (auto & enemy : globals._enemies) {
+    for (auto &enemy: globals._enemies) {
         if (!enemy._alive) {
             enemy = e;
             enemy._alive = true;
@@ -62,32 +64,38 @@ void TestTD::addEnemy(Enemy e) {
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     collision();
     // Update Enemies
-    for (auto & enemy : globals._enemies) {
+    for (auto &enemy: globals._enemies) {
         if (enemy._alive) {
             enemy.Update(deltaT);
 
         }
     }
     // Update towers
-    for (auto &tower: globals._towers){
+    for (auto &tower: globals._towers) {
         tower->Update(deltaT);
     }
     globals._ph.move();
 
     // add projectiles and particles
+    // update projectile direction
+    if(_btn_space){
+        _arrowDir = (_arrowDir +5) % 360;
+        _btn_space = false;
+    }
+
     if (mbDown) {
         auto *p = new Arrow();
-        p->_direction = 270;
+        p->_direction = _arrowDir;
         p->_position = CT::getPosInGame(mousePos);
-        p->_speed = 10;
+        p->_speed = 1;
         globals._ph.add(p);
         Fire *f = new Fire();
-        f->_direction = 270;
+        f->_direction = _arrowDir;
         f->_position = CT::getPosInGame(mousePos);
-        f->_speed = 10;
+        f->_speed = 1;
         f->_moveable = true;
         f->_ttl = 80;
-        globals._ph.add(f);
+        //globals._ph.add(f);
         mbDown = false;
     }
     // add enemy
@@ -105,17 +113,17 @@ void TestTD::collision() {
         if (e._alive) {
             for (auto &p: globals._ph._projectiles) {
                 if (p != nullptr) {
-                if (p->_alive) {
-                    // Collision Detection not implemented yet, perhaps with SDL_intersectRect
-                    if (e.isPointInside(p->_position)) {
-                        cout << "HIT" << endl;
-                        e.takeDamage(p->_damage);
-                        globals._ph.remove(&p);
-                        if (!e._alive) {
-                            break;
+                    if (p->_alive) {
+                        // Collision Detection not implemented yet, perhaps with SDL_intersectRect
+                        if (e.isPointInside(p->_position)) {
+                            cout << "HIT" << endl;
+                            e.takeDamage(p->_damage);
+                            globals._ph.remove(&p);
+                            if (!e._alive) {
+                                break;
+                            }
                         }
                     }
-                }
                 }
             }
         }
@@ -128,7 +136,6 @@ void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
         if (pGame->HandleEvent(event))
             return;
         switch (event.type) {
-
             case SDL_WINDOWEVENT:
                 if (event.window.event == SDL_WINDOWEVENT_CLOSE)
                     game.SetNextState(99);
@@ -153,7 +160,7 @@ void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
     }
 }
 
-void TestTD::MouseDown(SDL_Event event) {
+void TestTD::MouseDown(SDL_Event &event) {
 
     if (event.button.button == SDL_BUTTON_RIGHT) {
         mouseScroll = true;
@@ -164,26 +171,26 @@ void TestTD::MouseDown(SDL_Event event) {
     }
 }
 
-void TestTD::MouseMotion(SDL_Event event) {
+void TestTD::MouseMotion(SDL_Event &event) {
     if (mouseScroll) {
         offset.x -= event.motion.xrel;
         offset.y -= event.motion.yrel;
     }
 }
 
-void TestTD::MouseWheel(SDL_Event event) {
+void TestTD::MouseWheel(SDL_Event &event) {
     Point cursor{};
     SDL_GetMouseState(&cursor.x, &cursor.y);
     if (event.wheel.y / abs(event.wheel.y) < 1) {// zoom out
-        scale = (int)(scale * 0.8);
+        scale = (int) (scale * 0.8);
     } else {                                     // zoom in
-        scale = (int)(scale * (1 / 0.8));
+        scale = (int) (scale * (1 / 0.8));
         offset.y += 2 * event.wheel.y / abs(event.wheel.y) * _map._height / 2;
         offset.x += 2 * event.wheel.y / abs(event.wheel.y) * _map._width / 2;
     }
 }
 
-void TestTD::keyDown(SDL_Event event) {
+void TestTD::keyDown(SDL_Event &event) {
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
             game.SetNextState(0);
@@ -203,6 +210,9 @@ void TestTD::keyDown(SDL_Event event) {
         case SDL_SCANCODE_S:
         case SDL_SCANCODE_DOWN:
             offset.y += 20;
+            break;
+        case SDL_SCANCODE_SPACE:
+            _btn_space = true;
         default:
             break;
     }
