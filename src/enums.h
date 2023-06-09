@@ -48,4 +48,9 @@ enum t_color {
     RED,
     GREEN,
 };
+
+// Menu Entries for displaying Icons in FloatingMenu
+enum MenuEntries{
+    DEFAULT
+};
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

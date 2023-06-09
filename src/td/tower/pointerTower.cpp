@@ -3,6 +3,7 @@
 //
 #include "pointerTower.h"
 #include "../testtd.h"
+#include "../../util/gui/floatingmenu.h"
 
 void PointerTower::Render(float deltaT) {
     Point pos = CT::getPosOnScreen(_rPos);
@@ -72,9 +73,20 @@ PointerTower::PointerTower(Point pos) : Tower(pos) {
     _aimSpeed = 1;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
+    _menuEntries.push_back(MenuEntries::DEFAULT);
+    _menuEntries.push_back(MenuEntries::DEFAULT);
+    _menuEntries.push_back(MenuEntries::DEFAULT);
+    _menuEntries.push_back(MenuEntries::DEFAULT);
+    _menuEntries.push_back(MenuEntries::DEFAULT);
+    _menuEntries.push_back(MenuEntries::DEFAULT);
 }
 
 PointerTower::~PointerTower() {
     Tower::~Tower();
+}
+
+void PointerTower::showMenu() {
+    delete _floatingMenu;
+    _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
 }
 

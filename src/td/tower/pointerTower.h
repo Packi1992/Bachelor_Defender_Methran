@@ -22,8 +22,9 @@ public:
 
     ~PointerTower() override;
 
+    // init the Menu
+    void showMenu() override;
 private:
-
 };
 
 #endif //SDL_BACHELORDEFENDER_POINTERTOWER_H
