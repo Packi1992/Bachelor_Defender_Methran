@@ -7,7 +7,7 @@
 
 #include "../../global.h"
 class Enemy;
-
+class FloatingMenu;
 class Tower {
 public:
     explicit Tower(Point pos);
@@ -18,6 +18,9 @@ public:
     // give costs of tower back
     virtual int getCosts()=0;
     virtual ~Tower();
+    bool isClicked(Point md);
+    virtual void showMenu() = 0;
+    void RenderMenu(float deltaT);
 protected:
     [[nodiscard]] bool inRange(FRect p) const;
     bool aimAtEnemy(FPoint p);
@@ -34,6 +37,8 @@ protected:
     u32 _damage = 0;
     Enemy* _targetEnemy{};
     int _range=0;
+    FloatingMenu* _floatingMenu = nullptr;
+    Vector<MenuEntries> _menuEntries;
 };
 #include "pointerTower.h"
 

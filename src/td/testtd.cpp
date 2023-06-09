@@ -51,6 +51,10 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     rh->fillRect(&SanityBar, RED);
     rh->fillRect(&Sanity, GREEN);
     rh->rect(&SanityBar, 4, BLACK);
+    // Menu
+    for (auto &tower: globals._towers) {
+        tower->RenderMenu(deltaT);
+    }
 }
 
 void TestTD::addEnemy(Enemy e) {
@@ -98,6 +102,12 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     }
 
     if (mbDown) {
+        for(auto&t:globals._towers){
+            if(t->isClicked(mousePos)){
+                t->showMenu();
+                break;
+            }
+        }
         auto *p = new Arrow();
         p->_direction = _arrowDir;
         p->_position = CT::getPosInGame(mousePos);

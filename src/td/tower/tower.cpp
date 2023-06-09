@@ -4,6 +4,8 @@
 
 #include "tower.h"
 #include "../../tdUtil/enemy.h"
+#include "../../recthelper.h"
+#include "../../util/gui/floatingmenu.h"
 
 int Tower::getCosts() {
     return 0;
@@ -77,6 +79,16 @@ bool Tower::aimAtEnemy(FPoint p) {
             return true;
         return false;
     }
+}
+
+bool Tower::isClicked(Point md) {
+    Point t = CT::getTileInGame(md);
+    return (CT::getTileInGame(md) == _rPos);
+}
+
+void Tower::RenderMenu(float deltaT){
+    if(_floatingMenu != nullptr)
+        _floatingMenu->Render(deltaT);
 }
 
 Tower::~Tower() = default;
