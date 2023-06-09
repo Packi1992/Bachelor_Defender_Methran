@@ -42,6 +42,7 @@ public:
     void operator=(const RenderHelper &) = delete;
 
 
+    void symbol(SDL_Rect *pRect, MenuEntries &entries);
 
 private:
     SDL_Texture *_texture={};

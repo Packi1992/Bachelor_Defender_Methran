@@ -68,11 +68,13 @@ void FloatingMenu::Render() {
             rh->texture(_menuTexture, &dst, direction, &src);
 
             // render center Pos
-            Rect center = {1, 1, 5, 5,};
+            int symbolRadiant = (int)(35.f / 192.0f * (float) size);
+            Rect center = {1, 1, symbolRadiant, symbolRadiant};
             float angle = (float) direction / 180.0f * (float) M_PI;
-            center.x = renderPos.x + (int) (sin(angle) * distance);
-            center.y = renderPos.y - (int) (cos(angle) * distance);
-            rh->fillRect(&center, BLACK);
+            center.x = renderPos.x + (int) (sin(angle) * distance)-symbolRadiant/2;
+            center.y = renderPos.y - (int) (cos(angle) * distance)-symbolRadiant/2;
+            rh->symbol(&center, _menuEntries->at(i));
+
             direction = (direction + 300) % 360;
         }
     }
