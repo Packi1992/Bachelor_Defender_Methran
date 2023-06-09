@@ -8,6 +8,7 @@
 #include "../../global.h"
 class Enemy;
 class FloatingMenu;
+class Gui;
 class Tower {
 public:
     explicit Tower(Point pos);
@@ -19,7 +20,7 @@ public:
     virtual int getCosts()=0;
     virtual ~Tower();
     bool isClicked(Point md);
-    virtual void showMenu() = 0;
+    virtual void showMenu(Gui **focus) = 0;
     void RenderMenu(float deltaT);
 protected:
     [[nodiscard]] bool inRange(FRect p) const;

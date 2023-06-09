@@ -3,7 +3,8 @@
 //
 #include "pointerTower.h"
 #include "../testtd.h"
-#include "../../util/gui/floatingmenu.h"
+#include "../Projectiles/arrow.h"
+#include "../../util/gui/floatingMenu.h"
 
 void PointerTower::Render(float deltaT) {
     Point pos = CT::getPosOnScreen(_rPos);
@@ -21,6 +22,8 @@ void PointerTower::Render(float deltaT) {
 }
 
 void PointerTower::Update(float deltaT) {
+    if(_floatingMenu!= nullptr)
+        _floatingMenu->Update();
     if (_targetEnemy == nullptr) {
         for(auto &enemy: tdGlobals->_enemies){
             if(enemy._alive){
@@ -48,7 +51,7 @@ void PointerTower::Update(float deltaT) {
                     p->_targetE = _targetEnemy;
                     p->_size = 100;
                     p->_position = _pos;
-                    float x = (CT::getPosOnScreen(_pos).x) / float(windowSize.x);
+                    float x = (float)CT::getPosOnScreen(_pos).x / float(windowSize.x);
                     audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundArrowFire, x);
                     tdGlobals->_ph.add(p);
@@ -75,20 +78,20 @@ PointerTower::PointerTower(Point pos) : Tower(pos) {
     _aimSpeed = 1;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
-    _menuEntries.push_back(MenuEntries::DEFAULT);
-    _menuEntries.push_back(MenuEntries::DEFAULT);
-    _menuEntries.push_back(MenuEntries::DEFAULT);
-    _menuEntries.push_back(MenuEntries::DEFAULT);
-    _menuEntries.push_back(MenuEntries::DEFAULT);
-    _menuEntries.push_back(MenuEntries::DEFAULT);
+    _menuEntries.push_back(MenuEntries::MenuEntry_DEFAULT);
+    _menuEntries.push_back(MenuEntries::MenuEntry_DEFAULT);
+    _menuEntries.push_back(MenuEntries::MenuEntry_DEFAULT);
+    _menuEntries.push_back(MenuEntries::MenuEntry_DEFAULT);
+    _menuEntries.push_back(MenuEntries::MenuEntry_DEFAULT);
 }
 
 PointerTower::~PointerTower() {
     Tower::~Tower();
 }
 
-void PointerTower::showMenu() {
+void PointerTower::showMenu(Gui **focus) {
     delete _floatingMenu;
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
+    _floatingMenu->show(focus);
 }
 

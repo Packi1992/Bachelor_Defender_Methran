@@ -23,7 +23,7 @@ public:
     ~PointerTower() override;
 
     // init the Menu
-    void showMenu() override;
+    void showMenu(Gui **focus) override;
 private:
 };
 

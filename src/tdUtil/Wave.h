@@ -5,7 +5,10 @@
 #ifndef SDL_BACHELORDEFENDER_WAVE_H
 #define SDL_BACHELORDEFENDER_WAVE_H
 #include "../global.h"
-
+struct SpeechEvent{
+    std::string command;
+    static SpeechEvent readLine(string input);
+};
 struct SpawnEvent{
     //  Enemy Type, which will be spawned
     EnemyType type=EnemyType::Ordinary;
@@ -17,6 +20,10 @@ struct SpawnEvent{
     u8 SpawnPoint=0;
     //  value of enemy
     u16 value=1;
+    u16 health=100;
+    u16 speed=100;
+    u16 sanity=1;
+
     bool operator< (const SpawnEvent &other) const{
         return time < other.time;
     }
@@ -29,15 +36,13 @@ struct SpawnEvent{
                 (value == other.value);
     }
 
-    static SpawnEvent readLine(string EventAsString) {
-        cerr << "implement Spawn Event parsing from String";
-        return SpawnEvent{};
-    }
+    static SpawnEvent readLine(string EventAsString);
 };
 #include "enemy.h"
 
 class Wave{
 public:
+    Wave() = default;
     // you should be able to pop Spawn Events
     // is it possible to sort a vector with specific element attribute?
     // sort with given time
@@ -57,9 +62,10 @@ public:
     int index=0;
     ~Wave();
 private:
-    Vector<SpawnEvent> Events;    // i want to implement a min heap ... but i dont
-    List<SpawnEvent> pendingEvents;
+    Vector<SpawnEvent> Events{};    // i want to implement a min heap ... but i dont
+    List<SpawnEvent> pendingEvents{};
     u32 waveStart=0;
+    string name{};
     bool hasStarted = false;
     bool hasEnded = false;
 

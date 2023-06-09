@@ -14,7 +14,22 @@ string WaveHandler::getWaveName() {
 }
 
 bool WaveHandler::load(Vector<string> vector1) {
-    cerr << "WaveHandler load | not implemented"<< endl;
+    Wave newWave{};
+    for(string line: vector1){
+        if(line.substr(0,5)=="WAVE "){
+            // how should a WAVE start string look like?
+            // WAVE : 1
+            // NAME : super duper Wave Name
+            //
+            // SPAWN-EVENT : EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
+            // EVENT : .. ..
+            // WAVE : 2
+
+
+
+        }
+    }
+
     return false;
 }
 

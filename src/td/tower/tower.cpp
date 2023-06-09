@@ -5,7 +5,7 @@
 #include "tower.h"
 #include "../../tdUtil/enemy.h"
 #include "../../recthelper.h"
-#include "../../util/gui/floatingmenu.h"
+#include "../../util/gui/floatingMenu.h"
 
 int Tower::getCosts() {
     return 0;
@@ -88,7 +88,7 @@ bool Tower::isClicked(Point md) {
 
 void Tower::RenderMenu(float deltaT){
     if(_floatingMenu != nullptr)
-        _floatingMenu->Render(deltaT);
+        _floatingMenu->Render();
 }
 
 Tower::~Tower() = default;

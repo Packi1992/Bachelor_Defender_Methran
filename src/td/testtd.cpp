@@ -3,6 +3,7 @@
 //
 #include "testtd.h"
 #include "../tdUtil/dataHandler.h"
+#include "../td/Projectiles/arrow.h"
 
 TDGlobals *tdGlobals{};
 
@@ -13,14 +14,9 @@ void TestTD::Init() {
     DataHandler::load(globals._pl, globals._wh, _map);
     globals._ph.set();
     tdGlobals = &globals;
-    Point pos = {14, 6};
-    globals._towers.push_back(std::make_shared<PointerTower>(pos));
-    pos.y -= 2;
-    globals._towers.push_back(std::make_shared<PointerTower>(pos));
-    pos = {1, 6};
-    globals._towers.push_back(std::make_shared<PointerTower>(pos));
-    pos = {1, 3};
-    globals._towers.push_back(std::make_shared<PointerTower>(pos));
+    _buildMenuEntries.push_back(MenuEntry_DEFAULT);
+    _buildMenuEntries.push_back(MenuEntry_POINTER);
+    _buildMenuEntries.push_back(MenuEntry_Error);
 }
 
 void TestTD::UnInit() {
@@ -55,6 +51,7 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     for (auto &tower: globals._towers) {
         tower->RenderMenu(deltaT);
     }
+    _floatingMenu.Render();
 }
 
 void TestTD::addEnemy(Enemy e) {
@@ -72,18 +69,34 @@ void TestTD::addEnemy(Enemy e) {
 }
 
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
+    _floatingMenu.Update();
+    if (_floatingMenu.isDone()) {
+        Point pos = {(int) _floatingMenu.getPos().x, (int) _floatingMenu.getPos().y};
+        switch (_floatingMenu.getSelectedEntry()) {
+            case MenuEntry_DEFAULT:
+                break;
+            case MenuEntry_POINTER:
+                globals._towers.push_back(std::make_shared<PointerTower>(pos));
+                _floatingMenu.reset();
+                break;
+            case MenuEntry_Error:
+                break;
+            default:
+                break;
+        }
+    }
     collision();
     // Update Enemies
     for (auto &enemy: globals._enemies) {
         if (enemy._alive) {
             enemy.Update(deltaT);
-
         }
     }
     // calculate sanity bar only every 10 frames
     if (frame % 10 == 0) {
         SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
-        int sanity_left = (int)((float)SanityBar.h * ((float)globals._pl._sanity / (float)globals._pl._maxSanity));
+        int sanity_left = (int) ((float) SanityBar.h *
+                                 ((float) globals._pl._sanity / (float) globals._pl._maxSanity));
         Sanity = SanityBar;
         Sanity.y += SanityBar.h - sanity_left;
         Sanity.h = sanity_left;
@@ -100,14 +113,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         _arrowDir = (_arrowDir + 5) % 360;
         _btn_space = false;
     }
-
-    if (mbDown) {
-        for(auto&t:globals._towers){
-            if(t->isClicked(mousePos)){
-                t->showMenu();
-                break;
-            }
-        }
+    if (_btn_control) {
         auto *p = new Arrow();
         p->_direction = _arrowDir;
         p->_position = CT::getPosInGame(mousePos);
@@ -120,7 +126,32 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         f->_moveable = true;
         f->_ttl = 80;
         //globals._ph.add(f);
+        _btn_control = false;
+    }
+    if (mbDown) {
+        bool clickTower = false;
+        for (auto &t: globals._towers) {
+            if (t->isClicked(mousePos)) {
+                t->showMenu(&focus);
+                clickTower = true;
+                break;
+            }
+        }
+        if (!clickTower) {
+            switch (pMap->getObjectAtScreenPos(mousePos)) {
+                case Empty:
+                case Table:
+                    // show build menu
+                    _floatingMenu.reset();
+                    _floatingMenu.set(&_buildMenuEntries, CT::getTileCenterInGame(mousePos));
+                    _floatingMenu.show(&focus);
+                    break;
+                default:
+                    break;
+            }
+        }
         mbDown = false;
+
     }
     // add enemy
     if (totalMSec % 100 == 0) {
@@ -128,8 +159,6 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         e.setEnemy({7, 3}, 10, 100);
         addEnemy(e);
     }
-
-
 }
 
 void TestTD::collision() {
@@ -153,37 +182,41 @@ void TestTD::collision() {
 }
 
 void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        if (pGame->HandleEvent(event))
-            return;
-        switch (event.type) {
-            case SDL_WINDOWEVENT:
-                if (event.window.event == SDL_WINDOWEVENT_CLOSE)
-                    game.SetNextState(99);
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                MouseDown(event);
-                break;
-            case SDL_MOUSEBUTTONUP:
-                mbDown = false;
-                if (event.button.button == SDL_BUTTON_RIGHT && mouseScroll)mouseScroll = false;
-                break;
-            case SDL_MOUSEMOTION:
-                MouseMotion(event);
-                break;
-            case SDL_MOUSEWHEEL:
-                MouseWheel(event);
-                break;
-            case SDL_KEYDOWN:
-                keyDown(event);
-                break;
+    if (focus == nullptr) {
+
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (pGame->HandleEvent(event))
+                return;
+            switch (event.type) {
+                case SDL_WINDOWEVENT:
+                    if (event.window.event == SDL_WINDOWEVENT_CLOSE)
+                        game.SetNextState(99);
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    MouseDown(event);
+                    break;
+                case SDL_MOUSEBUTTONUP:
+                    mbDown = false;
+                    if (event.button.button == SDL_BUTTON_RIGHT && mouseScroll)mouseScroll = false;
+                    break;
+                case SDL_MOUSEMOTION:
+                    MouseMotion(event);
+                    break;
+                case SDL_MOUSEWHEEL:
+                    MouseWheel(event);
+                    break;
+                case SDL_KEYDOWN:
+                    keyDown(event);
+                    break;
+            }
         }
+    } else {
+        focus->Input();
     }
 }
 
 void TestTD::MouseDown(SDL_Event &event) {
-
     if (event.button.button == SDL_BUTTON_RIGHT) {
         mouseScroll = true;
     }
@@ -235,6 +268,10 @@ void TestTD::keyDown(SDL_Event &event) {
             break;
         case SDL_SCANCODE_SPACE:
             _btn_space = true;
+            break;
+        case SDL_SCANCODE_RCTRL:
+        case SDL_SCANCODE_LCTRL:
+            _btn_control = true;
         default:
             break;
     }
