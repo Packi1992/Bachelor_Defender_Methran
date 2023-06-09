@@ -4,8 +4,11 @@
 
 #ifndef SDL_BACHELORDEFENDER_WAVEHANDLER_H
 #define SDL_BACHELORDEFENDER_WAVEHANDLER_H
-#include "Wave.h"
+
+
 #include "../global.h"
+#include "Wave.h"
+
 class WaveHandler{
 public:
     void pullEvent(SpawnEvent &event);
@@ -17,7 +20,5 @@ public:
     std::string save();
     bool load(Vector<string> vector1);
     Vector<Wave> waveVec;
-
-
 };
 #endif //SDL_BACHELORDEFENDER_WAVEHANDLER_H

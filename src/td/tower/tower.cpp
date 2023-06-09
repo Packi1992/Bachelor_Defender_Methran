@@ -51,7 +51,6 @@ bool Tower::aimAtEnemy(FPoint p) {
         alpha = (float)((int)(90-alpha)%360);
         alpha +=180;
     }
-
     if(left&above)
         alpha +=270;
     alpha = (float)((int)(alpha)%360);

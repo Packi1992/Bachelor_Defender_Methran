@@ -29,6 +29,7 @@ protected:
     // direction can be between 0-359
     float _direction = 0;
     float _reloadTime=0;
+    u8 animate=0;
     float _shootCoolDown = 10;
     u32 _damage = 0;
     Enemy* _targetEnemy{};

@@ -32,6 +32,8 @@ protected:
     //  debug stuff
     bool mbDown = false;
     bool mouseScroll = false;
+    bool _btn_space = false;
+    int _arrowDir = 0;
     Point mousePos = {};
 public:
 
@@ -51,15 +53,13 @@ public:
 
     void collision();
 
-    void MouseDown(SDL_Event event);
+    void MouseDown(SDL_Event &event);
 
-    void MouseMotion(SDL_Event event);
+    void MouseMotion(SDL_Event &event);
 
-    void MouseWheel(SDL_Event event);
+    void MouseWheel(SDL_Event &event);
 
-    void keyDown(SDL_Event event);
-
-
+    void keyDown(SDL_Event &event);
 };
 
 #endif //SDL_BASEGAME_TESTTD_H
