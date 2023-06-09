@@ -33,10 +33,11 @@ void ProjectilesHandler::add(Projectile *p) {
 }
 
 void ProjectilesHandler::remove(Projectile **p) {
+    float x = (CT::getPosOnScreen((*p)->_position).x) / float(windowSize.x);
     switch ((*p)->_type) {
         case ProjectileType::ARROW:
             (*p)->_alive = false;
-            audioHandler->playSound(SoundArrowHit);
+            audioHandler->playSound(SoundArrowHit, x);
             break;
         case ProjectileType::BULLET:
             break;

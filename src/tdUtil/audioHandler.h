@@ -12,7 +12,7 @@ public:
 	void stopMusic();
 	void playMusic(musicType music);
 	void pauseMusic();
-	void playSound(soundType sound);
+	void playSound(soundType sound, float x=0.5);
 	static AudioHandler *getHandler();
 private:
 	AudioHandler();

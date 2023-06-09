@@ -48,8 +48,9 @@ void PointerTower::Update(float deltaT) {
                     p->_targetE = _targetEnemy;
                     p->_size = 100;
                     p->_position = _pos;
-                    audioHandler->playSound(SoundTowerPointer);
-                    audioHandler->playSound(SoundArrowFire);
+                    float x = (CT::getPosOnScreen(_pos).x) / float(windowSize.x);
+                    audioHandler->playSound(SoundTowerPointer, x);
+                    audioHandler->playSound(SoundArrowFire, x);
                     tdGlobals->_ph.add(p);
                 }
                 else{
