@@ -50,19 +50,22 @@ enum t_color {
 };
 
 enum musicType {
-    Music1,
-    Music2,
-    Music3,
+    MusicMainMenu,
+    MusicEditor,
+    MusicGame,
+    MusicError,
+    MusicDisabled
 };
 
 enum soundType {
-    SoundTower,
-    SoundProjectiles,
-    SoundEnemy,
-    SoundArrow,
+    SoundTowerPointer,
+    SoundEnemyOrdinary,
+    SoundArrowFire,
+    SoundArrowHit,
     SoundBullet,
-    SoundFFeire,
+    SoundFFire,
     SoundBaseExplosion,
+    SoundError,
     SoundDisabled,
 };
 

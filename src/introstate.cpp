@@ -13,6 +13,8 @@ void IntroState::Init()
             cerr << "IMG_LoadTexture failed: " << IMG_GetError() << endl;
     }
 
+    audioHandler->playMusic(MusicMainMenu);
+
     btn_start.set("Start",30,{});
     btn_editor.set("Editor",30,{});
     btn_exit.set( "Beenden",30,{});
@@ -20,7 +22,7 @@ void IntroState::Init()
 
 void IntroState::UnInit()
 {
-    audioHandler->unInitAudioHandler();
+    audioHandler->stopMusic();
 }
 
 void IntroState::Events( const u32 frame, const u32 totalMSec, const float deltaT )

@@ -28,7 +28,7 @@ void TestTD::UnInit() {
     for (auto &enemy: globals._enemies) {
         enemy._alive = false;
     }
-    audioHandler->unInitAudioHandler();
+    audioHandler->stopMusic();
 }
 
 void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {

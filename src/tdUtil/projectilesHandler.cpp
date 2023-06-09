@@ -36,7 +36,7 @@ void ProjectilesHandler::remove(Projectile **p) {
     switch ((*p)->_type) {
         case ProjectileType::ARROW:
             (*p)->_alive = false;
-            audioHandler->playSound(SoundArrow);
+            audioHandler->playSound(SoundArrowHit);
             break;
         case ProjectileType::BULLET:
             break;
