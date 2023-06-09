@@ -3,6 +3,7 @@
 //
 
 #include "tower.h"
+#include "../../tdUtil/enemy.h"
 
 int Tower::getCosts() {
     return 0;
@@ -16,8 +17,8 @@ Tower::Tower(Point pos) {
     _range = 1;
 }
 
-bool Tower::inRange(FPoint p) const {
-    return _range*_range >= pow(p.x-_pos.x,2)+pow(p.y-_pos.y,2);
+bool Tower::inRange(FRect p) const {
+    return _range*_range >= pow((p.x+p.w*0.5)-_pos.x,2)+pow((p.y+p.h*0.5)-_pos.y,2);
 }
 
 bool Tower::aimAtEnemy(FPoint p) {
@@ -54,15 +55,14 @@ bool Tower::aimAtEnemy(FPoint p) {
     if(left&above)
         alpha +=270;
     alpha = (float)((int)(alpha)%360);
-    cout << _pos.x <<", "<< _pos.y << " Tower -> " << alpha << " Left= "<< (left?"True":"false")<<" Above= "<< (above?"True":"false")<< endl;
     if(alpha == _direction){
         return true;
     }
     else{
         // try aiming at enemy
-        // alpha = 350 / dir = 10 - leftturn would be nice
+        // alpha = 350 / dir = 10 - left turn would be nice
         if(((int)alpha+180)%360>=(int)_direction){
-            // go counter clockwise
+            // go counterclockwise
             _direction= (float)((int)(_direction - _aimSpeed)%360);
             if(_direction<alpha){
                 _direction=alpha;

@@ -2,31 +2,25 @@
 #ifndef SDL_GAMEBASE_H
 #define SDL_GAMEBASE_H
 
-class Game;
-class GameState;
-
 #include "global.h"
-#include "recthelper.h"
-#include "util/TextureCache.h"
-#include "util/gui/gui.h"
-#include "util/gui/Button.h"
-#include "tdUtil/map.h"
-
-class Map;
 // globals - introoduced at everything global
 extern Renderer *render;
 
 // TextureCache
+class TextureCache;
 extern TextureCache *t_cache;
+class RenderHelper;
 extern RenderHelper *rh;
+class Game;
 extern Game *pGame;
+class Map;
 extern Map *pMap;
 extern Point offset;
 extern Point windowSize;
 extern int scale;
 
 
-
+class GameState;
 class Game
 {
 protected:

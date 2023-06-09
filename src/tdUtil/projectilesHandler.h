@@ -7,18 +7,15 @@
 
 #include "../global.h"
 #include "../gamebase.h"
-#include "../tdUtil/enemy.h"
-#include "Projectiles/projectile.h"
-#include "../tdUtil/coordinateTransformer.h"
 
-using CT = CoordinateTransformer;
-#define MAXPROJECTILES 100
+class ProjectilesHandler;
+class Projectile;
 
 class ProjectilesHandler {
 public:
     ~ProjectilesHandler();
 
-    void Render(const u32 frame, const u32 totalMSec, const float deltaT);
+    void Render(u32 totalMSec);
 
     void move();
 
@@ -33,8 +30,6 @@ public:
 private:
     uint overflow = 0;
     Texture *_texture = nullptr;
-
-    static bool onScreen(Point &posOnScreen, int &size);
 };
 
 #endif //SDL_BACHELORDEFENDER_PROJECTILESHANDLER_H

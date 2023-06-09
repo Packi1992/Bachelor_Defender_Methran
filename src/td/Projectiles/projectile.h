@@ -6,22 +6,14 @@
 #define SDL_BACHELORDEFENDER_PROJECTILE_H
 
 #include "../../global.h"
-#include "../../gamebase.h"
-#include "../enemy.h"
+class Enemy;
 
 class Projectile {
 public:
-    enum Type {
-        DISABLED = TdTileHandler::MapObjects::Empty,
-        ARROW = TdTileHandler::MapObjects::ARROW,
-        BULLET = TdTileHandler::MapObjects::BULLET,
-        BASEEXPLOSION = TdTileHandler::MapObjects::BASEEXPLOSION,
-        FFIRE = TdTileHandler::MapObjects::FFIRE,
-    };
 
     bool _alive = true;
     FPoint _position = {-1, -1};
-    Type _type = DISABLED;
+    ProjectileType _type = ProjectileType::DISABLED;
     uint16_t _size = 100;
     uint16_t _speed = 100;
     uint16_t _direction = 270;
@@ -33,7 +25,11 @@ public:
     bool _moveable = false;
 
     virtual void move();
+    virtual void Render(u32 totalMSec);
+    [[nodiscard]] bool onScreen() const;
 };
 
+#include "arrow.h"
+#include "fire.h"
 
 #endif //SDL_BACHELORDEFENDER_PROJECTILE_H

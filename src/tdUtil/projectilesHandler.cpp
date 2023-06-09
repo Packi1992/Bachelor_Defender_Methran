@@ -3,24 +3,16 @@
 //
 
 #include "projectilesHandler.h"
+#include "../td/Projectiles/projectile.h"
 
 void ProjectilesHandler::set() {
     this->_texture = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
 }
 
-void ProjectilesHandler::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
+void ProjectilesHandler::Render(const u32 totalMSec) {
     for (auto& p : _projectiles) {
         if(p != nullptr){
-            Point pos = CT::getPosOnScreen(p->_position);
-            int size = (int)((float)scale * (float)p->_size / 100.0f);
-            if (p->_alive && onScreen(pos, size)) {
-                Rect dstRect = { (int)pos.x, (int)(pos.y - (float)size * 0.5f), size, size };
-                rh->texture(_texture, &dstRect, p->_direction, TdTileHandler::getSrcRect(p->_type, totalMSec));
-                dstRect.y += size * 0.5;
-                dstRect.w = 5;
-                dstRect.h = 5;
-                rh->fillRect(&dstRect, BLACK);
-            }
+            p->Render(totalMSec);
         }
     }
 }
@@ -42,17 +34,17 @@ void ProjectilesHandler::add(Projectile *p) {
 
 void ProjectilesHandler::remove(Projectile **p) {
     switch ((*p)->_type) {
-        case Projectile::ARROW:
+        case ProjectileType::ARROW:
             (*p)->_alive = false;
             break;
-        case Projectile::BULLET:
+        case ProjectileType::BULLET:
             break;
-        case Projectile::FFIRE:
+        case ProjectileType::FFIRE:
             (*p)->_alive = false;
             break;
-        case Projectile::BASEEXPLOSION:
+        case ProjectileType::BASEEXPLOSION:
             break;
-        case Projectile::DISABLED:
+        case ProjectileType::DISABLED:
             cerr << "you removed a disabled Projectile";
     }
     if(!(*p)->_alive){
@@ -74,13 +66,6 @@ void ProjectilesHandler::move() {
                 _projectiles[i]->_alive = false;
         }
     }
-}
-
-bool ProjectilesHandler::onScreen(Point& posOnScreen, int& size) {
-    return (posOnScreen.x + size > 0) &&      // left
-        (posOnScreen.y + size > 0) &&             // top
-        (posOnScreen.y < windowSize.y) &&        // bot
-        (posOnScreen.x < windowSize.x);         // right
 }
 
 ProjectilesHandler::~ProjectilesHandler() {

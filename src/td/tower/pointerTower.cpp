@@ -2,19 +2,20 @@
 // Created by banoodle on 23.05.23.
 //
 #include "pointerTower.h"
+#include "../testtd.h"
 
 void PointerTower::Render(float deltaT) {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
-    rh->tile(&dst, TdTileHandler::getTowerSrcRect(TdTileHandler::Base));
-    rh->tile(&dst, ((int)_direction)%360,TdTileHandler::getTowerSrcRect(TdTileHandler::Pointer));
+    rh->tile(&dst, TdTileHandler::getTowerSrcRect(Base));
+    rh->tile(&dst, ((int)_direction)%360,TdTileHandler::getTowerSrcRect(Pointer));
 }
 
-void PointerTower::Update(float deltaT, TestTD::TDglobals &globals) {
+void PointerTower::Update(float deltaT) {
     if (_targetEnemy == nullptr) {
-        for(auto &enemy: globals._enemies){
+        for(auto &enemy: tdGlobals->_enemies){
             if(enemy._alive){
-                if(inRange(enemy._pos)){
+                if(inRange(enemy.getHitBox())){
                     //selects first enemy
                     _targetEnemy = &enemy;
                     break;
@@ -23,7 +24,7 @@ void PointerTower::Update(float deltaT, TestTD::TDglobals &globals) {
         }
     }
     else{
-        if(!inRange(_targetEnemy->_pos)||!_targetEnemy->_alive){
+        if(!inRange(_targetEnemy->getHitBox())||!_targetEnemy->_alive){
             _targetEnemy = nullptr;
         }
         else{
@@ -39,7 +40,7 @@ void PointerTower::Update(float deltaT, TestTD::TDglobals &globals) {
                     p->_size = 100;
                     p->_position = _pos;
 
-                    globals._ph.add(p);
+                    tdGlobals->_ph.add(p);
                 }
                 else{
                     _reloadTime -=deltaT;
@@ -58,10 +59,11 @@ int PointerTower::getCosts() {
 PointerTower::PointerTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
-    _shootCoolDown = 1;
+    _shootCoolDown = 3;
     _damage = 100;
-    if (pMap->getObject(pos) == TdTileHandler::Empty)
-        pMap->setTile(_rPos, TdTileHandler::Tower);
+    _aimSpeed = 1;
+    if (pMap->getObject(pos) == Empty)
+        pMap->setTile(_rPos, MapObjects::Tower);
 }
 
 PointerTower::~PointerTower() {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <math.h>
+#include <cmath>
 #include <cstdarg>
 #include <cstddef>
 #include <charconv>
@@ -12,6 +12,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <list>
 #include <filesystem>
 
 #include <SDL_stdinc.h>
@@ -50,6 +51,7 @@ using std::max;
 
 template<class T, size_t Size>  using Array  = std::array<T, Size>;
 template<class T>               using Vector = std::vector<T>;
+template<class T>               using List   = std::list<T>;
 
 using Clock     = std::chrono::high_resolution_clock;
 using TimePoint = Clock::time_point;
@@ -72,3 +74,14 @@ using std::cout, std::cin, std::cerr, std::endl, std::string;
 #define DebugOnly( ... )
 #define IfDebug if constexpr( false )
 #endif
+
+// Defines
+#define MAXENEMIES 500
+#define MAXPROJECTILES 100
+
+#include "tdUtil/coordinateTransformer.h"
+#include "util/TextureCache.h"
+#include "util/renderHelper.h"
+#include "enums.h"
+using CT = CoordinateTransformer;
+

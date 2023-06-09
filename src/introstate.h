@@ -2,7 +2,7 @@
 // Created by banoodle on 14.05.23.
 //
 #include "global.h"
-#include "gamebase.h"
+#include "util/gui/Button.h"
 
 #ifndef SDL_BASEGAME_INTROSTATE_H
 #define SDL_BASEGAME_INTROSTATE_H

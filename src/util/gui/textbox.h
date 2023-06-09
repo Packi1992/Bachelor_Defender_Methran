@@ -4,7 +4,7 @@
 
 #ifndef SDL_BACHELORDEFENDER_TEXTBOX_H
 #define SDL_BACHELORDEFENDER_TEXTBOX_H
-#include "../../gamebase.h"
+#include "gui.h"
 
 class TextBox: public Gui {
 public:

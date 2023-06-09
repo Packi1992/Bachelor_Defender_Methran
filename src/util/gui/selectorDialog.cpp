@@ -2,6 +2,7 @@
 // Created by banoodle on 24.05.23.
 //
 #include "selectorDialog.h"
+#include "Button.h"
 
 void SelectorDialog::createButtons() {
     buttons.clear();
@@ -9,7 +10,7 @@ void SelectorDialog::createButtons() {
     int x = (int)(windowSize.x*0.1);
     Rect bRect{x, 100, width, 80};
     for (const auto &mapName: maps) {
-        Button* nb = new Button();
+        auto* nb = new Button();
         nb->set(mapName, 18, bRect);
         cout << "create button" << mapName << endl;
         buttons.push_back(nb);

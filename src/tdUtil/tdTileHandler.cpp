@@ -4,7 +4,9 @@
 
 #include "tdTileHandler.h"
 
-TdTileHandler::MapObjects TdTileHandler::selectObject(int i) {
+#include "../global.h"
+
+MapObjects TdTileHandler::selectObject(int i) {
     if (i >= 0 && i <= OBJECTCOUNT) {
         return static_cast<MapObjects>(i);
     }
@@ -12,13 +14,14 @@ TdTileHandler::MapObjects TdTileHandler::selectObject(int i) {
 }
 
 Rect TdTileHandler::src = {0, 0, 0, 0};
+int TdTileHandler::localAnimate=0;
 int TdTileHandler::TOOLCOUNT = 6;
 int TdTileHandler::OBJECTCOUNT = 9;
 
 
-Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, ul animate) {
+Rect *TdTileHandler::getSrcRect(MapObjects o, ul animate) {
     src = {0, 0, 64, 64};
-    int localAnimate;
+
     switch (o) {
         case Tower:
         case Empty:
@@ -48,16 +51,6 @@ Rect *TdTileHandler::getSrcRect(TdTileHandler::MapObjects o, ul animate) {
         case Chair:
             src.x = 128;
             src.y = 128;
-            break;
-
-        case ARROW:
-            src.x = 0;
-            src.y = 320;
-            break;
-        case FFIRE:
-            localAnimate = (int)((animate / 4) % 2);
-            src.x = 64+(localAnimate* 64);
-            src.y = 320;
             break;
         default:
             cerr << "Tile not found, please provide SRC rect in TdTileHandler.cpp" << endl;
@@ -97,7 +90,7 @@ Rect *TdTileHandler::getTowerSrcRect(TowerType t, ul anim) {
     }
 }
 
-std::string TdTileHandler::getName(TdTileHandler::MapObjects object) {
+std::string TdTileHandler::getName(MapObjects object) {
     switch (object) {
         case Empty:
             return "Empty";
@@ -111,13 +104,31 @@ std::string TdTileHandler::getName(TdTileHandler::MapObjects object) {
             return "Tower";
         case Chair:
             return "Chair";
-        case ARROW:
-            return "Arrow";
-        case FFIRE:
-            return "FollowFire";
         default:
             return "Error";
     }
+}
+
+SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long anim) {
+    src = {0, 0, 64, 64};
+    switch(p){
+        case ARROW:
+            src.x = 0;
+            src.y = 320;
+            break;
+        case FFIRE:
+            localAnimate = (int)((anim / 4) % 2);
+            src.x = 64+(localAnimate* 64);
+            src.y = 320;
+            break;
+        case DISABLED:
+            cerr << "Projectile Type DISABLED has no srcRect";
+            break;
+        default:
+            cerr << "Type not implemented";
+            return nullptr;
+    }
+    return &src;
 }
 
 

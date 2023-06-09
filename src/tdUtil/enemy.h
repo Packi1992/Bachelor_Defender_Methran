@@ -3,10 +3,7 @@
 #define SDL_BASEGAME_ENEMY_H
 
 #include "../global.h"
-#include "../gamebase.h"
-#include "tdTileHandler.h"
-#include "map.h"
-using EnemyType = TdTileHandler::EnemyType;
+
 class Enemy {
 public:
     Enemy() = default;
@@ -14,22 +11,22 @@ public:
     // move enemy -> status effects will impact here
     void Update(float deltaT);
 
-    void Render() const;
+    void Render(u32 totalMSec, bool hitbox=false) const;
 
     // use Enemy slot for new enemy spawn
-    void setEnemy(Point pos, uint16_t Health, uint8_t speed, EnemyType type = EnemyType::Ordinary);
+    void setEnemy(Point pos, u16 Health, u8 speed, EnemyType type = EnemyType::Ordinary);
 
     // setTile enemy speed -- maybe a buff or something else
-    void setSpeed(uint8_t speed);
+    void setSpeed(u8 speed);
 
     // add slow effect for specific amount of _time in ms
-    void setSlow(uint8_t speedDiff, uint16_t time);
+    void setSlow(u8 speedDiff, uint16_t time);
 
     // stun _time in ms / enemy will not move
-    void stun(uint16_t time);
+    void stun(u16 time);
 
     // take damage
-    void takeDamage(uint16_t damage);
+    void takeDamage(u16 damage);
 
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;
@@ -54,9 +51,11 @@ public:
     //pos on _map
     FPoint _pos = {};
 
+    u16 _sanity = 0;
+
     // used to handle collision detection - is not necessarily same as dstRect
     [[nodiscard]] bool isPointInside(const FPoint &p) const;
-
+    [[nodiscard]] FRect getHitBox() const;
 protected:
     void startDeathAnimation();
 
@@ -71,7 +70,6 @@ protected:
     float _slowTimer = 0;
     float _poisonTimer = 0;
     bool _reachedGoal = false;
-
     void updateDir();
 };
 

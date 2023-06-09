@@ -5,8 +5,8 @@
 #ifndef SDL_BACHELORDEFENDER_POINTERTOWER_H
 #define SDL_BACHELORDEFENDER_POINTERTOWER_H
 
-#include "tower.h"
 
+#include "tower.h"
 class PointerTower : public Tower {
 public:
     explicit PointerTower(Point pos);
@@ -15,7 +15,7 @@ public:
     void Render(float deltaT) override;
 
     // Place Tower on Map
-    void Update(float deltaT, TestTD::TDglobals &globals) override;
+    void Update(float deltaT) override;
 
     // give costs of tower back
     int getCosts() override;
@@ -23,8 +23,6 @@ public:
     ~PointerTower() override;
 
 private:
-
-
 
 };
 

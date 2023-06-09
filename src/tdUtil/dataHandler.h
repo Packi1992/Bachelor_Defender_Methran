@@ -4,7 +4,7 @@
 
 #ifndef SDL_BACHELORDEFENDER_DATAHANDLER_H
 #define SDL_BACHELORDEFENDER_DATAHANDLER_H
-
+class DataHandler;
 #include "waveHandler.h"
 #include "map.h"
 #include "player.h"
