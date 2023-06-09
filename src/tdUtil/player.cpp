@@ -8,8 +8,9 @@ bool Player::load(const Vector<string> &data) {
     bool SanityLoaded = false;
     // now we need to load lines out of Map string
     for(const string& line: data) {
-        if (line.substr(0, 7) == ("SANITY :")) {
-            _sanity = _maxSanity = (int) strtol(line.substr(7).c_str(), nullptr, 10);
+        if (line.substr(0, 8) == ("SANITY :")) {
+            _maxSanity = (int) strtol(line.substr(8).c_str(), nullptr, 10);
+            _sanity = _maxSanity;
             SanityLoaded = true;
         }
     }

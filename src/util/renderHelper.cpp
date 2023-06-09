@@ -27,6 +27,8 @@ Color RenderHelper::getColor(t_color color) {
             return {255,255,0,255};
         case RED:
             return { 255,0,0,255 };
+        case GREEN:
+            return {0,255,0,255};
         default:
             return {255,255,255,255};
     }

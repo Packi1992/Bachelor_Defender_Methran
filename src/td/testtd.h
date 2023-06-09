@@ -23,6 +23,8 @@ extern TDGlobals *tdGlobals;
 
 class TestTD final : public GameState {
 protected:
+    Rect Sanity{};
+    Rect SanityBar{};
     Map _map;
 
     int enemyOverflow = 0;

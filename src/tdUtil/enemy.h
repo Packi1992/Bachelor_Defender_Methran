@@ -51,7 +51,7 @@ public:
     //pos on _map
     FPoint _pos = {};
 
-    u16 _sanity = 0;
+    u16 _sanity = 1;
 
     // used to handle collision detection - is not necessarily same as dstRect
     [[nodiscard]] bool isPointInside(const FPoint &p) const;
