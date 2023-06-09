@@ -20,6 +20,7 @@ private:
 	const char *getMusicPath(musicType music);
 	const char* getSoundPath(soundType sound);
 	static AudioHandler* audioHelper;
+
 	Music* _musicmix = nullptr;
 	Chunk* _soundmix = nullptr;
 };

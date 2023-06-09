@@ -61,9 +61,10 @@ const char* AudioHandler::getMusicPath(musicType music) {
 			return BasePath "asset/music/severance.ogg";
 		case Music3:
 			return BasePath "asset/music/severance.ogg";
+		default:
+			cerr << "False Sound Type" << endl;
+			return "asset/sound/thriee.wav";
 	}
-	cerr << "False Music Type" << endl;
-	return "ERROR";
 }
 
 const char* AudioHandler::getSoundPath(soundType sound) {
