@@ -49,7 +49,7 @@ protected:
 
     // Tile SelectorDialog
     Rect Toolbox = {};
-    MapObjects selected=TdTileHandler::Empty;
+    MapObjects selected=Empty;
     void handleSelection(Event event);
 public:
 

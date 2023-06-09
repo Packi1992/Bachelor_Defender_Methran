@@ -2,6 +2,10 @@
 // Created by banoodle on 08.06.23.
 //
 #include "renderHelper.h"
+#include "../global.h"
+#include "../gamebase.h"
+using MapObjects = MapObjects;
+
 RenderHelper *RenderHelper::helperInstance={};
 Color RenderHelper::getColor(t_color color) {
     switch(color){
@@ -70,7 +74,7 @@ void RenderHelper::background(t_color color) {
     SDL_RenderClear(_renderer);
 }
 
-void RenderHelper::hint(TdTileHandler::MapObjects object, int size, Point posOnScreen, t_color textColor, t_color bgColor) {
+void RenderHelper::hint(MapObjects object, int size, Point posOnScreen, t_color textColor, t_color bgColor) {
     // get hint label
     char text[30];
     strcpy(text, TdTileHandler::getName(object).c_str());
@@ -120,6 +124,11 @@ void RenderHelper::fillRect(Rect *dst, t_color color) {
         setColor(color);
     SDL_RenderFillRect(_renderer, dst);
 }
+void RenderHelper::fillFRect(FRect *rect, t_color color) {
+    if(color != EMPTY)
+        setColor(color);
+    SDL_RenderFillRectF(_renderer,rect);
+}
 
 void RenderHelper::line(Point &A, Point &B, t_color color) {
     if(color != EMPTY)
@@ -143,6 +152,8 @@ void RenderHelper::tile(Rect *dRect, u16 direction, Rect *sRect){
 void RenderHelper::loadTileSheet(){
     _texture = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
 }
+
+
 
 
 

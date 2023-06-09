@@ -2,8 +2,6 @@
 // Created by banoodle on 24.05.23.
 //
 #include "inputDialog.h"
-#include <utility>
-
 
 void InputDialog::set(string title, const string &fieldName, string inputIniVal, int buffSize) {
     _buffSize = buffSize;

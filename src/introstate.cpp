@@ -3,6 +3,7 @@
 //
 
 #include "introstate.h"
+#include "recthelper.h"
 void IntroState::Init()
 {
     if( !image )

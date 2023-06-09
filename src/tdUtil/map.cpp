@@ -170,11 +170,11 @@ void Map::setTile(Point p, MapObjects object) {
     updatePathFinding();
 }
 
-TdTileHandler::MapObjects Map::getObjectAtScreenPos(Point &p) {
+MapObjects Map::getObjectAtScreenPos(Point &p) {
     return getObject(CT::getTileInGame(p), false);
 }
 
-TdTileHandler::MapObjects Map::getObject(Point p, bool OutOfBoundsError) {
+MapObjects Map::getObject(Point p, bool OutOfBoundsError) {
     if (p.y >= 0 && p.y < _height && p.x >= 0 && p.x < _width)
         return _map[p.x][p.y];
     if (OutOfBoundsError)

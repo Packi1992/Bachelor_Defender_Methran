@@ -5,7 +5,7 @@
 #include "arrow.h"
 
 Arrow::Arrow() {
-    _type=Projectile::ARROW;
+    _type=ProjectileType::ARROW;
 }
 
 void Arrow::move() {

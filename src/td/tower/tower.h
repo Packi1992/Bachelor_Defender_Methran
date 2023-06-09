@@ -5,21 +5,21 @@
 #ifndef BACHELOR_DEFENDER_TOWER_H
 #define BACHELOR_DEFENDER_TOWER_H
 
-#include "../../gamebase.h"
-#include "../../tdUtil/enemy.h"
-#include "../testtd.h"
+#include "../../global.h"
+class Enemy;
+
 class Tower {
 public:
     explicit Tower(Point pos);
     // Draws the tower
     virtual void Render(float deltaT)=0;
     // Place Tower on Map
-    virtual void Update(float deltaT,TestTD::TDglobals &globals)=0;
+    virtual void Update(float deltaT)=0;
     // give costs of tower back
     virtual int getCosts()=0;
     virtual ~Tower();
 protected:
-    [[nodiscard]] bool inRange(FPoint p) const;
+    [[nodiscard]] bool inRange(FRect p) const;
     bool aimAtEnemy(FPoint p);
     FPoint _pos{};
     Point _rPos{};

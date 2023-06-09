@@ -2,20 +2,23 @@
 // Created by banoodle on 14.05.23.
 //
 #include "testtd.h"
-
+#include "../tdUtil/dataHandler.h"
+TDGlobals *tdGlobals{};
 void TestTD::Init() {
     GameState::Init();
     pGame = &game;
     pMap = &_map;
     DataHandler::load(globals._pl, globals._wh, _map);
     globals._ph.set();
-    Point pos = {13,6};
+    Point pos = {14,6};
     globals._towers.push_back(std::make_shared<PointerTower>(pos));
-    Enemy e;
-    e.setEnemy({5, 6}, 10, 50);
-    addEnemy(e);
     pos.y -=2;
     globals._towers.push_back(std::make_shared<PointerTower>(pos));
+    pos = {1,6};
+    globals._towers.push_back(std::make_shared<PointerTower>(pos));
+    pos = {1,3};
+    globals._towers.push_back(std::make_shared<PointerTower>(pos));
+    tdGlobals = &globals;
 }
 
 void TestTD::UnInit() {
@@ -29,17 +32,17 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     // Background
     rh->background(BG);
     // Map
-    _map.Render();
+    _map.Render(true);
     // Tower
     for (auto &tower: globals._towers){
         tower->Render(deltaT);
     }
     //  render Enemies
     for (auto &enemy : globals._enemies) {
-        enemy.Render();
+        enemy.Render(totalMSec);
     }
     // projectiles and particles
-    globals._ph.Render(frame, totalMSec, deltaT);
+    globals._ph.Render(totalMSec);
 }
 
 void TestTD::addEnemy(Enemy e) {
@@ -62,18 +65,18 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     for (auto & enemy : globals._enemies) {
         if (enemy._alive) {
             enemy.Update(deltaT);
+
         }
     }
     // Update towers
-    // Tower
     for (auto &tower: globals._towers){
-        tower->Update(deltaT, globals);
+        tower->Update(deltaT);
     }
     globals._ph.move();
 
     // add projectiles and particles
     if (mbDown) {
-        Arrow *p = new Arrow();
+        auto *p = new Arrow();
         p->_direction = 270;
         p->_position = CT::getPosInGame(mousePos);
         p->_speed = 10;

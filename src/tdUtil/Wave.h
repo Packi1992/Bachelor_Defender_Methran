@@ -4,12 +4,7 @@
 
 #ifndef SDL_BACHELORDEFENDER_WAVE_H
 #define SDL_BACHELORDEFENDER_WAVE_H
-
-#include "../gamebase.h"
-#include "enemy.h"
-#include <list>
-#include <algorithm>
-
+#include "../global.h"
 
 struct SpawnEvent{
     //  Enemy Type, which will be spawned
@@ -39,6 +34,7 @@ struct SpawnEvent{
         return SpawnEvent{};
     }
 };
+#include "enemy.h"
 
 class Wave{
 public:
@@ -51,18 +47,18 @@ public:
     // add Event kann also handle an actual spawn event
     void addEvent(SpawnEvent Event);
     // simply sets waveStart, it will be used to calculate spawn events
-    void startWave(const u32 totalMSec);
+    void startWave(u32 totalMSec);
 
     // will be false, if que is empty
     bool PollEvent(SpawnEvent &event);
-    void Update(const u32 totalMSec);
+    void Update(u32 totalMSec);
     // index showing wave progress
     bool isOver();
     int index=0;
     ~Wave();
 private:
     Vector<SpawnEvent> Events;    // i want to implement a min heap ... but i dont
-    std::list<SpawnEvent> pendingEvents;
+    List<SpawnEvent> pendingEvents;
     u32 waveStart=0;
     bool hasStarted = false;
     bool hasEnded = false;

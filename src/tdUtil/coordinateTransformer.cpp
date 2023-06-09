@@ -1,7 +1,9 @@
-//
-// Created by banoodle on 08.06.23.
-//
-#include "coordinateTransformer.h"
+
+#include "../global.h"
+#include "../gamebase.h"
+#include "../recthelper.h"
+// game base will define global variables like offset and scale (this will be used in calculations)
+
 
 FPoint CoordinateTransformer::getPosInGame(const Point &p) {
     return {float(p.x + offset.x)/(float)scale, float(p.y + offset.y)/(float)scale};
@@ -26,6 +28,10 @@ Point CoordinateTransformer::getTileInGame(const FPoint &p) {
 
 FPoint CoordinateTransformer::getTileCenterInGame(const Point &p) {
     return {float((int)((p.x + offset.x) / (scale)))+0.5f,(float)((int)((p.y + offset.y) / (scale)))+0.5f};
+}
+
+FRect CoordinateTransformer::getFRectOnScreen(const FRect &fr) {
+    return {(fr.x * (float) scale - (float) offset.x),(fr.y * (float) scale - (float) offset.y),fr.w*(float)scale,fr.h*(float)scale};
 }
 
 

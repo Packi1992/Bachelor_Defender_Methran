@@ -3,9 +3,10 @@
 //
 
 #include "fire.h"
+#include "../../gamebase.h"
 
 Fire::Fire() {
-    _type = Projectile::FFIRE;
+    _type = ProjectileType::FFIRE;
 }
 
 void Fire::move() {

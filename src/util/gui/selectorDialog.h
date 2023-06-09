@@ -6,6 +6,9 @@
 #define BACHELOR_DEFENDER_GUI_SELECTOR_H
 
 #include "../../gamebase.h"
+#include "gui.h"
+class Button;
+
 
 class SelectorDialog : public Gui {
 public:

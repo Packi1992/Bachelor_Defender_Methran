@@ -3,8 +3,12 @@
 //
 
 #include "enemy.h"
+#include "../global.h"
+#include "../td/testtd.h"
 
-void Enemy::Update(const float deltaT) {
+#include "tdTileHandler.h"
+#include "map.h"
+void Enemy::Update(float deltaT) {
     if (_stunTime > 0) {
         _stunTime > deltaT ? _stunTime -= deltaT : _stunTime = 0;
     } else {
@@ -29,6 +33,11 @@ void Enemy::Update(const float deltaT) {
                 _pos.y = _nextPos.y - (_pos.y + runLength) > 0 ? _pos.y += runLength : _pos.y = _nextPos.y;
             if (_dir == 270)
                 _pos.x = (_pos.x + runLength) - _nextPos.x > 0 ? _pos.x -= runLength : _pos.x = _nextPos.x;
+        }
+        else{
+            // enemy reached goal
+            _alive = false;
+            tdGlobals->_pl._sanity-= _sanity;
         }
     }
 }
@@ -83,7 +92,7 @@ bool Enemy::isSlowed() const {
 }
 
 void Enemy::updateDir() {
-    if (_nextPos == _pos)
+    if (_nextPos.x == _pos.x && _nextPos.y == _pos.y)
         return;
     if (_nextPos.x == _pos.x) { // up or down
         if (_nextPos.y > _pos.y)
@@ -100,7 +109,7 @@ void Enemy::updateDir() {
 }
 
 bool Enemy::isPointInside(const FPoint &p) const {
-    FRect en = {_pos.x - 0.5f, _pos.y - 1.6f, 0.9f, 1.8f};
+    FRect en = getHitBox();
     return ((p.x >= en.x) && (p.x < (en.x + en.w)) &&
             (p.y >= en.y) && (p.y < (en.y + en.h))) ? SDL_TRUE : SDL_FALSE;
 }
@@ -109,8 +118,8 @@ bool Enemy::hasReachedGoal() const {
     return _reachedGoal;
 }
 
-void Enemy::Render() const {
-    if(_alive){
+void Enemy::Render(u32 totalMSec, bool hitbox) const {
+    if (_alive) {
         // make dstRect
         Point POS = CT::getPosOnScreen(_pos);
         Rect dstRect = {POS.x, POS.y, scale, scale + scale};
@@ -122,7 +131,21 @@ void Enemy::Render() const {
             (dstRect.y < windowSize.y) &&        // bot
             (dstRect.x < windowSize.x))         // right
         {
-            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type));
+            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type,totalMSec));
+        }
+        if (hitbox) {
+            FRect hitBoxRect = CT::getFRectOnScreen(getHitBox());
+            rh->fillFRect(&hitBoxRect, BLACK);
+            hitBoxRect.x += hitBoxRect.w / 2 - 5;
+            hitBoxRect.y += hitBoxRect.h / 2 - 5;
+            hitBoxRect.w = 5;
+            hitBoxRect.h = 5;
+            rh->fillFRect(&hitBoxRect, RED);
         }
     }
 }
+
+FRect Enemy::getHitBox() const {
+    return {_pos.x - 0.35f, _pos.y - 1.4f, 0.7f, 1.6f};
+}
+

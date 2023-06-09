@@ -6,8 +6,8 @@
 #define SDL_BACHELORDEFENDER_INPUTDIALOG_H
 
 #include <string>
-#include "../../gamebase.h"
 #include "textbox.h"
+#include "Button.h"
 
 class InputDialog: public Gui {
 public:

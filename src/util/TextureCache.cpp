@@ -3,7 +3,7 @@
 //
 
 #include "TextureCache.h"
-
+#include "../gamebase.h"
 
 Texture *TextureCache::loadTexture(const std::string &path) {
     int imgFlags = IMG_INIT_PNG;
