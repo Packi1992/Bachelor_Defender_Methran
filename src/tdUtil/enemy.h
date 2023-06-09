@@ -11,10 +11,10 @@ public:
     // move enemy -> status effects will impact here
     void Update(float deltaT);
 
-    void Render(u32 totalMSec, bool hitbox=false) const;
+    void Render(u32 totalMSec,bool life=false, bool hitbox=false) const;
 
     // use Enemy slot for new enemy spawn
-    void setEnemy(Point pos, u16 Health, u8 speed, EnemyType type = EnemyType::Ordinary);
+    void setEnemy(Point pos, u16 Health, u8 speed, u8 value,EnemyType type = EnemyType::Ordinary);
 
     // setTile enemy speed -- maybe a buff or something else
     void setSpeed(u8 speed);
@@ -64,6 +64,7 @@ protected:
 
     u8 _speed = 0;
     u8 _speedDiff = 0;
+    u8 _value = 0;
 
     u8 _poisonStrength = 0;
     float _stunTime = 0;

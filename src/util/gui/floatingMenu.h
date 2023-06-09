@@ -24,6 +24,7 @@ public:
     [[nodiscard]] bool onMenu(Point clickPos) const;
     [[nodiscard]] static bool onSymbol(Point click, Point symbol, float symbolRadiant);
     void reset();
+    ~FloatingMenu();
 private:
     static int getSize();
     FPoint _position{};

@@ -182,6 +182,10 @@ void FloatingMenu::setPosition(FPoint p) {
     _position = p;
 }
 
+FloatingMenu::~FloatingMenu() {
+
+}
+
 
 
 

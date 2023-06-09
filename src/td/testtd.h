@@ -13,6 +13,7 @@
 #include "tower/tower.h"
 #include "../tdUtil/map.h"
 #include "../util/gui/floatingMenu.h"
+#include "../util/gui/TextWithValue.h"
 class Gui;
 struct TDGlobals {
     Enemy _enemies[MAXENEMIES]{};
@@ -44,6 +45,8 @@ public:
     // window handling
     Gui *focus= nullptr;
     FloatingMenu _floatingMenu;
+    std::string _creditPointDisplayText = "Credit Points :";
+    TextWithValue _creditPointDisplay;
     Vector<MenuEntries> _buildMenuEntries{};
     TDGlobals globals;
     // ctor

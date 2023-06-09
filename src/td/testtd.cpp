@@ -17,6 +17,7 @@ void TestTD::Init() {
     _buildMenuEntries.push_back(MenuEntry_DEFAULT);
     _buildMenuEntries.push_back(MenuEntry_POINTER);
     _buildMenuEntries.push_back(MenuEntry_Error);
+    _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints), {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
 }
 
 void TestTD::UnInit() {
@@ -38,7 +39,7 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     }
     //  render Enemies
     for (auto &enemy: globals._enemies) {
-        enemy.Render(totalMSec);
+        enemy.Render(totalMSec,true);
     }
     // projectiles and particles
     globals._ph.Render(totalMSec);
@@ -51,7 +52,9 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     for (auto &tower: globals._towers) {
         tower->RenderMenu(deltaT);
     }
+    _creditPointDisplay.draw();
     _floatingMenu.Render();
+
 }
 
 void TestTD::addEnemy(Enemy e) {
@@ -76,9 +79,15 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
             case MenuEntry_DEFAULT:
                 break;
             case MenuEntry_POINTER:
-                globals._towers.push_back(std::make_shared<PointerTower>(pos));
+            {
+                std::shared_ptr<class Tower> tower = std::make_shared<PointerTower>(pos);
+                if(globals._pl.buyTower(tower)){
+                    globals._towers.push_back(tower);
+                }
                 _floatingMenu.reset();
                 break;
+            }
+
             case MenuEntry_Error:
                 break;
             default:
@@ -156,7 +165,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // add enemy
     if (totalMSec % 100 == 0) {
         Enemy e;
-        e.setEnemy({7, 3}, 10, 100);
+        e.setEnemy({7, 3}, 100, 100,1);
         addEnemy(e);
     }
 }

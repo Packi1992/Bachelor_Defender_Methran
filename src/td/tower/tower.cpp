@@ -7,16 +7,10 @@
 #include "../../recthelper.h"
 #include "../../util/gui/floatingMenu.h"
 
-int Tower::getCosts() {
-    return 0;
-}
-
 Tower::Tower(Point pos) {
     _pos = {(float)pos.x+0.5f,(float)pos.y+0.5f};
     _rPos = pos;
     _health = 10;
-    _reloadTime = 0;
-    _range = 1;
 }
 
 bool Tower::inRange(FRect p) const {
@@ -92,3 +86,4 @@ void Tower::RenderMenu(float deltaT){
 }
 
 Tower::~Tower() = default;
+
