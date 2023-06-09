@@ -178,6 +178,7 @@
     <ClCompile Include="src\td\tower\pointerTower.cpp" />
     <ClCompile Include="src\td\tower\tower.cpp" />
     <ClCompile Include="src\util\gui\Button.cpp" />
+    <ClCompile Include="src\util\gui\floatingmenu.cpp" />
     <ClCompile Include="src\util\gui\gui.cpp" />
     <ClCompile Include="src\util\gui\inputDialog.cpp" />
     <ClCompile Include="src\util\gui\selectorDialog.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="src\td\tower\pointerTower.h" />
     <ClInclude Include="src\td\tower\tower.h" />
     <ClInclude Include="src\util\gui\Button.h" />
+    <ClInclude Include="src\util\gui\floatingmenu.h" />
     <ClInclude Include="src\util\gui\gui.h" />
     <ClInclude Include="src\util\gui\inputDialog.h" />
     <ClInclude Include="src\util\gui\selectorDialog.h" />
@@ -246,6 +248,7 @@
     <Image Include="asset\graphic\editor\blocked.png" />
     <Image Include="asset\graphic\fire.png" />
     <Image Include="asset\graphic\poison.png" />
+    <Image Include="asset\graphic\td\floatingMenu.png" />
     <Image Include="asset\graphic\td\tileTD.png" />
     <Image Include="asset\graphic\tf_tileSet.png" />
     <Image Include="classdiagram.png" />
@@ -258,9 +261,12 @@
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="asset\sound\ArrowHit.wav" />
     <Media Include="asset\sound\audiocheck.net_hdsweep_1Hz_96000Hz_-3dBFS_30s.wav" />
     <Media Include="asset\sound\Darth_Vader_NO.mp3" />
+    <Media Include="asset\sound\pewf.wav" />
     <Media Include="asset\sound\testsound.wav" />
+    <Media Include="asset\sound\thriee.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

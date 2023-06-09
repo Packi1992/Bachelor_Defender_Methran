@@ -70,4 +70,5 @@ enum soundType {
 enum MenuEntries{
     DEFAULT
 };
+
 #endif //SDL_BACHELORDEFENDER_ENUMS_H
