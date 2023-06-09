@@ -44,6 +44,7 @@ using Renderer  = SDL_Renderer;
 using Window    = SDL_Window;
 using Font      = TTF_Font;
 using Music     = Mix_Music;
+using Chunk		= Mix_Chunk;
 
 
 using std::min;

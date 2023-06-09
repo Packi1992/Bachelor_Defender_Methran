@@ -56,9 +56,14 @@ enum musicType {
 };
 
 enum soundType {
-    Towersound,
-    ProjectileSound,
-    EnemySound,
+    SoundTower,
+    SoundProjectiles,
+    SoundEnemy,
+    SoundArrow,
+    SoundBullet,
+    SoundFFeire,
+    SoundBaseExplosion,
+    SoundDisabled,
 };
 
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

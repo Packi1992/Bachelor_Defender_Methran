@@ -39,8 +39,7 @@ Game::Game( const char * windowTitle, const Point wSize, const bool vSync )
 		exit( 4 );
 	}
 
-	// TODO: Channelanzahl erhöhen
-	if( Mix_OpenAudio( MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, SOUNDCHANNELCOUNT, 1024 ) < 0 )
+	if( Mix_OpenAudio( MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024 ) < 0 )
 	{
 		cerr << "Mix_OpenAudio failed: " << Mix_GetError() << endl;
 		exit( 5 );

@@ -257,6 +257,11 @@
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="asset\sound\audiocheck.net_hdsweep_1Hz_96000Hz_-3dBFS_30s.wav" />
+    <Media Include="asset\sound\Darth_Vader_NO.mp3" />
+    <Media Include="asset\sound\testsound.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\sdl2.nuget.redist.2.26.5\build\native\sdl2.nuget.redist.targets" Condition="Exists('packages\sdl2.nuget.redist.2.26.5\build\native\sdl2.nuget.redist.targets')" />

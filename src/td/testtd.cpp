@@ -12,7 +12,6 @@ void TestTD::Init() {
     pMap = &_map;
     DataHandler::load(globals._pl, globals._wh, _map);
     globals._ph.set();
-    audioHandler->load(Music3);
     tdGlobals = &globals;
     Point pos = {14, 6};
     globals._towers.push_back(std::make_shared<PointerTower>(pos));

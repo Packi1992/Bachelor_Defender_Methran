@@ -12,7 +12,7 @@ void IntroState::Init()
         if( !image )
             cerr << "IMG_LoadTexture failed: " << IMG_GetError() << endl;
     }
-    
+
     btn_start.set("Start",30,{});
     btn_editor.set("Editor",30,{});
     btn_exit.set( "Beenden",30,{});
