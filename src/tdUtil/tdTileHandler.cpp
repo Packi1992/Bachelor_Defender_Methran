@@ -85,7 +85,7 @@ Rect *TdTileHandler::getTowerSrcRect(TowerType t, ul anim) {
             return &src;
         case Pointer:
             src.y = 256;
-            src.x = 64 + (int)(anim%6)*64;
+            src.x = 64 + (int)(anim%4)*64;
             return &src;
     }
 }
@@ -113,8 +113,7 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
     src = {0, 0, 64, 64};
     switch(p){
         case ARROW:
-            src.x = 0;
-            src.y = 320;
+            src = {26, 334, 11, 35};
             break;
         case FFIRE:
             localAnimate = (int)((anim / 4) % 2);

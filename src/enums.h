@@ -46,5 +46,6 @@ enum t_color {
     BG,
     YELLOW,
     RED,
+    GREEN,
 };
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

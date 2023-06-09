@@ -3,6 +3,7 @@
 //
 
 #include "waveHandler.h"
+#include "Wave.h"
 
 void WaveHandler::pullEvent(SpawnEvent &event) {
 
@@ -13,7 +14,7 @@ string WaveHandler::getWaveName() {
 }
 
 bool WaveHandler::load(Vector<string> vector1) {
-    cerr << "not implemented";
+    cerr << "WaveHandler load | not implemented"<< endl;
     return false;
 }
 
