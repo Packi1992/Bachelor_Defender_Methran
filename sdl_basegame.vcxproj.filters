@@ -56,9 +56,6 @@
     <ClInclude Include="src\recthelper.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\td\test_tower.h">
-      <Filter>src\td</Filter>
-    </ClInclude>
     <ClInclude Include="src\td\testtd.h">
       <Filter>src\td</Filter>
     </ClInclude>
@@ -68,9 +65,6 @@
     <ClInclude Include="src\tdUtil\enemy.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
-    <ClInclude Include="src\tdUtil\enemyHandler.h">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
     <ClInclude Include="src\tdUtil\map.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
@@ -78,9 +72,6 @@
       <Filter>src\tdUtil</Filter>
     </ClInclude>
     <ClInclude Include="src\tdUtil\tdTileHandler.h">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\tower.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
     <ClInclude Include="src\util\TextureCache.h">
@@ -111,6 +102,13 @@
     <ClInclude Include="src\tdUtil\waveHandler.h" />
     <ClInclude Include="src\util\renderHelper.h" />
     <ClInclude Include="src\tdUtil\coordinateTransformer.h" />
+    <ClInclude Include="src\td\Projectiles\projectile.h" />
+    <ClInclude Include="src\td\Projectiles\arrow.h" />
+    <ClInclude Include="src\td\Projectiles\fire.h" />
+    <ClInclude Include="src\td\tower\pointerTower.h" />
+    <ClInclude Include="src\td\tower\tower.h" />
+    <ClInclude Include="src\enums.h" />
+    <ClInclude Include="src\tdUtil\musicHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -201,9 +199,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\td\test_tower.cpp">
-      <Filter>src\td</Filter>
-    </ClCompile>
     <ClCompile Include="src\td\testtd.cpp">
       <Filter>src\td</Filter>
     </ClCompile>
@@ -213,9 +208,6 @@
     <ClCompile Include="src\tdUtil\enemy.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
-    <ClCompile Include="src\tdUtil\enemyHandler.cpp">
-      <Filter>src\tdutil</Filter>
-    </ClCompile>
     <ClCompile Include="src\tdUtil\map.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
@@ -223,9 +215,6 @@
       <Filter>src\tdutil</Filter>
     </ClCompile>
     <ClCompile Include="src\tdUtil\tdTileHandler.cpp">
-      <Filter>src\tdutil</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tdUtil\tower.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
     <ClCompile Include="src\util\TextureCache.cpp">
@@ -256,6 +245,12 @@
     <ClCompile Include="src\tdUtil\waveHandler.cpp" />
     <ClCompile Include="src\util\renderHelper.cpp" />
     <ClCompile Include="src\tdUtil\coordinateTransformer.cpp" />
+    <ClCompile Include="src\td\Projectiles\arrow.cpp" />
+    <ClCompile Include="src\td\Projectiles\fire.cpp" />
+    <ClCompile Include="src\td\Projectiles\projectile.cpp" />
+    <ClCompile Include="src\td\tower\pointerTower.cpp" />
+    <ClCompile Include="src\td\tower\tower.cpp" />
+    <ClCompile Include="src\tdUtil\musicHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
