@@ -18,10 +18,12 @@ void Editor::Init() {
     btn_path.setHighlightedColor(BTN_HIGHLIGHTED);
     btn_change_size.set("Größe ändern", 18, {btn_path.getX() - 135, yPos, 130, 80});
     btn_change_size.setHighlightedColor(BTN_HIGHLIGHTED);
+    audioHandler->load(Music2);
 }
 
 void Editor::UnInit() {
     GameState::UnInit();
+    audioHandler->unInitAudioHandler();
 }
 
 void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {

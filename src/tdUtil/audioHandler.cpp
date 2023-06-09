@@ -1,8 +1,6 @@
 #include "audioHandler.h"
 
-AudioHandler* AudioHandler::audioHelper = nullptr;
-
-AudioHandler::~AudioHandler() {
+void AudioHandler::unInitAudioHandler() {
 	if (Mix_PlayingMusic()) {
 		Mix_HaltMusic();
 	}
@@ -48,3 +46,5 @@ const char* AudioHandler::getMusicPath(musicType music) {
 	cerr << "False Music Type" << endl;
 	return "ERROR";
 }
+
+AudioHandler* AudioHandler::audioHelper = nullptr;

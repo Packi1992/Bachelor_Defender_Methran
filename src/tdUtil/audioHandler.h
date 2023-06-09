@@ -9,13 +9,13 @@
 
 class AudioHandler {
 public:
-	~AudioHandler();
+	void unInitAudioHandler();
 	void load(musicType music);
 	void pauseMusic();
 	static AudioHandler *getHandler();
 private:
-	static AudioHandler* audioHelper;
 	const char *getMusicPath(musicType music);
+	static AudioHandler* audioHelper;
 	Music *_musicmix = nullptr;
 };
 
