@@ -165,7 +165,7 @@
     <ClCompile Include="src\tdUtil\editor.cpp" />
     <ClCompile Include="src\tdUtil\enemy.cpp" />
     <ClCompile Include="src\tdUtil\map.cpp" />
-    <ClCompile Include="src\tdUtil\musicHandler.cpp" />
+    <ClCompile Include="src\tdUtil\audioHandler.cpp" />
     <ClCompile Include="src\tdUtil\player.cpp" />
     <ClCompile Include="src\tdUtil\projectilesHandler.cpp" />
     <ClCompile Include="src\tdUtil\tdTileHandler.cpp" />
@@ -198,7 +198,7 @@
     <ClInclude Include="src\tdUtil\editor.h" />
     <ClInclude Include="src\tdUtil\enemy.h" />
     <ClInclude Include="src\tdUtil\map.h" />
-    <ClInclude Include="src\tdUtil\musicHandler.h" />
+    <ClInclude Include="src\tdUtil\audioHandler.h" />
     <ClInclude Include="src\tdUtil\player.h" />
     <ClInclude Include="src\tdUtil\projectilesHandler.h" />
     <ClInclude Include="src\tdUtil\tdTileHandler.h" />

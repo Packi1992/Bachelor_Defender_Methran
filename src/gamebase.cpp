@@ -1,6 +1,7 @@
 #include "gamebase.h"
 
 // ini globals
+AudioHandler *audioHandler{};
 TextureCache *t_cache{};
 Renderer *render{};
 Game *pGame{};
@@ -38,7 +39,8 @@ Game::Game( const char * windowTitle, const Point wSize, const bool vSync )
 		exit( 4 );
 	}
 
-	if( Mix_OpenAudio( MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024 ) < 0 )
+	// TODO: Channelanzahl erhöhen
+	if( Mix_OpenAudio( MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, SOUNDCHANNELCOUNT, 1024 ) < 0 )
 	{
 		cerr << "Mix_OpenAudio failed: " << Mix_GetError() << endl;
 		exit( 5 );
@@ -73,6 +75,7 @@ Game::Game( const char * windowTitle, const Point wSize, const bool vSync )
 	}
     rh = RenderHelper::getHelper(render);
     t_cache = TextureCache::getCache();
+	audioHandler = AudioHandler::getHandler();
     if( t_cache == nullptr )
     {
         cerr << "Texture Cache could not be created: " << SDL_GetError() << endl;

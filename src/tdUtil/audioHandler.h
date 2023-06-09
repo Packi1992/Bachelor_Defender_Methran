@@ -7,15 +7,16 @@
 #include "../global.h"
 #include "../gamebase.h"
 
-class musicHandler {
+class AudioHandler {
 public:
-	void load();
-	void uninitMusic();
+	~AudioHandler();
+	void load(musicType music);
 	void pauseMusic();
-	//load/init
-	//uninit
-	//pausemusic
-	//continuemusic eventuel pause und continue zusammenfassen
+	static AudioHandler *getHandler();
+private:
+	static AudioHandler* audioHelper;
+	const char *getMusicPath(musicType music);
+	Music *_musicmix = nullptr;
 };
 
 #endif //SDL_BACHELORDEFENDER_MUSICHANDLER_H

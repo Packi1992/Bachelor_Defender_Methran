@@ -48,4 +48,17 @@ enum t_color {
     RED,
     GREEN,
 };
+
+enum musicType {
+    Music1,
+    Music2,
+    Music3,
+};
+
+enum soundType {
+    Towersound,
+    ProjectileSound,
+    EnemySound,
+};
+
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

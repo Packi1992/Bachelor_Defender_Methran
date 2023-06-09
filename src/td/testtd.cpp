@@ -12,7 +12,7 @@ void TestTD::Init() {
     pMap = &_map;
     DataHandler::load(globals._pl, globals._wh, _map);
     globals._ph.set();
-
+    audioHandler->load(Music3);
     tdGlobals = &globals;
     Point pos = {14, 6};
     globals._towers.push_back(std::make_shared<PointerTower>(pos));
@@ -76,7 +76,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 
         }
     }
-    // calculate sanity bar only every 100 frames
+    // calculate sanity bar only every 10 frames
     if (frame % 10 == 0) {
         SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
         int sanity_left = (int)((float)SanityBar.h * ((float)globals._pl._sanity / (float)globals._pl._maxSanity));

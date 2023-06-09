@@ -12,19 +12,8 @@ void IntroState::Init()
         if( !image )
             cerr << "IMG_LoadTexture failed: " << IMG_GetError() << endl;
     }
-
-    if( !music )
-    {
-        music = Mix_LoadMUS( BasePath "asset/music/severance.ogg" );
-        if( !music )
-            cerr << "Mix_LoadMUS failed: " << Mix_GetError() << endl;
-        else
-            Mix_PlayMusic( music, -1 );
-    }
-    else if( Mix_PausedMusic() )
-    {
-        Mix_ResumeMusic();
-    }
+    
+    audioHandler->load(Music1);
     
     btn_start.set("Start",30,{});
     btn_editor.set("Editor",30,{});
