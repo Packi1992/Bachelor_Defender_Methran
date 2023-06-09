@@ -12,6 +12,8 @@ void TestTD::Init() {
     pMap = &_map;
     DataHandler::load(globals._pl, globals._wh, _map);
     globals._ph.set();
+
+    tdGlobals = &globals;
     Point pos = {14, 6};
     globals._towers.push_back(std::make_shared<PointerTower>(pos));
     pos.y -= 2;
@@ -20,7 +22,6 @@ void TestTD::Init() {
     globals._towers.push_back(std::make_shared<PointerTower>(pos));
     pos = {1, 3};
     globals._towers.push_back(std::make_shared<PointerTower>(pos));
-    tdGlobals = &globals;
 }
 
 void TestTD::UnInit() {
@@ -45,6 +46,11 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     }
     // projectiles and particles
     globals._ph.Render(totalMSec);
+
+    // at last render UI
+    rh->fillRect(&SanityBar, RED);
+    rh->fillRect(&Sanity, GREEN);
+    rh->rect(&SanityBar, 4, BLACK);
 }
 
 void TestTD::addEnemy(Enemy e) {
@@ -70,6 +76,14 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 
         }
     }
+    // calculate sanity bar only every 100 frames
+    if (frame % 10 == 0) {
+        SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
+        int sanity_left = (int)((float)SanityBar.h * ((float)globals._pl._sanity / (float)globals._pl._maxSanity));
+        Sanity = SanityBar;
+        Sanity.y += SanityBar.h - sanity_left;
+        Sanity.h = sanity_left;
+    }
     // Update towers
     for (auto &tower: globals._towers) {
         tower->Update(deltaT);
@@ -78,8 +92,8 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
 
     // add projectiles and particles
     // update projectile direction
-    if(_btn_space){
-        _arrowDir = (_arrowDir +5) % 360;
+    if (_btn_space) {
+        _arrowDir = (_arrowDir + 5) % 360;
         _btn_space = false;
     }
 
@@ -116,7 +130,6 @@ void TestTD::collision() {
                     if (p->_alive) {
                         // Collision Detection not implemented yet, perhaps with SDL_intersectRect
                         if (e.isPointInside(p->_position)) {
-                            cout << "HIT" << endl;
                             e.takeDamage(p->_damage);
                             globals._ph.remove(&p);
                             if (!e._alive) {
