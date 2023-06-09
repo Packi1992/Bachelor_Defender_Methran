@@ -66,4 +66,8 @@ enum soundType {
     SoundDisabled,
 };
 
+// Menu Entries for displaying Icons in FloatingMenu
+enum MenuEntries{
+    DEFAULT
+};
 #endif //SDL_BACHELORDEFENDER_ENUMS_H
