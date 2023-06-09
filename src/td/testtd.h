@@ -5,18 +5,21 @@
 #define SDL_BASEGAME_TESTTD_H
 
 #include "../gamebase.h"
+#include "../enums.h"
 #include "../tdUtil/enemy.h"
 #include "../tdUtil/projectilesHandler.h"
 #include "../tdUtil/waveHandler.h"
 #include "../tdUtil/player.h"
-#include "Projectiles/projectile.h"
 #include "tower/tower.h"
 #include "../tdUtil/map.h"
+#include "../util/gui/floatingMenu.h"
+#include "../util/gui/TextWithValue.h"
+class Gui;
 struct TDGlobals {
     Enemy _enemies[MAXENEMIES]{};
+    Vector<std::shared_ptr<class Tower>> _towers{};
     ProjectilesHandler _ph{};
     WaveHandler _wh{};
-    Vector<std::shared_ptr<class Tower>> _towers{};
     Player _pl{};
 };
 extern TDGlobals *tdGlobals;
@@ -35,10 +38,16 @@ protected:
     bool mbDown = false;
     bool mouseScroll = false;
     bool _btn_space = false;
+    bool _btn_control = false;
     int _arrowDir = 0;
     Point mousePos = {};
 public:
-
+    // window handling
+    Gui *focus= nullptr;
+    FloatingMenu _floatingMenu;
+    std::string _creditPointDisplayText = "Credit Points :";
+    TextWithValue _creditPointDisplay;
+    Vector<MenuEntries> _buildMenuEntries{};
     TDGlobals globals;
     // ctor
     using GameState::GameState;

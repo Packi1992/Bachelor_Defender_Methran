@@ -16,6 +16,7 @@ Wave::~Wave() {
 void Wave::addEvent(string Event) {
     // we need to define a function to write and load Spawn Events ...
     // maybe inside Struct?
+    if(Event.substr()=="NAME")
     addEvent(SpawnEvent::readLine(Event));
 }
 
@@ -53,4 +54,15 @@ void Wave::startWave(const u32 totalMSec) {
 
 bool Wave::isOver() {
     return Events.empty();
+}
+
+SpeechEvent SpeechEvent::readLine(string input) {
+    return SpeechEvent();
+}
+
+SpawnEvent SpawnEvent::readLine(string EventAsString) {
+    {
+        cerr << "implement Spawn Event parsing from String";
+        return SpawnEvent{};
+    }
 }

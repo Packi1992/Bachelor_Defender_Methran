@@ -5,18 +5,12 @@
 #include "tower.h"
 #include "../../tdUtil/enemy.h"
 #include "../../recthelper.h"
-#include "../../util/gui/floatingmenu.h"
-
-int Tower::getCosts() {
-    return 0;
-}
+#include "../../util/gui/floatingMenu.h"
 
 Tower::Tower(Point pos) {
     _pos = {(float)pos.x+0.5f,(float)pos.y+0.5f};
     _rPos = pos;
     _health = 10;
-    _reloadTime = 0;
-    _range = 1;
 }
 
 bool Tower::inRange(FRect p) const {
@@ -88,7 +82,8 @@ bool Tower::isClicked(Point md) {
 
 void Tower::RenderMenu(float deltaT){
     if(_floatingMenu != nullptr)
-        _floatingMenu->Render(deltaT);
+        _floatingMenu->Render();
 }
 
 Tower::~Tower() = default;
+

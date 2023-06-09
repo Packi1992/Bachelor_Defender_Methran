@@ -15,5 +15,6 @@ BddGame::BddGame() :
 }
 
 bool BddGame::HandleEvent(const Event event) {
+
     return Game::HandleEvent(event);
 };

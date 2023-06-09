@@ -8,6 +8,7 @@
 #include "../../global.h"
 class Enemy;
 class FloatingMenu;
+class Gui;
 class Tower {
 public:
     explicit Tower(Point pos);
@@ -16,10 +17,11 @@ public:
     // Place Tower on Map
     virtual void Update(float deltaT)=0;
     // give costs of tower back
-    virtual int getCosts()=0;
+    virtual uint getCosts()=0;
+    virtual void setCosts(uint cp)=0;
     virtual ~Tower();
     bool isClicked(Point md);
-    virtual void showMenu() = 0;
+    virtual void showMenu(Gui **focus) = 0;
     void RenderMenu(float deltaT);
 protected:
     [[nodiscard]] bool inRange(FRect p) const;
@@ -31,12 +33,12 @@ protected:
     float _aimSpeed=5;
     // direction can be between 0-359
     float _direction = 0;
-    float _reloadTime=0;
+    float _reloadTime=0.5;
     u8 animate=0;
     float _shootCoolDown = 10;
     u32 _damage = 0;
     Enemy* _targetEnemy{};
-    int _range=0;
+    int _range=1;
     FloatingMenu* _floatingMenu = nullptr;
     Vector<MenuEntries> _menuEntries;
 };

@@ -46,6 +46,7 @@ void Enemy::takeDamage(uint16_t damage) {
     _health < damage ? _health = 0 : _health -= damage;
     if (_health == 0) {
         startDeathAnimation();
+        tdGlobals->_pl._creditPoints+=this->_value;
         _alive = false;
     }
 }
@@ -54,7 +55,7 @@ void Enemy::stun(uint16_t time) {
     _stunTime = time;
 }
 
-void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, EnemyType type) {
+void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyType type) {
     _pos.x = (float) pos.x + 0.5f;
     _pos.y = (float) pos.y + 0.5f;
     _nextPos = pMap->getNextPosCentre(_pos);
@@ -64,6 +65,7 @@ void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, EnemyType type) 
     _speed = speed;
     _type = type;
     _alive = true;
+    _value = value;
 }
 
 void Enemy::startDeathAnimation() {
@@ -118,7 +120,7 @@ bool Enemy::hasReachedGoal() const {
     return _reachedGoal;
 }
 
-void Enemy::Render(u32 totalMSec, bool hitbox) const {
+void Enemy::Render(u32 totalMSec,bool life, bool hitbox) const {
     if (_alive) {
         // make dstRect
         Point POS = CT::getPosOnScreen(_pos);
@@ -141,6 +143,15 @@ void Enemy::Render(u32 totalMSec, bool hitbox) const {
             hitBoxRect.w = 5;
             hitBoxRect.h = 5;
             rh->fillFRect(&hitBoxRect, RED);
+        }
+        if(life){
+            float health=(float)_health/(float)_maxHealth;
+            Rect HealthBar = {POS.x-dstRect.w/2,POS.y-(int)(dstRect.h), dstRect.w,(int)((float)dstRect.h*0.1f)};
+            rh->fillRect(&HealthBar,RED);
+            Rect HealthBarRest = HealthBar;
+            HealthBarRest.w = (int)((float)HealthBarRest.w * health);
+            rh->fillRect(&HealthBarRest,GREEN);
+            rh->rect(&HealthBar,2,BLACK);
         }
     }
 }

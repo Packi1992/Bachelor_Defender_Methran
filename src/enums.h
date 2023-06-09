@@ -12,6 +12,8 @@ enum MapObjects{
     Table,
     Tower,
     Chair,
+    OutOfBounds,
+    Map_Disabled,
 };
 
 enum EnemyType{
@@ -71,7 +73,10 @@ enum soundType {
 
 // Menu Entries for displaying Icons in FloatingMenu
 enum MenuEntries{
-    DEFAULT
+    MenuEntry_DEFAULT,
+    MenuEntry_POINTER,
+    MenuEntry_Error,
+    MenuEntry_Disabled,
 };
 
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

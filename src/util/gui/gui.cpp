@@ -10,11 +10,16 @@ void Gui::show(Gui **pFocus) {
 
 void Gui::releaseFocus(Event *event, bool continueRender) {
     if(event != nullptr)
-        lastEvent=*event;
+        _lastEvent=*event;
     *focus = nextFocus;
     dialog = continueRender;
+    nextFocus = nullptr;
 }
 
 void Gui::setNextFocus(Gui *next) {
     nextFocus = next;
+}
+
+bool Gui::isActive() const {
+    return dialog;
 }

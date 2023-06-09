@@ -17,14 +17,13 @@ public:
     // Place Tower on Map
     void Update(float deltaT) override;
 
-    // give costs of tower back
-    int getCosts() override;
-
     ~PointerTower() override;
-
+    uint getCosts() override;
+    void setCosts(uint cp) override;
     // init the Menu
-    void showMenu() override;
+    void showMenu(Gui **focus) override;
 private:
+    static int _creditPointCosts;
 };
 
 #endif //SDL_BACHELORDEFENDER_POINTERTOWER_H

@@ -179,7 +179,7 @@ MapObjects Map::getObject(Point p, bool OutOfBoundsError) {
         return _map[p.x][p.y];
     if (OutOfBoundsError)
         cerr << "Out of Map Bounds" << endl;
-    return MapObjects::Empty;
+    return MapObjects::OutOfBounds;
 }
 
 MapObjects Map::getObject(FPoint p, bool OutOfBoundsError) {
