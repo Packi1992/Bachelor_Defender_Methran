@@ -23,6 +23,7 @@ public:
     bool isClicked(Point md);
     virtual void showMenu(Gui **focus) = 0;
     void RenderMenu(float deltaT);
+    void removeFromMap();
 protected:
     [[nodiscard]] bool inRange(FRect p) const;
     bool aimAtEnemy(FPoint p);

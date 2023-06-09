@@ -6,6 +6,7 @@
 #include "../../tdUtil/enemy.h"
 #include "../../recthelper.h"
 #include "../../util/gui/floatingMenu.h"
+#include "../../tdUtil/map.h"
 
 Tower::Tower(Point pos) {
     _pos = {(float)pos.x+0.5f,(float)pos.y+0.5f};
@@ -85,5 +86,13 @@ void Tower::RenderMenu(float deltaT){
         _floatingMenu->Render();
 }
 
-Tower::~Tower() = default;
+void Tower::removeFromMap() {
+    if(pMap->getObject(_rPos) == MapObjects::Tower){
+        pMap->setTile(_rPos,MapObjects::Empty);
+    }
+}
+
+Tower::~Tower() {
+    this->removeFromMap();
+}
 
