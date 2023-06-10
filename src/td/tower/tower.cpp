@@ -96,3 +96,7 @@ Tower::~Tower() {
     this->removeFromMap();
 }
 
+bool Tower::isDead() {
+    return !_alive;
+}
+

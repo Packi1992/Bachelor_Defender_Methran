@@ -24,6 +24,7 @@ public:
     virtual void showMenu(Gui **focus) = 0;
     void RenderMenu(float deltaT);
     void removeFromMap();
+    bool isDead();
 protected:
     [[nodiscard]] bool inRange(FRect p) const;
     bool aimAtEnemy(FPoint p);
@@ -40,6 +41,7 @@ protected:
     u32 _damage = 0;
     Enemy* _targetEnemy{};
     int _range=1;
+    bool _alive = true;
     FloatingMenu* _floatingMenu = nullptr;
     Vector<EntryInfo> _menuEntries;
 };

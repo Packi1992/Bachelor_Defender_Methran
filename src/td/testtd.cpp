@@ -114,6 +114,15 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // Update towers
     for (auto &tower: globals._towers) {
         tower->Update(deltaT);
+        if(tower->isDead()){
+            globals._towers.erase(
+                    std::remove_if(
+                            globals._towers.begin(),
+                            globals._towers.end(),
+                            [](const std::shared_ptr<class::Tower> &mov) { return mov->isDead(); }
+                    ),
+                    globals._towers.end());
+        }
     }
     globals._ph.move();
 
