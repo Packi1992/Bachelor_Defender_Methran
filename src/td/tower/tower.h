@@ -6,8 +6,8 @@
 #define BACHELOR_DEFENDER_TOWER_H
 
 #include "../../global.h"
+#include "../../util/gui/floatingMenu.h"
 class Enemy;
-class FloatingMenu;
 class Gui;
 class Tower {
 public:
@@ -23,6 +23,8 @@ public:
     bool isClicked(Point md);
     virtual void showMenu(Gui **focus) = 0;
     void RenderMenu(float deltaT);
+    void removeFromMap();
+    bool isDead();
 protected:
     [[nodiscard]] bool inRange(FRect p) const;
     bool aimAtEnemy(FPoint p);
@@ -39,8 +41,9 @@ protected:
     u32 _damage = 0;
     Enemy* _targetEnemy{};
     int _range=1;
+    bool _alive = true;
     FloatingMenu* _floatingMenu = nullptr;
-    Vector<MenuEntries> _menuEntries;
+    Vector<EntryInfo> _menuEntries;
 };
 #include "pointerTower.h"
 

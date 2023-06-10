@@ -199,7 +199,7 @@ void Map::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     _time = totalMSec;
 }
 
-void Map::updatePathFinding() {
+bool Map::updatePathFinding() {
     // clear path array
     for (int j = 0; j < _height; j++) {
         for (int i = 0; i < _width; i++) {
@@ -226,7 +226,9 @@ void Map::updatePathFinding() {
     }
     if(!allPathsFound){
         cerr << "updating Path failed" << endl;
+        return false;
     }
+    return true;
 }
 
 Point Map::getNextPos(Point p) {
@@ -304,6 +306,18 @@ u16 Map::getDir(int ex, int ey, int tx, int ty) {
     if(ex < tx && ey == ty)
         return 90;
     return 270;
+}
+
+bool Map::checkPath(Point pos) {
+    if(getObject(pos) == MapObjects::Empty){
+        setTile(pos, MapObjects::Tower);
+        if(!updatePathFinding()){
+            setTile(pos, MapObjects::Empty);
+            return false;
+        }
+        setTile(pos, MapObjects::Empty);
+    }
+    return true;
 }
 
 

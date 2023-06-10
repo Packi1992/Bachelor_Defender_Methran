@@ -64,17 +64,16 @@ void FloatingMenu::Render() {
         // 30′ and 65/192*size should be center of first Symbol
         float distance = 70.0f / 192.0f * (float) size;
         int direction = 30;
-        for (int i = 0; i < _menuEntries->size() || i == 6; i++) {
+        for (int i = 0; i < _menuEntriesInfos->size() || i == 6; i++) {
             rh->texture(_menuTexture, &dst, direction, &src);
 
             // render center Pos
-            int symbolRadiant = (int)(35.f / 192.0f * (float) size);
+            int symbolRadiant = (int) (35.f / 192.0f * (float) size);
             Rect center = {1, 1, symbolRadiant, symbolRadiant};
             float angle = (float) direction / 180.0f * (float) M_PI;
-            center.x = renderPos.x + (int) (sin(angle) * distance)-symbolRadiant/2;
-            center.y = renderPos.y - (int) (cos(angle) * distance)-symbolRadiant/2;
-            rh->symbol(&center, _menuEntries->at(i));
-
+            center.x = renderPos.x + (int) (sin(angle) * distance) - symbolRadiant / 2;
+            center.y = renderPos.y - (int) (cos(angle) * distance) - symbolRadiant / 2;
+            rh->symbol(&center, _menuEntriesInfos->at(i));
             direction = (direction + 300) % 360;
         }
     }
@@ -98,35 +97,37 @@ void FloatingMenu::Update() {
             }
             _wheelDiff = 0;
         }
-            if (_mbLeftDown) {
-                if (!onMenu(_clickPos)) {
-                    SDL_PushEvent(&_lastEvent);
-                    releaseFocus();
-                } else {
-                    // we need to further investigate if entry is selected
-                    Point renderPos = CT::getPosOnScreen(_position);
-                    int size = getSize();
-                    // 45 - 85 = 40  from middle position is Button starting at 30 degree going -60
-                    // Center of Symbol will be  from center size = 192
-                    // 30′ and 65/192*size should be center of first Symbol
-                    float distance = 70.0f / 192.0f * (float) size;
-                    float symbolRadiant = 20.f / 192.0f * (float) size;
-                    int direction = 30;
-                    Point center{};
-                    for (int i = 0; i < _menuEntries->size() || i == 6; i++) {
-                        // render center Pos
-                        float angle = (float) direction / 180.0f * (float) M_PI;
-                        center.x = renderPos.x + (int) (sin(angle) * distance);
-                        center.y = renderPos.y - (int) (cos(angle) * distance);
-                        direction = (direction + 300) % 360;
-                        if (onSymbol(_clickPos, center, symbolRadiant)) {
-                            cout << "Symbol " << i << " clicked!" << endl;
+        if (_mbLeftDown) {
+            if (!onMenu(_clickPos)) {
+                SDL_PushEvent(&_lastEvent);
+                releaseFocus();
+            } else {
+                // we need to further investigate if entry is selected
+                Point renderPos = CT::getPosOnScreen(_position);
+                int size = getSize();
+                // 45 - 85 = 40  from middle position is Button starting at 30 degree going -60
+                // Center of Symbol will be  from center size = 192
+                // 30′ and 65/192*size should be center of first Symbol
+                float distance = 70.0f / 192.0f * (float) size;
+                float symbolRadiant = 20.f / 192.0f * (float) size;
+                int direction = 30;
+                Point center{};
+                for (int i = 0; i < _menuEntriesInfos->size() || i == 6; i++) {
+                    // render center Pos
+                    float angle = (float) direction / 180.0f * (float) M_PI;
+                    center.x = renderPos.x + (int) (sin(angle) * distance);
+                    center.y = renderPos.y - (int) (cos(angle) * distance);
+                    direction = (direction + 300) % 360;
+                    if (onSymbol(_clickPos, center, symbolRadiant)) {
+                        cout << "Symbol " << i << " clicked!" << endl;
+                        if (_menuEntriesInfos->at(i)._status == Status_Active) {
                             releaseFocus();
-                            _selectedEntry = _menuEntries->at(i);
+                            _selectedEntry = _menuEntriesInfos->at(i)._menuEntry;
                         }
                     }
                 }
             }
+        }
 
     }
 }
@@ -164,19 +165,19 @@ void FloatingMenu::reset() {
 
 }
 
-FloatingMenu::FloatingMenu(Vector<MenuEntries> *menuEntries, FPoint pos) {
-    set(menuEntries, pos);
+FloatingMenu::FloatingMenu(Vector<EntryInfo> *menuEntriesInfos, FPoint pos) {
+    set(menuEntriesInfos, pos);
 }
 
-void FloatingMenu::set(Vector<MenuEntries> *menuEntries, FPoint pos) {
+void FloatingMenu::set(Vector<EntryInfo> *menuEntriesInfos, FPoint pos) {
     _menuTexture = t_cache->get(BasePath "asset/graphic/td/floatingMenu.png");
-    setEntries(menuEntries);
+    setEntries(menuEntriesInfos);
     setPosition(pos);
 }
 
-void FloatingMenu::setEntries(Vector<MenuEntries> *menuEntries) {
-    _menuEntries = menuEntries;
-    if (_menuEntries->size() > 6)
+void FloatingMenu::setEntries(Vector<EntryInfo> *menuEntriesInfos) {
+    _menuEntriesInfos = menuEntriesInfos;
+    if (_menuEntriesInfos->size() > 6)
         cerr << "Max six entries in menu possible" << endl;
 }
 

@@ -25,13 +25,13 @@ void PointerTower::Update(float deltaT) {
         _floatingMenu->Update();
         if (_floatingMenu->isDone()) {
             switch (_floatingMenu->getSelectedEntry()) {
-                case MenuEntry_DEFAULT:
+                case MenuEntry_Sell:
+                    tdGlobals->_pl._creditPoints += 2;
+                    if(pMap->getObject(_rPos) == MapObjects::Tower)
+                        pMap->setTile(_rPos, MapObjects::Empty);
+                    _alive = false;
                     break;
-                case MenuEntry_POINTER:
-                    break;
-                case MenuEntry_Error:
-                    break;
-                case MenuEntry_Disabled:
+                default:
                     break;
             }
             delete _floatingMenu;
@@ -87,17 +87,15 @@ PointerTower::PointerTower(Point pos) : Tower(pos) {
     _aimSpeed = 1;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
-    _menuEntries.push_back(MenuEntries::MenuEntry_DEFAULT);
-    _menuEntries.push_back(MenuEntries::MenuEntry_DEFAULT);
-    _menuEntries.push_back(MenuEntries::MenuEntry_DEFAULT);
-    _menuEntries.push_back(MenuEntries::MenuEntry_DEFAULT);
-    _menuEntries.push_back(MenuEntries::MenuEntry_DEFAULT);
 }
 
 PointerTower::~PointerTower() = default;
 
 void PointerTower::showMenu(Gui **focus) {
     delete _floatingMenu;
+    _menuEntries.clear();
+    _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
+    _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, 0});
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
 }

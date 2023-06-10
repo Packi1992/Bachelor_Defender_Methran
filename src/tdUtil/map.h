@@ -38,6 +38,7 @@ public:
     int _width = 40;
     int _height = 20;
 
+    bool checkPath(Point pos);
 
 private:
     struct PathEntry{
@@ -61,7 +62,7 @@ private:
 
     void iniOffset() const;
 
-    void updatePathFinding();
+    bool updatePathFinding();
 
     bool isBlocked(int i, int j);
 

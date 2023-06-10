@@ -77,6 +77,13 @@ enum MenuEntries{
     MenuEntry_POINTER,
     MenuEntry_Error,
     MenuEntry_Disabled,
+    MenuEntry_Sell,
+    MenuEntry_Upgrade,
 };
 
+enum Status{
+    Status_Disabled,
+    Status_NotEnoughMoney,
+    Status_Active,
+};
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

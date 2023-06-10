@@ -33,8 +33,9 @@ std::string Player::save() {
 }
 
 bool Player::buyTower(std::shared_ptr<struct Tower> sharedPtr) {
-    if(sharedPtr->getCosts()>_creditPoints)
+    if(sharedPtr->getCosts()>_creditPoints){
         return false;
+    }
     _creditPoints -= sharedPtr->getCosts();
     return true;
 }
