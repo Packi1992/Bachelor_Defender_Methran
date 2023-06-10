@@ -8,10 +8,16 @@
 #include "../../gamebase.h"
 #include "gui.h"
 
+struct EntryInfo{
+    MenuEntries _menuEntry;
+    Status _status = Status_Active;
+    uint _costs = 0;
+};
+
 class FloatingMenu: public Gui {
 public:
-    FloatingMenu(Vector<MenuEntries> * menuEntries, FPoint tileCenter);
-    void set(Vector<MenuEntries> * menuEntries, FPoint tileCenter);
+    FloatingMenu(Vector<EntryInfo> * menuEntriesInfos, FPoint tileCenter);
+    void set(Vector<EntryInfo> * menuEntriesInfos, FPoint tileCenter);
     FloatingMenu() = default;
     void setPosition(FPoint p);
     void Input() override;
@@ -19,7 +25,7 @@ public:
     void Update() override;
     bool isDone();
     FPoint getPos();
-    void setEntries(Vector<MenuEntries> * menuEntries);
+    void setEntries(Vector<EntryInfo> * menuEntriesInfos);
     MenuEntries getSelectedEntry();
     [[nodiscard]] bool onMenu(Point clickPos) const;
     [[nodiscard]] static bool onSymbol(Point click, Point symbol, float symbolRadiant);
@@ -36,7 +42,7 @@ private:
 
     int _selectedEntry=-1;
     Texture * _menuTexture{};
-    Vector<MenuEntries>* _menuEntries{};
+    Vector<EntryInfo>* _menuEntriesInfos{};
 };
 
 

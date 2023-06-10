@@ -14,9 +14,10 @@ void TestTD::Init() {
     DataHandler::load(globals._pl, globals._wh, _map);
     globals._ph.set();
     tdGlobals = &globals;
-    _buildMenuEntries.push_back(MenuEntry_DEFAULT);
-    _buildMenuEntries.push_back(MenuEntry_POINTER);
-    _buildMenuEntries.push_back(MenuEntry_Error);
+    _buildMenuEntriesInfos.push_back({MenuEntry_DEFAULT, Status_Active, 0});
+    _buildMenuEntriesInfos.push_back({MenuEntry_POINTER, Status_Active, 0});
+    _buildMenuEntriesInfos.push_back({MenuEntry_Error, Status_Active, 0});
+    _buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints), {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
 }
 
@@ -152,7 +153,8 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
                 case Table:
                     // show build menu
                     _floatingMenu.reset();
-                    _floatingMenu.set(&_buildMenuEntries, CT::getTileCenterInGame(mousePos));
+                    updateFloatingMenu();
+                    _floatingMenu.set(&_buildMenuEntriesInfos, CT::getTileCenterInGame(mousePos));
                     _floatingMenu.show(&focus);
                     break;
                 default:
@@ -283,5 +285,16 @@ void TestTD::keyDown(SDL_Event &event) {
             _btn_control = true;
         default:
             break;
+    }
+}
+
+void TestTD::updateFloatingMenu() {
+    if(globals._pl._creditPoints < 5){
+        _buildMenuEntriesInfos.at(1)._status = Status_NotEnoughMoney;
+    }else{
+        _buildMenuEntriesInfos.at(1)._status = Status_Active;
+    }
+    if(!pMap->checkPath(CT::getTileInGame(mousePos))){
+        _buildMenuEntriesInfos.at(1)._status = Status_Disabled;
     }
 }

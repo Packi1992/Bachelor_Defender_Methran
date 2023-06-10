@@ -47,7 +47,7 @@ public:
     FloatingMenu _floatingMenu;
     std::string _creditPointDisplayText = "Credit Points :";
     TextWithValue _creditPointDisplay;
-    Vector<MenuEntries> _buildMenuEntries{};
+    Vector<EntryInfo> _buildMenuEntriesInfos{};
     TDGlobals globals;
     // ctor
     using GameState::GameState;
@@ -71,6 +71,8 @@ public:
     void MouseWheel(SDL_Event &event);
 
     void keyDown(SDL_Event &event);
+
+    void updateFloatingMenu();
 };
 
 #endif //SDL_BASEGAME_TESTTD_H

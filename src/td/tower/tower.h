@@ -6,8 +6,8 @@
 #define BACHELOR_DEFENDER_TOWER_H
 
 #include "../../global.h"
+#include "../../util/gui/floatingMenu.h"
 class Enemy;
-class FloatingMenu;
 class Gui;
 class Tower {
 public:
@@ -41,7 +41,7 @@ protected:
     Enemy* _targetEnemy{};
     int _range=1;
     FloatingMenu* _floatingMenu = nullptr;
-    Vector<MenuEntries> _menuEntries;
+    Vector<EntryInfo> _menuEntries;
 };
 #include "pointerTower.h"
 
