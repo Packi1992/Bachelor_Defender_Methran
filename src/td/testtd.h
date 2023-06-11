@@ -35,12 +35,17 @@ protected:
     void addEnemy(Enemy e);
 
     //  debug stuff
-    bool mbDown = false;
-    bool mouseScroll = false;
+
     bool _btn_space = false;
     bool _btn_control = false;
     int _arrowDir = 0;
     Point mousePos = {};
+    bool _mbLeft = false;
+    bool _mouseWheel = false;
+    SDL_Event _wheelEvent;
+    bool _mbRight = false;
+    bool _mouseMotion = false;
+    SDL_Event _motionEvent;
 public:
     // window handling
     Gui *focus= nullptr;
@@ -63,12 +68,6 @@ public:
     void Render(const u32 frame, const u32 totalMSec, const float deltaT) override;
 
     void collision();
-
-    void MouseDown(SDL_Event &event);
-
-    void MouseMotion(SDL_Event &event);
-
-    void MouseWheel(SDL_Event &event);
 
     void keyDown(SDL_Event &event);
 

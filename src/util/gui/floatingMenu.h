@@ -32,10 +32,12 @@ public:
     void reset();
     ~FloatingMenu();
 private:
+    // zoom handling
+    bool _mouseWheel = false;
+    SDL_Event _wheelEvent;
     static int getSize();
     FPoint _position{};
     Point _clickPos{};
-    int _wheelDiff=0;
     Point _clickRel{};
     bool _mbRightDown = false;
     bool _mbLeftDown = false;

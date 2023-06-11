@@ -35,6 +35,7 @@ void Map::resize(Point size){
         _map[i].resize(_height);
         _pathMap[i].resize(_height);
     }
+    updatePathFinding();
 }
 
 void Map::Render(bool wire, bool pathFinding) {
@@ -300,9 +301,9 @@ void Map::setPathEntry(int ex, int ey, int tx, int ty) {
 
 u16 Map::getDir(int ex, int ey, int tx, int ty) {
     if(ex == tx && ey < ty)
-        return 0;
-    if(ex == tx && ey > ty)
         return 180;
+    if(ex == tx && ey > ty)
+        return 0;
     if(ex < tx && ey == ty)
         return 90;
     return 270;

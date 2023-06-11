@@ -35,7 +35,8 @@ void FloatingMenu::Input() {
                 _clickRel = {event.motion.xrel, event.motion.yrel};
                 break;
             case SDL_MOUSEWHEEL:
-                _wheelDiff = event.wheel.y;
+                _mouseWheel = true;
+                _wheelEvent=event;
                 break;
         }
     }
@@ -85,17 +86,10 @@ void FloatingMenu::Update() {
             offset = offset - _clickRel;
             _clickRel = {};
         }
-        if (_wheelDiff != 0) {
-            Point cursor{};
-            SDL_GetMouseState(&cursor.x, &cursor.y);
-            if (_wheelDiff / abs(_wheelDiff) < 1) {// zoom out
-                scale = (int) (scale * 0.8);
-            } else {                                     // zoom in
-                scale = (int) (scale * (1 / 0.8));
-                offset.y += 2 * _wheelDiff / abs(_wheelDiff) * pMap->_height / 2;
-                offset.x += 2 * _wheelDiff / abs(_wheelDiff) * pMap->_width / 2;
-            }
-            _wheelDiff = 0;
+        // update "Viewport" / Zoom in or Out
+        if(_mouseWheel){
+            Game::zoomScreen(_wheelEvent);
+            _mouseWheel = false;
         }
         if (_mbLeftDown) {
             if (!onMenu(_clickPos)) {
@@ -160,7 +154,7 @@ void FloatingMenu::reset() {
     dialog = false;
     _selectedEntry = -1;
     _mbLeftDown = false;
-    _wheelDiff = 0;
+    _mouseWheel = false;
     _mbRightDown = false;
 
 }

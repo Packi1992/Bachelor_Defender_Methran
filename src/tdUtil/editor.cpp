@@ -40,6 +40,15 @@ void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
             map.resize(resizeMap.getInput());
             resizeMap.reset();
         }
+        // update "Viewport" / Zoom in or Out
+        if(_mouseWheel){
+            Game::zoomScreen(_wheelEvent);
+            _mouseWheel = false;
+        }
+        if(_mouseMotion && _mbRight){
+            Game::scrollScreen(_motionEvent);
+            _mouseMotion = false;
+        }
     }
 }
 
@@ -107,14 +116,17 @@ void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
                     MouseDown(event);
                     break;
                 case SDL_MOUSEBUTTONUP:
-                    mbDown = false;
-                    if (event.button.button == SDL_BUTTON_RIGHT && mouseScroll)mouseScroll = false;
+                    _mbLeft = false;
+                    if (event.button.button == SDL_BUTTON_RIGHT && _mbRight)_mbRight = false;
                     break;
                 case SDL_MOUSEMOTION:
+                    _motionEvent = event;
                     MouseMotion(event);
+                    _mouseMotion=true;
                     break;
                 case SDL_MOUSEWHEEL:
-                    MouseWheel(event);
+                    _mouseWheel = true;
+                    _wheelEvent = event;
                     break;
                 case SDL_KEYDOWN:
                     keyDown(event);
@@ -127,8 +139,8 @@ void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
 
 void Editor::MouseDown(SDL_Event event) {
     if (event.button.button == SDL_BUTTON_LEFT) {
-        if (event.motion.y < (Toolbox.y))mbDown = true;
-        if (mbDown) {
+        if (event.motion.y < (Toolbox.y))_mbLeft = true;
+        if (_mbLeft) {
             map.setTile(event, selected);
             labelObject = selected;
             labelPos = {event.motion.x, event.motion.y - 30};
@@ -154,7 +166,7 @@ void Editor::MouseDown(SDL_Event event) {
             else handleSelection(event);
         }
     } else if (event.button.button == SDL_BUTTON_RIGHT) {
-        mouseScroll = true;
+        _mbRight = true;
     }
 }
 
@@ -162,7 +174,7 @@ void Editor::MouseMotion(SDL_Event event) {
     isLabelActive = false;
     if (event.motion.y < (Toolbox.y)) {
         labelPos = {event.motion.x, event.motion.y};
-        if (mbDown) {
+        if (_mbLeft) {
             map.setTile(event, selected);
             labelObject = selected;
         } else
@@ -170,10 +182,6 @@ void Editor::MouseMotion(SDL_Event event) {
         isLabelActive = true;
         labelPos.y -= 30;
         labelTimer = 0;
-        if (mouseScroll) {
-            offset.x -= event.motion.xrel;
-            offset.y -= event.motion.yrel;
-        }
     }
     btn_load.entered(event);
     btn_path.entered(event);
@@ -204,13 +212,5 @@ void Editor::keyDown(SDL_Event event) {
         default:
             break;
     }
-}
-
-void Editor::MouseWheel(SDL_Event event) {
-    scale += event.wheel.y;
-    int posX,posY;
-    SDL_GetMouseState(&posX, &posY);
-    offset.y += event.wheel.y / abs(event.wheel.y) * map._height / 2;
-    offset.x += event.wheel.y / abs(event.wheel.y) * map._width / 2;
 }
 

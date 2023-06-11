@@ -23,9 +23,6 @@ protected:
     WaveHandler waves;
     Player player;
 
-    bool mbDown=false;
-    bool mouseScroll=false;
-
     // label hint
     bool isLabelActive=false;
     int labelTimer=0;
@@ -51,6 +48,15 @@ protected:
     Rect Toolbox = {};
     MapObjects selected=Empty;
     void handleSelection(Event event);
+
+    // zooming
+    bool _mouseWheel = false;
+    SDL_Event _wheelEvent;
+    // scrolling
+    bool _mouseMotion = false;
+    SDL_Event _motionEvent;
+    bool _mbLeft=false;
+    bool _mbRight=false;
 public:
 
     // ctor
@@ -67,6 +73,5 @@ public:
     void MouseDown(SDL_Event event);
     void MouseMotion(SDL_Event event);
     void keyDown(SDL_Event event);
-    void MouseWheel(SDL_Event event);
 };
 #endif //SDL_BACHELORDEFENDER_EDITOR_H

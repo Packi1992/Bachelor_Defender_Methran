@@ -39,6 +39,7 @@ protected:
 
 
 public:
+    static void zoomScreen(SDL_Event event);
 	[[nodiscard]]       bool    IsRunning()     const { return isRunning;  }
 
 	explicit Game(
@@ -55,6 +56,8 @@ public:
 	virtual int Run();
 
 	virtual void SetNextState( int index ) { nextStateIdx = index; }
+
+    static void scrollScreen(SDL_Event event);
 
 protected:
 	virtual void ActivateNextState();
