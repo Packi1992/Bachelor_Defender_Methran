@@ -30,14 +30,14 @@ Rect *TdTileHandler::getSrcRect(MapObjects o, ul animate) {
             break;
         case Start:
             src.y = 0;
-            localAnimate = (int)((animate / 8) % 10);
+            localAnimate = (int)((animate / 80) % 10);
             if(localAnimate>=5){
                 localAnimate = 9-localAnimate;
             }
             src.x = localAnimate  * 64;
             break;
         case Goal:
-            localAnimate = (int)(((animate+30) / 8) % 10);
+            localAnimate = (int)(((animate+30) / 80) % 10);
             if(localAnimate>=5){
                 localAnimate = 9-localAnimate;
             }
@@ -116,7 +116,7 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
             src = {26, 334, 11, 35};
             break;
         case FFIRE:
-            localAnimate = (int)((anim / 4) % 2);
+            localAnimate = (int)((anim / 40) % 2);
             src.x = 64+(localAnimate* 64);
             src.y = 320;
             break;

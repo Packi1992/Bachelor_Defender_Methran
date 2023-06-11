@@ -56,6 +56,10 @@ bool Wave::isOver() {
     return Events.empty();
 }
 
+void Wave::setName(std::string name) {
+
+}
+
 SpeechEvent SpeechEvent::readLine(string input) {
     return SpeechEvent();
 }

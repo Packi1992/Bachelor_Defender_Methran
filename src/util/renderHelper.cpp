@@ -163,7 +163,7 @@ void RenderHelper::loadTileSheet() {
     _sell = t_cache->getText("SELL", 28, nullptr, GREEN);
 }
 
-void RenderHelper::symbol(SDL_Rect *center, EntryInfo &entry) {
+void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
     Rect src{};
     switch (entry._menuEntry) {
         case MenuEntry_DEFAULT:

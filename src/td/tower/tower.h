@@ -24,7 +24,7 @@ public:
     virtual void showMenu(Gui **focus) = 0;
     void RenderMenu(float deltaT);
     void removeFromMap();
-    bool isDead();
+    [[nodiscard]] bool isDead() const;
 protected:
     [[nodiscard]] bool inRange(FRect p) const;
     bool aimAtEnemy(FPoint p);
@@ -43,7 +43,7 @@ protected:
     int _range=1;
     bool _alive = true;
     FloatingMenu* _floatingMenu = nullptr;
-    Vector<EntryInfo> _menuEntries;
+    Vector<MenuEntry> _menuEntries;
 };
 #include "pointerTower.h"
 

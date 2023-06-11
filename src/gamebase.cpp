@@ -234,10 +234,10 @@ void Game::OutputPerformanceInfo(const TimePoint current, const Duration needed)
 
 void Game::zoomScreen(SDL_Event event) {
     Point cursor;
-    SDL_GetMouseState(&cursor.x,&cursor.y);
+    SDL_GetMouseState(&cursor.x, &cursor.y);
     int wheel = event.wheel.y;
     FPoint cursorGamePos = CT::getPosInGame(cursor);
-    if (wheel / abs(wheel)<1) {// zoom out
+    if (wheel / abs(wheel) < 1) {// zoom out
         if (scale > 20) {
             scale = (int) ((float) scale * 0.8f);
             Point newScreenPos = CT::getPosOnScreen(cursorGamePos);
@@ -256,4 +256,17 @@ void Game::zoomScreen(SDL_Event event) {
 void Game::scrollScreen(SDL_Event event) {
     offset.x -= event.motion.xrel;
     offset.y -= event.motion.yrel;
+}
+
+Point Game::getMousePos() {
+    Point cursor;
+    SDL_GetMouseState(&cursor.x, &cursor.y);
+    return cursor;
+}
+
+bool Game::onScreen(Rect dstRect) {
+    return (dstRect.x + dstRect.w > 0) && // left
+           (dstRect.y + dstRect.h > 0) &&        // top
+           (dstRect.y < windowSize.y) &&         // bot
+           (dstRect.x < windowSize.x);           // right
 }
