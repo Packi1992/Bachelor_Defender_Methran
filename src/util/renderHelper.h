@@ -9,7 +9,7 @@
 #include <string>
 #include "../enums.h"
 
-struct EntryInfo;
+struct MenuEntry;
 
 class RenderHelper {
 public:
@@ -58,7 +58,7 @@ public:
     void operator=(const RenderHelper &) = delete;
 
 
-    void symbol(SDL_Rect *pRect, EntryInfo &entry);
+    void symbol(SDL_Rect *pRect, MenuEntry &entry);
 
 private:
     SDL_Texture *_blocked = {};

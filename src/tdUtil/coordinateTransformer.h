@@ -23,6 +23,7 @@ public:
     static SDL_Point getPosOnScreen(const SDL_FPoint &p);
     static SDL_FRect getFRectOnScreen(const SDL_FRect &fr);
 
-
+    static float getAngle(const SDL_Point &p1, const SDL_Point &p2 );
+    static float getAngle(const SDL_FPoint &p1, const SDL_FPoint &p2 );
 };
 #endif //SDL_BACHELORDEFENDER_COORDINATETRANSFORMER_H

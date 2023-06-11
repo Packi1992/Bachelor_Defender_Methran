@@ -20,37 +20,7 @@ bool Tower::inRange(FRect p) const {
 
 bool Tower::aimAtEnemy(FPoint p) {
     // calculate enemy direction
-    float y = _targetEnemy->_pos.y-_pos.y;
-    float x = _targetEnemy->_pos.x-_pos.x;
-    bool above=false;
-    if(y<0){
-        //target is below
-        above = true;
-        y = -y;
-    }
-    if(y==0){
-        above = true;
-    }
-    bool left = false;
-    if(x<0){
-        left = true;
-        x =-x;
-    }
-    if(x==0){
-        left = true;
-    }
-    float alpha = atan(y/x)*180/(float)M_PI;
-    if(above&&!left)
-        alpha = (float)((int)(90-alpha)%360);
-    if(!above&&!left)
-        alpha +=90;
-    if(left&&!above){
-        alpha = (float)((int)(90-alpha)%360);
-        alpha +=180;
-    }
-    if(left&above)
-        alpha +=270;
-    alpha = (float)((int)(alpha)%360);
+    float alpha = CT::getAngle(_pos,_targetEnemy->_pos);
     if(alpha == _direction){
         return true;
     }
@@ -77,7 +47,6 @@ bool Tower::aimAtEnemy(FPoint p) {
 }
 
 bool Tower::isClicked(Point md) {
-    Point t = CT::getTileInGame(md);
     return (CT::getTileInGame(md) == _rPos);
 }
 
@@ -96,7 +65,7 @@ Tower::~Tower() {
     this->removeFromMap();
 }
 
-bool Tower::isDead() {
+bool Tower::isDead() const {
     return !_alive;
 }
 

@@ -46,12 +46,15 @@ protected:
     SDL_Event _wheelEvent;
     bool _mouseMotion = false;
     SDL_Event _motionEvent;
-public:
-    // window handling
+
+    // ui
     Gui *focus= nullptr;
     FloatingMenu _floatingMenu;
     TextWithValue _creditPointDisplay;
-    Vector<EntryInfo> _buildMenuEntriesInfos{};
+public:
+    // window handling
+
+    Vector<MenuEntry> _buildMenuEntriesInfos{};
     TDGlobals globals;
     // ctor
     using GameState::GameState;

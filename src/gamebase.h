@@ -40,6 +40,10 @@ protected:
 
 public:
     static void zoomScreen(SDL_Event event);
+    static void scrollScreen(SDL_Event event);
+    static Point getMousePos();
+    static Point getMousePosTile();
+    static bool onScreen(Rect dstRect);
 	[[nodiscard]]       bool    IsRunning()     const { return isRunning;  }
 
 	explicit Game(
@@ -57,7 +61,7 @@ public:
 
 	virtual void SetNextState( int index ) { nextStateIdx = index; }
 
-    static void scrollScreen(SDL_Event event);
+
 
 protected:
 	virtual void ActivateNextState();

@@ -8,6 +8,7 @@
 
 #include "tdTileHandler.h"
 #include "map.h"
+
 void Enemy::Update(float deltaT) {
     if (_stunTime > 0) {
         _stunTime > deltaT ? _stunTime -= deltaT : _stunTime = 0;
@@ -33,11 +34,10 @@ void Enemy::Update(float deltaT) {
                 _pos.y = _nextPos.y - (_pos.y + runLength) > 0 ? _pos.y += runLength : _pos.y = _nextPos.y;
             if (_dir == 270)
                 _pos.x = (_pos.x + runLength) - _nextPos.x > 0 ? _pos.x -= runLength : _pos.x = _nextPos.x;
-        }
-        else{
+        } else {
             // enemy reached goal
             _alive = false;
-            tdGlobals->_pl._sanity-= _sanity;
+            tdGlobals->_pl._sanity -= _sanity;
         }
     }
 }
@@ -46,7 +46,7 @@ void Enemy::takeDamage(uint16_t damage) {
     _health < damage ? _health = 0 : _health -= damage;
     if (_health == 0) {
         startDeathAnimation();
-        tdGlobals->_pl._creditPoints+=this->_value;
+        tdGlobals->_pl._creditPoints += this->_value;
         _alive = false;
     }
 }
@@ -120,7 +120,7 @@ bool Enemy::hasReachedGoal() const {
     return _reachedGoal;
 }
 
-void Enemy::Render(u32 totalMSec,bool life, bool hitbox) const {
+void Enemy::Render(u32 totalMSec) const {
     if (_alive) {
         // make dstRect
         Point POS = CT::getPosOnScreen(_pos);
@@ -128,30 +128,36 @@ void Enemy::Render(u32 totalMSec,bool life, bool hitbox) const {
         dstRect.x = (int) (POS.x - dstRect.w * 0.5);
         dstRect.y = (int) (POS.y - dstRect.h * 0.8);
         // check if enemy is on screen
-        if ((dstRect.x + dstRect.w > 0) &&        // left
-            (dstRect.y + dstRect.h > 0) &&        // top
-            (dstRect.y < windowSize.y) &&        // bot
-            (dstRect.x < windowSize.x))         // right
+        if (Game::onScreen(dstRect))
         {
-            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type,totalMSec));
+            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type, totalMSec));
         }
-        if (hitbox) {
+    }
+}
+
+void Enemy::RenderExtras(bool life, bool hitBox) const {
+    if(_alive){
+        if (hitBox) {
             FRect hitBoxRect = CT::getFRectOnScreen(getHitBox());
             rh->fillFRect(&hitBoxRect, BLACK);
-            hitBoxRect.x += hitBoxRect.w / 2 - 5;
-            hitBoxRect.y += hitBoxRect.h / 2 - 5;
+            hitBoxRect.x += hitBoxRect.w * 0.5f - 5;
+            hitBoxRect.y += hitBoxRect.h * 0.5f - 5;
             hitBoxRect.w = 5;
             hitBoxRect.h = 5;
             rh->fillFRect(&hitBoxRect, RED);
         }
-        if(life){
-            float health=(float)_health/(float)_maxHealth;
-            Rect HealthBar = {POS.x-dstRect.w/2,POS.y-(int)(dstRect.h), dstRect.w,(int)((float)dstRect.h*0.1f)};
-            rh->fillRect(&HealthBar,RED);
+        if (life && _maxHealth > _health) {
+            Point POS = CT::getPosOnScreen(_pos);
+            Rect dstRect = {POS.x, POS.y, scale, scale + scale};
+            float health = (float) _health / (float) _maxHealth;
+            Rect HealthBar = {(int) ((float) POS.x - (float) dstRect.w * 0.5f),
+                              (int) ((float) POS.y - (float) (dstRect.h) * 0.85f), dstRect.w,
+                              (int) ((float) dstRect.h * 0.1f)};
+            rh->fillRect(&HealthBar, RED);
             Rect HealthBarRest = HealthBar;
-            HealthBarRest.w = (int)((float)HealthBarRest.w * health);
-            rh->fillRect(&HealthBarRest,GREEN);
-            rh->rect(&HealthBar,2,BLACK);
+            HealthBarRest.w = (int) ((float) HealthBarRest.w * health);
+            rh->fillRect(&HealthBarRest, GREEN);
+            rh->rect(&HealthBar, 2, BLACK);
         }
     }
 }
@@ -159,4 +165,6 @@ void Enemy::Render(u32 totalMSec,bool life, bool hitbox) const {
 FRect Enemy::getHitBox() const {
     return {_pos.x - 0.35f, _pos.y - 1.4f, 0.7f, 1.6f};
 }
+
+
 

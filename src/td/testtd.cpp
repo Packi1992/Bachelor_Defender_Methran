@@ -14,10 +14,6 @@ void TestTD::Init() {
     DataHandler::load(globals._pl, globals._wh, _map);
     globals._ph.set();
     tdGlobals = &globals;
-    _buildMenuEntriesInfos.push_back({MenuEntry_DEFAULT, Status_Active, 0});
-    _buildMenuEntriesInfos.push_back({MenuEntry_POINTER, Status_Active, 0});
-    _buildMenuEntriesInfos.push_back({MenuEntry_Error, Status_Active, 0});
-    _buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints), {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
 }
 
@@ -41,11 +37,14 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     }
     //  render Enemies
     for (auto &enemy: globals._enemies) {
-        enemy.Render(totalMSec,true);
+        enemy.Render(totalMSec);
     }
     // projectiles and particles
     globals._ph.Render(totalMSec);
-
+    // render enemy extras (lifeBar or hitBox)
+    for (auto &enemy: globals._enemies) {
+        enemy.RenderExtras(true);
+    }
     // at last render UI
     rh->fillRect(&SanityBar, RED);
     rh->fillRect(&Sanity, GREEN);
@@ -156,7 +155,6 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         f->_speed = 1;
         f->_moveable = true;
         f->_ttl = 80;
-        //globals._ph.add(f);
         _btn_control = false;
     }
     if (_mbLeft) {
@@ -287,14 +285,11 @@ void TestTD::keyDown(SDL_Event &event) {
 }
 
 void TestTD::updateFloatingMenu() {
-    if(globals._pl._creditPoints < 5){
-        _buildMenuEntriesInfos.at(1)._status = Status_NotEnoughMoney;
-    }else{
-        _buildMenuEntriesInfos.at(1)._status = Status_Active;
-    }
-    Point cursor;
-    SDL_GetMouseState(&cursor.x,&cursor.y);
-    if(!pMap->checkPath(CT::getTileInGame(cursor))){
-        _buildMenuEntriesInfos.at(1)._status = Status_Disabled;
-    }
+    _buildMenuEntriesInfos.clear();
+    MenuEntry pointerTower{MenuEntries::MenuEntry_POINTER, Status_Active, 5};
+    if(globals._pl._creditPoints < 5) pointerTower._status = Status_NotEnoughMoney;
+    if(!pMap->checkPath(Game::getMousePosTile())) pointerTower._status = Status_Disabled;
+    _buildMenuEntriesInfos.push_back(pointerTower);
+    //_buildMenuEntriesInfos.push_back({MenuEntry_Error, Status_Active, 0});
+    //_buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});
 }

@@ -8,16 +8,16 @@
 #include "../../gamebase.h"
 #include "gui.h"
 
-struct EntryInfo{
-    MenuEntries _menuEntry;
+struct MenuEntry{
+    MenuEntries _menuEntry=MenuEntry_DEFAULT;
     Status _status = Status_Active;
     uint _costs = 0;
 };
 
 class FloatingMenu: public Gui {
 public:
-    FloatingMenu(Vector<EntryInfo> * menuEntriesInfos, FPoint tileCenter);
-    void set(Vector<EntryInfo> * menuEntriesInfos, FPoint tileCenter);
+    FloatingMenu(Vector<MenuEntry> * menuEntriesInfos, FPoint tileCenter);
+    void set(Vector<MenuEntry> * menuEntriesInfos, FPoint tileCenter);
     FloatingMenu() = default;
     void setPosition(FPoint p);
     void Input() override;
@@ -25,7 +25,7 @@ public:
     void Update() override;
     bool isDone();
     FPoint getPos();
-    void setEntries(Vector<EntryInfo> * menuEntriesInfos);
+    void setEntries(Vector<MenuEntry> * menuEntriesInfos);
     MenuEntries getSelectedEntry();
     [[nodiscard]] bool onMenu(Point clickPos) const;
     [[nodiscard]] static bool onSymbol(Point click, Point symbol, float symbolRadiant);
@@ -34,7 +34,7 @@ public:
 private:
     // zoom handling
     bool _mouseWheel = false;
-    SDL_Event _wheelEvent;
+    SDL_Event _wheelEvent{};
     static int getSize();
     FPoint _position{};
     Point _clickPos{};
@@ -44,7 +44,7 @@ private:
 
     int _selectedEntry=-1;
     Texture * _menuTexture{};
-    Vector<EntryInfo>* _menuEntriesInfos{};
+    Vector<MenuEntry>* _menuEntriesInfos{};
 };
 
 

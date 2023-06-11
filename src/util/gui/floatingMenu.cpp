@@ -49,8 +49,25 @@ bool FloatingMenu::onSymbol(Point click, Point symbol, float symbolRadiant) {
 
 bool FloatingMenu::onMenu(Point clickPos) const {
     Point menuPos = CT::getPosOnScreen(_position);
-    float size = (float) getSize() * 0.5f;
-    return size * size >= pow(menuPos.x - clickPos.x, 2) + pow(menuPos.y - clickPos.y, 2);
+    float size = (float) getSize() * 0.493f;
+    float clickDistanceSquared = pow(menuPos.x - clickPos.x, 2) + pow(menuPos.y - clickPos.y, 2);
+    bool assertDistanceUpper = size * size >= clickDistanceSquared;
+    float size2 = size *0.42f;
+    //cout << "Distance min: "<< size2*size2 << " Clickdistance: "<< clickDistanceSquared << " Distance max: "<< size*size << endl;
+    bool assertDistanceBottom = size2 * size2 <=clickDistanceSquared;
+    if(_menuEntriesInfos->size()==6)
+        return assertDistanceUpper && assertDistanceBottom;
+
+    // if less than 6 entries, lets have a look at the click angle
+    int angle = (int)CT::getAngle(clickPos,menuPos);
+    int upper_end = 65;
+    int bottom_end = upper_end-70-((int)(_menuEntriesInfos->size()-1)*60);
+    if(bottom_end<0)
+        bottom_end += 360;
+    bool assertAngle = bottom_end >90? angle>=bottom_end || angle <= upper_end:angle>=bottom_end && angle<=upper_end;
+    //cout << "click angle is:"<<  angle<< " should be: "<<bottom_end<< "- " <<upper_end<< endl;
+    //cout << "angle Assert: " << (assertAngle?"True":"False") << " distance Assert upper:" << (assertDistanceUpper?"True":"False")<< endl;
+    return assertAngle && assertDistanceUpper && assertDistanceBottom;
 }
 
 
@@ -65,7 +82,7 @@ void FloatingMenu::Render() {
         // 30′ and 65/192*size should be center of first Symbol
         float distance = 70.0f / 192.0f * (float) size;
         int direction = 30;
-        for (int i = 0; i < _menuEntriesInfos->size() || i == 6; i++) {
+        for (int i = 0; i < _menuEntriesInfos->size(); i++) {
             rh->texture(_menuTexture, &dst, direction, &src);
 
             // render center Pos
@@ -106,14 +123,12 @@ void FloatingMenu::Update() {
                 float symbolRadiant = 20.f / 192.0f * (float) size;
                 int direction = 30;
                 Point center{};
-                for (int i = 0; i < _menuEntriesInfos->size() || i == 6; i++) {
-                    // render center Pos
+                for (int i = 0; i < (int)_menuEntriesInfos->size(); i++) {
                     float angle = (float) direction / 180.0f * (float) M_PI;
                     center.x = renderPos.x + (int) (sin(angle) * distance);
                     center.y = renderPos.y - (int) (cos(angle) * distance);
                     direction = (direction + 300) % 360;
                     if (onSymbol(_clickPos, center, symbolRadiant)) {
-                        cout << "Symbol " << i << " clicked!" << endl;
                         if (_menuEntriesInfos->at(i)._status == Status_Active) {
                             releaseFocus();
                             _selectedEntry = _menuEntriesInfos->at(i)._menuEntry;
@@ -159,17 +174,17 @@ void FloatingMenu::reset() {
 
 }
 
-FloatingMenu::FloatingMenu(Vector<EntryInfo> *menuEntriesInfos, FPoint pos) {
+FloatingMenu::FloatingMenu(Vector<MenuEntry> *menuEntriesInfos, FPoint pos) {
     set(menuEntriesInfos, pos);
 }
 
-void FloatingMenu::set(Vector<EntryInfo> *menuEntriesInfos, FPoint pos) {
+void FloatingMenu::set(Vector<MenuEntry> *menuEntriesInfos, FPoint pos) {
     _menuTexture = t_cache->get(BasePath "asset/graphic/td/floatingMenu.png");
     setEntries(menuEntriesInfos);
     setPosition(pos);
 }
 
-void FloatingMenu::setEntries(Vector<EntryInfo> *menuEntriesInfos) {
+void FloatingMenu::setEntries(Vector<MenuEntry> *menuEntriesInfos) {
     _menuEntriesInfos = menuEntriesInfos;
     if (_menuEntriesInfos->size() > 6)
         cerr << "Max six entries in menu possible" << endl;
