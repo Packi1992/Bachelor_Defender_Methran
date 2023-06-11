@@ -143,14 +143,16 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         _btn_space = false;
     }
     if (_btn_control) {
+        Point cursor;
+        SDL_GetMouseState(&cursor.x,&cursor.y);
         auto *p = new Arrow();
         p->_direction = _arrowDir;
-        p->_position = CT::getPosInGame(mousePos);
+        p->_position = CT::getPosInGame(cursor);
         p->_speed = 1;
         globals._ph.add(p);
         Fire *f = new Fire();
         f->_direction = _arrowDir;
-        f->_position = CT::getPosInGame(mousePos);
+        f->_position = CT::getPosInGame(cursor);
         f->_speed = 1;
         f->_moveable = true;
         f->_ttl = 80;
@@ -162,7 +164,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         Point cursor;
         SDL_GetMouseState(&cursor.x,&cursor.y);
         for (auto &t: globals._towers) {
-            if (t->isClicked(mousePos)) {
+            if (t->isClicked(cursor)) {
                 t->showMenu(&focus);
                 clickTower = true;
                 break;
@@ -290,7 +292,9 @@ void TestTD::updateFloatingMenu() {
     }else{
         _buildMenuEntriesInfos.at(1)._status = Status_Active;
     }
-    if(!pMap->checkPath(CT::getTileInGame(mousePos))){
+    Point cursor;
+    SDL_GetMouseState(&cursor.x,&cursor.y);
+    if(!pMap->checkPath(CT::getTileInGame(cursor))){
         _buildMenuEntriesInfos.at(1)._status = Status_Disabled;
     }
 }

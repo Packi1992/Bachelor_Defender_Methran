@@ -35,22 +35,21 @@ protected:
     void addEnemy(Enemy e);
 
     //  debug stuff
+    int _arrowDir = 0;
 
+    //  buttons & events
     bool _btn_space = false;
     bool _btn_control = false;
-    int _arrowDir = 0;
-    Point mousePos = {};
     bool _mbLeft = false;
+    bool _mbRight = false;
     bool _mouseWheel = false;
     SDL_Event _wheelEvent;
-    bool _mbRight = false;
     bool _mouseMotion = false;
     SDL_Event _motionEvent;
 public:
     // window handling
     Gui *focus= nullptr;
     FloatingMenu _floatingMenu;
-    std::string _creditPointDisplayText = "Credit Points :";
     TextWithValue _creditPointDisplay;
     Vector<EntryInfo> _buildMenuEntriesInfos{};
     TDGlobals globals;
