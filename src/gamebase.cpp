@@ -264,13 +264,9 @@ Point Game::getMousePos() {
     return cursor;
 }
 
-Point Game::getMousePosTile() {
-    return CT::getTileInGame(getMousePos());
-}
-
 bool Game::onScreen(Rect dstRect) {
     return (dstRect.x + dstRect.w > 0) && // left
-    (dstRect.y + dstRect.h > 0) &&        // top
-    (dstRect.y < windowSize.y) &&         // bot
-    (dstRect.x < windowSize.x);           // right
+           (dstRect.y + dstRect.h > 0) &&        // top
+           (dstRect.y < windowSize.y) &&         // bot
+           (dstRect.x < windowSize.x);           // right
 }

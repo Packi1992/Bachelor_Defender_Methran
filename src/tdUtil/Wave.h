@@ -61,6 +61,9 @@ public:
     bool isOver();
     int index=0;
     ~Wave();
+
+    void setName(std::string name);
+
 private:
     Vector<SpawnEvent> Events{};    // i want to implement a min heap ... but i dont
     List<SpawnEvent> pendingEvents{};

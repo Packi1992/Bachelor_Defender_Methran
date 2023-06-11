@@ -24,7 +24,7 @@ public:
     virtual void showMenu(Gui **focus) = 0;
     void RenderMenu(float deltaT);
     void removeFromMap();
-    bool isDead() const;
+    [[nodiscard]] bool isDead() const;
 protected:
     [[nodiscard]] bool inRange(FRect p) const;
     bool aimAtEnemy(FPoint p);

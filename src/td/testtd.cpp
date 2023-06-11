@@ -30,7 +30,7 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     // Background
     rh->background(BG);
     // Map
-    _map.Render(true);
+    _map.Render(totalMSec,true);
     // Tower
     for (auto &tower: globals._towers) {
         tower->Render(deltaT);
@@ -288,7 +288,7 @@ void TestTD::updateFloatingMenu() {
     _buildMenuEntriesInfos.clear();
     MenuEntry pointerTower{MenuEntries::MenuEntry_POINTER, Status_Active, 5};
     if(globals._pl._creditPoints < 5) pointerTower._status = Status_NotEnoughMoney;
-    if(!pMap->checkPath(Game::getMousePosTile())) pointerTower._status = Status_Disabled;
+    if(!pMap->checkPath(CT::getMousePosTile())) pointerTower._status = Status_Disabled;
     _buildMenuEntriesInfos.push_back(pointerTower);
     //_buildMenuEntriesInfos.push_back({MenuEntry_Error, Status_Active, 0});
     //_buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});

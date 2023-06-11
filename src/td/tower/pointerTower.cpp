@@ -10,7 +10,7 @@ void PointerTower::Render(float deltaT) {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
     rh->tile(&dst, TdTileHandler::getTowerSrcRect(Base));
-    int anim = ((int) ((_shootCoolDown - _reloadTime))) / 2;
+    int anim = ((int) ((_shootCoolDown - _reloadTime)));
     long animT = (anim > 4) ? 0 : anim;
     if (_reloadTime <= 1) {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, 1));
@@ -27,7 +27,7 @@ void PointerTower::Update(float deltaT) {
             switch (_floatingMenu->getSelectedEntry()) {
                 case MenuEntry_Sell:
                     tdGlobals->_pl._creditPoints += 2;
-                    if(pMap->getObject(_rPos) == MapObjects::Tower)
+                    if (pMap->getObject(_rPos) == MapObjects::Tower)
                         pMap->setTile(_rPos, MapObjects::Empty);
                     _alive = false;
                     break;

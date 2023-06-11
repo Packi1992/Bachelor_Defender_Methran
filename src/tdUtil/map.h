@@ -13,27 +13,32 @@
 class Map {
 public:
     Map();
-    void Render(bool wire = false, bool path = false);
-    void Update(const u32 frame, const u32 totalMSec, const float deltaT );
 
-    bool load(const Vector<string>& data);
+    void Render(u32 totalMSec, bool wire = false, bool path = false);
+
+    void Update(const u32 frame, const u32 totalMSec, const float deltaT);
+
+    bool load(const Vector<string> &data);
+
     string save();
 
     // used by editor
     Point getNextPos(Point p);
+
     // used in game
     FPoint getNextPosCentre(FPoint p);
 
     void setTile(Event &event, MapObjects object);
+
     void setTile(Point p, MapObjects object);
+
     MapObjects getObjectAtScreenPos(Point &p);
-    void resize(Point size={-1,-1});
 
-    MapObjects getObject(Point p, bool OutOfBoundsError=true);
-    MapObjects getObject(FPoint p, bool OutOfBoundsError=true);
+    void resize(Point size = {-1, -1});
 
-    [[nodiscard]] ul getMapTime() const;
-    float getMapTimeDiff() const;
+    MapObjects getObject(Point p, bool OutOfBoundsError = true);
+
+    MapObjects getObject(FPoint p, bool OutOfBoundsError = true);
 
     int _width = 40;
     int _height = 20;
@@ -41,18 +46,16 @@ public:
     bool checkPath(Point pos);
 
 private:
-    struct PathEntry{
+    struct PathEntry {
         Point pos;
         bool blocked;
         bool goal;
         bool set;
     };
-    Texture *_tileMap={};
-    Texture *_blocked={};
+    Texture *_tileMap = {};
+    Texture *_blocked = {};
     Texture *_arrow{};
-    u32 _time=0;
-    float _deltaTime=0;
-    u32 _lastTime=0;
+
     void drawWire() const;
 
     void loadRow(string basicString);
