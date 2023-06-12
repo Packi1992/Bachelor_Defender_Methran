@@ -46,5 +46,5 @@ protected:
     Vector<EntryInfo> _menuEntries;
 };
 #include "pointerTower.h"
-
+#include "recursivTower.h"
 #endif //BACHELOR_DEFENDER_TOWER_H

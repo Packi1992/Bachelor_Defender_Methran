@@ -4,6 +4,7 @@
 #include "testtd.h"
 #include "../tdUtil/dataHandler.h"
 #include "../td/Projectiles/arrow.h"
+#include "../td/Projectiles/boomerang.h"
 
 TDGlobals *tdGlobals{};
 
@@ -16,7 +17,7 @@ void TestTD::Init() {
     tdGlobals = &globals;
     _buildMenuEntriesInfos.push_back({MenuEntry_DEFAULT, Status_Active, 0});
     _buildMenuEntriesInfos.push_back({MenuEntry_POINTER, Status_Active, 0});
-    _buildMenuEntriesInfos.push_back({MenuEntry_Error, Status_Active, 0});
+    _buildMenuEntriesInfos.push_back({MenuEntry_BOOMERANG, Status_Active, 0});
     _buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints), {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
 }
@@ -82,6 +83,15 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
             case MenuEntry_POINTER:
             {
                 std::shared_ptr<class Tower> tower = std::make_shared<PointerTower>(pos);
+                if(globals._pl.buyTower(tower)){
+                    globals._towers.push_back(tower);
+                }
+                _floatingMenu.reset();
+                break;
+            }
+            case MenuEntry_BOOMERANG:
+            {
+                std::shared_ptr<class Tower> tower = std::make_shared<RecursivTower>(pos);
                 if(globals._pl.buyTower(tower)){
                     globals._towers.push_back(tower);
                 }

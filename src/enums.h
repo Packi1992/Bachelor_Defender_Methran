@@ -29,11 +29,14 @@ enum ProjectileType{
     BULLET,
     BASEEXPLOSION,
     FFIRE,
+    BOOMERANG,
 };
 
 enum TowerType{
     Base,
     Pointer,
+    RecursivBase,
+    Boomerang,
 };
 
 //  specific Colors to make things easier regarding drawing colors
@@ -75,6 +78,7 @@ enum soundType {
 enum MenuEntries{
     MenuEntry_DEFAULT,
     MenuEntry_POINTER,
+    MenuEntry_BOOMERANG,
     MenuEntry_Error,
     MenuEntry_Disabled,
     MenuEntry_Sell,

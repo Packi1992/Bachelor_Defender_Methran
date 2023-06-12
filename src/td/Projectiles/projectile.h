@@ -31,5 +31,6 @@ public:
 
 #include "arrow.h"
 #include "fire.h"
+#include "boomerang.h"
 
 #endif //SDL_BACHELORDEFENDER_PROJECTILE_H
