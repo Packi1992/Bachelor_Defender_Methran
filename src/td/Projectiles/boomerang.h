@@ -4,11 +4,13 @@
 
 #ifndef SDL_BACHELORDEFENDER_BOOMERANG_H
 #define SDL_BACHELORDEFENDER_BOOMERANG_H
+
 #include "projectile.h"
 
-class Boomerang :public Projectile {
+class Boomerang : public Projectile {
 public:
     Boomerang();
+
     void move() override;
 };
 

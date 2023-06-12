@@ -3,6 +3,7 @@
 //
 
 #include "boomerang.h"
+
 Boomerang::Boomerang() {
     _type=ProjectileType::BOOMERANG;
 }

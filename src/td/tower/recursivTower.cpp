@@ -4,20 +4,20 @@
 
 #include "recursivTower.h"
 #include "../testtd.h"
-#include "../Projectiles/arrow.h"
+#include "../Projectiles/boomerang.h"
 #include "../../util/gui/floatingMenu.h"
 
 void RecursivTower::Render(float deltaT) {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
-    rh->tile(&dst, TdTileHandler::getTowerSrcRect(Base));
+    rh->tile(&dst, TdTileHandler::getTowerSrcRect(RecursivBase));
     int anim = ((int) ((_shootCoolDown - _reloadTime))) / 2;
-    long animT = (anim > 4) ? 0 : anim;
+    long animT = (anim > 2) ? 0 : anim;
     if (_reloadTime <= 1) {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, 1));
+        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Boomerang, 1));
         //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
     } else {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, animT));
+        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Boomerang, animT));
     }
 }
 
@@ -56,7 +56,7 @@ void RecursivTower::Update(float deltaT) {
             if (aimAtEnemy(_targetEnemy->_pos)) {
                 if (_reloadTime <= 0) {
                     _reloadTime = _shootCoolDown;
-                    Projectile *p = new Arrow();
+                    Projectile *p = new Boomerang();
                     p->_direction = ((int) _direction) % 360;
                     p->_damage = _damage;
                     p->_moveable = true;

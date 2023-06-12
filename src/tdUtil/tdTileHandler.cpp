@@ -88,10 +88,10 @@ Rect *TdTileHandler::getTowerSrcRect(TowerType t, ul anim) {
             src.x = 64 + (int)(anim%4)*64;
             return &src;
         case RecursivBase:
-            src.y = 448;
+            src.y = 512;
             return &src;
         case Boomerang:
-            src.y = 448;
+            src.y = 512;
             src.x = 64 + (int)(anim%2)*64;
             return &src;
     }
