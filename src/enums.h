@@ -68,6 +68,7 @@ enum soundType {
     SoundArrowFire,
     SoundArrowHit,
     SoundBullet,
+    SoundBoomerangFire,
     SoundFFire,
     SoundBaseExplosion,
     SoundError,

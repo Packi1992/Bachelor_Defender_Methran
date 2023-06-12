@@ -10,7 +10,7 @@
 class Boomerang : public Projectile {
 public:
     Boomerang();
-
+    void Render(u32 totalMSec) override;
     void move() override;
 };
 

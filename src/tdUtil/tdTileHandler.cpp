@@ -122,6 +122,9 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
         case ARROW:
             src = {26, 334, 11, 35};
             break;
+        case BOOMERANG:
+            src = {216, 525, 22, 38};
+            break;
         case FFIRE:
             localAnimate = (int)((anim / 4) % 2);
             src.x = 64+(localAnimate* 64);

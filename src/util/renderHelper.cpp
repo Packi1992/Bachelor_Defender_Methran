@@ -168,6 +168,10 @@ void RenderHelper::symbol(SDL_Rect *center, EntryInfo &entry) {
     switch (entry._menuEntry) {
         case MenuEntry_DEFAULT:
             break;
+        case MenuEntry_BOOMERANG:
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(RecursivBase));
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Boomerang));
+            break;
         case MenuEntry_POINTER:
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Base));
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Pointer));

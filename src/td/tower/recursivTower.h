@@ -25,7 +25,6 @@ public:
 
     // init the Menu
     void showMenu(Gui **focus) override;
-
 private:
     static int _creditPointCosts;
 };

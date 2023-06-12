@@ -13,12 +13,17 @@ void RecursivTower::Render(float deltaT) {
     rh->tile(&dst, TdTileHandler::getTowerSrcRect(RecursivBase));
     int anim = ((int) ((_shootCoolDown - _reloadTime))) / 2;
     long animT = (anim > 2) ? 0 : anim;
-    if (_reloadTime <= 1) {
+    static uint d = 0;
+    if (_reloadTime <= 0.15) {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Boomerang, 1));
         //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
+    } else if (_reloadTime <= 1) {
+        rh->tile(&dst, 360-((int)d%360), TdTileHandler::getTowerSrcRect(Boomerang, 1));
+        //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
     } else {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Boomerang, animT));
+        rh->tile(&dst, 360-((int)d%360), TdTileHandler::getTowerSrcRect(Boomerang, animT));
     }
+    d+= 160;
 }
 
 void RecursivTower::Update(float deltaT) {
@@ -56,7 +61,7 @@ void RecursivTower::Update(float deltaT) {
             if (aimAtEnemy(_targetEnemy->_pos)) {
                 if (_reloadTime <= 0) {
                     _reloadTime = _shootCoolDown;
-                    Projectile *p = new Boomerang();
+                    Projectile *p = new class Boomerang();
                     p->_direction = ((int) _direction) % 360;
                     p->_damage = _damage;
                     p->_moveable = true;
@@ -65,8 +70,8 @@ void RecursivTower::Update(float deltaT) {
                     p->_size = 100;
                     p->_position = _pos;
                     float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
-                    audioHandler->playSound(SoundTowerPointer, x);
-                    audioHandler->playSound(SoundArrowFire, x);
+                    //audioHandler->playSound(SoundTowerPointer, x);
+                    audioHandler->playSound(SoundBoomerangFire, x);
                     tdGlobals->_ph.add(p);
                 } else {
                     _reloadTime -= deltaT;
@@ -82,9 +87,9 @@ int RecursivTower::_creditPointCosts = 5;
 
 RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _health = 200;
-    _range = 4;
-    _shootCoolDown = 3;
-    _damage = 50;
+    _range = 5;
+    _shootCoolDown = 5;
+    _damage = 25;
     _aimSpeed = 1;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
