@@ -15,9 +15,8 @@ public:
     uint _creditPoints = 15;
     bool load(const Vector<string>& data);
 
-    std::string save();
+    [[nodiscard]] std::string save() const;
 
-    bool buyTower(std::shared_ptr<struct Tower> sharedPtr);
 };
 
 

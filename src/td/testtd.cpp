@@ -4,7 +4,6 @@
 #include "testtd.h"
 #include "../tdUtil/dataHandler.h"
 #include "../td/Projectiles/arrow.h"
-#include "../td/Projectiles/boomerang.h"
 
 TDGlobals *tdGlobals{};
 
@@ -15,7 +14,8 @@ void TestTD::Init() {
     DataHandler::load(globals._pl, globals._wh, _map);
     globals._ph.set();
     tdGlobals = &globals;
-    _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints), {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
+    _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
+                            {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
 }
 
 void TestTD::UnInit() {
@@ -31,7 +31,7 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     // Background
     rh->background(BG);
     // Map
-    _map.Render(totalMSec,true);
+    _map.Render(totalMSec, true);
     // Tower
     for (auto &tower: globals._towers) {
         tower->Render(deltaT);
@@ -80,36 +80,32 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         switch (_floatingMenu.getSelectedEntry()) {
             case MenuEntry_DEFAULT:
                 break;
-            case MenuEntry_POINTER:
-            {
+            case MenuEntry_POINTER: {
                 std::shared_ptr<class Tower> tower = std::make_shared<PointerTower>(pos);
-                if(globals._pl.buyTower(tower)){
+                if (buyTower(tower)) {
                     globals._towers.push_back(tower);
                 }
                 _floatingMenu.reset();
                 break;
             }
-            case MenuEntry_LinkedList:
-            {
+            case MenuEntry_LinkedList: {
                 std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(pos);
-                if(globals._pl.buyTower(tower)){
+                if (buyTower(tower)) {
                     globals._towers.push_back(tower);
                 }
 
                 _floatingMenu.reset();
                 break;
             }
-            case MenuEntry_BOOMERANG:
-            {
+            case MenuEntry_BOOMERANG: {
                 std::shared_ptr<class Tower> tower = std::make_shared<RecursivTower>(pos);
-                if(globals._pl.buyTower(tower)){
+                if (buyTower(tower)) {
                     globals._towers.push_back(tower);
                 }
                 _floatingMenu.reset();
                 break;
             }
             case MenuEntry_Error:
-                break;
             default:
                 break;
         }
@@ -134,12 +130,12 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // Update towers
     for (auto &tower: globals._towers) {
         tower->Update(deltaT);
-        if(tower->isDead()){
+        if (tower->isDead()) {
             globals._towers.erase(
                     std::remove_if(
                             globals._towers.begin(),
                             globals._towers.end(),
-                            [](const std::shared_ptr<class::Tower> &mov) { return mov->isDead(); }
+                            [](const std::shared_ptr<class ::Tower> &mov) { return mov->isDead(); }
                     ),
                     globals._towers.end());
         }
@@ -147,11 +143,11 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // update projectiles
     globals._ph.move(deltaT);
     // update "Viewport" / Zoom in or Out / Scroll
-    if(_mouseWheel){
+    if (_mouseWheel) {
         Game::zoomScreen(_wheelEvent);
         _mouseWheel = false;
     }
-    if(_mouseMotion && _mbRight){
+    if (_mouseMotion && _mbRight) {
         Game::scrollScreen(_motionEvent);
         _mouseMotion = false;
     }
@@ -165,7 +161,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     }
     if (_btn_control) {
         Point cursor;
-        SDL_GetMouseState(&cursor.x,&cursor.y);
+        SDL_GetMouseState(&cursor.x, &cursor.y);
         auto *p = new Arrow();
         p->_direction = _arrowDir;
         p->_position = CT::getPosInGame(cursor);
@@ -182,7 +178,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     if (_mbLeft) {
         bool clickTower = false;
         Point cursor;
-        SDL_GetMouseState(&cursor.x,&cursor.y);
+        SDL_GetMouseState(&cursor.x, &cursor.y);
         for (auto &t: globals._towers) {
             if (t->isClicked(cursor)) {
                 t->showMenu(&focus);
@@ -197,7 +193,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
                     // show build menu
                     _floatingMenu.reset();
                     updateFloatingMenu();
-                    _floatingMenu.set(&_buildMenuEntriesInfos, CT::getTileCenterInGame(cursor));
+                    _floatingMenu.set(&_buildMenuEntries, CT::getTileCenterInGame(cursor));
                     _floatingMenu.show(&focus);
                     break;
                 default:
@@ -209,7 +205,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // add enemy
     if (totalMSec % 100 == 0) {
         Enemy e;
-        e.setEnemy({7, 3}, 100, 100,1);
+        e.setEnemy({7, 3}, 100, 100, 1);
         addEnemy(e);
     }
     // -------------------------------------------------------------------
@@ -224,7 +220,7 @@ void TestTD::collision(float deltaT) {
                         if (e.isPointInside(p->_position)) {
                             e.takeDamage(p);
                             p->collide(deltaT);
-                            if(!p->_alive){
+                            if (!p->_alive) {
                                 delete p;
                                 p = nullptr;
                             }
@@ -311,21 +307,32 @@ void TestTD::keyDown(SDL_Event &event) {
 }
 
 void TestTD::updateFloatingMenu() {
-    _buildMenuEntriesInfos.clear();
-    MenuEntry linkedListTower{MenuEntries::MenuEntry_LinkedList, Status_Active, 5};
-    MenuEntry pointerTower{MenuEntries::MenuEntry_POINTER, Status_Active, 5};
-    MenuEntry recursivTower{MenuEntry_BOOMERANG, Status_Active, 0};
-    if(globals._pl._creditPoints < 5){
+    _buildMenuEntries.clear();
+    MenuEntry linkedListTower{MenuEntry_LinkedList, Status_Active, 5};
+    MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 5};
+    MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 0};
+    if (globals._pl._creditPoints < 5) {
         pointerTower._status = Status_NotEnoughMoney;
         linkedListTower._status = Status_NotEnoughMoney;
-        recursivTower._status = Status_NotEnoughMoney;
+        recursiveTower._status = Status_NotEnoughMoney;
     }
-    if(!pMap->checkPath(CT::getMousePosTile())){
+    if (!pMap->checkPath(CT::getMousePosTile())) {
         pointerTower._status = Status_Disabled;
-        recursivTower._status = Status_Disabled;
+        recursiveTower._status = Status_Disabled;
     }
-    _buildMenuEntriesInfos.push_back(pointerTower);
-    if(!pMap->checkPath(CT::getMousePosTile())) linkedListTower._status = Status_Disabled;
-    _buildMenuEntriesInfos.push_back(linkedListTower);
-    _buildMenuEntriesInfos.push_back(recursivTower);
+    _buildMenuEntries.push_back(pointerTower);
+    if (!pMap->checkPath(CT::getMousePosTile())) linkedListTower._status = Status_Disabled;
+    _buildMenuEntries.push_back(linkedListTower);
+    _buildMenuEntries.push_back(recursiveTower);
+}
+
+bool TestTD::buyTower(const std::shared_ptr<class Tower>& tower) {
+    if (tower->getCosts() > globals._pl._creditPoints) {
+        return false;
+    }
+    if (tower->init(&focus)) {
+        globals._pl._creditPoints -= tower->getCosts();
+        return true;
+    }
+    return false;
 }

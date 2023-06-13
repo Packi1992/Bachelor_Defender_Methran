@@ -3,7 +3,6 @@
 //
 
 #include "player.h"
-#include "../td/tower/tower.h"
 
 bool Player::load(const Vector<string> &data) {
     bool SanityLoaded = false;
@@ -20,25 +19,14 @@ bool Player::load(const Vector<string> &data) {
             creditPointsLoaded = true;
         }
     }
-    return SanityLoaded;
+    return SanityLoaded&&creditPointsLoaded;
 }
 
-std::string Player::save() {
+std::string Player::save() const {
     // save PlayerData
     std::stringstream s;
     //checkPlayerStartSpot();
     s << "SANITY :" << _maxSanity << "\n";
     s << "CREDIT-POINTS :" << _creditPoints << "\n";
     return s.str();
-}
-
-bool Player::buyTower(std::shared_ptr<struct Tower> sharedPtr) {
-    if(sharedPtr->getCosts()>_creditPoints){
-        return false;
-    }
-    if(sharedPtr->init()){
-        _creditPoints -= sharedPtr->getCosts();
-        return true;
-    }
-    return false;
 }

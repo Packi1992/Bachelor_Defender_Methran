@@ -67,10 +67,6 @@ bool Tower::isDead() const {
     return !_alive;
 }
 
-bool Tower::init() {
-    return true;
-}
-
 void Tower::Render(float deltaT) {
     // range
     if (_showRange) {
@@ -91,5 +87,9 @@ void Tower::Update(float deltaT) {
         if (!_floatingMenu->getDialog())
             _showRange = false;
     }
+}
+
+bool Tower::init(Gui **focus) {
+    return true;
 }
 

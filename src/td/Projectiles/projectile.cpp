@@ -47,3 +47,5 @@ void Projectile::Render(u32 totalMSec) {
 void Projectile::collide(float deltaT) {
     _alive = false;
 }
+
+Projectile::~Projectile() = default;

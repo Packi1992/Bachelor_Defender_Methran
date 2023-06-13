@@ -25,6 +25,7 @@ public:
     uint16_t _ttl = 1000;
     uint8_t _damage = 100;
     bool _moveable = false;
+    virtual ~Projectile();
 
     virtual void move(float deltaT);
     virtual void collide(float deltaT);

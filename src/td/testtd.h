@@ -35,6 +35,7 @@ protected:
     int enemyOverflow = 0;
 
     void addEnemy(Enemy e);
+    void buyTower(Gui **focus);
 
     //  debug stuff
     int _arrowDir = 0;
@@ -56,8 +57,9 @@ protected:
 public:
     // window handling
 
-    Vector<MenuEntry> _buildMenuEntriesInfos{};
+    Vector<MenuEntry> _buildMenuEntries{};
     TDGlobals globals{};
+
     // ctor
     using GameState::GameState;
 
@@ -76,6 +78,8 @@ public:
     void keyDown(SDL_Event &event);
 
     void updateFloatingMenu();
+
+    bool buyTower(const std::shared_ptr<class Tower>& tower);
 };
 
 #endif //SDL_BASEGAME_TESTTD_H

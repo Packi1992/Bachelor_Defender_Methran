@@ -54,6 +54,7 @@ enum t_color {
     YELLOW,
     RED,
     GREEN,
+    BLUE,
 };
 
 enum musicType {

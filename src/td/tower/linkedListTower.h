@@ -7,6 +7,7 @@
 
 
 #include "tower.h"
+#include "../../util/gui/linkEstablisher.h"
 
 class LinkedListTower : public Tower {
 public:
@@ -27,8 +28,13 @@ public:
     // init the Menu
     void showMenu(Gui **focus) override;
 
+    bool init(Gui **focus) override;
+
 private:
     static int _creditPointCosts;
+    LinkEstablisher _le;
+    LinkedListTower *head{};
+    LinkedListTower *tail{};
 };
 
-#endif //LinkedListTower
+#endif //SDL_BACHELORDEFENDER_LinkedListTower_H

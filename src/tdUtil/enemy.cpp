@@ -27,13 +27,13 @@ void Enemy::Update(float deltaT) {
                 runLength = (float) ((double) runLength * (_speedDiff / 10.0));
             }
             if (_dir == 0)
-                _pos.y = (_pos.y + runLength) - _nextPos.y > 0 ? _pos.y -= runLength : _pos.y = _nextPos.y;
+                (_pos.y + runLength) - _nextPos.y > 0 ? _pos.y -= runLength : _pos.y = _nextPos.y;
             if (_dir == 90)
-                _pos.x = _nextPos.x - (_pos.x + runLength) > 0 ? _pos.x += runLength : _pos.x = _nextPos.x;
+                _nextPos.x - (_pos.x + runLength) > 0 ? _pos.x += runLength : _pos.x = _nextPos.x;
             if (_dir == 180)
-                _pos.y = _nextPos.y - (_pos.y + runLength) > 0 ? _pos.y += runLength : _pos.y = _nextPos.y;
+                _nextPos.y - (_pos.y + runLength) > 0 ? _pos.y += runLength : _pos.y = _nextPos.y;
             if (_dir == 270)
-                _pos.x = (_pos.x + runLength) - _nextPos.x > 0 ? _pos.x -= runLength : _pos.x = _nextPos.x;
+                (_pos.x + runLength) - _nextPos.x > 0 ? _pos.x -= runLength : _pos.x = _nextPos.x;
         } else {
             // enemy reached goal
             _alive = false;
@@ -42,7 +42,7 @@ void Enemy::Update(float deltaT) {
     }
 }
 
-void Enemy::takeDamage(Projectile * p) {
+void Enemy::takeDamage(Projectile *p) {
     _health < p->_damage ? _health = 0 : _health -= p->_damage;
     if (_health == 0) {
         startDeathAnimation();
@@ -128,15 +128,14 @@ void Enemy::Render(u32 totalMSec) const {
         dstRect.x = (int) (POS.x - dstRect.w * 0.5);
         dstRect.y = (int) (POS.y - dstRect.h * 0.8);
         // check if enemy is on screen
-        if (Game::onScreen(dstRect))
-        {
+        if (Game::onScreen(dstRect)) {
             rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type, totalMSec));
         }
     }
 }
 
 void Enemy::RenderExtras(bool life, bool hitBox) const {
-    if(_alive){
+    if (_alive) {
         if (hitBox) {
             FRect hitBoxRect = CT::getFRectOnScreen(getHitBox());
             rh->fillFRect(&hitBoxRect, BLACK);

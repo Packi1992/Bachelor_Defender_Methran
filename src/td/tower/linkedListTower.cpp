@@ -18,6 +18,7 @@ void LinkedListTower::Render(float deltaT) {
     } else {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, animT));
     }
+    _le.Render();
 }
 
 void LinkedListTower::Update(float deltaT) {
@@ -105,6 +106,10 @@ uint LinkedListTower::getCosts() {
 }
 
 void LinkedListTower::setCosts(uint cp) {
-    _creditPointCosts = cp;
+    _creditPointCosts = (int)cp;
+}
+
+bool LinkedListTower::init(Gui **focus) {
+    _le.show(focus);
 }
 

@@ -49,7 +49,7 @@ public:
     // target where the enemy is heading
     FPoint _nextPos{};
     //pos on _map
-    FPoint _pos = {};
+    FPoint _pos = {0,0};
 
     u16 _sanity = 1;
 
