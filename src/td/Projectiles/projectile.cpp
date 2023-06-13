@@ -5,7 +5,8 @@
 #include "projectile.h"
 #include "../../gamebase.h"
 
-void Projectile::move() {
+void Projectile::move(float deltaT) {
+    _hitCooldown -= deltaT;
     auto direction = (float)(((double)(_direction % 360) / 180.0f) * M_PI);
     auto speed = (float)(((float)_speed) *0.01f);
     _position.x += (sin(direction) * speed);
@@ -41,4 +42,8 @@ void Projectile::Render(u32 totalMSec) {
         dstRect.h = 5;
         rh->fillRect(&dstRect, BLACK);
     }
+}
+
+void Projectile::collide(float deltaT) {
+    _alive = false;
 }

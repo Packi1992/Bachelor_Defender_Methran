@@ -98,6 +98,8 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "asset/sound/pewf.wav";
 		case SoundArrowHit:
 			return BasePath "asset/sound/ArrowHit.wav";
+        case SoundBoomerangFire:
+            return BasePath "asset/sound/thriee.wav";
 		case SoundBullet:
 		case SoundFFire:
 		case SoundBaseExplosion:

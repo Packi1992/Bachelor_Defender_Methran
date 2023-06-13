@@ -3,7 +3,7 @@
 #define SDL_BASEGAME_ENEMY_H
 
 #include "../global.h"
-
+class Projectile;
 class Enemy {
 public:
     Enemy() = default;
@@ -26,7 +26,7 @@ public:
     void stun(u16 time);
 
     // take damage
-    void takeDamage(u16 damage);
+    void takeDamage(Projectile * p);
 
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;

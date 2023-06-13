@@ -4,12 +4,15 @@
 
 #ifndef SDL_BACHELORDEFENDER_ARROW_H
 #define SDL_BACHELORDEFENDER_ARROW_H
+
 #include "projectile.h"
 
-class Arrow:public Projectile {
+class Arrow : public Projectile {
 public:
     Arrow();
-    void move() override;
+
+    void move(float deltaT) override;
+    void collide(float deltaT) override;
 };
 
 

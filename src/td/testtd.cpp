@@ -4,6 +4,7 @@
 #include "testtd.h"
 #include "../tdUtil/dataHandler.h"
 #include "../td/Projectiles/arrow.h"
+#include "../td/Projectiles/boomerang.h"
 
 TDGlobals *tdGlobals{};
 
@@ -88,12 +89,23 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
                 _floatingMenu.reset();
                 break;
             }
+            case MenuEntry_BOOMERANG:
+            {
+                std::shared_ptr<class Tower> tower = std::make_shared<RecursivTower>(pos);
+                if(globals._pl.buyTower(tower)){
+                    globals._towers.push_back(tower);
+                }
+                _floatingMenu.reset();
+                break;
+            }
+            case MenuEntry_Error:
+                break;
             default:
                 break;
         }
     }
     // collision detection
-    collision();
+    collision(deltaT);
     // Update Enemies
     for (auto &enemy: globals._enemies) {
         if (enemy._alive) {
@@ -123,7 +135,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         }
     }
     // update projectiles
-    globals._ph.move();
+    globals._ph.move(deltaT);
     // update "Viewport" / Zoom in or Out / Scroll
     if(_mouseWheel){
         Game::zoomScreen(_wheelEvent);
@@ -155,6 +167,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         f->_speed = 1;
         f->_moveable = true;
         f->_ttl = 80;
+        //globals._ph.add(f);
         _btn_control = false;
     }
     if (_mbLeft) {
@@ -193,15 +206,19 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // -------------------------------------------------------------------
 }
 
-void TestTD::collision() {
+void TestTD::collision(float deltaT) {
     for (auto &e: globals._enemies) {
         if (e._alive) {
             for (auto &p: globals._ph._projectiles) {
                 if (p != nullptr) {
                     if (p->_alive) {
                         if (e.isPointInside(p->_position)) {
-                            e.takeDamage(p->_damage);
-                            globals._ph.remove(&p);
+                            e.takeDamage(p);
+                            p->collide(deltaT);
+                            if(!p->_alive){
+                                delete p;
+                                p = nullptr;
+                            }
                             if (!e._alive) {
                                 break;
                             }
@@ -287,9 +304,17 @@ void TestTD::keyDown(SDL_Event &event) {
 void TestTD::updateFloatingMenu() {
     _buildMenuEntriesInfos.clear();
     MenuEntry pointerTower{MenuEntries::MenuEntry_POINTER, Status_Active, 5};
-    if(globals._pl._creditPoints < 5) pointerTower._status = Status_NotEnoughMoney;
-    if(!pMap->checkPath(CT::getMousePosTile())) pointerTower._status = Status_Disabled;
+    MenuEntry recursivTower{MenuEntry_BOOMERANG, Status_Active, 0};
+    if(globals._pl._creditPoints < 5){
+        pointerTower._status = Status_NotEnoughMoney;
+        recursivTower._status = Status_NotEnoughMoney;
+    }
+    if(!pMap->checkPath(CT::getMousePosTile())){
+        pointerTower._status = Status_Disabled;
+        recursivTower._status = Status_Disabled;
+    }
     _buildMenuEntriesInfos.push_back(pointerTower);
+    _buildMenuEntriesInfos.push_back(recursivTower);
     //_buildMenuEntriesInfos.push_back({MenuEntry_Error, Status_Active, 0});
     //_buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});
 }

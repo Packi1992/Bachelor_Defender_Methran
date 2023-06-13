@@ -87,6 +87,13 @@ Rect *TdTileHandler::getTowerSrcRect(TowerType t, ul anim) {
             src.y = 256;
             src.x = 64 + (int)(anim%4)*64;
             return &src;
+        case RecursivBase:
+            src.y = 512;
+            return &src;
+        case Boomerang:
+            src.y = 512;
+            src.x = 64 + (int)(anim%2)*64;
+            return &src;
     }
 }
 
@@ -114,6 +121,9 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
     switch(p){
         case ARROW:
             src = {26, 334, 11, 35};
+            break;
+        case BOOMERANG:
+            src = {216, 525, 22, 38};
             break;
         case FFIRE:
             localAnimate = (int)((anim / 40) % 2);

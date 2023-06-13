@@ -32,34 +32,15 @@ void ProjectilesHandler::add(Projectile *p) {
     _projectiles[overflow++]->_alive = true;
 }
 
-void ProjectilesHandler::remove(Projectile **p) {
-    float x = (CT::getPosOnScreen((*p)->_position).x) / float(windowSize.x);
-    switch ((*p)->_type) {
-        case ProjectileType::ARROW:
-            (*p)->_alive = false;
-            audioHandler->playSound(SoundArrowHit, x);
-            break;
-        case ProjectileType::BULLET:
-            break;
-        case ProjectileType::FFIRE:
-            (*p)->_alive = false;
-            break;
-        case ProjectileType::BASEEXPLOSION:
-            break;
-        case ProjectileType::DISABLED:
-            cerr << "you removed a disabled Projectile";
-    }
-    if(!(*p)->_alive){
-        delete *p;
-        *p = nullptr;
-    }
+void ProjectilesHandler::collisionDetected(Projectile **p) {
+
 }
 
-void ProjectilesHandler::move() {
+void ProjectilesHandler::move(float deltaT) {
     for (int i = 0; i < MAXPROJECTILES; i++) {
         if(_projectiles[i] != nullptr ) {
             if (_projectiles[i]->_alive) {
-                _projectiles[i]->move();
+                _projectiles[i]->move(deltaT);
             }
             //checking if Projectile still alive?
             if (_projectiles[i]->_ttl > 0)
