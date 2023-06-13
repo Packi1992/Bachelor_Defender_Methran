@@ -8,10 +8,14 @@
 #include "projectile.h"
 
 class Boomerang : public Projectile {
+private:
+    float _flyingTime = .8f;
+    bool _toggleDirection = false;
 public:
     Boomerang();
     void Render(u32 totalMSec) override;
-    void move() override;
+    void move(float deltaT) override;
+    void collide(float deltaT) override;
 };
 
 #endif //SDL_BACHELORDEFENDER_BOOMERANG_H

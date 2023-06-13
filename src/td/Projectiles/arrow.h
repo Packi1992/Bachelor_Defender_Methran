@@ -11,7 +11,8 @@ class Arrow : public Projectile {
 public:
     Arrow();
 
-    void move() override;
+    void move(float deltaT) override;
+    void collide(float deltaT) override;
 };
 
 

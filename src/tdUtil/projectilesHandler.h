@@ -17,7 +17,7 @@ public:
 
     void Render(u32 totalMSec);
 
-    void move();
+    void move(float deltaT);
 
     Projectile *_projectiles[MAXPROJECTILES] = {};
 
@@ -25,7 +25,7 @@ public:
 
     void set();
 
-    void remove(Projectile **p);
+    void collisionDetected(Projectile **p);
 
 private:
     uint overflow = 0;

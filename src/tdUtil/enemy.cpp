@@ -5,7 +5,7 @@
 #include "enemy.h"
 #include "../global.h"
 #include "../td/testtd.h"
-
+#include "../td/Projectiles/projectile.h"
 #include "tdTileHandler.h"
 #include "map.h"
 
@@ -42,8 +42,8 @@ void Enemy::Update(float deltaT) {
     }
 }
 
-void Enemy::takeDamage(uint16_t damage) {
-    _health < damage ? _health = 0 : _health -= damage;
+void Enemy::takeDamage(Projectile * p) {
+    _health < p->_damage ? _health = 0 : _health -= p->_damage;
     if (_health == 0) {
         startDeathAnimation();
         tdGlobals->_pl._creditPoints += this->_value;

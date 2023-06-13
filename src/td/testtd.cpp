@@ -105,7 +105,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         }
     }
     // collision detection
-    collision();
+    collision(deltaT);
     // Update Enemies
     for (auto &enemy: globals._enemies) {
         if (enemy._alive) {
@@ -135,7 +135,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         }
     }
     // update projectiles
-    globals._ph.move();
+    globals._ph.move(deltaT);
     // update "Viewport" / Zoom in or Out / Scroll
     if(_mouseWheel){
         Game::zoomScreen(_wheelEvent);
@@ -206,15 +206,19 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // -------------------------------------------------------------------
 }
 
-void TestTD::collision() {
+void TestTD::collision(float deltaT) {
     for (auto &e: globals._enemies) {
         if (e._alive) {
             for (auto &p: globals._ph._projectiles) {
                 if (p != nullptr) {
                     if (p->_alive) {
                         if (e.isPointInside(p->_position)) {
-                            e.takeDamage(p->_damage);
-                            globals._ph.remove(&p);
+                            e.takeDamage(p);
+                            p->collide(deltaT);
+                            if(!p->_alive){
+                                delete p;
+                                p = nullptr;
+                            }
                             if (!e._alive) {
                                 break;
                             }

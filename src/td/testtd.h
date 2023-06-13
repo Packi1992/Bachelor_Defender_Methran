@@ -71,7 +71,7 @@ public:
 
     void Render(const u32 frame, const u32 totalMSec, const float deltaT) override;
 
-    void collision();
+    void collision(float deltaT);
 
     void keyDown(SDL_Event &event);
 

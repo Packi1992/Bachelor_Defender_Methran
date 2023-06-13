@@ -6,13 +6,15 @@
 #define SDL_BACHELORDEFENDER_PROJECTILE_H
 
 #include "../../global.h"
+
 class Enemy;
 
 class Projectile {
 public:
-
+    float _hitCooldown = 0.1f;
     bool _alive = true;
-    FPoint _position = {-1, -1};
+    FPoint _position = {-1.0f, -1.0f};
+    FPoint _startingPoint = {-1.0f, -1.0f};
     ProjectileType _type = ProjectileType::DISABLED;
     uint16_t _size = 100;
     uint16_t _speed = 100;
@@ -24,8 +26,10 @@ public:
     uint8_t _damage = 100;
     bool _moveable = false;
 
-    virtual void move();
+    virtual void move(float deltaT);
+    virtual void collide(float deltaT);
     virtual void Render(u32 totalMSec);
+
     [[nodiscard]] bool onScreen() const;
 };
 
