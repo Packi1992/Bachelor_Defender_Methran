@@ -41,7 +41,7 @@ void Wave::Update(const u32 totalMSec) {
         }
     }
     for (SpawnEvent event: pendingEvents){
-        for(int i =0 ; i < Events.size(); i++){
+        for(int i =0 ; i < (int)Events.size(); i++){
             Events.erase(std::remove(Events.begin(), Events.end(), event), Events.end());
         }
     }

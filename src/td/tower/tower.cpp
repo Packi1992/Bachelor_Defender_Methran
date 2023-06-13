@@ -67,6 +67,10 @@ bool Tower::isDead() const {
     return !_alive;
 }
 
+bool Tower::init() {
+    return true;
+}
+
 void Tower::Render(float deltaT) {
     // range
     if (_showRange) {

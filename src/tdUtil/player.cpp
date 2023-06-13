@@ -36,6 +36,9 @@ bool Player::buyTower(std::shared_ptr<struct Tower> sharedPtr) {
     if(sharedPtr->getCosts()>_creditPoints){
         return false;
     }
-    _creditPoints -= sharedPtr->getCosts();
-    return true;
+    if(sharedPtr->init()){
+        _creditPoints -= sharedPtr->getCosts();
+        return true;
+    }
+    return false;
 }

@@ -8,8 +8,8 @@
 
 void FloatingMenu::Input() {
     SDL_Event event;
-    _lastEvent = event;
     while (SDL_PollEvent(&event)) {
+        _lastEvent = event;
         if (pGame->HandleEvent(event))
             return;
         switch (event.type) {

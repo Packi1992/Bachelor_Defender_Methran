@@ -164,7 +164,6 @@ void RenderHelper::loadTileSheet() {
 }
 
 void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
-    Rect src{};
     switch (entry._menuEntry) {
         case MenuEntry_DEFAULT:
             break;
@@ -173,6 +172,10 @@ void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Boomerang));
             break;
         case MenuEntry_POINTER:
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Base));
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Pointer));
+            break;
+        case MenuEntry_LinkedList:
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Base));
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Pointer));
             break;

@@ -12,6 +12,7 @@ class Gui;
 class Tower {
 public:
     explicit Tower(Point pos);
+    virtual bool init();
     // Draws the tower
     virtual void Render(float deltaT);
     // Place Tower on Map
@@ -47,5 +48,6 @@ protected:
     bool _showRange = false;
 };
 #include "pointerTower.h"
+#include "linkedListTower.h"
 #include "recursivTower.h"
 #endif //BACHELOR_DEFENDER_TOWER_H

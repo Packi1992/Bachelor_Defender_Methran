@@ -89,6 +89,16 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
                 _floatingMenu.reset();
                 break;
             }
+            case MenuEntry_LinkedList:
+            {
+                std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(pos);
+                if(globals._pl.buyTower(tower)){
+                    globals._towers.push_back(tower);
+                }
+
+                _floatingMenu.reset();
+                break;
+            }
             case MenuEntry_BOOMERANG:
             {
                 std::shared_ptr<class Tower> tower = std::make_shared<RecursivTower>(pos);
@@ -167,7 +177,6 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         f->_speed = 1;
         f->_moveable = true;
         f->_ttl = 80;
-        //globals._ph.add(f);
         _btn_control = false;
     }
     if (_mbLeft) {
@@ -303,10 +312,12 @@ void TestTD::keyDown(SDL_Event &event) {
 
 void TestTD::updateFloatingMenu() {
     _buildMenuEntriesInfos.clear();
+    MenuEntry linkedListTower{MenuEntries::MenuEntry_LinkedList, Status_Active, 5};
     MenuEntry pointerTower{MenuEntries::MenuEntry_POINTER, Status_Active, 5};
     MenuEntry recursivTower{MenuEntry_BOOMERANG, Status_Active, 0};
     if(globals._pl._creditPoints < 5){
         pointerTower._status = Status_NotEnoughMoney;
+        linkedListTower._status = Status_NotEnoughMoney;
         recursivTower._status = Status_NotEnoughMoney;
     }
     if(!pMap->checkPath(CT::getMousePosTile())){
@@ -314,7 +325,7 @@ void TestTD::updateFloatingMenu() {
         recursivTower._status = Status_Disabled;
     }
     _buildMenuEntriesInfos.push_back(pointerTower);
+    if(!pMap->checkPath(CT::getMousePosTile())) linkedListTower._status = Status_Disabled;
+    _buildMenuEntriesInfos.push_back(linkedListTower);
     _buildMenuEntriesInfos.push_back(recursivTower);
-    //_buildMenuEntriesInfos.push_back({MenuEntry_Error, Status_Active, 0});
-    //_buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});
 }

@@ -94,7 +94,12 @@ Rect *TdTileHandler::getTowerSrcRect(TowerType t, ul anim) {
             src.y = 512;
             src.x = 64 + (int)(anim%2)*64;
             return &src;
+        case Tower_LinkedList:
+            src.y = 256;
+            src.x = 64 + (int)(anim%4)*64;
+            return &src;
     }
+    return &src;
 }
 
 std::string TdTileHandler::getName(MapObjects object) {
@@ -120,6 +125,9 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
     src = {0, 0, 64, 64};
     switch(p){
         case ARROW:
+            src = {26, 334, 11, 35};
+            break;
+        case LINK:
             src = {26, 334, 11, 35};
             break;
         case BOOMERANG:
