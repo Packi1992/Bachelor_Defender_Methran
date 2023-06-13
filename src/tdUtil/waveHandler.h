@@ -18,7 +18,7 @@ public:
     int waveCur = 0;
     void Update(const u32 totalMSe);
     std::string save();
-    bool load(Vector<string> vector1);
+    bool load(const Vector<string>& vector1);
     Vector<Wave> waveVec;
 };
 #endif //SDL_BACHELORDEFENDER_WAVEHANDLER_H

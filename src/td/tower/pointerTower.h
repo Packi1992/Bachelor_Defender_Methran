@@ -7,6 +7,7 @@
 
 
 #include "tower.h"
+
 class PointerTower : public Tower {
 public:
     explicit PointerTower(Point pos);
@@ -18,10 +19,14 @@ public:
     void Update(float deltaT) override;
 
     ~PointerTower() override;
+
     uint getCosts() override;
+
     void setCosts(uint cp) override;
+
     // init the Menu
     void showMenu(Gui **focus) override;
+
 private:
     static int _creditPointCosts;
 };

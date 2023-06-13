@@ -15,10 +15,6 @@ void TestTD::Init() {
     DataHandler::load(globals._pl, globals._wh, _map);
     globals._ph.set();
     tdGlobals = &globals;
-    _buildMenuEntriesInfos.push_back({MenuEntry_DEFAULT, Status_Active, 0});
-    _buildMenuEntriesInfos.push_back({MenuEntry_POINTER, Status_Active, 0});
-    _buildMenuEntriesInfos.push_back({MenuEntry_BOOMERANG, Status_Active, 0});
-    _buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints), {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
 }
 
@@ -27,6 +23,7 @@ void TestTD::UnInit() {
     for (auto &enemy: globals._enemies) {
         enemy._alive = false;
     }
+    globals._towers.clear();
     audioHandler->stopMusic();
 }
 
@@ -34,18 +31,21 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     // Background
     rh->background(BG);
     // Map
-    _map.Render(true);
+    _map.Render(totalMSec,true);
     // Tower
     for (auto &tower: globals._towers) {
         tower->Render(deltaT);
     }
     //  render Enemies
     for (auto &enemy: globals._enemies) {
-        enemy.Render(totalMSec,true);
+        enemy.Render(totalMSec);
     }
     // projectiles and particles
     globals._ph.Render(totalMSec);
-
+    // render enemy extras (lifeBar or hitBox)
+    for (auto &enemy: globals._enemies) {
+        enemy.RenderExtras(true);
+    }
     // at last render UI
     rh->fillRect(&SanityBar, RED);
     rh->fillRect(&Sanity, GREEN);
@@ -89,15 +89,6 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
                 _floatingMenu.reset();
                 break;
             }
-            case MenuEntry_BOOMERANG:
-            {
-                std::shared_ptr<class Tower> tower = std::make_shared<RecursivTower>(pos);
-                if(globals._pl.buyTower(tower)){
-                    globals._towers.push_back(tower);
-                }
-                _floatingMenu.reset();
-                break;
-            }
 
             case MenuEntry_Error:
                 break;
@@ -105,6 +96,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
                 break;
         }
     }
+    // collision detection
     collision();
     // Update Enemies
     for (auto &enemy: globals._enemies) {
@@ -112,7 +104,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
             enemy.Update(deltaT);
         }
     }
-    // calculate sanity bar only every 10 frames
+    // calculate sanity bar (only every 10 frames)
     if (frame % 10 == 0) {
         SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
         int sanity_left = (int) ((float) SanityBar.h *
@@ -134,8 +126,19 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
                     globals._towers.end());
         }
     }
+    // update projectiles
     globals._ph.move();
+    // update "Viewport" / Zoom in or Out / Scroll
+    if(_mouseWheel){
+        Game::zoomScreen(_wheelEvent);
+        _mouseWheel = false;
+    }
+    if(_mouseMotion && _mbRight){
+        Game::scrollScreen(_motionEvent);
+        _mouseMotion = false;
+    }
 
+    // ---- DEV -------------------------------------
     // add projectiles and particles
     // update projectile direction
     if (_btn_space) {
@@ -143,45 +146,48 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         _btn_space = false;
     }
     if (_btn_control) {
+        Point cursor;
+        SDL_GetMouseState(&cursor.x,&cursor.y);
         auto *p = new Arrow();
         p->_direction = _arrowDir;
-        p->_position = CT::getPosInGame(mousePos);
+        p->_position = CT::getPosInGame(cursor);
         p->_speed = 1;
         globals._ph.add(p);
         Fire *f = new Fire();
         f->_direction = _arrowDir;
-        f->_position = CT::getPosInGame(mousePos);
+        f->_position = CT::getPosInGame(cursor);
         f->_speed = 1;
         f->_moveable = true;
         f->_ttl = 80;
         //globals._ph.add(f);
         _btn_control = false;
     }
-    if (mbDown) {
+    if (_mbLeft) {
         bool clickTower = false;
+        Point cursor;
+        SDL_GetMouseState(&cursor.x,&cursor.y);
         for (auto &t: globals._towers) {
-            if (t->isClicked(mousePos)) {
+            if (t->isClicked(cursor)) {
                 t->showMenu(&focus);
                 clickTower = true;
                 break;
             }
         }
         if (!clickTower) {
-            switch (pMap->getObjectAtScreenPos(mousePos)) {
+            switch (pMap->getObjectAtScreenPos(cursor)) {
                 case Empty:
                 case Table:
                     // show build menu
                     _floatingMenu.reset();
                     updateFloatingMenu();
-                    _floatingMenu.set(&_buildMenuEntriesInfos, CT::getTileCenterInGame(mousePos));
+                    _floatingMenu.set(&_buildMenuEntriesInfos, CT::getTileCenterInGame(cursor));
                     _floatingMenu.show(&focus);
                     break;
                 default:
                     break;
             }
         }
-        mbDown = false;
-
+        _mbLeft = false;
     }
     // add enemy
     if (totalMSec % 100 == 0) {
@@ -189,6 +195,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         e.setEnemy({7, 3}, 100, 100,1);
         addEnemy(e);
     }
+    // -------------------------------------------------------------------
 }
 
 void TestTD::collision() {
@@ -224,17 +231,21 @@ void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
                         game.SetNextState(99);
                     break;
                 case SDL_MOUSEBUTTONDOWN:
-                    MouseDown(event);
+                    if (event.button.button == SDL_BUTTON_RIGHT)
+                        _mbRight = true;
+                    if (event.button.button == SDL_BUTTON_LEFT)
+                        _mbLeft = true;
                     break;
                 case SDL_MOUSEBUTTONUP:
-                    mbDown = false;
-                    if (event.button.button == SDL_BUTTON_RIGHT && mouseScroll)mouseScroll = false;
+                    if (event.button.button == SDL_BUTTON_RIGHT && _mbRight)_mbRight = false;
                     break;
                 case SDL_MOUSEMOTION:
-                    MouseMotion(event);
+                    _mouseMotion = true;
+                    _motionEvent = event;
                     break;
                 case SDL_MOUSEWHEEL:
-                    MouseWheel(event);
+                    _wheelEvent = event;
+                    _mouseWheel = true;
                     break;
                 case SDL_KEYDOWN:
                     keyDown(event);
@@ -243,35 +254,6 @@ void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
         }
     } else {
         focus->Input();
-    }
-}
-
-void TestTD::MouseDown(SDL_Event &event) {
-    if (event.button.button == SDL_BUTTON_RIGHT) {
-        mouseScroll = true;
-    }
-    if (event.button.button == SDL_BUTTON_LEFT) {
-        mbDown = true;
-        mousePos = {event.motion.x, event.motion.y};
-    }
-}
-
-void TestTD::MouseMotion(SDL_Event &event) {
-    if (mouseScroll) {
-        offset.x -= event.motion.xrel;
-        offset.y -= event.motion.yrel;
-    }
-}
-
-void TestTD::MouseWheel(SDL_Event &event) {
-    Point cursor{};
-    SDL_GetMouseState(&cursor.x, &cursor.y);
-    if (event.wheel.y / abs(event.wheel.y) < 1) {// zoom out
-        scale = (int) (scale * 0.8);
-    } else {                                     // zoom in
-        scale = (int) (scale * (1 / 0.8));
-        offset.y += 2 * event.wheel.y / abs(event.wheel.y) * _map._height / 2;
-        offset.x += 2 * event.wheel.y / abs(event.wheel.y) * _map._width / 2;
     }
 }
 
@@ -308,12 +290,16 @@ void TestTD::keyDown(SDL_Event &event) {
 }
 
 void TestTD::updateFloatingMenu() {
-    if(globals._pl._creditPoints < 5){
-        _buildMenuEntriesInfos.at(1)._status = Status_NotEnoughMoney;
-    }else{
-        _buildMenuEntriesInfos.at(1)._status = Status_Active;
-    }
-    if(!pMap->checkPath(CT::getTileInGame(mousePos))){
-        _buildMenuEntriesInfos.at(1)._status = Status_Disabled;
-    }
+    _buildMenuEntriesInfos.clear();
+    MenuEntry pointerTower{MenuEntries::MenuEntry_POINTER, Status_Active, 5};
+    if(globals._pl._creditPoints < 5) pointerTower._status = Status_NotEnoughMoney;
+    if(!pMap->checkPath(CT::getMousePosTile())) pointerTower._status = Status_Disabled;
+    _buildMenuEntriesInfos.push_back(pointerTower);
+    //_buildMenuEntriesInfos.push_back({MenuEntry_Error, Status_Active, 0});
+    //_buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});
+   /* _buildMenuEntriesInfos.push_back({MenuEntry_DEFAULT, Status_Active, 0});
+    _buildMenuEntriesInfos.push_back({MenuEntry_POINTER, Status_Active, 0});
+    _buildMenuEntriesInfos.push_back({MenuEntry_BOOMERANG, Status_Active, 0});
+    _buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});*/
+
 }
