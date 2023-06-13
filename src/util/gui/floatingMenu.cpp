@@ -7,7 +7,7 @@
 #include "floatingMenu.h"
 
 void FloatingMenu::Input() {
-    SDL_Event event;
+    SDL_Event event{};
     _lastEvent = event;
     while (SDL_PollEvent(&event)) {
         if (pGame->HandleEvent(event))
