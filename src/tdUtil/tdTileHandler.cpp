@@ -72,6 +72,7 @@ Rect *TdTileHandler::getEnemySrcRect(EnemyType e, ul anim) {
         case Strong:
         case Boss:
             src.y = 6 * 64;
+            src.x = 64 + (int)(anim%10)*64;
             break;
     }
     return &src;
@@ -95,8 +96,11 @@ Rect *TdTileHandler::getTowerSrcRect(TowerType t, ul anim) {
             src.x = 64 + (int)(anim%2)*64;
             return &src;
         case Tower_LinkedList:
-            src.y = 256;
-            src.x = 64 + (int)(anim%4)*64;
+            src.y = 576;
+            src.x = 64 + (int)(anim%8)*64;
+            return &src;
+        case Tower_LinkedListBase:
+            src.y = 576;
             return &src;
     }
     return &src;

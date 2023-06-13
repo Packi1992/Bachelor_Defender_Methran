@@ -178,10 +178,9 @@ void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Pointer));
             break;
         case MenuEntry_LinkedList:
-            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Base));
-            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Pointer));
-            helperInstance->texture(_link, center);
-
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Tower_LinkedList));
+            //helperInstance->texture(_link, center);
             break;
         case MenuEntry_Sell:
             helperInstance->texture(_sell, center);

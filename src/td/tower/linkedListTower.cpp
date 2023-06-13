@@ -9,9 +9,9 @@
 void LinkedListTower::Render(float deltaT) {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
-    rh->tile(&dst, TdTileHandler::getTowerSrcRect(Base));
+    rh->tile(&dst, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
     int anim = ((int) ((_shootCoolDown - _reloadTime)));
-    long animT = (anim > 4) ? 0 : anim;
+    long animT = (anim > 8) ? 0 : anim;
     if (_reloadTime <= 1) {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, 1));
     } else {

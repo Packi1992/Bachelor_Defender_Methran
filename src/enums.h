@@ -37,6 +37,7 @@ enum TowerType{
     Base,
     Pointer,
     Tower_LinkedList,
+    Tower_LinkedListBase,
     RecursivBase,
     Boomerang,
 };
