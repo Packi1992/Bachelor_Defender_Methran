@@ -18,6 +18,7 @@ void PointerTower::Render(float deltaT) {
     } else {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, animT));
     }
+    Tower::Render(deltaT);
 }
 
 void PointerTower::Update(float deltaT) {
@@ -75,6 +76,7 @@ void PointerTower::Update(float deltaT) {
 
         }
     }
+    Tower::Update(deltaT);
 }
 
 int PointerTower::_creditPointCosts = 5;
@@ -98,6 +100,7 @@ void PointerTower::showMenu(Gui **focus) {
     _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, 0});
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
+    _showRange = true;
 }
 
 uint PointerTower::getCosts() {

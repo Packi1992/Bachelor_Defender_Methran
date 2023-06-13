@@ -13,28 +13,17 @@ void RecursivTower::Render(float deltaT) {
     rh->tile(&dst, TdTileHandler::getTowerSrcRect(RecursivBase));
     int anim = ((int) ((_shootCoolDown - _reloadTime))) / 2;
     long animT = (anim > 2) ? 0 : anim;
-    static uint d = 0;
     if (_reloadTime <= 0.05f) {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Boomerang, 1));
         //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
     } else if (_reloadTime > 0.05 && _reloadTime <= 3.0f) {
-        rh->tile(&dst, 360-((int)d%360), TdTileHandler::getTowerSrcRect(Boomerang, 1));
+        rh->tile(&dst, 360-((int)_spin%360), TdTileHandler::getTowerSrcRect(Boomerang, 1));
         //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
     } else {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Boomerang, animT));
     }
-    // range
-    FPoint range{0,0};
-    for (int angle=0; angle <360; angle+=10){
-        float angleF = angle/180.0f*M_PI;
-        range.x  = _pos.x + sin(angleF)*_range;
-        range.y = _pos.y + cos(angleF)*_range;
-        Point range2 = CT::getPosOnScreen(range);
-        Rect dst = {range2.x,range2.y,5,5};
-        rh->fillRect(&dst,BLACK);
-
-    }
-    d+= 160;
+    _spin += 160;
+    Tower::Render(deltaT);
 }
 
 void RecursivTower::Update(float deltaT) {
@@ -94,6 +83,7 @@ void RecursivTower::Update(float deltaT) {
 
         }
     }
+    Tower::Update(deltaT);
 }
 
 int RecursivTower::_creditPointCosts = 5;
@@ -117,6 +107,7 @@ void RecursivTower::showMenu(Gui **focus) {
     _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, 0});
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
+    _showRange = true;
 }
 
 uint RecursivTower::getCosts() {

@@ -23,3 +23,7 @@ void Gui::setNextFocus(Gui *next) {
 bool Gui::isActive() const {
     return dialog;
 }
+
+bool Gui::getDialog() {
+    return dialog;
+}

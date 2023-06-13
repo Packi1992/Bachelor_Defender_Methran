@@ -27,6 +27,7 @@ public:
     void showMenu(Gui **focus) override;
 private:
     static int _creditPointCosts;
+    uint _spin = 0;
 };
 
 
