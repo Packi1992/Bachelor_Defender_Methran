@@ -89,7 +89,15 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
                 _floatingMenu.reset();
                 break;
             }
-
+            case MenuEntry_BOOMERANG:
+            {
+                std::shared_ptr<class Tower> tower = std::make_shared<RecursivTower>(pos);
+                if(globals._pl.buyTower(tower)){
+                    globals._towers.push_back(tower);
+                }
+                _floatingMenu.reset();
+                break;
+            }
             case MenuEntry_Error:
                 break;
             default:
@@ -292,14 +300,17 @@ void TestTD::keyDown(SDL_Event &event) {
 void TestTD::updateFloatingMenu() {
     _buildMenuEntriesInfos.clear();
     MenuEntry pointerTower{MenuEntries::MenuEntry_POINTER, Status_Active, 5};
-    if(globals._pl._creditPoints < 5) pointerTower._status = Status_NotEnoughMoney;
-    if(!pMap->checkPath(CT::getMousePosTile())) pointerTower._status = Status_Disabled;
+    MenuEntry recursivTower{MenuEntry_BOOMERANG, Status_Active, 0};
+    if(globals._pl._creditPoints < 5){
+        pointerTower._status = Status_NotEnoughMoney;
+        recursivTower._status = Status_NotEnoughMoney;
+    }
+    if(!pMap->checkPath(CT::getMousePosTile())){
+        pointerTower._status = Status_Disabled;
+        recursivTower._status = Status_Disabled;
+    }
     _buildMenuEntriesInfos.push_back(pointerTower);
+    _buildMenuEntriesInfos.push_back(recursivTower);
     //_buildMenuEntriesInfos.push_back({MenuEntry_Error, Status_Active, 0});
     //_buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});
-   /* _buildMenuEntriesInfos.push_back({MenuEntry_DEFAULT, Status_Active, 0});
-    _buildMenuEntriesInfos.push_back({MenuEntry_POINTER, Status_Active, 0});
-    _buildMenuEntriesInfos.push_back({MenuEntry_BOOMERANG, Status_Active, 0});
-    _buildMenuEntriesInfos.push_back({MenuEntry_Disabled, Status_Active, 0});*/
-
 }
