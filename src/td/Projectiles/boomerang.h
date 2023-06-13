@@ -9,7 +9,7 @@
 
 class Boomerang : public Projectile {
 private:
-    float _flyingTime = .8f;
+    float _minFlyingTime = .1f;
     bool _toggleDirection = false;
 public:
     Boomerang();

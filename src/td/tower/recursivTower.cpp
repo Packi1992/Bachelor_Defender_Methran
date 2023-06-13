@@ -100,7 +100,7 @@ int RecursivTower::_creditPointCosts = 5;
 
 RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _health = 200;
-    _range = 5;
+    _range = 4;
     _shootCoolDown = 5;
     _damage = 25;
     _aimSpeed = 1;

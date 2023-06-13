@@ -11,19 +11,14 @@ Boomerang::Boomerang() {
 
 void Boomerang::move(float deltaT) {
     _hitCooldown -= deltaT;
+    _direction += 3;
     auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
     auto speed = (float) (((float) _speed) * 0.01f);
-    if (!_toggleDirection) {
-        _position.x += (sin(direction) * speed);
-        _position.y -= (cos(direction) * speed);
-    } else {
-        _position.x -= (sin(direction) * speed);
-        _position.y += (cos(direction) * speed);
-    }
-    _flyingTime -= deltaT;
-    if (_flyingTime <= 0.0f) {
+    _position.x += (sin(direction) * speed);
+    _position.y -= (cos(direction) * speed);
+    _minFlyingTime -= deltaT;
+    if (_minFlyingTime <= 0.0f) {
         _toggleDirection = !_toggleDirection;
-        _flyingTime = 0.8f;
     }
     if (((int) _position.x == (int) _startingPoint.x) && ((int) _position.y == (int) _startingPoint.y) &&
         _toggleDirection) {
