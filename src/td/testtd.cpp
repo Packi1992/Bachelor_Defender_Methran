@@ -310,7 +310,7 @@ void TestTD::updateFloatingMenu() {
     _buildMenuEntries.clear();
     MenuEntry linkedListTower{MenuEntry_LinkedList, Status_Active, 5};
     MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 5};
-    MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 0};
+    MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 5};
     if (globals._pl._creditPoints < 5) {
         pointerTower._status = Status_NotEnoughMoney;
         linkedListTower._status = Status_NotEnoughMoney;

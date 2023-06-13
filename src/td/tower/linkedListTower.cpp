@@ -14,7 +14,6 @@ void LinkedListTower::Render(float deltaT) {
     long animT = (anim > 4) ? 0 : anim;
     if (_reloadTime <= 1) {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, 1));
-        //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
     } else {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, animT));
     }
