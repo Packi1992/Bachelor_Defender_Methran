@@ -269,10 +269,8 @@
   <ItemGroup>
     <Media Include="asset\music\testsound.wav" />
     <Media Include="asset\sound\ArrowHit.wav" />
-    <Media Include="asset\sound\audiocheck.net_hdsweep_1Hz_96000Hz_-3dBFS_30s.wav" />
     <Media Include="asset\sound\Darth_Vader_NO.mp3" />
     <Media Include="asset\sound\pewf.wav" />
-    <Media Include="asset\sound\testsound.wav" />
     <Media Include="asset\sound\thriee.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

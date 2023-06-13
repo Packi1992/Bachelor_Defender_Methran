@@ -35,11 +35,11 @@
     </Filter>
     <Filter Include="asset\sound">
       <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4f1}</UniqueIdentifier>
-      <Extensions>ogg;wav;mp3</Extensions>
+      <Extensions>wav;mp3</Extensions>
     </Filter>
     <Filter Include="asset\sound\music">
-      <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4d5}</UniqueIdentifier>
-      <Extensions>ogg;wav;mp3</Extensions>
+      <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4f2}</UniqueIdentifier>
+      <Extensions>ogg;wav</Extensions>
     </Filter>
     <Filter Include="asset\graphic">
       <UniqueIdentifier>{323dc01d-da22-4f6e-92ef-39a77497c4d7}</UniqueIdentifier>
@@ -182,6 +182,9 @@
     <None Include="asset\graphic\td\tileTD.xcf">
       <Filter>asset\graphic\td</Filter>
     </None>
+    <None Include="asset\music\severance.ogg">
+      <Filter>asset\sound\music</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="asset\font\MonkeyIsland-1991-refined.ttf">
@@ -241,26 +244,6 @@
     <Image Include="asset\graphic\editor\blocked.png">
       <Filter>asset\graphic\editor</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Sound Include="asset\sound\ArrowHit.wav">
-      <Filter>asset\sound</Filter>
-    </Sound>
-    <Sound Include="asset\sound\Darth_Vader_NO.mp3">
-      <Filter>asset\sound</Filter>
-    </Sound>
-    <Sound Include="asset\sound\pewf.wav">
-      <Filter>asset\sound</Filter>
-    </Sound>
-    <Sound Include="asset\sound\thriee.wav">
-      <Filter>asset\sound</Filter>
-    </Sound>
-    <Sound Include="asset\music\severance.ogg">
-      <Filter>asset\sound\music</Filter>
-    </Sound>	
-    <Sound Include="asset\music\testsound.wav">
-      <Filter>asset\sound\music</Filter>
-    </Sound>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bddgame.cpp">
@@ -362,5 +345,22 @@
     <ClCompile Include="src\util\gui\TextWithValue.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="asset\music\testsound.wav">
+      <Filter>asset\sound\music</Filter>
+    </Media>
+    <Media Include="asset\sound\Darth_Vader_NO.mp3">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\pewf.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\ArrowHit.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\thriee.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
   </ItemGroup>
 </Project>
