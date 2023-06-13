@@ -13,9 +13,9 @@ class Tower {
 public:
     explicit Tower(Point pos);
     // Draws the tower
-    virtual void Render(float deltaT)=0;
+    virtual void Render(float deltaT);
     // Place Tower on Map
-    virtual void Update(float deltaT)=0;
+    virtual void Update(float deltaT);
     // give costs of tower back
     virtual uint getCosts()=0;
     virtual void setCosts(uint cp)=0;
@@ -44,6 +44,7 @@ protected:
     bool _alive = true;
     FloatingMenu* _floatingMenu = nullptr;
     Vector<MenuEntry> _menuEntries;
+    bool _showRange = false;
 };
 #include "pointerTower.h"
 #include "recursivTower.h"

@@ -14,6 +14,7 @@ public:
     void releaseFocus(Event *event=nullptr, bool continueRender=false);
     void show(Gui **focus);
     void setNextFocus(Gui *next);
+    bool getDialog();
     [[nodiscard]] bool isActive() const;
 protected:
     Event _lastEvent{};
