@@ -28,7 +28,7 @@ extern TDGlobals *tdGlobals;
 
 class TestTD final : public GameState {
 protected:
-    Texture* _texMethran{};
+    Texture *_texMethran{};
     Rect MethranDst{};
     Rect Sanity{};
     Rect SanityBar{};
@@ -38,6 +38,7 @@ protected:
     int enemyOverflow = 0;
 
     void addEnemy(Enemy e);
+
     void buyTower(Gui **focus);
 
     //  debug stuff
@@ -70,19 +71,21 @@ public:
 
     void UnInit() override;
 
-    void Events(const u32 frame, const u32 totalMSec, const float deltaT) override;
+    void Events() override;
 
-    void Update(const u32 frame, const u32 totalMSec, const float deltaT) override;
+    void Update() override;
 
-    void Render(const u32 frame, const u32 totalMSec, const float deltaT) override;
+    void Render() override;
 
-    void collision(float deltaT);
+    void collision();
+
+    void updateUI();
 
     void keyDown(SDL_Event &event);
 
     void updateFloatingMenu();
 
-    bool buyTower(const std::shared_ptr<class Tower>& tower);
+    bool buyTower(const std::shared_ptr<class Tower> &tower);
 };
 
 #endif //SDL_BASEGAME_TESTTD_H

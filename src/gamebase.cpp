@@ -146,16 +146,16 @@ int Game::Run() {
 
         SDL_GetWindowSize(window, &windowSize.x, &windowSize.y);
 
-        currentState->Events(frame, totalMSec, deltaTF);
+        currentState->Events();
 
-        currentState->Update(frame, totalMSec, deltaTF);
+        currentState->Update();
 
         const Color clear = currentState->GetClearColor();
         if (clear.a != SDL_ALPHA_TRANSPARENT) {
             SDL_SetRenderDrawColor(render, clear.r, clear.g, clear.b, clear.a);
             SDL_RenderClear(render);
         }
-        currentState->Render(frame, totalMSec, deltaTFNeeded);
+        currentState->Render();
         SDL_RenderPresent(render);
 
 

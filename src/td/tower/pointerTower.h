@@ -13,10 +13,10 @@ public:
     explicit PointerTower(Point pos);
 
     // Draws the tower
-    void Render(float deltaT) override;
+    void Render() override;
 
     // Place Tower on Map
-    void Update(float deltaT) override;
+    void Update() override;
 
     ~PointerTower() override;
 

@@ -19,10 +19,10 @@ public:
     virtual bool init(Gui **focus);
 
     // Draws the tower
-    virtual void Render(float deltaT);
+    virtual void Render();
 
     // Place Tower on Map
-    virtual void Update(float deltaT);
+    virtual void Update();
 
     // give costs of tower back
     virtual uint getCosts() = 0;

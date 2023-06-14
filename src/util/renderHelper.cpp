@@ -116,7 +116,10 @@ void RenderHelper::texture(Texture *t, Rect *dRect, Rect *sRect) const {
 
 void RenderHelper::texture(Texture *t, Rect *dRect, u16 direction, Rect *sRect) const {
     SDL_RenderCopyEx(_renderer, t, sRect, dRect, (double) direction, nullptr, SDL_FLIP_NONE);
+}
 
+void RenderHelper::textureHflipped(Texture *t, Rect *dRect, Rect *sRect) const {
+    SDL_RenderCopyEx(_renderer, t, sRect, dRect, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
 }
 
 void RenderHelper::rect(Rect *dst, u8 strokeThickness, t_color color) {
@@ -153,10 +156,13 @@ void RenderHelper::line(Point &A, Point &B, t_color color) {
     SDL_RenderDrawLine(_renderer, A.x, A.y, B.x, B.y);
 }
 
-void RenderHelper::tile(Rect *dRect, Rect *sRect) {
+void RenderHelper::tile(Rect *dRect, Rect *sRect, bool vFlipped) {
     if (_texture == nullptr)
         loadTileSheet();
-    texture(_texture, dRect, sRect);
+    if(vFlipped)
+        textureHflipped(_texture, dRect, sRect);
+    else
+        texture(_texture, dRect, sRect);
 
 }
 

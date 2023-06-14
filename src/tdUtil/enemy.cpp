@@ -10,9 +10,9 @@
 #include "map.h"
 #include "../gamebase.h"
 
-void Enemy::Update(float deltaT) {
+void Enemy::Update() {
     if (_stunTime > 0) {
-        _stunTime > deltaT ? _stunTime -= deltaT : _stunTime = 0;
+        _stunTime > deltaTg ? _stunTime -= deltaTg : _stunTime = 0;
     } else {
         // move ...
         updateDir();
@@ -22,9 +22,9 @@ void Enemy::Update(float deltaT) {
             _nextPos = pMap->getNextPosCentre(_pos);
         } else if (!_reachedGoal) {
             // actually move
-            float runLength = deltaT * (float) _speed / 30.0f;
+            float runLength = deltaTg * (float) _speed / 30.0f;
             if (_slowTimer > 0) {
-                _slowTimer -= deltaT;
+                _slowTimer -= deltaTg;
                 runLength = (float) ((double) runLength * (_speedDiff / 10.0));
             }
             if (_dir == 0)
@@ -121,7 +121,7 @@ bool Enemy::hasReachedGoal() const {
     return _reachedGoal;
 }
 
-void Enemy::Render(u32 totalMSec) const {
+void Enemy::Render() const {
     if (_alive) {
         // make dstRect
         Point POS = CT::getPosOnScreen(_pos);
@@ -131,7 +131,29 @@ void Enemy::Render(u32 totalMSec) const {
         u32 anim = (pGame->isGameover()?0:totalMscg);
         // check if enemy is on screen
         if (Game::onScreen(dstRect)) {
-            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type, anim));
+            Direction dir;
+            bool flipped = false;
+            switch (_dir) {
+                case 0:
+                    dir = Direction::TOP;
+                    flipped = false;
+                    break;
+                case 90:
+                    dir = Direction::RIGHT;
+                    flipped = false;
+                    break;
+                case 180:
+                    dir = Direction::BOTTOM;
+                    flipped = false;
+                    break;
+                case 270:
+                    dir = Direction::LEFT;
+                    flipped = true;
+                    break;
+                default:
+                    break;
+            }
+            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type, anim, dir), flipped);
         }
     }
 }

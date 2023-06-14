@@ -6,7 +6,7 @@
 #include "../Projectiles/arrow.h"
 #include "../../util/gui/floatingMenu.h"
 
-void PointerTower::Render(float deltaT) {
+void PointerTower::Render() {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
     rh->tile(&dst, TdTileHandler::getTowerSrcRect(Base));
@@ -18,10 +18,10 @@ void PointerTower::Render(float deltaT) {
     } else {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, animT));
     }
-    Tower::Render(deltaT);
+    Tower::Render();
 }
 
-void PointerTower::Update(float deltaT) {
+void PointerTower::Update() {
     if (_floatingMenu != nullptr) {
         _floatingMenu->Update();
         if (_floatingMenu->isDone()) {
@@ -69,14 +69,14 @@ void PointerTower::Update(float deltaT) {
                     audioHandler->playSound(SoundArrowFire, x);
                     tdGlobals->_ph.add(p);
                 } else {
-                    _reloadTime -= deltaT;
+                    _reloadTime -= deltaTg;
                 }
             }
             // enemy target is locked -> change direction to enemy and shoot
 
         }
     }
-    Tower::Update(deltaT);
+    Tower::Update();
 }
 
 int PointerTower::_creditPointCosts = 5;

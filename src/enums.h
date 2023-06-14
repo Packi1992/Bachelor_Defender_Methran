@@ -96,4 +96,11 @@ enum Status{
     Status_NotEnoughMoney,
     Status_Active,
 };
+
+enum Direction{
+    TOP,
+    RIGHT,
+    BOTTOM,
+    LEFT
+};
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

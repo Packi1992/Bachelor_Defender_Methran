@@ -6,7 +6,7 @@
 #include "../Projectiles/projectile.h"
 #include "../../util/gui/floatingMenu.h"
 
-void LinkedListTower::Render(float deltaT) {
+void LinkedListTower::Render() {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
     rh->tile(&dst, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
@@ -21,7 +21,7 @@ void LinkedListTower::Render(float deltaT) {
     _le.Render();
 }
 
-void LinkedListTower::Update(float deltaT) {
+void LinkedListTower::Update() {
     if(_le.getDialog()){
         _le.Update();
     }
@@ -72,7 +72,7 @@ void LinkedListTower::Update(float deltaT) {
                     audioHandler->playSound(SoundArrowFire, x);
                     tdGlobals->_ph.add(p);
                 } else {
-                    _reloadTime -= deltaT;
+                    _reloadTime -= deltaTg;
                 }
             }
             // enemy target is locked -> change direction to enemy and shoot

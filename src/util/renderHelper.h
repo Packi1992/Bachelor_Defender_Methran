@@ -30,7 +30,9 @@ public:
 
     void texture(SDL_Texture *t, SDL_Rect *dRect, std::uint16_t direction, SDL_Rect *sRect = nullptr) const;
 
-    void tile(SDL_Rect *dRect, SDL_Rect *sRect = nullptr);
+    void textureHflipped(SDL_Texture *t, SDL_Rect *dRect, SDL_Rect *sRect = nullptr) const;
+
+    void tile(SDL_Rect *dRect, SDL_Rect *sRect = nullptr, bool vFlipped = false);
 
     void tile(SDL_Rect *dRect, std::uint16_t direction, SDL_Rect *sRect = nullptr);
 

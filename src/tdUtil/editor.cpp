@@ -26,7 +26,7 @@ void Editor::UnInit() {
     audioHandler->stopMusic();
 }
 
-void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
+void Editor::Update() {
     if (focus == nullptr) {
         if (mapSelector.isFileSelected()) {
             DataHandler::load(player,waves,map,mapSelector.getSelectedFile());
@@ -52,10 +52,10 @@ void Editor::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     }
 }
 
-void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
+void Editor::Render() {
     rh->background(BG);
     // Render maps
-    map.Render(totalMSec,true,showPath);
+    map.Render(true,showPath);
     // now Render ui
     Rect tool, symbol;
     tool = {0, 0, 80, 80};
@@ -67,7 +67,7 @@ void Editor::Render(const u32 frame, const u32 totalMSec, const float deltaT) {
     symbol.y = tool.y + 8;
     for (int i = 0; i < TdTileHandler::TOOLCOUNT; i++) {
         rh->fillRect(&tool,WHITE);
-        rh->texture(t_tileMap, &symbol, TdTileHandler::getSrcRect(i, totalMSec));
+        rh->texture(t_tileMap, &symbol, TdTileHandler::getSrcRect(i));
         if (this->selected == i) {
             rh->setColor({ 0, 0, (u8)rainbowColor, 255});
             rh->rect(&tool,5);
@@ -100,7 +100,7 @@ void Editor::handleSelection(Event event) {
     }
 }
 
-void Editor::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
+void Editor::Events() {
     if (focus == nullptr) {
         SDL_Event event;
         labelTimer++;

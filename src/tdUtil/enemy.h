@@ -9,9 +9,9 @@ public:
     Enemy() = default;
 
     // move enemy -> status effects will impact here
-    void Update(float deltaT);
+    void Update();
 
-    void Render(u32 totalMSec) const;
+    void Render() const;
     void RenderExtras(bool life=false, bool hitBox=false) const;
     // use Enemy slot for new enemy spawn
     void setEnemy(Point pos, u16 Health, u8 speed, u8 value,EnemyType type = EnemyType::Ordinary);

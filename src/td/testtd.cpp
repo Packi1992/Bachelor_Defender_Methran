@@ -19,7 +19,8 @@ void TestTD::Init() {
     _texMethran = t_cache->get(BasePath"asset/graphic/methran1.png");
     SDL_QueryTexture(_texMethran, nullptr, nullptr, &MethranDst.w, &MethranDst.h);
     globals._pl._sanity = 10;
-    Update(0, 0, 0);
+    updateUI();
+    Update();
 }
 
 void TestTD::UnInit() {
@@ -31,21 +32,21 @@ void TestTD::UnInit() {
     audioHandler->stopMusic();
 }
 
-void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
+void TestTD::Render() {
     // Background
     rh->background(BG);
     // Map
-    _map.Render(totalMSec, true);
+    _map.Render(true);
     // Tower
     for (auto &tower: globals._towers) {
-        tower->Render(deltaT);
+        tower->Render();
     }
     //  render Enemies
     for (auto &enemy: globals._enemies) {
-        enemy.Render(totalMSec);
+        enemy.Render();
     }
     // projectiles and particles
-    globals._ph.Render(totalMSec);
+    globals._ph.Render();
     // render enemy extras (lifeBar or hitBox)
     for (auto &enemy: globals._enemies) {
         enemy.RenderExtras(true);
@@ -63,8 +64,9 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     }
     _creditPointDisplay.draw();
     _floatingMenu.Render();
-    if(_gameover){
+    if (_gameover) {
         rh->background(BLACK, 128);
+        rh->CenteredText("Game Over", 70, RED, windowSize.x, windowSize.y);
     }
 }
 
@@ -82,7 +84,7 @@ void TestTD::addEnemy(Enemy e) {
     globals._enemies[enemyOverflow++]._alive = true;
 }
 
-void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
+void TestTD::Update() {
     if (!_gameover) {
         _floatingMenu.Update();
         if (_floatingMenu.isDone()) {
@@ -121,40 +123,23 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
             }
         }
         // collision detection
-        collision(deltaT);
+        collision();
         // Update Enemies
         for (auto &enemy: globals._enemies) {
             if (enemy._alive) {
-                enemy.Update(deltaT);
+                enemy.Update();
             }
         }
         // calculate sanity bar (only every 10 frames)
-        if (frame % 10 == 0) {
-            SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
-            float fSanity = ((float) globals._pl._sanity / (float) globals._pl._maxSanity);
-            int sanity_left = (int) ((float) SanityBar.h * fSanity);
-            Sanity = SanityBar;
-            Sanity.y += SanityBar.h - sanity_left;
-            Sanity.h = sanity_left;
-            // calculate Methran Size
-            float MethanScaleFactor = 0.35f * (float) windowSize.y / (float) MethranDst.h;
-            MethranDst.w = (int) (MethanScaleFactor * (float) MethranDst.w);
-            MethranDst.h = (int) (MethanScaleFactor * (float) MethranDst.h);
-            MethranDst.x = windowSize.x - MethranDst.w - 100;
-            MethranDst.y = windowSize.y - MethranDst.h - 100;
-            if (fSanity <= 0.1f) {
-                MethranDst.x += ((int) totalMscg / 100) % 20 * ((((int) totalMscg % 3) == 1) ? (-1) : 1);
-                MethranDst.y += ((int) totalMscg / 100) % 20 * ((((int) totalMscg % 2) == 1) ? (-1) : 1);
-            }
-            // calculate Menu Size
-            _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
+        if (frameg % 10 == 0) {
+            updateUI();
         }    //checking for death
         if (globals._pl._sanity <= 0) {
             _gameover = true;
         }
         // Update towers
         for (auto &tower: globals._towers) {
-            tower->Update(deltaT);
+            tower->Update();
             if (tower->isDead()) {
                 globals._towers.erase(
                         std::remove_if(
@@ -166,7 +151,7 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
             }
         }
         // update projectiles
-        globals._ph.move(deltaT);
+        globals._ph.move();
         // update "Viewport" / Zoom in or Out / Scroll
         if (_mouseWheel) {
             Game::zoomScreen(_wheelEvent);
@@ -228,18 +213,18 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
             _mbLeft = false;
         }
         // add enemy
-        if (totalMSec % 100 == 0) {
+        if (totalMscg % 100 == 0) {
             Enemy e;
             e.setEnemy({7, 3}, 100, 100, 1);
             addEnemy(e);
         }
         // -------------------------------------------------------------------
-    }else{
+    } else {
 
     }
 }
 
-void TestTD::collision(float deltaT) {
+void TestTD::collision() {
     for (auto &e: globals._enemies) {
         if (e._alive) {
             for (auto &p: globals._ph._projectiles) {
@@ -247,7 +232,7 @@ void TestTD::collision(float deltaT) {
                     if (p->_alive) {
                         if (e.isPointInside(p->_position)) {
                             e.takeDamage(p);
-                            p->collide(deltaT);
+                            p->collide(deltaTg);
                             if (!p->_alive) {
                                 delete p;
                                 p = nullptr;
@@ -263,7 +248,7 @@ void TestTD::collision(float deltaT) {
     }
 }
 
-void TestTD::Events(const u32 frame, const u32 totalMSec, const float deltaT) {
+void TestTD::Events() {
     if (focus == nullptr) {
 
         SDL_Event event;
@@ -363,4 +348,25 @@ bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
         return true;
     }
     return false;
+}
+
+void TestTD::updateUI() {
+    SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
+    float fSanity = ((float) globals._pl._sanity / (float) globals._pl._maxSanity);
+    int sanity_left = (int) ((float) SanityBar.h * fSanity);
+    Sanity = SanityBar;
+    Sanity.y += SanityBar.h - sanity_left;
+    Sanity.h = sanity_left;
+    // calculate Methran Size
+    float MethanScaleFactor = 0.35f * (float) windowSize.y / (float) MethranDst.h;
+    MethranDst.w = (int) (MethanScaleFactor * (float) MethranDst.w);
+    MethranDst.h = (int) (MethanScaleFactor * (float) MethranDst.h);
+    MethranDst.x = windowSize.x - MethranDst.w - 100;
+    MethranDst.y = windowSize.y - MethranDst.h - 100;
+    if (fSanity <= 0.1f) {
+        MethranDst.x += ((int) totalMscg / 100) % 20 * ((((int) totalMscg % 3) == 1) ? (-1) : 1);
+        MethranDst.y += ((int) totalMscg / 100) % 20 * ((((int) totalMscg % 2) == 1) ? (-1) : 1);
+    }
+    // calculate Menu Size
+    _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
 }

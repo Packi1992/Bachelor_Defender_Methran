@@ -62,7 +62,7 @@ Rect *TdTileHandler::getSrcRect(int o, ul anim) {
     return getSrcRect(selectObject(o), anim);
 }
 
-Rect *TdTileHandler::getEnemySrcRect(EnemyType e, ul anim) {
+Rect *TdTileHandler::getEnemySrcRect(EnemyType e, ul anim, Direction d) {
     // get map time using global
     src = {0, 0, 64, 128};
     switch (e) {
@@ -71,8 +71,13 @@ Rect *TdTileHandler::getEnemySrcRect(EnemyType e, ul anim) {
         case Silly:
         case Strong:
         case Boss:
-            src.y = 6 * 64;
-            src.x = 64 + (int)((anim/100)%10)*64;
+            if(d == RIGHT || d == LEFT){
+                src.y = 6 * 64;
+                src.x = 64 + (int)((anim/100)%10)*64;
+            }else if(d == BOTTOM || d == TOP){
+                src.y = 6 * 64;
+                src.x = 64 + (int)((anim/100)%10)*64;
+            }
             break;
     }
     return &src;

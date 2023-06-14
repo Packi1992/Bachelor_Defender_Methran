@@ -143,11 +143,11 @@ public:
 
     virtual void UnInit() {}
 
-    virtual void Events(const u32 frame, const u32 totalMSec, const float deltaT) = 0;
+    virtual void Events() = 0;
 
-    virtual void Update(const u32 frame, const u32 totalMSec, const float deltaT) = 0;
+    virtual void Update() = 0;
 
-    virtual void Render(const u32 frame, const u32 totalMSec, const float deltaT) = 0;
+    virtual void Render() = 0;
 };
 
 #include "tdUtil/coordinateTransformer.h"
