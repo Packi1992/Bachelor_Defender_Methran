@@ -33,8 +33,8 @@ bool Wave::PollEvent(SpawnEvent &event) {
     return true;
 }
 
-void Wave::Update(const u32 totalMSec) {
-    u32 now = totalMSec-waveStart;
+void Wave::Update() {
+    u32 now = totalMscg-waveStart;
     for (SpawnEvent event:Events) {
         if(event.time > now){
             pendingEvents.push_back(event);
@@ -47,8 +47,8 @@ void Wave::Update(const u32 totalMSec) {
     }
 }
 
-void Wave::startWave(const u32 totalMSec) {
-    waveStart = totalMSec;
+void Wave::startWave() {
+    waveStart = totalMscg;
     hasStarted = true;
 }
 

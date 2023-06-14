@@ -13,9 +13,9 @@ private:
     bool _toggleDirection = false;
 public:
     Boomerang();
-    void Render(u32 totalMSec) override;
-    void move(float deltaT) override;
-    void collide(float deltaT) override;
+    void Render() override;
+    void move() override;
+    void collide() override;
 };
 
 #endif //SDL_BACHELORDEFENDER_BOOMERANG_H

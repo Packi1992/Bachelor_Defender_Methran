@@ -27,9 +27,9 @@ public:
     bool _moveable = false;
     virtual ~Projectile();
 
-    virtual void move(float deltaT);
-    virtual void collide(float deltaT);
-    virtual void Render(u32 totalMSec);
+    virtual void move();
+    virtual void collide();
+    virtual void Render();
 
     [[nodiscard]] bool onScreen() const;
 };

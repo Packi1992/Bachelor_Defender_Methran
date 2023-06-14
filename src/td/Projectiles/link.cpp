@@ -8,6 +8,6 @@ LinkProjectile::LinkProjectile() {
     _type=ProjectileType::LINK;
 }
 
-void LinkProjectile::move(float deltaT) {
-    Projectile::move(deltaT);
+void LinkProjectile::move() {
+    Projectile::move();
 }

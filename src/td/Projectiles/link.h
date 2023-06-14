@@ -9,7 +9,7 @@
 class LinkProjectile:public Projectile {
 public:
     LinkProjectile();
-    void move(float deltaT) override;
+    void move() override;
 };
 
 
