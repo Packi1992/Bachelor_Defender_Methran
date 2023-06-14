@@ -111,12 +111,6 @@ void Enemy::updateDir() {
 
 }
 
-bool Enemy::isPointInside(const FPoint &p) const {
-    FRect en = getHitBox();
-    return ((p.x >= en.x) && (p.x < (en.x + en.w)) &&
-            (p.y >= en.y) && (p.y < (en.y + en.h))) ? SDL_TRUE : SDL_FALSE;
-}
-
 bool Enemy::hasReachedGoal() const {
     return _reachedGoal;
 }
@@ -189,5 +183,26 @@ FRect Enemy::getHitBox() const {
     return {_pos.x - 0.35f, _pos.y - 1.4f, 0.7f, 1.6f};
 }
 
+bool Enemy::hasCollision(Projectile *&pProjectile) const {
+    switch (pProjectile->_type)
+    {
+        case LINK:
+            return hasLineIntersection(pProjectile);
+            break;
+        default:
+            return isPointInside(pProjectile->_position);
+
+    }
+}
+
+bool Enemy::hasLineIntersection(Projectile *&pProjectile) {
+    return false;
+}
+
+bool Enemy::isPointInside(const FPoint &p) const {
+    FRect en = getHitBox();
+    return ((p.x >= en.x) && (p.x < (en.x + en.w)) &&
+            (p.y >= en.y) && (p.y < (en.y + en.h))) ? SDL_TRUE : SDL_FALSE;
+}
 
 

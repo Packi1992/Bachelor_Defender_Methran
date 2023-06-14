@@ -19,6 +19,8 @@ void Editor::Init() {
     btn_change_size.set("Größe ändern", 18, {btn_path.getX() - 135, yPos, 130, 80});
     btn_change_size.setHighlightedColor(BTN_HIGHLIGHTED);
     audioHandler->playMusic(MusicEditor);
+    player._creditPoints = 15;
+    player._sanity = 100;
 }
 
 void Editor::UnInit() {

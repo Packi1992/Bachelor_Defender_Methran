@@ -22,7 +22,7 @@ public:
     bool _destroy = false;
     Enemy *_targetE = nullptr;
     FPoint _targetP = {0, 0};
-    uint16_t _ttl = 1000;
+    int _ttl = 1000;
     uint8_t _damage = 100;
     bool _moveable = false;
     virtual ~Projectile();

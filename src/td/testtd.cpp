@@ -87,41 +87,8 @@ void TestTD::addEnemy(Enemy e) {
 void TestTD::Update() {
     if (!_gameover) {
         _floatingMenu.Update();
-        if (_floatingMenu.isDone()) {
-            Point pos = {(int) _floatingMenu.getPos().x, (int) _floatingMenu.getPos().y};
-            switch (_floatingMenu.getSelectedEntry()) {
-                case MenuEntry_DEFAULT:
-                    break;
-                case MenuEntry_POINTER: {
-                    std::shared_ptr<class Tower> tower = std::make_shared<PointerTower>(pos);
-                    if (buyTower(tower)) {
-                        globals._towers.push_back(tower);
-                    }
-                    _floatingMenu.reset();
-                    break;
-                }
-                case MenuEntry_LinkedList: {
-                    std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(pos);
-                    if (buyTower(tower)) {
-                        globals._towers.push_back(tower);
-                    }
+        handleFloatingMenuSelection();
 
-                    _floatingMenu.reset();
-                    break;
-                }
-                case MenuEntry_BOOMERANG: {
-                    std::shared_ptr<class Tower> tower = std::make_shared<RecursivTower>(pos);
-                    if (buyTower(tower)) {
-                        globals._towers.push_back(tower);
-                    }
-                    _floatingMenu.reset();
-                    break;
-                }
-                case MenuEntry_Error:
-                default:
-                    break;
-            }
-        }
         // collision detection
         collision();
         // Update Enemies
@@ -133,26 +100,14 @@ void TestTD::Update() {
         // calculate sanity bar (only every 10 frames)
         if (frameg % 10 == 0) {
             updateUI();
-        }    //checking for death
-        if (globals._pl._sanity <= 0) {
-            _gameover = true;
         }
+        //checking for death
+        _gameover = globals._pl._sanity <= 0;
         // Update towers
-        for (int i = 0; i < (int) globals._towers.size(); i++) {
-
-            globals._towers.at(i)->Update();
-            if (globals._towers.at(i)->isDead()) {
-                globals._towers.erase(
-                        std::remove_if(
-                                globals._towers.begin(),
-                                globals._towers.end(),
-                                [](const std::shared_ptr<class Tower> &mov) { return mov->isDead(); }
-                        ),
-                        globals._towers.end());
-            }
-        }
+        updateTowers();
         // update projectiles
         globals._ph.Update();
+
         // update "Viewport" / Zoom in or Out / Scroll
         if (_mouseWheel) {
             Game::zoomScreen(_wheelEvent);
@@ -220,8 +175,6 @@ void TestTD::Update() {
             addEnemy(e);
         }
         // -------------------------------------------------------------------
-    } else {
-
     }
 }
 
@@ -231,7 +184,7 @@ void TestTD::collision() {
             for (auto &p: globals._ph._projectiles) {
                 if (p != nullptr) {
                     if (p->_alive) {
-                        if (e.isPointInside(p->_position)) {
+                        if (e.hasCollision(p)) {
                             e.takeDamage(p);
                             p->collide();
                             if (!p->_alive) {
@@ -370,4 +323,59 @@ void TestTD::updateUI() {
     }
     // calculate Menu Size
     _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
+}
+
+void TestTD::handleFloatingMenuSelection() {
+    if (_floatingMenu.isDone()) {
+        Point pos = {(int) _floatingMenu.getPos().x, (int) _floatingMenu.getPos().y};
+        switch (_floatingMenu.getSelectedEntry()) {
+            case MenuEntry_DEFAULT:
+                break;
+            case MenuEntry_POINTER: {
+                std::shared_ptr<class Tower> tower = std::make_shared<PointerTower>(pos);
+                if (buyTower(tower)) {
+                    globals._towers.push_back(tower);
+                }
+                _floatingMenu.reset();
+                break;
+            }
+            case MenuEntry_LinkedList: {
+                std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(pos);
+                if (buyTower(tower)) {
+                    globals._towers.push_back(tower);
+                }
+
+                _floatingMenu.reset();
+                break;
+            }
+            case MenuEntry_BOOMERANG: {
+                std::shared_ptr<class Tower> tower = std::make_shared<RecursivTower>(pos);
+                if (buyTower(tower)) {
+                    globals._towers.push_back(tower);
+                }
+                _floatingMenu.reset();
+                break;
+            }
+            case MenuEntry_Error:
+            default:
+                break;
+        }
+    }
+}
+
+void TestTD::updateTowers() {
+    for (int i = 0; i < (int) globals._towers.size(); i++) {
+
+        globals._towers.at(i)->Update();
+        if (globals._towers.at(i)->isDead()) {
+            globals._towers.erase(
+                    std::remove_if(
+                            globals._towers.begin(),
+                            globals._towers.end(),
+                            [](const std::shared_ptr<class Tower> &mov) { return mov->isDead(); }
+                    ),
+                    globals._towers.end());
+        }
+    }
+
 }

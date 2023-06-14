@@ -44,10 +44,14 @@ void ProjectilesHandler::Update() {
             }
 
             //checking if Projectile still alive?
-            if (_projectiles[i]->_ttl > 0)
-                _projectiles[i]->_ttl--;
-            else
+            cout << "projectile " << i << " ttl: " << _projectiles[i]->_ttl << endl;
+            if (--_projectiles[i]->_ttl <= 0) {
                 _projectiles[i]->_alive = false;
+                delete _projectiles[i];
+                _projectiles[i] = nullptr;
+            }
+
+
         }
     }
 }

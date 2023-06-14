@@ -86,6 +86,10 @@ public:
     void updateFloatingMenu();
 
     bool buyTower(const std::shared_ptr<class Tower> &tower);
+
+    void handleFloatingMenuSelection();
+
+    void updateTowers();
 };
 
 #endif //SDL_BASEGAME_TESTTD_H
