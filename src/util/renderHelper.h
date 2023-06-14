@@ -24,7 +24,7 @@ public:
 
     void setColor(t_color color);
 
-    void background(t_color color);
+    void background(t_color color, int alpha = 255);
 
     void texture(SDL_Texture *t, SDL_Rect *dRect, SDL_Rect *sRect = nullptr) const;
 

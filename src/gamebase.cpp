@@ -275,3 +275,10 @@ bool Game::onScreen(Rect dstRect) {
            (dstRect.y < windowSize.y) &&         // bot
            (dstRect.x < windowSize.x);           // right
 }
+
+bool Game::isGameover() {
+    if(currentState != nullptr){
+        return currentState->_gameover;
+    }
+    return true;
+}

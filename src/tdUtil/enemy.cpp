@@ -8,6 +8,7 @@
 #include "../td/Projectiles/projectile.h"
 #include "tdTileHandler.h"
 #include "map.h"
+#include "../gamebase.h"
 
 void Enemy::Update(float deltaT) {
     if (_stunTime > 0) {
@@ -127,9 +128,10 @@ void Enemy::Render(u32 totalMSec) const {
         Rect dstRect = {POS.x, POS.y, scale, scale + scale};
         dstRect.x = (int) (POS.x - dstRect.w * 0.5);
         dstRect.y = (int) (POS.y - dstRect.h * 0.8);
+        u32 anim = (pGame->isGameover()?0:totalMscg);
         // check if enemy is on screen
         if (Game::onScreen(dstRect)) {
-            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type, totalMSec));
+            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type, anim));
         }
     }
 }

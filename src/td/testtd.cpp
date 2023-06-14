@@ -16,8 +16,9 @@ void TestTD::Init() {
     tdGlobals = &globals;
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
-    _texMethran=t_cache->get(BasePath"asset/graphic/methran1.png");
-    SDL_QueryTexture(_texMethran, nullptr, nullptr,&MethranDst.w,&MethranDst.h);
+    _texMethran = t_cache->get(BasePath"asset/graphic/methran1.png");
+    SDL_QueryTexture(_texMethran, nullptr, nullptr, &MethranDst.w, &MethranDst.h);
+    globals._pl._sanity = 10;
     Update(0, 0, 0);
 }
 
@@ -54,15 +55,17 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     rh->fillRect(&Sanity, GREEN);
     rh->rect(&SanityBar, 4, BLACK);
     // Methran
-    rh->texture(_texMethran,&MethranDst);
+    rh->texture(_texMethran, &MethranDst);
     // Menu
-    rh->fillRect(&_menuBot,EDITOR_UI_BG);
+    rh->fillRect(&_menuBot, EDITOR_UI_BG);
     for (auto &tower: globals._towers) {
         tower->RenderMenu();
     }
     _creditPointDisplay.draw();
     _floatingMenu.Render();
-
+    if(_gameover){
+        rh->background(BLACK, 128);
+    }
 }
 
 void TestTD::addEnemy(Enemy e) {
@@ -80,154 +83,160 @@ void TestTD::addEnemy(Enemy e) {
 }
 
 void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
-    _floatingMenu.Update();
-    if (_floatingMenu.isDone()) {
-        Point pos = {(int) _floatingMenu.getPos().x, (int) _floatingMenu.getPos().y};
-        switch (_floatingMenu.getSelectedEntry()) {
-            case MenuEntry_DEFAULT:
-                break;
-            case MenuEntry_POINTER: {
-                std::shared_ptr<class Tower> tower = std::make_shared<PointerTower>(pos);
-                if (buyTower(tower)) {
-                    globals._towers.push_back(tower);
-                }
-                _floatingMenu.reset();
-                break;
-            }
-            case MenuEntry_LinkedList: {
-                std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(pos);
-                if (buyTower(tower)) {
-                    globals._towers.push_back(tower);
-                }
-
-                _floatingMenu.reset();
-                break;
-            }
-            case MenuEntry_BOOMERANG: {
-                std::shared_ptr<class Tower> tower = std::make_shared<RecursivTower>(pos);
-                if (buyTower(tower)) {
-                    globals._towers.push_back(tower);
-                }
-                _floatingMenu.reset();
-                break;
-            }
-            case MenuEntry_Error:
-            default:
-                break;
-        }
-    }
-    // collision detection
-    collision(deltaT);
-    // Update Enemies
-    for (auto &enemy: globals._enemies) {
-        if (enemy._alive) {
-            enemy.Update(deltaT);
-        }
-    }
-    // calculate sanity bar (only every 10 frames)
-    if (frame % 10 == 0) {
-        SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
-        float fSanity = ((float) globals._pl._sanity / (float) globals._pl._maxSanity);
-        int sanity_left = (int) ((float) SanityBar.h * fSanity);
-        Sanity = SanityBar;
-        Sanity.y += SanityBar.h - sanity_left;
-        Sanity.h = sanity_left;
-        // calculate Methran Size
-        float MethanScaleFactor = 0.35f*(float)windowSize.y / (float)MethranDst.h;
-        MethranDst.w = (int)(MethanScaleFactor * (float)MethranDst.w);
-        MethranDst.h = (int)(MethanScaleFactor * (float)MethranDst.h);
-        MethranDst.x = windowSize.x-MethranDst.w-100;
-        MethranDst.y = windowSize.y-MethranDst.h-100;
-        if(fSanity <= 1.0f){
-            MethranDst.x += ((int)totalMscg/100)%15 * (((int)totalMscg%2)==1)?(-1):1;
-            MethranDst.y += ((int)totalMscg/100)%15 * (((int)totalMscg%2)==1)?(-1):1;
-        }
-        // calculate Menu Size
-        _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
-
-    }
-    // Update towers
-    for (auto &tower: globals._towers) {
-        tower->Update(deltaT);
-        if (tower->isDead()) {
-            globals._towers.erase(
-                    std::remove_if(
-                            globals._towers.begin(),
-                            globals._towers.end(),
-                            [](const std::shared_ptr<class ::Tower> &mov) { return mov->isDead(); }
-                    ),
-                    globals._towers.end());
-        }
-    }
-    // update projectiles
-    globals._ph.move(deltaT);
-    // update "Viewport" / Zoom in or Out / Scroll
-    if (_mouseWheel) {
-        Game::zoomScreen(_wheelEvent);
-        _mouseWheel = false;
-    }
-    if (_mouseMotion && _mbRight) {
-        Game::scrollScreen(_motionEvent);
-        _mouseMotion = false;
-    }
-
-    // ---- DEV -------------------------------------
-    // add projectiles and particles
-    // update projectile direction
-    if (_btn_space) {
-        _arrowDir = (_arrowDir + 5) % 360;
-        _btn_space = false;
-    }
-    if (_btn_control) {
-        Point cursor;
-        SDL_GetMouseState(&cursor.x, &cursor.y);
-        auto *p = new Arrow();
-        p->_direction = _arrowDir;
-        p->_position = CT::getPosInGame(cursor);
-        p->_speed = 1;
-        globals._ph.add(p);
-        Fire *f = new Fire();
-        f->_direction = _arrowDir;
-        f->_position = CT::getPosInGame(cursor);
-        f->_speed = 1;
-        f->_moveable = true;
-        f->_ttl = 80;
-        _btn_control = false;
-    }
-    if (_mbLeft) {
-        bool clickTower = false;
-        Point cursor;
-        SDL_GetMouseState(&cursor.x, &cursor.y);
-        for (auto &t: globals._towers) {
-            if (t->isClicked(cursor)) {
-                t->showMenu(&focus);
-                clickTower = true;
-                break;
-            }
-        }
-        if (!clickTower) {
-            switch (pMap->getObjectAtScreenPos(cursor)) {
-                case Empty:
-                case Table:
-                    // show build menu
-                    _floatingMenu.reset();
-                    updateFloatingMenu();
-                    _floatingMenu.set(&_buildMenuEntries, CT::getTileCenterInGame(cursor));
-                    _floatingMenu.show(&focus);
+    if (!_gameover) {
+        _floatingMenu.Update();
+        if (_floatingMenu.isDone()) {
+            Point pos = {(int) _floatingMenu.getPos().x, (int) _floatingMenu.getPos().y};
+            switch (_floatingMenu.getSelectedEntry()) {
+                case MenuEntry_DEFAULT:
                     break;
+                case MenuEntry_POINTER: {
+                    std::shared_ptr<class Tower> tower = std::make_shared<PointerTower>(pos);
+                    if (buyTower(tower)) {
+                        globals._towers.push_back(tower);
+                    }
+                    _floatingMenu.reset();
+                    break;
+                }
+                case MenuEntry_LinkedList: {
+                    std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(pos);
+                    if (buyTower(tower)) {
+                        globals._towers.push_back(tower);
+                    }
+
+                    _floatingMenu.reset();
+                    break;
+                }
+                case MenuEntry_BOOMERANG: {
+                    std::shared_ptr<class Tower> tower = std::make_shared<RecursivTower>(pos);
+                    if (buyTower(tower)) {
+                        globals._towers.push_back(tower);
+                    }
+                    _floatingMenu.reset();
+                    break;
+                }
+                case MenuEntry_Error:
                 default:
                     break;
             }
         }
-        _mbLeft = false;
+        // collision detection
+        collision(deltaT);
+        // Update Enemies
+        for (auto &enemy: globals._enemies) {
+            if (enemy._alive) {
+                enemy.Update(deltaT);
+            }
+        }
+        // calculate sanity bar (only every 10 frames)
+        if (frame % 10 == 0) {
+            SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
+            float fSanity = ((float) globals._pl._sanity / (float) globals._pl._maxSanity);
+            int sanity_left = (int) ((float) SanityBar.h * fSanity);
+            Sanity = SanityBar;
+            Sanity.y += SanityBar.h - sanity_left;
+            Sanity.h = sanity_left;
+            // calculate Methran Size
+            float MethanScaleFactor = 0.35f * (float) windowSize.y / (float) MethranDst.h;
+            MethranDst.w = (int) (MethanScaleFactor * (float) MethranDst.w);
+            MethranDst.h = (int) (MethanScaleFactor * (float) MethranDst.h);
+            MethranDst.x = windowSize.x - MethranDst.w - 100;
+            MethranDst.y = windowSize.y - MethranDst.h - 100;
+            if (fSanity <= 0.1f) {
+                MethranDst.x += ((int) totalMscg / 100) % 20 * ((((int) totalMscg % 3) == 1) ? (-1) : 1);
+                MethranDst.y += ((int) totalMscg / 100) % 20 * ((((int) totalMscg % 2) == 1) ? (-1) : 1);
+            }
+            // calculate Menu Size
+            _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
+        }    //checking for death
+        if (globals._pl._sanity <= 0) {
+            _gameover = true;
+        }
+        // Update towers
+        for (auto &tower: globals._towers) {
+            tower->Update(deltaT);
+            if (tower->isDead()) {
+                globals._towers.erase(
+                        std::remove_if(
+                                globals._towers.begin(),
+                                globals._towers.end(),
+                                [](const std::shared_ptr<class ::Tower> &mov) { return mov->isDead(); }
+                        ),
+                        globals._towers.end());
+            }
+        }
+        // update projectiles
+        globals._ph.move(deltaT);
+        // update "Viewport" / Zoom in or Out / Scroll
+        if (_mouseWheel) {
+            Game::zoomScreen(_wheelEvent);
+            _mouseWheel = false;
+        }
+        if (_mouseMotion && _mbRight) {
+            Game::scrollScreen(_motionEvent);
+            _mouseMotion = false;
+        }
+
+        // ---- DEV -------------------------------------
+        // add projectiles and particles
+        // update projectile direction
+        if (_btn_space) {
+            _arrowDir = (_arrowDir + 5) % 360;
+            _btn_space = false;
+        }
+        if (_btn_control) {
+            Point cursor;
+            SDL_GetMouseState(&cursor.x, &cursor.y);
+            auto *p = new Arrow();
+            p->_direction = _arrowDir;
+            p->_position = CT::getPosInGame(cursor);
+            p->_speed = 1;
+            globals._ph.add(p);
+            Fire *f = new Fire();
+            f->_direction = _arrowDir;
+            f->_position = CT::getPosInGame(cursor);
+            f->_speed = 1;
+            f->_moveable = true;
+            f->_ttl = 80;
+            _btn_control = false;
+        }
+        if (_mbLeft) {
+            bool clickTower = false;
+            Point cursor;
+            SDL_GetMouseState(&cursor.x, &cursor.y);
+            for (auto &t: globals._towers) {
+                if (t->isClicked(cursor)) {
+                    t->showMenu(&focus);
+                    clickTower = true;
+                    break;
+                }
+            }
+            if (!clickTower) {
+                switch (pMap->getObjectAtScreenPos(cursor)) {
+                    case Empty:
+                    case Table:
+                        // show build menu
+                        _floatingMenu.reset();
+                        updateFloatingMenu();
+                        _floatingMenu.set(&_buildMenuEntries, CT::getTileCenterInGame(cursor));
+                        _floatingMenu.show(&focus);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            _mbLeft = false;
+        }
+        // add enemy
+        if (totalMSec % 100 == 0) {
+            Enemy e;
+            e.setEnemy({7, 3}, 100, 100, 1);
+            addEnemy(e);
+        }
+        // -------------------------------------------------------------------
+    }else{
+
     }
-    // add enemy
-    if (totalMSec % 100 == 0) {
-        Enemy e;
-        e.setEnemy({7, 3}, 100, 100, 1);
-        addEnemy(e);
-    }
-    // -------------------------------------------------------------------
 }
 
 void TestTD::collision(float deltaT) {
@@ -345,7 +354,7 @@ void TestTD::updateFloatingMenu() {
     _buildMenuEntries.push_back(recursiveTower);
 }
 
-bool TestTD::buyTower(const std::shared_ptr<class Tower>& tower) {
+bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
     if (tower->getCosts() > globals._pl._creditPoints) {
         return false;
     }

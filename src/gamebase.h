@@ -52,6 +52,7 @@ protected:
 
 
 public:
+    bool isGameover();
     static void zoomScreen(SDL_Event event);
 
     static void scrollScreen(SDL_Event event);
@@ -119,6 +120,7 @@ protected:
     Game &game;
 
 public:
+    bool _gameover = false;
     [[nodiscard]] virtual bool IsFPSLimited() const { return true; }
 
     [[nodiscard]] virtual Color GetClearColor() const { return Color{0, 0, 0, SDL_ALPHA_OPAQUE}; }

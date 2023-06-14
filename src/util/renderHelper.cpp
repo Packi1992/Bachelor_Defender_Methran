@@ -75,9 +75,19 @@ void RenderHelper::setColor(t_color color) {
         setColor(getColor(color));
 }
 
-void RenderHelper::background(t_color color) {
-    setColor(color);
-    SDL_RenderClear(_renderer);
+void RenderHelper::background(t_color color, int alpha) {
+    if(alpha == 255) {
+        setColor(color);
+        SDL_RenderClear(_renderer);
+    }else{
+        SDL_SetRenderDrawBlendMode(render,SDL_BLENDMODE_BLEND);
+        Rect bg = {0,0,windowSize.x, windowSize.y};
+        Color t = getColor(color);
+        t.a = alpha;
+        SDL_SetRenderDrawColor(render,t.r,t.g,t.b,t.a);
+        fillRect(&bg);
+        SDL_SetRenderDrawBlendMode(render,SDL_BLENDMODE_NONE);
+    }
 }
 
 void RenderHelper::hint(MapObjects object, int size, Point posOnScreen, t_color textColor, t_color bgColor) {

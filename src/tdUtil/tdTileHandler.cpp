@@ -72,7 +72,7 @@ Rect *TdTileHandler::getEnemySrcRect(EnemyType e, ul anim) {
         case Strong:
         case Boss:
             src.y = 6 * 64;
-            src.x = 64 + (int)((totalMscg/100)%10)*64;
+            src.x = 64 + (int)((anim/100)%10)*64;
             break;
     }
     return &src;
