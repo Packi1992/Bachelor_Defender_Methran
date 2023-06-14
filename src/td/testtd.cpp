@@ -146,7 +146,7 @@ void TestTD::Update() {
                         std::remove_if(
                                 globals._towers.begin(),
                                 globals._towers.end(),
-                                [](const std::shared_ptr<class ::Tower> &mov) { return mov->isDead(); }
+                                [](const std::shared_ptr<class Tower> &mov) { return mov->isDead(); }
                         ),
                         globals._towers.end());
             }
