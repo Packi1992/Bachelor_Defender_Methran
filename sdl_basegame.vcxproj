@@ -172,10 +172,12 @@
     <ClCompile Include="src\tdUtil\Wave.cpp" />
     <ClCompile Include="src\tdUtil\waveHandler.cpp" />
     <ClCompile Include="src\td\Projectiles\arrow.cpp" />
+    <ClCompile Include="src\td\Projectiles\boomerang.cpp" />
     <ClCompile Include="src\td\Projectiles\fire.cpp" />
     <ClCompile Include="src\td\Projectiles\projectile.cpp" />
     <ClCompile Include="src\td\testtd.cpp" />
     <ClCompile Include="src\td\tower\pointerTower.cpp" />
+    <ClCompile Include="src\td\tower\recursivTower.cpp" />
     <ClCompile Include="src\td\tower\tower.cpp" />
     <ClCompile Include="src\util\gui\Button.cpp" />
     <ClCompile Include="src\util\gui\floatingmenu.cpp" />
@@ -184,9 +186,9 @@
     <ClCompile Include="src\util\gui\selectorDialog.cpp" />
     <ClCompile Include="src\util\gui\sizeDialog.cpp" />
     <ClCompile Include="src\util\gui\textbox.cpp" />
+    <ClCompile Include="src\util\gui\TextWithValue.cpp" />
     <ClCompile Include="src\util\renderHelper.cpp" />
     <ClCompile Include="src\util\TextureCache.cpp" />
-    <ClCompile Include="src\util\TextWithValue.cpp" />
     <ClInclude Include="src\bddgame.h" />
     <ClInclude Include="src\enums.h" />
     <ClInclude Include="src\global.h" />
@@ -206,10 +208,12 @@
     <ClInclude Include="src\tdUtil\Wave.h" />
     <ClInclude Include="src\tdUtil\waveHandler.h" />
     <ClInclude Include="src\td\Projectiles\arrow.h" />
+    <ClInclude Include="src\td\Projectiles\boomerang.h" />
     <ClInclude Include="src\td\Projectiles\fire.h" />
     <ClInclude Include="src\td\Projectiles\projectile.h" />
     <ClInclude Include="src\td\testtd.h" />
     <ClInclude Include="src\td\tower\pointerTower.h" />
+    <ClInclude Include="src\td\tower\recursivTower.h" />
     <ClInclude Include="src\td\tower\tower.h" />
     <ClInclude Include="src\util\gui\Button.h" />
     <ClInclude Include="src\util\gui\floatingmenu.h" />
@@ -218,9 +222,9 @@
     <ClInclude Include="src\util\gui\selectorDialog.h" />
     <ClInclude Include="src\util\gui\sizeDialog.h" />
     <ClInclude Include="src\util\gui\textbox.h" />
+    <ClInclude Include="src\util\gui\TextWithValue.h" />
     <ClInclude Include="src\util\renderHelper.h" />
     <ClInclude Include="src\util\TextureCache.h" />
-    <ClInclude Include="src\util\TextWithValue.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -233,6 +237,8 @@
     <None Include="old_README.md" />
     <None Include="packages.config" />
     <None Include="README.md" />
+    <None Include="tileBD.pdn" />
+    <None Include="tileTD.pdn" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="asset\graphic\background.png" />
@@ -248,6 +254,7 @@
     <Image Include="asset\graphic\editor\blocked.png" />
     <Image Include="asset\graphic\fire.png" />
     <Image Include="asset\graphic\poison.png" />
+    <Image Include="asset\graphic\td\enemyani.png" />
     <Image Include="asset\graphic\td\floatingMenu.png" />
     <Image Include="asset\graphic\td\tileTD.png" />
     <Image Include="asset\graphic\tf_tileSet.png" />
@@ -261,11 +268,10 @@
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="asset\music\testsound.wav" />
     <Media Include="asset\sound\ArrowHit.wav" />
-    <Media Include="asset\sound\audiocheck.net_hdsweep_1Hz_96000Hz_-3dBFS_30s.wav" />
     <Media Include="asset\sound\Darth_Vader_NO.mp3" />
     <Media Include="asset\sound\pewf.wav" />
-    <Media Include="asset\sound\testsound.wav" />
     <Media Include="asset\sound\thriee.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
