@@ -93,7 +93,11 @@ bool Tower::init(Gui **focus) {
     return true;
 }
 
-Point Tower::getPos() {
-    return _rPos;
+FPoint Tower::getPos() {
+    return _pos;
+}
+
+int Tower::getRange() {
+    return _range;
 }
 

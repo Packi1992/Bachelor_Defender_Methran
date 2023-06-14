@@ -23,20 +23,21 @@ public:
 
     uint getCosts() override;
 
+    void setLink(LinkedListTower *before);
+
     void setCosts(uint cp) override;
 
     // init the Menu
     void showMenu(Gui **focus) override;
 
     bool init(Gui **focus) override;
-    int getListRange() const;
 
 
 private:
     static int _creditPointCosts;
     LinkEstablisher _le;
-    LinkedListTower *head{};
-    LinkedListTower *tail{};
+    LinkedListTower *_last{};
+    LinkedListTower *_next{};
     int _listRange=0;
 };
 

@@ -23,12 +23,23 @@ private:
     // zoom handling
     bool _mouseWheel = false;
     SDL_Event _wheelEvent{};
-    static int getSize();
     FPoint _position{};
     Point _clickPos{};
     Point _clickRel{};
     bool _mbRightDown = false;
     bool _mbLeftDown = false;
     bool _escape = false;
+
+    // link calculations
+    void calcLinkPosition();
+
+    Point _cursorRenderPos{};
+    Rect _towerLinkRect{};
+    FPoint _cursorCenterPos{};
+    bool _isLinkInRange=false;
+
+
+
+
 };
 #endif //SDL_BACHELORDEFENDER_LINKESTABLISHER_H

@@ -4,10 +4,14 @@
 #include "linkEstablisher.h"
 #include "../../td/tower/linkedListTower.h"
 #include "../../recthelper.h"
+#include "../../gamebase.h"
+#include "../../tdUtil/map.h"
+#include "../../td/testtd.h"
 
 void LinkEstablisher::set(LinkedListTower *srcTower, bool first) {
     _tower = srcTower;
     _first = first;
+    calcLinkPosition();
 
 }
 
@@ -44,7 +48,7 @@ void LinkEstablisher::Input() {
                 _wheelEvent = event;
                 break;
             case SDL_KEYDOWN:
-                if(event.key.keysym.scancode == SDL_SCANCODE_ESCAPE){
+                if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
                     releaseFocus();
                 }
         }
@@ -52,27 +56,31 @@ void LinkEstablisher::Input() {
 }
 
 void LinkEstablisher::Render() {
-    if(dialog){
-        Point cursor;
-        SDL_GetMouseState(&cursor.x,&cursor.y);
-        Point pos = CT::getTileInGame(cursor);
-        Point posOnScreen = CT::getPosOnScreen(pos);
-        Rect dst = {posOnScreen.x, posOnScreen.y, scale, scale};
-
-        rh->tile(&dst, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
-        rh->tile(&dst, ((int) 0) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, 0));
+    if (dialog) {
+        // draw tower on dest pos
+        if(_cursorRenderPos.x >= 0 && _cursorRenderPos.x < pMap->_width && _cursorRenderPos.y >= 0 && _cursorRenderPos.y < pMap->_height) {
+            rh->tile(&_towerLinkRect, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
+            rh->tile(&_towerLinkRect, ((int) 0) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, 0));
+        }
+        t_color markerColor = RED;
+        if (_isLinkInRange) {
+            markerColor = GREEN;
+        }
 
         FPoint range{0, 0};
         for (int angle = 0; angle < 360; angle += 10) {
             float angleF = (float) angle / 180.0f * (float) M_PI;
-            range.x = _tower->getPos().x + sin(angleF) * (float) _tower->getListRange();
-            range.y = _tower->getPos().y + cos(angleF) * (float) _tower->getListRange();
-            Point range2 = CT::getPosOnScreen(range);
-            Rect dst = {range2.x, range2.y, 5, 5};
-            rh->fillRect(&dst, BLACK);
+            range.x = (float) _tower->getPos().x + sin(angleF) * (float) _tower->getRange();
+            range.y = (float) _tower->getPos().y + cos(angleF) * (float) _tower->getRange();
+            if(range.x>0 && range.x < pMap->_width && range.y > 0 && range.y < pMap->_height){
+                Point range2 = CT::getPosOnScreen(range);
+                Rect dstMarker = {range2.x, range2.y, 5, 5};
+                rh->fillRect(&dstMarker, markerColor);
+            }
         }
     }
 }
+
 
 void LinkEstablisher::Update() {
     if (dialog) {
@@ -87,7 +95,15 @@ void LinkEstablisher::Update() {
         }
         if (_mbLeftDown) {
             Point click = CT::getPosOnScreen(_clickPos);
+            if(_isLinkInRange){
+                std::shared_ptr<LinkedListTower> tower = std::make_shared<LinkedListTower>(_cursorRenderPos);
+                tdGlobals->_towers.push_back(tower);
+
+                releaseFocus();
+            }
+
         }
+        calcLinkPosition();
     }
 }
 
@@ -100,6 +116,19 @@ void LinkEstablisher::handleEvent(Event event) {
 }
 
 void LinkEstablisher::acceptInput() {
+
+}
+
+void LinkEstablisher::calcLinkPosition() {
+    // get mouse pos
+    SDL_GetMouseState(&_cursorRenderPos.x, &_cursorRenderPos.y);
+    _cursorCenterPos = CT::getTileCenterInGame(_cursorRenderPos);
+    _cursorRenderPos = CT::getTileInGame(_cursorRenderPos);
+    // check if tower link is in range
+    FRect destRect = {_cursorCenterPos.x - 0.25f, _cursorCenterPos.y - 0.25f, 0.5f, 0.5f};
+    _isLinkInRange = _tower->inRange(destRect);
+    Point dst = CT::getPosOnScreen(_cursorRenderPos);
+    _towerLinkRect = {dst.x,dst.y,scale,scale};
 
 }
 

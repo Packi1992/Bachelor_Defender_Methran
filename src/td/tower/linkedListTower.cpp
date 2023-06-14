@@ -22,6 +22,9 @@ void LinkedListTower::Render(float deltaT) {
 }
 
 void LinkedListTower::Update(float deltaT) {
+    if(_le.getDialog()){
+        _le.Update();
+    }
     if (_floatingMenu != nullptr) {
         _floatingMenu->Update();
         if (_floatingMenu->isDone()) {
@@ -114,7 +117,11 @@ bool LinkedListTower::init(Gui **focus) {
     _le.show(focus);
 }
 
-int LinkedListTower::getListRange() const {
-    return _listRange;
+void LinkedListTower::setLink(LinkedListTower *before) {
+    _last = before;
+    _next = _last->_next;
+    _last->_next = this;
+    if(_next != nullptr)
+        _next->_last = this;
 }
 

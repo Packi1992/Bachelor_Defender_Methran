@@ -29,6 +29,8 @@ public:
 
     virtual void setCosts(uint cp) = 0;
 
+    virtual FPoint getPos();
+    virtual int getRange();
     virtual ~Tower();
 
     bool isClicked(Point md);
@@ -40,9 +42,10 @@ public:
     void removeFromMap();
 
     [[nodiscard]] bool isDead() const;
+    [[nodiscard]] bool inRange(FRect p) const;
 
 protected:
-    [[nodiscard]] bool inRange(FRect p) const;
+
 
     bool aimAtEnemy(FPoint p);
 

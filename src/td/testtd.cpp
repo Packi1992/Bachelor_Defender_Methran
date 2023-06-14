@@ -16,6 +16,9 @@ void TestTD::Init() {
     tdGlobals = &globals;
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
+    _texMethran=t_cache->get(BasePath"asset/graphic/methran1.png");
+    SDL_QueryTexture(_texMethran, nullptr, nullptr,&MethranDst.w,&MethranDst.h);
+    Update(0, 0, 0);
 }
 
 void TestTD::UnInit() {
@@ -50,7 +53,10 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     rh->fillRect(&SanityBar, RED);
     rh->fillRect(&Sanity, GREEN);
     rh->rect(&SanityBar, 4, BLACK);
+    // Methran
+    rh->texture(_texMethran,&MethranDst);
     // Menu
+    rh->fillRect(&_menuBot,EDITOR_UI_BG);
     for (auto &tower: globals._towers) {
         tower->RenderMenu();
     }
@@ -126,6 +132,15 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         Sanity = SanityBar;
         Sanity.y += SanityBar.h - sanity_left;
         Sanity.h = sanity_left;
+        // calculate Methran Size
+        float MethanScaleFactor = 0.35f*(float)windowSize.y / (float)MethranDst.h;
+        MethranDst.w = (int)(MethanScaleFactor * (float)MethranDst.w);
+        MethranDst.h = (int)(MethanScaleFactor * (float)MethranDst.h);
+        MethranDst.x = windowSize.x-MethranDst.w-100;
+        MethranDst.y = windowSize.y-MethranDst.h-100;
+        // calculate Menu Size
+        _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
+
     }
     // Update towers
     for (auto &tower: globals._towers) {

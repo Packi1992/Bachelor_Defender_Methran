@@ -28,8 +28,11 @@ extern TDGlobals *tdGlobals;
 
 class TestTD final : public GameState {
 protected:
+    Texture* _texMethran{};
+    Rect MethranDst{};
     Rect Sanity{};
     Rect SanityBar{};
+    Rect _menuBot{};
     Map _map;
 
     int enemyOverflow = 0;
