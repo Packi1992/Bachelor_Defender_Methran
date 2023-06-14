@@ -254,7 +254,6 @@
     <Image Include="asset\graphic\editor\blocked.png" />
     <Image Include="asset\graphic\fire.png" />
     <Image Include="asset\graphic\poison.png" />
-    <Image Include="asset\graphic\td\enemyani.png" />
     <Image Include="asset\graphic\td\floatingMenu.png" />
     <Image Include="asset\graphic\td\tileTD.png" />
     <Image Include="asset\graphic\tf_tileSet.png" />
