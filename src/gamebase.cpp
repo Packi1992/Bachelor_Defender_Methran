@@ -11,6 +11,9 @@ Point offset{};
 Point windowSize{};
 RenderHelper *rh{};
 int scale = 64;
+float deltaTg = 0.0f;
+u32 totalMscg = 0;
+u32 frameg = 0;
 
 Game::Game(const char *windowTitle, const Point wSize, const bool vSync) {
     if (SDL_Init(SDL_INIT_EVERYTHING)) {
@@ -131,6 +134,7 @@ int Game::Run() {
 
         const float deltaTF = std::chrono::duration<float>(deltaT).count();
         const float deltaTFNeeded = std::chrono::duration<float>(deltaTNeeded).count();
+        deltaTg = deltaTF;
 
         OutputPerformanceInfo(start, deltaTNeeded);
 
@@ -138,9 +142,9 @@ int Game::Run() {
 
         // The difference to last frame is usually 16-17 at 60Hz, 10 at 100Hz, 8-9 at 120Hz, 6-*7* at 144Hz
         const u32 totalMSec = SDL_GetTicks();
+        totalMscg = SDL_GetTicks();
 
         SDL_GetWindowSize(window, &windowSize.x, &windowSize.y);
-
 
         currentState->Events(frame, totalMSec, deltaTF);
 
@@ -169,6 +173,7 @@ int Game::Run() {
         }
 
         ++frame;
+        frameg = frame;
     }
     return 0;
 }

@@ -22,7 +22,7 @@ public:
     virtual ~Tower();
     bool isClicked(Point md);
     virtual void showMenu(Gui **focus) = 0;
-    void RenderMenu(float deltaT);
+    void RenderMenu();
     void removeFromMap();
     [[nodiscard]] bool isDead() const;
 protected:
