@@ -91,6 +91,7 @@ void LinkedListTower::setCosts(uint cp) {
 bool LinkedListTower::init(Gui **focus) {
     _le.set(this,true);
     _le.show(focus);
+    return true;
 }
 
 void LinkedListTower::setLink(LinkedListTower *before) {
