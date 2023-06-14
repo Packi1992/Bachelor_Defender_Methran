@@ -33,6 +33,8 @@ public:
     bool init(Gui **focus) override;
 
 
+    void setDead(bool b);
+
 private:
     static int _creditPointCosts;
     LinkEstablisher _le;

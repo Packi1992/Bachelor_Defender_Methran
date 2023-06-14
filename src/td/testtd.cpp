@@ -138,9 +138,10 @@ void TestTD::Update() {
             _gameover = true;
         }
         // Update towers
-        for (auto &tower: globals._towers) {
-            tower->Update();
-            if (tower->isDead()) {
+        for (int i = 0; i < (int) globals._towers.size(); i++) {
+
+            globals._towers.at(i)->Update();
+            if (globals._towers.at(i)->isDead()) {
                 globals._towers.erase(
                         std::remove_if(
                                 globals._towers.begin(),
@@ -232,7 +233,7 @@ void TestTD::collision() {
                     if (p->_alive) {
                         if (e.isPointInside(p->_position)) {
                             e.takeDamage(p);
-                            p->collide(deltaTg);
+                            p->collide();
                             if (!p->_alive) {
                                 delete p;
                                 p = nullptr;

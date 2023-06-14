@@ -5,6 +5,7 @@
 #include "../testtd.h"
 #include "../Projectiles/projectile.h"
 #include "../../util/gui/floatingMenu.h"
+#include "../../tdUtil/projectilesHandler.h"
 
 void LinkedListTower::Render() {
     Point pos = CT::getPosOnScreen(_rPos);
@@ -42,41 +43,16 @@ void LinkedListTower::Update() {
             _floatingMenu = nullptr;
         }
     }
-    if (_targetEnemy == nullptr) {
-        for (auto &enemy: tdGlobals->_enemies) {
-            if (enemy._alive) {
-                if (inRange(enemy.getHitBox())) {
-                    //selects first enemy
-                    _targetEnemy = &enemy;
-                    break;
-                }
-            }
-        }
-    } else {
-        if (!inRange(_targetEnemy->getHitBox()) || !_targetEnemy->_alive) {
-            _targetEnemy = nullptr;
-        } else {
-            if (aimAtEnemy(_targetEnemy->_pos)) {
-                if (_reloadTime <= 0) {
-                    _reloadTime = _shootCoolDown;
-                    Projectile *p = new LinkProjectile();
-                    p->_direction = ((int) _direction) % 360;
-                    p->_damage = _damage;
-                    p->_moveable = true;
-                    p->_speed = 10;
-                    p->_targetE = _targetEnemy;
-                    p->_size = 100;
-                    p->_position = _pos;
-                    float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
-                    audioHandler->playSound(SoundTowerPointer, x);
-                    audioHandler->playSound(SoundArrowFire, x);
-                    tdGlobals->_ph.add(p);
-                } else {
-                    _reloadTime -= deltaTg;
-                }
-            }
-            // enemy target is locked -> change direction to enemy and shoot
+    if(_next!= nullptr){
+        if(_shootCoolDown<=0){
+            _shootCoolDown = _reloadTime;
+            auto *lp = new LinkProjectile();
+            lp->set(0,10,_pos,_next->_pos,200);
+            tdGlobals->_ph.add(lp);
 
+        }
+        else{
+            _shootCoolDown -= deltaTg;
         }
     }
 }
@@ -123,5 +99,9 @@ void LinkedListTower::setLink(LinkedListTower *before) {
     _last->_next = this;
     if(_next != nullptr)
         _next->_last = this;
+}
+
+void LinkedListTower::setDead(bool b) {
+    _alive = !b;
 }
 
