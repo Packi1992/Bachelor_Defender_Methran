@@ -36,7 +36,7 @@ void ProjectilesHandler::collisionDetected(Projectile **p) {
 
 }
 
-void ProjectilesHandler::move() {
+void ProjectilesHandler::Update() {
     for (int i = 0; i < MAXPROJECTILES; i++) {
         if (_projectiles[i] != nullptr) {
             if (_projectiles[i]->_alive) {

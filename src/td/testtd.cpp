@@ -18,7 +18,7 @@ void TestTD::Init() {
                             {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
     _texMethran = t_cache->get(BasePath"asset/graphic/methran1.png");
     SDL_QueryTexture(_texMethran, nullptr, nullptr, &MethranDst.w, &MethranDst.h);
-    globals._pl._sanity = 10;
+    //globals._pl._sanity = 10;
     updateUI();
     Update();
 }
@@ -152,7 +152,7 @@ void TestTD::Update() {
             }
         }
         // update projectiles
-        globals._ph.move();
+        globals._ph.Update();
         // update "Viewport" / Zoom in or Out / Scroll
         if (_mouseWheel) {
             Game::zoomScreen(_wheelEvent);

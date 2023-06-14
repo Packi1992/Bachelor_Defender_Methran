@@ -17,7 +17,7 @@ public:
 
     void Render();
 
-    void move();
+    void Update();
 
     Projectile *_projectiles[MAXPROJECTILES] = {};
 

@@ -134,7 +134,7 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
     src = {0, 0, 64, 64};
     switch(p){
         case ARROW:
-            src = {26, 334, 11, 35};
+            src = {23, 335, 18, 32};
             break;
         case LINK:
             src = {26, 334, 11, 35};
