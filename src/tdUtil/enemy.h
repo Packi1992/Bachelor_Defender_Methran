@@ -60,7 +60,7 @@ protected:
     void startDeathAnimation();
 
     u16 _dying = false;
-
+    u8 _frame = 0;
 
     u8 _speed = 0;
     u8 _speedDiff = 0;

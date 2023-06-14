@@ -244,6 +244,9 @@
     <Image Include="asset\graphic\editor\blocked.png">
       <Filter>asset\graphic\editor</Filter>
     </Image>
+    <Image Include="asset\graphic\td\enemyani.png">
+      <Filter>asset</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bddgame.cpp">
