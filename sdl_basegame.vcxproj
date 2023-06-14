@@ -174,8 +174,10 @@
     <ClCompile Include="src\td\Projectiles\arrow.cpp" />
     <ClCompile Include="src\td\Projectiles\boomerang.cpp" />
     <ClCompile Include="src\td\Projectiles\fire.cpp" />
+    <ClCompile Include="src\td\Projectiles\link.cpp" />
     <ClCompile Include="src\td\Projectiles\projectile.cpp" />
     <ClCompile Include="src\td\testtd.cpp" />
+    <ClCompile Include="src\td\tower\linkedListTower.cpp" />
     <ClCompile Include="src\td\tower\pointerTower.cpp" />
     <ClCompile Include="src\td\tower\recursivTower.cpp" />
     <ClCompile Include="src\td\tower\tower.cpp" />
@@ -183,6 +185,7 @@
     <ClCompile Include="src\util\gui\floatingmenu.cpp" />
     <ClCompile Include="src\util\gui\gui.cpp" />
     <ClCompile Include="src\util\gui\inputDialog.cpp" />
+    <ClCompile Include="src\util\gui\linkEstablisher.cpp" />
     <ClCompile Include="src\util\gui\selectorDialog.cpp" />
     <ClCompile Include="src\util\gui\sizeDialog.cpp" />
     <ClCompile Include="src\util\gui\textbox.cpp" />
@@ -210,8 +213,10 @@
     <ClInclude Include="src\td\Projectiles\arrow.h" />
     <ClInclude Include="src\td\Projectiles\boomerang.h" />
     <ClInclude Include="src\td\Projectiles\fire.h" />
+    <ClInclude Include="src\td\Projectiles\link.h" />
     <ClInclude Include="src\td\Projectiles\projectile.h" />
     <ClInclude Include="src\td\testtd.h" />
+    <ClInclude Include="src\td\tower\linkedListTower.h" />
     <ClInclude Include="src\td\tower\pointerTower.h" />
     <ClInclude Include="src\td\tower\recursivTower.h" />
     <ClInclude Include="src\td\tower\tower.h" />
@@ -219,6 +224,7 @@
     <ClInclude Include="src\util\gui\floatingmenu.h" />
     <ClInclude Include="src\util\gui\gui.h" />
     <ClInclude Include="src\util\gui\inputDialog.h" />
+    <ClInclude Include="src\util\gui\linkEstablisher.h" />
     <ClInclude Include="src\util\gui\selectorDialog.h" />
     <ClInclude Include="src\util\gui\sizeDialog.h" />
     <ClInclude Include="src\util\gui\textbox.h" />
@@ -237,7 +243,6 @@
     <None Include="old_README.md" />
     <None Include="packages.config" />
     <None Include="README.md" />
-    <None Include="tileBD.pdn" />
     <None Include="tileTD.pdn" />
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +258,7 @@
     <Image Include="asset\graphic\editor\arrow.png" />
     <Image Include="asset\graphic\editor\blocked.png" />
     <Image Include="asset\graphic\fire.png" />
+    <Image Include="asset\graphic\methran1.png" />
     <Image Include="asset\graphic\poison.png" />
     <Image Include="asset\graphic\td\floatingMenu.png" />
     <Image Include="asset\graphic\td\tileTD.png" />

@@ -8,12 +8,12 @@ Arrow::Arrow() {
     _type=ProjectileType::ARROW;
 }
 
-void Arrow::move(float deltaT) {
-    Projectile::move(deltaT);
+void Arrow::move() {
+    Projectile::move();
 }
 
-void Arrow::collide(float deltaT) {
+void Arrow::collide() {
     float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    Projectile::collide(deltaT);
+    Projectile::collide();
     audioHandler->playSound(SoundArrowHit, x);
 }

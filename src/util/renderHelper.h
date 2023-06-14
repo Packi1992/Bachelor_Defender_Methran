@@ -24,13 +24,15 @@ public:
 
     void setColor(t_color color);
 
-    void background(t_color color);
+    void background(t_color color, int alpha = 255);
 
     void texture(SDL_Texture *t, SDL_Rect *dRect, SDL_Rect *sRect = nullptr) const;
 
     void texture(SDL_Texture *t, SDL_Rect *dRect, std::uint16_t direction, SDL_Rect *sRect = nullptr) const;
 
-    void tile(SDL_Rect *dRect, SDL_Rect *sRect = nullptr);
+    void textureHflipped(SDL_Texture *t, SDL_Rect *dRect, SDL_Rect *sRect = nullptr) const;
+
+    void tile(SDL_Rect *dRect, SDL_Rect *sRect = nullptr, bool vFlipped = false);
 
     void tile(SDL_Rect *dRect, std::uint16_t direction, SDL_Rect *sRect = nullptr);
 
@@ -49,9 +51,9 @@ public:
     void hint(MapObjects object, int size, SDL_Point posOnScreen, t_color textColor = BLACK, t_color bgColor = WHITE);
 
     // Render text to Screen
-    void Text(char *string, int size, int x, int y, t_color fgC);
+    void Text(char *string, int size, int x, int y, t_color fgC) const;
 
-    void CenteredText(const std::string &text, int size, t_color fgc, int width, int height);
+    void CenteredText(const std::string &text, int size, t_color fgc, int width, int height) const;
 
     RenderHelper(RenderHelper &other) = delete;
 
@@ -67,6 +69,7 @@ private:
     SDL_Texture *_texture = {};
     SDL_Renderer *_renderer{};
     SDL_Texture *_arrow{};
+    SDL_Texture *_link{};
     static RenderHelper *helperInstance;
 
     explicit RenderHelper(SDL_Renderer *renderer);

@@ -106,4 +106,5 @@ string DataHandler::getTypeName(DataHandler::DataType type) {
         case COUNT:
             return "just the count";
     }
+    return "ERROR";
 }

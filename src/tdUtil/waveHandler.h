@@ -16,7 +16,7 @@ public:
 
     void addWave(Wave);
     int waveCur = 0;
-    void Update(const u32 totalMSe);
+    void Update();
     std::string save();
     bool load(const Vector<string>& vector1);
     Vector<Wave> waveVec;

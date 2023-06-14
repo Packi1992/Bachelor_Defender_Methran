@@ -30,7 +30,7 @@ void Map::resize(Point size) {
     updatePathFinding();
 }
 
-void Map::Render(const u32 totalMSec, bool wire, bool pathFinding) {
+void Map::Render(bool wire, bool pathFinding) {
     if (wire)
         drawWire();
     Rect dstRect;
@@ -39,7 +39,7 @@ void Map::Render(const u32 totalMSec, bool wire, bool pathFinding) {
         for (int j = 0; j < _height; j++) {
             int y = (j * scale) - offset.y;
             dstRect = {x, y, scale, scale};
-            rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][j], totalMSec));
+            rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][j], totalMscg));
         }
     }
     if (pathFinding) {
@@ -185,7 +185,7 @@ void Map::iniOffset() const {
         offset.y = -(windowSize.y - _height * scale - 100) / 2;
 }
 
-void Map::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
+void Map::Update() {
 
 }
 

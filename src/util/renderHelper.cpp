@@ -3,7 +3,6 @@
 //
 #include "renderHelper.h"
 #include "../global.h"
-#include "../gamebase.h"
 #include "gui/floatingMenu.h"
 
 using MapObjects = MapObjects;
@@ -32,14 +31,16 @@ Color RenderHelper::getColor(t_color color) {
             return {255, 0, 0, 255};
         case GREEN:
             return {0, 255, 0, 255};
+        case BLUE:
+            return {0,0,255,255};
         default:
             return {255, 255, 255, 255};
     }
 }
 
-RenderHelper *RenderHelper::getHelper(Renderer *render) {
+RenderHelper *RenderHelper::getHelper(Renderer *renderer) {
     if (helperInstance == nullptr) {
-        helperInstance = new RenderHelper(render);
+        helperInstance = new RenderHelper(renderer);
     }
     return helperInstance;
 }
@@ -48,14 +49,14 @@ RenderHelper::RenderHelper(Renderer *renderer) {
     this->_renderer = renderer;
 }
 
-void RenderHelper::Text(char *string, int size, int x, int y, t_color fgC) {
+void RenderHelper::Text(char *string, int size, int x, int y, t_color fgC) const {
     SDL_Rect textLocation = {x, y, 0, 0};
     Texture *texture = t_cache->getText(string, size, &textLocation, fgC);
     this->texture(texture, &textLocation);
     SDL_DestroyTexture(texture);
 }
 
-void RenderHelper::CenteredText(const string &text, int size, t_color fgc, int width, int height) {
+void RenderHelper::CenteredText(const string &text, int size, t_color fgc, int width, int height) const {
     SDL_Rect textLocation;
     Texture *texture = t_cache->getText(text.c_str(), size, &textLocation, fgc);
     textLocation.x = width / 2 - textLocation.w / 2;
@@ -74,9 +75,19 @@ void RenderHelper::setColor(t_color color) {
         setColor(getColor(color));
 }
 
-void RenderHelper::background(t_color color) {
-    setColor(color);
-    SDL_RenderClear(_renderer);
+void RenderHelper::background(t_color color, int alpha) {
+    if(alpha == 255) {
+        setColor(color);
+        SDL_RenderClear(_renderer);
+    }else{
+        SDL_SetRenderDrawBlendMode(render,SDL_BLENDMODE_BLEND);
+        Rect bg = {0,0,windowSize.x, windowSize.y};
+        Color t = getColor(color);
+        t.a = alpha;
+        SDL_SetRenderDrawColor(render,t.r,t.g,t.b,t.a);
+        fillRect(&bg);
+        SDL_SetRenderDrawBlendMode(render,SDL_BLENDMODE_NONE);
+    }
 }
 
 void RenderHelper::hint(MapObjects object, int size, Point posOnScreen, t_color textColor, t_color bgColor) {
@@ -105,7 +116,10 @@ void RenderHelper::texture(Texture *t, Rect *dRect, Rect *sRect) const {
 
 void RenderHelper::texture(Texture *t, Rect *dRect, u16 direction, Rect *sRect) const {
     SDL_RenderCopyEx(_renderer, t, sRect, dRect, (double) direction, nullptr, SDL_FLIP_NONE);
+}
 
+void RenderHelper::textureHflipped(Texture *t, Rect *dRect, Rect *sRect) const {
+    SDL_RenderCopyEx(_renderer, t, sRect, dRect, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
 }
 
 void RenderHelper::rect(Rect *dst, u8 strokeThickness, t_color color) {
@@ -142,10 +156,13 @@ void RenderHelper::line(Point &A, Point &B, t_color color) {
     SDL_RenderDrawLine(_renderer, A.x, A.y, B.x, B.y);
 }
 
-void RenderHelper::tile(Rect *dRect, Rect *sRect) {
+void RenderHelper::tile(Rect *dRect, Rect *sRect, bool vFlipped) {
     if (_texture == nullptr)
         loadTileSheet();
-    texture(_texture, dRect, sRect);
+    if(vFlipped)
+        textureHflipped(_texture, dRect, sRect);
+    else
+        texture(_texture, dRect, sRect);
 
 }
 
@@ -161,10 +178,10 @@ void RenderHelper::loadTileSheet() {
     _arrow = t_cache->get(BasePath "asset/graphic/editor/arrow.png");
     _nemoney = t_cache->getText("CP", 28, nullptr, RED);
     _sell = t_cache->getText("SELL", 28, nullptr, GREEN);
+    _link = t_cache->getText("LINK", 20, nullptr, BLUE);
 }
 
 void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
-    Rect src{};
     switch (entry._menuEntry) {
         case MenuEntry_DEFAULT:
             break;
@@ -176,6 +193,11 @@ void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Base));
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Pointer));
             break;
+        case MenuEntry_LinkedList:
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Tower_LinkedList));
+            //helperInstance->texture(_link, center);
+            break;
         case MenuEntry_Sell:
             helperInstance->texture(_sell, center);
             break;
@@ -183,9 +205,7 @@ void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
             helperInstance->texture(_arrow, center);
             break;
         case MenuEntry_Error:
-            break;
         case MenuEntry_Disabled:
-            break;
         default:
             break;
     }

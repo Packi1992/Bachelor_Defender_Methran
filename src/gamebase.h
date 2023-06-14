@@ -52,6 +52,7 @@ protected:
 
 
 public:
+    bool isGameover();
     static void zoomScreen(SDL_Event event);
 
     static void scrollScreen(SDL_Event event);
@@ -119,6 +120,7 @@ protected:
     Game &game;
 
 public:
+    bool _gameover = false;
     [[nodiscard]] virtual bool IsFPSLimited() const { return true; }
 
     [[nodiscard]] virtual Color GetClearColor() const { return Color{0, 0, 0, SDL_ALPHA_OPAQUE}; }
@@ -141,11 +143,11 @@ public:
 
     virtual void UnInit() {}
 
-    virtual void Events(const u32 frame, const u32 totalMSec, const float deltaT) = 0;
+    virtual void Events() = 0;
 
-    virtual void Update(const u32 frame, const u32 totalMSec, const float deltaT) = 0;
+    virtual void Update() = 0;
 
-    virtual void Render(const u32 frame, const u32 totalMSec, const float deltaT) = 0;
+    virtual void Render() = 0;
 };
 
 #include "tdUtil/coordinateTransformer.h"

@@ -7,7 +7,7 @@
 #include "../Projectiles/boomerang.h"
 #include "../../util/gui/floatingMenu.h"
 
-void RecursivTower::Render(float deltaT) {
+void RecursivTower::Render() {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
     rh->tile(&dst, TdTileHandler::getTowerSrcRect(RecursivBase));
@@ -23,10 +23,10 @@ void RecursivTower::Render(float deltaT) {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Boomerang, animT));
     }
     _spin += 160;
-    Tower::Render(deltaT);
+    Tower::Render();
 }
 
-void RecursivTower::Update(float deltaT) {
+void RecursivTower::Update() {
     if (_floatingMenu != nullptr) {
         _floatingMenu->Update();
         if (_floatingMenu->isDone()) {
@@ -76,14 +76,14 @@ void RecursivTower::Update(float deltaT) {
                     audioHandler->playSound(SoundBoomerangFire, x);
                     tdGlobals->_ph.add(p);
                 } else {
-                    _reloadTime -= deltaT;
+                    _reloadTime -= deltaTg;
                 }
             }
             // enemy target is locked -> change direction to enemy and shoot
 
         }
     }
-    Tower::Update(deltaT);
+    Tower::Update();
 }
 
 int RecursivTower::_creditPointCosts = 5;

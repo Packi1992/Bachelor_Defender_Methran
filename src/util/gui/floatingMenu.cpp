@@ -5,13 +5,14 @@
 #include "../../gamebase.h"
 #include "../../tdUtil/map.h"
 #include "floatingMenu.h"
+#include "../../td/testtd.h"
 
 #define ANIMATIONTIME 600
 
 void FloatingMenu::Input() {
-    SDL_Event event{};
-    _lastEvent = event;
+    SDL_Event event;
     while (SDL_PollEvent(&event)) {
+        _lastEvent = event;
         if (pGame->HandleEvent(event))
             return;
         switch (event.type) {
@@ -52,22 +53,20 @@ bool FloatingMenu::onSymbol(Point click, Point symbol, float symbolRadiant) {
 bool FloatingMenu::onMenu(Point clickPos) const {
     Point menuPos = CT::getPosOnScreen(_position);
     float size = (float) getSize() * 0.493f;
-    float clickDistanceSquared = pow(menuPos.x - clickPos.x, 2) + pow(menuPos.y - clickPos.y, 2);
+    auto clickDistanceSquared = (float)(pow(menuPos.x - clickPos.x, 2) + pow(menuPos.y - clickPos.y, 2));
     bool assertDistanceUpper = size * size >= clickDistanceSquared;
     float size2 = size * 0.42f;
-    //cout << "Distance min: "<< size2*size2 << " Clickdistance: "<< clickDistanceSquared << " Distance max: "<< size*size << endl;
     bool assertDistanceBottom = size2 * size2 <= clickDistanceSquared;
-    if (_menuEntriesInfos->size() == 6)
+    if (_menuEntries->size() == 6)
         return assertDistanceUpper && assertDistanceBottom;
 
     // if less than 6 entries, lets have a look at the click angle
     int angle = (int) CT::getAngle(clickPos, menuPos);
     int upper_end = 65;
-    int bottom_end = upper_end - 70 - ((int) (_menuEntriesInfos->size() - 1) * 60);
-    if (bottom_end < 0)
+    int bottom_end = upper_end-70-((int)(_menuEntries->size()-1)*60);
+    if(bottom_end<0)
         bottom_end += 360;
-    bool assertAngle =
-            bottom_end > 90 ? angle >= bottom_end || angle <= upper_end : angle >= bottom_end && angle <= upper_end;
+    bool assertAngle = bottom_end >90? angle>=bottom_end || angle <= upper_end:angle>=bottom_end && angle<=upper_end;
     //cout << "click angle is:"<<  angle<< " should be: "<<bottom_end<< "- " <<upper_end<< endl;
     //cout << "angle Assert: " << (assertAngle?"True":"False") << " distance Assert upper:" << (assertDistanceUpper?"True":"False")<< endl;
     return assertAngle && assertDistanceUpper && assertDistanceBottom;
@@ -91,7 +90,7 @@ void FloatingMenu::Render() {
         _anim += (totalMscg - _oldTotalMsc);
         _oldTotalMsc = totalMscg;
 
-        for (u32 i = 0; i < _menuEntriesInfos->size(); i++) {
+        for (u32 i = 0; i < _menuEntries->size(); i++) {
             if (_anim >= ANIMATIONTIME) {
                 rh->texture(_menuTexture, &dst, direction, &src);
                 // render center Pos
@@ -100,7 +99,7 @@ void FloatingMenu::Render() {
                 float angle = (float) direction / 180.0f * (float) M_PI;
                 center.x = renderPos.x + (int) (sin(angle) * distance) - symbolRadiant / 2;
                 center.y = renderPos.y - (int) (cos(angle) * distance) - symbolRadiant / 2;
-                rh->symbol(&center, _menuEntriesInfos->at(i));
+                rh->symbol(&center, _menuEntries->at(i));
                 direction = (direction + 300) % 360;
             } else {
                 // render center Pos
@@ -112,10 +111,10 @@ void FloatingMenu::Render() {
                     int diff = (int) (120.0f * (float) _anim / ANIMATIONTIME) - 60;
                     center.x = renderPos.x + (int) (sin(angle) * distance) - symbolRadiant / 2;
                     center.y = renderPos.y - (int) (cos(angle) * distance) - symbolRadiant / 2;
-                    rh->symbol(&center, _menuEntriesInfos->at(i));
+                    rh->symbol(&center, _menuEntries->at(i));
                     direction = (direction + 360 - diff) % 360;
                 } else {
-                    if (i == ((u32) _menuEntriesInfos->size() - 1)) {
+                    if (i == ((u32) _menuEntries->size() - 1)) {
                         float diff = ((float) _anim / (ANIMATIONTIME / 2.0f));
                         int tmp = (int) ((float) dst.w * diff);
                         int margin = (int) (((float) dst.w - (float) tmp) * 0.5f);
@@ -134,7 +133,7 @@ void FloatingMenu::Render() {
                         distance *= diff;
                         center.x = renderPos.x + (int) (sin(angle) * distance) - sRdiff / 2;
                         center.y = renderPos.y - (int) (cos(angle) * distance) - sRdiff / 2;
-                        rh->symbol(&center, _menuEntriesInfos->at(i));
+                        rh->symbol(&center, _menuEntries->at(i));
                     }
                 }
             }
@@ -152,11 +151,11 @@ void FloatingMenu::Update() {
             _clickRel = {};
         }
         // update "Viewport" / Zoom in or Out
-        if (_mouseWheel) {
+        if(_mouseWheel){
             Game::zoomScreen(_wheelEvent);
             _mouseWheel = false;
         }
-        if (_mbLeftDown) {
+        if (_mbLeftDown&& _anim >= ANIMATIONTIME) {
             if (!onMenu(_clickPos)) {
                 SDL_PushEvent(&_lastEvent);
                 releaseFocus();
@@ -171,15 +170,15 @@ void FloatingMenu::Update() {
                 float symbolRadiant = 20.f / 192.0f * (float) size;
                 int direction = 30;
                 Point center{};
-                for (u32 i = 0; i < (u32) _menuEntriesInfos->size(); i++) {
+                for (int i = 0; i < (int)_menuEntries->size(); i++) {
                     float angle = (float) direction / 180.0f * (float) M_PI;
                     center.x = renderPos.x + (int) (sin(angle) * distance);
                     center.y = renderPos.y - (int) (cos(angle) * distance);
                     direction = (direction + 300) % 360;
                     if (onSymbol(_clickPos, center, symbolRadiant)) {
-                        if (_menuEntriesInfos->at(i)._status == Status_Active) {
+                        if (_menuEntries->at(i)._status == Status_Active) {
                             releaseFocus();
-                            _selectedEntry = _menuEntriesInfos->at(i)._menuEntry;
+                            _selectedEntry = _menuEntries->at(i)._menuEntry;
                         }
                     }
                 }
@@ -233,8 +232,8 @@ void FloatingMenu::set(Vector<MenuEntry> *menuEntriesInfos, FPoint pos) {
 }
 
 void FloatingMenu::setEntries(Vector<MenuEntry> *menuEntriesInfos) {
-    _menuEntriesInfos = menuEntriesInfos;
-    if (_menuEntriesInfos->size() > 6)
+    _menuEntries = menuEntriesInfos;
+    if (_menuEntries->size() > 6)
         cerr << "Max six entries in menu possible" << endl;
 }
 

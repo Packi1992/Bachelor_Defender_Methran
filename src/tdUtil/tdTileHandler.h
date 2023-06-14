@@ -4,6 +4,7 @@
 
 #ifndef SDL_BACHELOR_DEFENDER_TD_TILE_HANDLER_H
 #define SDL_BACHELOR_DEFENDER_TD_TILE_HANDLER_H
+
 #include <SDL_render.h>
 #include <string>
 #include "../enums.h"
@@ -16,12 +17,15 @@ public:
 
     static MapObjects selectObject(int i);
 
-    static SDL_Rect *getSrcRect(MapObjects o, unsigned long anim=0);
-    static SDL_Rect *getSrcRect(int o, unsigned long anim=0);
+    static SDL_Rect *getSrcRect(MapObjects o, unsigned long anim = 0);
 
-    static SDL_Rect *getEnemySrcRect(EnemyType e, unsigned long anim=0);
-    static SDL_Rect *getProjectileSrcRect(ProjectileType p,unsigned long anim=0);
-    static SDL_Rect *getTowerSrcRect(TowerType t, unsigned long anim=0);
+    static SDL_Rect *getSrcRect(int o, unsigned long anim = 0);
+
+    static SDL_Rect *getEnemySrcRect(EnemyType e, unsigned long anim = 0, Direction d = RIGHT);
+
+    static SDL_Rect *getProjectileSrcRect(ProjectileType p, unsigned long anim = 0);
+
+    static SDL_Rect *getTowerSrcRect(TowerType t, unsigned long anim = 0);
 
     static std::string getName(MapObjects objects);
 

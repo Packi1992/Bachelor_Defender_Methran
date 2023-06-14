@@ -14,9 +14,9 @@ class Map {
 public:
     Map();
 
-    void Render(u32 totalMSec, bool wire = false, bool path = false);
+    void Render(bool wire = false, bool path = false);
 
-    void Update(const u32 frame, const u32 totalMSec, const float deltaT);
+    void Update();
 
     bool load(const Vector<string> &data);
 

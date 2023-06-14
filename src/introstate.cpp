@@ -25,7 +25,7 @@ void IntroState::UnInit()
     audioHandler->stopMusic();
 }
 
-void IntroState::Events( const u32 frame, const u32 totalMSec, const float deltaT )
+void IntroState::Events()
 {
     SDL_PumpEvents();
 
@@ -67,11 +67,11 @@ void IntroState::Events( const u32 frame, const u32 totalMSec, const float delta
     }
 }
 
-void IntroState::Update( const u32 frame, const u32 totalMSec, const float deltaT )
+void IntroState::Update()
 {
 }
 
-void IntroState::Render( const u32 frame, const u32 totalMSec, const float deltaT )
+void IntroState::Render()
 {
     updateBtnSize();
     {

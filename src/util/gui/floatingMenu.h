@@ -30,7 +30,7 @@ public:
     [[nodiscard]] bool onMenu(Point clickPos) const;
     [[nodiscard]] static bool onSymbol(Point click, Point symbol, float symbolRadiant);
     void reset();
-    ~FloatingMenu();
+    virtual ~FloatingMenu();
 private:
     // zoom handling
     bool _mouseWheel = false;
@@ -45,8 +45,6 @@ private:
     u32 _oldTotalMsc = 0;
     int _selectedEntry=-1;
     Texture * _menuTexture{};
-    Vector<MenuEntry>* _menuEntriesInfos{};
+    Vector<MenuEntry>* _menuEntries{};
 };
-
-
 #endif //SDL_BACHELORDEFENDER_FLOATINGMENU_H

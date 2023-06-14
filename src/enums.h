@@ -27,6 +27,7 @@ enum ProjectileType{
     DISABLED,
     ARROW,
     BULLET,
+    LINK,
     BASEEXPLOSION,
     FFIRE,
     BOOMERANG,
@@ -35,6 +36,8 @@ enum ProjectileType{
 enum TowerType{
     Base,
     Pointer,
+    Tower_LinkedList,
+    Tower_LinkedListBase,
     RecursivBase,
     Boomerang,
 };
@@ -52,6 +55,7 @@ enum t_color {
     YELLOW,
     RED,
     GREEN,
+    BLUE,
 };
 
 enum musicType {
@@ -80,6 +84,7 @@ enum MenuEntries{
     MenuEntry_DEFAULT,
     MenuEntry_POINTER,
     MenuEntry_BOOMERANG,
+    MenuEntry_LinkedList,
     MenuEntry_Error,
     MenuEntry_Disabled,
     MenuEntry_Sell,
@@ -90,5 +95,12 @@ enum Status{
     Status_Disabled,
     Status_NotEnoughMoney,
     Status_Active,
+};
+
+enum Direction{
+    TOP,
+    RIGHT,
+    BOTTOM,
+    LEFT
 };
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

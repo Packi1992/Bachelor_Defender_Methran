@@ -74,7 +74,7 @@ Texture *TextureCache::getText(const char *string, u8 size, Rect *sRect, t_color
         exit(2);
     }
     Surface *surface;
-    surface = TTF_RenderUTF8_Blended(font, string, rh->getColor(TextColor));
+    surface = TTF_RenderUTF8_Blended(font, string, RenderHelper::getColor(TextColor));
 
     Texture *texture = SDL_CreateTextureFromSurface(render, surface);
     SDL_FreeSurface(surface);
@@ -94,7 +94,7 @@ Texture *TextureCache::getNumber(int Number, int size, t_color color, SDL_Rect *
     SDL_Surface *surface;
     std::array<char, 20> str{};
     std::to_chars(str.data(), str.data() + str.size(), Number);
-    surface = TTF_RenderUTF8_Blended(font, str.data(), rh->getColor(color));
+    surface = TTF_RenderUTF8_Blended(font, str.data(), RenderHelper::getColor(color));
     Texture *texture;
     texture = SDL_CreateTextureFromSurface(render, surface);
     if (sRect != nullptr) {

@@ -9,10 +9,10 @@ void ProjectilesHandler::set() {
     this->_texture = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
 }
 
-void ProjectilesHandler::Render(const u32 totalMSec) {
-    for (auto& p : _projectiles) {
-        if(p != nullptr){
-            p->Render(totalMSec);
+void ProjectilesHandler::Render() {
+    for (auto &p: _projectiles) {
+        if (p != nullptr) {
+            p->Render();
         }
     }
 }
@@ -36,12 +36,13 @@ void ProjectilesHandler::collisionDetected(Projectile **p) {
 
 }
 
-void ProjectilesHandler::move(float deltaT) {
+void ProjectilesHandler::move() {
     for (int i = 0; i < MAXPROJECTILES; i++) {
-        if(_projectiles[i] != nullptr ) {
+        if (_projectiles[i] != nullptr) {
             if (_projectiles[i]->_alive) {
-                _projectiles[i]->move(deltaT);
+                _projectiles[i]->move();
             }
+
             //checking if Projectile still alive?
             if (_projectiles[i]->_ttl > 0)
                 _projectiles[i]->_ttl--;

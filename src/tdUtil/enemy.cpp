@@ -8,10 +8,11 @@
 #include "../td/Projectiles/projectile.h"
 #include "tdTileHandler.h"
 #include "map.h"
+#include "../gamebase.h"
 
-void Enemy::Update(float deltaT) {
+void Enemy::Update() {
     if (_stunTime > 0) {
-        _stunTime > deltaT ? _stunTime -= deltaT : _stunTime = 0;
+        _stunTime > deltaTg ? _stunTime -= deltaTg : _stunTime = 0;
     } else {
         // move ...
         updateDir();
@@ -21,19 +22,19 @@ void Enemy::Update(float deltaT) {
             _nextPos = pMap->getNextPosCentre(_pos);
         } else if (!_reachedGoal) {
             // actually move
-            float runLength = deltaT * (float) _speed / 30.0f;
+            float runLength = deltaTg * (float) _speed / 30.0f;
             if (_slowTimer > 0) {
-                _slowTimer -= deltaT;
+                _slowTimer -= deltaTg;
                 runLength = (float) ((double) runLength * (_speedDiff / 10.0));
             }
             if (_dir == 0)
-                _pos.y = (_pos.y + runLength) - _nextPos.y > 0 ? _pos.y -= runLength : _pos.y = _nextPos.y;
+                (_pos.y + runLength) - _nextPos.y > 0 ? _pos.y -= runLength : _pos.y = _nextPos.y;
             if (_dir == 90)
-                _pos.x = _nextPos.x - (_pos.x + runLength) > 0 ? _pos.x += runLength : _pos.x = _nextPos.x;
+                _nextPos.x - (_pos.x + runLength) > 0 ? _pos.x += runLength : _pos.x = _nextPos.x;
             if (_dir == 180)
-                _pos.y = _nextPos.y - (_pos.y + runLength) > 0 ? _pos.y += runLength : _pos.y = _nextPos.y;
+                _nextPos.y - (_pos.y + runLength) > 0 ? _pos.y += runLength : _pos.y = _nextPos.y;
             if (_dir == 270)
-                _pos.x = (_pos.x + runLength) - _nextPos.x > 0 ? _pos.x -= runLength : _pos.x = _nextPos.x;
+                (_pos.x + runLength) - _nextPos.x > 0 ? _pos.x -= runLength : _pos.x = _nextPos.x;
         } else {
             // enemy reached goal
             _alive = false;
@@ -42,7 +43,7 @@ void Enemy::Update(float deltaT) {
     }
 }
 
-void Enemy::takeDamage(Projectile * p) {
+void Enemy::takeDamage(Projectile *p) {
     _health < p->_damage ? _health = 0 : _health -= p->_damage;
     if (_health == 0) {
         startDeathAnimation();
@@ -120,23 +121,45 @@ bool Enemy::hasReachedGoal() const {
     return _reachedGoal;
 }
 
-void Enemy::Render(u32 totalMSec) const {
+void Enemy::Render() const {
     if (_alive) {
         // make dstRect
         Point POS = CT::getPosOnScreen(_pos);
         Rect dstRect = {POS.x, POS.y, scale, scale + scale};
         dstRect.x = (int) (POS.x - dstRect.w * 0.5);
         dstRect.y = (int) (POS.y - dstRect.h * 0.8);
+        u32 anim = (pGame->isGameover()?0:totalMscg);
         // check if enemy is on screen
-        if (Game::onScreen(dstRect))
-        {
-            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type, totalMSec));
+        if (Game::onScreen(dstRect)) {
+            Direction dir;
+            bool flipped = false;
+            switch (_dir) {
+                case 0:
+                    dir = Direction::TOP;
+                    flipped = false;
+                    break;
+                case 90:
+                    dir = Direction::RIGHT;
+                    flipped = false;
+                    break;
+                case 180:
+                    dir = Direction::BOTTOM;
+                    flipped = false;
+                    break;
+                case 270:
+                    dir = Direction::LEFT;
+                    flipped = true;
+                    break;
+                default:
+                    break;
+            }
+            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type, anim, dir), flipped);
         }
     }
 }
 
 void Enemy::RenderExtras(bool life, bool hitBox) const {
-    if(_alive){
+    if (_alive) {
         if (hitBox) {
             FRect hitBoxRect = CT::getFRectOnScreen(getHitBox());
             rh->fillFRect(&hitBoxRect, BLACK);
