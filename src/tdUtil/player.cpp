@@ -15,7 +15,7 @@ bool Player::load(const Vector<string> &data) {
             SanityLoaded = true;
         }
         if (line.substr(0, 15) == ("CREDIT-POINTS :")) {
-            _creditPoints = (int) strtol(line.substr(8).c_str(), nullptr, 10);
+            _creditPoints = (int) strtol(line.substr(15).c_str(), nullptr, 10);
             creditPointsLoaded = true;
         }
     }
