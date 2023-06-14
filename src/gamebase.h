@@ -31,6 +31,9 @@ extern Point offset;
 extern Point windowSize;
 extern int scale;
 
+extern float deltaTg;
+extern u32 totalMscg;
+extern u32 frameg;
 
 class GameState;
 

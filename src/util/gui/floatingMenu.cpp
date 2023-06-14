@@ -6,6 +6,8 @@
 #include "../../tdUtil/map.h"
 #include "floatingMenu.h"
 
+#define ANIMATIONTIME 600
+
 void FloatingMenu::Input() {
     SDL_Event event;
     _lastEvent = event;
@@ -36,7 +38,7 @@ void FloatingMenu::Input() {
                 break;
             case SDL_MOUSEWHEEL:
                 _mouseWheel = true;
-                _wheelEvent=event;
+                _wheelEvent = event;
                 break;
         }
     }
@@ -52,19 +54,20 @@ bool FloatingMenu::onMenu(Point clickPos) const {
     float size = (float) getSize() * 0.493f;
     float clickDistanceSquared = pow(menuPos.x - clickPos.x, 2) + pow(menuPos.y - clickPos.y, 2);
     bool assertDistanceUpper = size * size >= clickDistanceSquared;
-    float size2 = size *0.42f;
+    float size2 = size * 0.42f;
     //cout << "Distance min: "<< size2*size2 << " Clickdistance: "<< clickDistanceSquared << " Distance max: "<< size*size << endl;
-    bool assertDistanceBottom = size2 * size2 <=clickDistanceSquared;
-    if(_menuEntriesInfos->size()==6)
+    bool assertDistanceBottom = size2 * size2 <= clickDistanceSquared;
+    if (_menuEntriesInfos->size() == 6)
         return assertDistanceUpper && assertDistanceBottom;
 
     // if less than 6 entries, lets have a look at the click angle
-    int angle = (int)CT::getAngle(clickPos,menuPos);
+    int angle = (int) CT::getAngle(clickPos, menuPos);
     int upper_end = 65;
-    int bottom_end = upper_end-70-((int)(_menuEntriesInfos->size()-1)*60);
-    if(bottom_end<0)
+    int bottom_end = upper_end - 70 - ((int) (_menuEntriesInfos->size() - 1) * 60);
+    if (bottom_end < 0)
         bottom_end += 360;
-    bool assertAngle = bottom_end >90? angle>=bottom_end || angle <= upper_end:angle>=bottom_end && angle<=upper_end;
+    bool assertAngle =
+            bottom_end > 90 ? angle >= bottom_end || angle <= upper_end : angle >= bottom_end && angle <= upper_end;
     //cout << "click angle is:"<<  angle<< " should be: "<<bottom_end<< "- " <<upper_end<< endl;
     //cout << "angle Assert: " << (assertAngle?"True":"False") << " distance Assert upper:" << (assertDistanceUpper?"True":"False")<< endl;
     return assertAngle && assertDistanceUpper && assertDistanceBottom;
@@ -82,18 +85,63 @@ void FloatingMenu::Render() {
         // 30′ and 65/192*size should be center of first Symbol
         float distance = 70.0f / 192.0f * (float) size;
         int direction = 30;
-        for (int i = 0; i < _menuEntriesInfos->size(); i++) {
-            rh->texture(_menuTexture, &dst, direction, &src);
-
-            // render center Pos
-            int symbolRadiant = (int) (35.f / 192.0f * (float) size);
-            Rect center = {1, 1, symbolRadiant, symbolRadiant};
-            float angle = (float) direction / 180.0f * (float) M_PI;
-            center.x = renderPos.x + (int) (sin(angle) * distance) - symbolRadiant / 2;
-            center.y = renderPos.y - (int) (cos(angle) * distance) - symbolRadiant / 2;
-            rh->symbol(&center, _menuEntriesInfos->at(i));
-            direction = (direction + 300) % 360;
+        if (_oldTotalMsc == 0) {
+            _oldTotalMsc = totalMscg;
         }
+        _anim += (totalMscg - _oldTotalMsc);
+        _oldTotalMsc = totalMscg;
+
+        for (u32 i = 0; i < _menuEntriesInfos->size(); i++) {
+            if (_anim >= ANIMATIONTIME) {
+                rh->texture(_menuTexture, &dst, direction, &src);
+                // render center Pos
+                int symbolRadiant = (int) (35.f / 192.0f * (float) size);
+                Rect center = {1, 1, symbolRadiant, symbolRadiant};
+                float angle = (float) direction / 180.0f * (float) M_PI;
+                center.x = renderPos.x + (int) (sin(angle) * distance) - symbolRadiant / 2;
+                center.y = renderPos.y - (int) (cos(angle) * distance) - symbolRadiant / 2;
+                rh->symbol(&center, _menuEntriesInfos->at(i));
+                direction = (direction + 300) % 360;
+            } else {
+                // render center Pos
+                if (_anim >= (ANIMATIONTIME / 2)) {
+                    rh->texture(_menuTexture, &dst, direction, &src);
+                    int symbolRadiant = (int) (35.f / 192.0f * (float) size);
+                    Rect center = {1, 1, symbolRadiant, symbolRadiant};
+                    float angle = (float) direction / 180.0f * (float) M_PI;
+                    int diff = (int) (120.0f * (float) _anim / ANIMATIONTIME) - 60;
+                    center.x = renderPos.x + (int) (sin(angle) * distance) - symbolRadiant / 2;
+                    center.y = renderPos.y - (int) (cos(angle) * distance) - symbolRadiant / 2;
+                    rh->symbol(&center, _menuEntriesInfos->at(i));
+                    direction = (direction + 360 - diff) % 360;
+                } else {
+                    if (i == ((u32) _menuEntriesInfos->size() - 1)) {
+                        float diff = ((float) _anim / (ANIMATIONTIME / 2.0f));
+                        int tmp = (int) ((float) dst.w * diff);
+                        int margin = (int) (((float) dst.w - (float) tmp) * 0.5f);
+                        dst.x = dst.x + margin;
+                        dst.y = dst.y + margin;
+                        dst.w = tmp;
+                        dst.h = tmp;
+                        direction = (int) ((float) direction + 180.0f - 180.0f * diff);
+                        rh->texture(_menuTexture, &dst, direction, &src);
+                        renderPos.x = dst.x + dst.w / 2;
+                        renderPos.y = dst.y + dst.h / 2;
+                        int symbolRadiant = (int) (35.f / 192.0f * (float) size);
+                        int sRdiff = (int) ((float) symbolRadiant * diff);
+                        Rect center = {1, 1, sRdiff, sRdiff};
+                        float angle = (float) direction * (float) M_PI / 180;
+                        distance *= diff;
+                        center.x = renderPos.x + (int) (sin(angle) * distance) - sRdiff / 2;
+                        center.y = renderPos.y - (int) (cos(angle) * distance) - sRdiff / 2;
+                        rh->symbol(&center, _menuEntriesInfos->at(i));
+                    }
+                }
+            }
+        }
+    } else {
+        _anim = 0;
+        _oldTotalMsc = 0;
     }
 }
 
@@ -104,7 +152,7 @@ void FloatingMenu::Update() {
             _clickRel = {};
         }
         // update "Viewport" / Zoom in or Out
-        if(_mouseWheel){
+        if (_mouseWheel) {
             Game::zoomScreen(_wheelEvent);
             _mouseWheel = false;
         }
@@ -123,7 +171,7 @@ void FloatingMenu::Update() {
                 float symbolRadiant = 20.f / 192.0f * (float) size;
                 int direction = 30;
                 Point center{};
-                for (int i = 0; i < (int)_menuEntriesInfos->size(); i++) {
+                for (u32 i = 0; i < (u32) _menuEntriesInfos->size(); i++) {
                     float angle = (float) direction / 180.0f * (float) M_PI;
                     center.x = renderPos.x + (int) (sin(angle) * distance);
                     center.y = renderPos.y - (int) (cos(angle) * distance);
