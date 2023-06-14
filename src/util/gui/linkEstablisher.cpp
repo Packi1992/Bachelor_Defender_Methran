@@ -55,9 +55,22 @@ void LinkEstablisher::Render() {
     if(dialog){
         Point cursor;
         SDL_GetMouseState(&cursor.x,&cursor.y);
-        Rect dst = {cursor.x, cursor.y, scale, scale};
-        rh->tile(&dst, TdTileHandler::getTowerSrcRect(Base));
+        Point pos = CT::getTileInGame(cursor);
+        Point posOnScreen = CT::getPosOnScreen(pos);
+        Rect dst = {posOnScreen.x, posOnScreen.y, scale, scale};
+
+        rh->tile(&dst, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
         rh->tile(&dst, ((int) 0) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, 0));
+
+        FPoint range{0, 0};
+        for (int angle = 0; angle < 360; angle += 10) {
+            float angleF = (float) angle / 180.0f * (float) M_PI;
+            range.x = _tower->getPos().x + sin(angleF) * (float) _tower->getListRange();
+            range.y = _tower->getPos().y + cos(angleF) * (float) _tower->getListRange();
+            Point range2 = CT::getPosOnScreen(range);
+            Rect dst = {range2.x, range2.y, 5, 5};
+            rh->fillRect(&dst, BLACK);
+        }
     }
 }
 

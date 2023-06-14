@@ -17,6 +17,7 @@ void LinkedListTower::Render(float deltaT) {
     } else {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, animT));
     }
+    _listRange = 3;
     _le.Render();
 }
 
@@ -109,6 +110,11 @@ void LinkedListTower::setCosts(uint cp) {
 }
 
 bool LinkedListTower::init(Gui **focus) {
+    _le.set(this,true);
     _le.show(focus);
+}
+
+int LinkedListTower::getListRange() const {
+    return _listRange;
 }
 

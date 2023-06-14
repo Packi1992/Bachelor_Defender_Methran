@@ -29,6 +29,8 @@ public:
 
     virtual void setCosts(uint cp) = 0;
 
+    virtual Point getPos();
+
     virtual ~Tower();
 
     bool isClicked(Point md);

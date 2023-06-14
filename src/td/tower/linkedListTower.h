@@ -29,12 +29,15 @@ public:
     void showMenu(Gui **focus) override;
 
     bool init(Gui **focus) override;
+    int getListRange() const;
+
 
 private:
     static int _creditPointCosts;
     LinkEstablisher _le;
     LinkedListTower *head{};
     LinkedListTower *tail{};
+    int _listRange=0;
 };
 
 #endif //SDL_BACHELORDEFENDER_LinkedListTower_H
