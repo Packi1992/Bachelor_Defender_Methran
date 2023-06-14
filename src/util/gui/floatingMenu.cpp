@@ -155,7 +155,7 @@ void FloatingMenu::Update() {
             Game::zoomScreen(_wheelEvent);
             _mouseWheel = false;
         }
-        if (_mbLeftDown) {
+        if (_mbLeftDown&& _anim >= ANIMATIONTIME) {
             if (!onMenu(_clickPos)) {
                 SDL_PushEvent(&_lastEvent);
                 releaseFocus();

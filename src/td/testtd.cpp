@@ -127,8 +127,8 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
     // calculate sanity bar (only every 10 frames)
     if (frame % 10 == 0) {
         SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
-        int sanity_left = (int) ((float) SanityBar.h *
-                                 ((float) globals._pl._sanity / (float) globals._pl._maxSanity));
+        float fSanity = ((float) globals._pl._sanity / (float) globals._pl._maxSanity);
+        int sanity_left = (int) ((float) SanityBar.h * fSanity);
         Sanity = SanityBar;
         Sanity.y += SanityBar.h - sanity_left;
         Sanity.h = sanity_left;
@@ -138,6 +138,10 @@ void TestTD::Update(const u32 frame, const u32 totalMSec, const float deltaT) {
         MethranDst.h = (int)(MethanScaleFactor * (float)MethranDst.h);
         MethranDst.x = windowSize.x-MethranDst.w-100;
         MethranDst.y = windowSize.y-MethranDst.h-100;
+        if(fSanity <= 1.0f){
+            MethranDst.x += ((int)totalMscg/100)%15 * (((int)totalMscg%2)==1)?(-1):1;
+            MethranDst.y += ((int)totalMscg/100)%15 * (((int)totalMscg%2)==1)?(-1):1;
+        }
         // calculate Menu Size
         _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
 
