@@ -10,6 +10,11 @@ class LinkProjectile:public Projectile {
 public:
     LinkProjectile();
     void move() override;
+    void set(float length, u16 timeToLife, FPoint position,FPoint  position2, u16 direction);
+    void Render();
+private:
+    float _length=0;
+    FPoint _position2;
 };
 
 

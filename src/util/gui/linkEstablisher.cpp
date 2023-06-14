@@ -49,6 +49,9 @@ void LinkEstablisher::Input() {
                 break;
             case SDL_KEYDOWN:
                 if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+                    _tower->removeFromMap();
+                    _tower->setDead(true);
+                    tdGlobals->_pl._creditPoints += _tower->getCosts();
                     releaseFocus();
                 }
         }
@@ -78,6 +81,11 @@ void LinkEstablisher::Render() {
                 rh->fillRect(&dstMarker, markerColor);
             }
         }
+        if (_isLinkInRange) {
+            Point towerCenter = CT::getPosOnScreen(_tower->getPos());
+            Point newTowerCenter = CT::getPosOnScreen(_cursorCenterPos);
+            rh->line(towerCenter,newTowerCenter,GREEN);
+        }
     }
 }
 
@@ -94,14 +102,13 @@ void LinkEstablisher::Update() {
             _mouseWheel = false;
         }
         if (_mbLeftDown) {
-            Point click = CT::getPosOnScreen(_clickPos);
             if(_isLinkInRange){
-                std::shared_ptr<LinkedListTower> tower = std::make_shared<LinkedListTower>(_cursorRenderPos);
+                std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(_cursorRenderPos);
                 tdGlobals->_towers.push_back(tower);
-
+                std::shared_ptr<LinkedListTower> lTower = std::dynamic_pointer_cast<LinkedListTower>(tdGlobals->_towers.at(tdGlobals->_towers.size()-1));
+                lTower->setLink(_tower);
                 releaseFocus();
             }
-
         }
         calcLinkPosition();
     }

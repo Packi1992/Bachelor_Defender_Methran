@@ -12,6 +12,7 @@ Tower::Tower(Point pos) {
     _pos = {(float) pos.x + 0.5f, (float) pos.y + 0.5f};
     _rPos = pos;
     _health = 10;
+    _alive = true;
 }
 
 bool Tower::inRange(FRect p) const {

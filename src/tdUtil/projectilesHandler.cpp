@@ -10,9 +10,9 @@ void ProjectilesHandler::set() {
 }
 
 void ProjectilesHandler::Render() {
-    for (auto& p : _projectiles) {
-        if(p != nullptr){
-            p->Render(totalMscg);
+    for (auto &p: _projectiles) {
+        if (p != nullptr) {
+            p->Render();
         }
     }
 }
@@ -38,10 +38,11 @@ void ProjectilesHandler::collisionDetected(Projectile **p) {
 
 void ProjectilesHandler::move() {
     for (int i = 0; i < MAXPROJECTILES; i++) {
-        if(_projectiles[i] != nullptr ) {
+        if (_projectiles[i] != nullptr) {
             if (_projectiles[i]->_alive) {
-                _projectiles[i]->move(deltaTg);
+                _projectiles[i]->move();
             }
+
             //checking if Projectile still alive?
             if (_projectiles[i]->_ttl > 0)
                 _projectiles[i]->_ttl--;
