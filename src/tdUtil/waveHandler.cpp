@@ -47,6 +47,6 @@ void WaveHandler::addWave(Wave w) {
     waveVec.push_back(w);
 }
 
-void WaveHandler::Update(const u32 totalMSe) {
+void WaveHandler::Update() {
 
 }

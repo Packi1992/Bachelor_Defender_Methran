@@ -15,9 +15,9 @@ class ProjectilesHandler {
 public:
     ~ProjectilesHandler();
 
-    void Render(u32 totalMSec);
+    void Render();
 
-    void move(float deltaT);
+    void move();
 
     Projectile *_projectiles[MAXPROJECTILES] = {};
 

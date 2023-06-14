@@ -52,11 +52,11 @@ public:
     // add Event kann also handle an actual spawn event
     void addEvent(SpawnEvent Event);
     // simply sets waveStart, it will be used to calculate spawn events
-    void startWave(u32 totalMSec);
+    void startWave();
 
     // will be false, if que is empty
     bool PollEvent(SpawnEvent &event);
-    void Update(u32 totalMSec);
+    void Update();
     // index showing wave progress
     bool isOver();
     int index=0;

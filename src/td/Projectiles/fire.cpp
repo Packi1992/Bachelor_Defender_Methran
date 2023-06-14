@@ -9,16 +9,16 @@ Fire::Fire() {
     _type = ProjectileType::FFIRE;
 }
 
-void Fire::move(float deltaT) {
+void Fire::move() {
     if (_ttl < 30) {
         _moveable = false;
     }
-    Projectile::move(deltaT);
+    Projectile::move();
 }
 
-void Fire::collide(float deltaT) {
+void Fire::collide() {
     float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
 
-    Projectile::collide(deltaT);
+    Projectile::collide();
 
 }

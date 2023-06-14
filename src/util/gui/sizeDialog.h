@@ -6,6 +6,7 @@
 #define BOULDERDASH_SIZEDIALOG_H
 
 #include "../../gamebase.h"
+#include "gui.h"
 #include "textbox.h"
 #include "Button.h"
 

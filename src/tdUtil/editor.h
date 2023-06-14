@@ -65,11 +65,11 @@ public:
     void Init() override;
     void UnInit() override;
 
-    void Update( const u32 frame, const u32 totalMSec, const float deltaT ) override;
-    void Render( const u32 frame, const u32 totalMSec, const float deltaT ) override;
+    void Update() override;
+    void Render() override;
 
     // event handling
-    void Events( const u32 frame, const u32 totalMSec, const float deltaT ) override;
+    void Events() override;
     void MouseDown(SDL_Event event);
     void MouseMotion(SDL_Event event);
     void keyDown(SDL_Event event);

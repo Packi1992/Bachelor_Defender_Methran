@@ -1,27 +1,30 @@
 //
 // Created by banoodle on 23.05.23.
 //
-#include "pointerTower.h"
+#include "linkedListTower.h"
 #include "../testtd.h"
-#include "../Projectiles/arrow.h"
+#include "../Projectiles/projectile.h"
 #include "../../util/gui/floatingMenu.h"
 
-void PointerTower::Render() {
+void LinkedListTower::Render() {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
-    rh->tile(&dst, TdTileHandler::getTowerSrcRect(Base));
+    rh->tile(&dst, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
     int anim = ((int) ((_shootCoolDown - _reloadTime)));
-    long animT = (anim > 4) ? 0 : anim;
+    long animT = (anim > 8) ? 0 : anim;
     if (_reloadTime <= 1) {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, 1));
-        //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
+        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, 1));
     } else {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, animT));
+        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, animT));
     }
-    Tower::Render();
+    _listRange = 3;
+    _le.Render();
 }
 
-void PointerTower::Update() {
+void LinkedListTower::Update() {
+    if(_le.getDialog()){
+        _le.Update();
+    }
     if (_floatingMenu != nullptr) {
         _floatingMenu->Update();
         if (_floatingMenu->isDone()) {
@@ -56,7 +59,7 @@ void PointerTower::Update() {
             if (aimAtEnemy(_targetEnemy->_pos)) {
                 if (_reloadTime <= 0) {
                     _reloadTime = _shootCoolDown;
-                    Projectile *p = new Arrow();
+                    Projectile *p = new LinkProjectile();
                     p->_direction = ((int) _direction) % 360;
                     p->_damage = _damage;
                     p->_moveable = true;
@@ -76,12 +79,11 @@ void PointerTower::Update() {
 
         }
     }
-    Tower::Update();
 }
 
-int PointerTower::_creditPointCosts = 5;
+int LinkedListTower::_creditPointCosts = 5;
 
-PointerTower::PointerTower(Point pos) : Tower(pos) {
+LinkedListTower::LinkedListTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
     _shootCoolDown = 3;
@@ -91,23 +93,35 @@ PointerTower::PointerTower(Point pos) : Tower(pos) {
         pMap->setTile(_rPos, MapObjects::Tower);
 }
 
-PointerTower::~PointerTower() = default;
+LinkedListTower::~LinkedListTower() = default;
 
-void PointerTower::showMenu(Gui **focus) {
+void LinkedListTower::showMenu(Gui **focus) {
     delete _floatingMenu;
     _menuEntries.clear();
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
     _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, 0});
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
-    _showRange = true;
 }
 
-uint PointerTower::getCosts() {
+uint LinkedListTower::getCosts() {
     return _creditPointCosts;
 }
 
-void PointerTower::setCosts(uint cp) {
-    _creditPointCosts = cp;
+void LinkedListTower::setCosts(uint cp) {
+    _creditPointCosts = (int)cp;
+}
+
+bool LinkedListTower::init(Gui **focus) {
+    _le.set(this,true);
+    _le.show(focus);
+}
+
+void LinkedListTower::setLink(LinkedListTower *before) {
+    _last = before;
+    _next = _last->_next;
+    _last->_next = this;
+    if(_next != nullptr)
+        _next->_last = this;
 }
 

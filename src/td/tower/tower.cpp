@@ -67,7 +67,7 @@ bool Tower::isDead() const {
     return !_alive;
 }
 
-void Tower::Render(float deltaT) {
+void Tower::Render() {
     // range
     if (_showRange) {
         FPoint range{0, 0};
@@ -82,10 +82,22 @@ void Tower::Render(float deltaT) {
     }
 }
 
-void Tower::Update(float deltaT) {
+void Tower::Update() {
     if (_floatingMenu != nullptr) {
         if (!_floatingMenu->getDialog())
             _showRange = false;
     }
+}
+
+bool Tower::init(Gui **focus) {
+    return true;
+}
+
+FPoint Tower::getPos() {
+    return _pos;
+}
+
+int Tower::getRange() {
+    return _range;
 }
 

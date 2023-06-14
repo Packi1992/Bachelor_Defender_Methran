@@ -25,16 +25,18 @@ public:
     uint16_t _ttl = 1000;
     uint8_t _damage = 100;
     bool _moveable = false;
+    virtual ~Projectile();
 
-    virtual void move(float deltaT);
-    virtual void collide(float deltaT);
-    virtual void Render(u32 totalMSec);
+    virtual void move();
+    virtual void collide();
+    virtual void Render();
 
     [[nodiscard]] bool onScreen() const;
 };
 
 #include "arrow.h"
 #include "fire.h"
+#include "link.h"
 #include "boomerang.h"
 
 #endif //SDL_BACHELORDEFENDER_PROJECTILE_H
