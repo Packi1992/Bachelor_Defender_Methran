@@ -41,7 +41,8 @@ private:
     Point _clickRel{};
     bool _mbRightDown = false;
     bool _mbLeftDown = false;
-
+    u32 _anim = 0;
+    u32 _oldTotalMsc = 0;
     int _selectedEntry=-1;
     Texture * _menuTexture{};
     Vector<MenuEntry>* _menuEntriesInfos{};
