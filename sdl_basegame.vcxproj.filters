@@ -16,6 +16,12 @@
     <Filter Include="src\td">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\td\tower">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\td\Projectiles">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef44}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Maps">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef43}</UniqueIdentifier>
     </Filter>
@@ -28,8 +34,12 @@
       <Extensions>ttf</Extensions>
     </Filter>
     <Filter Include="asset\music">
-      <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4d5}</UniqueIdentifier>
-      <Extensions>ogg</Extensions>
+      <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4f2}</UniqueIdentifier>
+      <Extensions>mp3;ogg;wav</Extensions>
+    </Filter>
+    <Filter Include="asset\sound">
+      <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4f1}</UniqueIdentifier>
+      <Extensions>ogg;wav;mp3</Extensions>
     </Filter>
     <Filter Include="asset\graphic">
       <UniqueIdentifier>{323dc01d-da22-4f6e-92ef-39a77497c4d7}</UniqueIdentifier>
@@ -39,9 +49,16 @@
       <UniqueIdentifier>{323dc01d-da22-4f6e-92ef-39a77497c4d8}</UniqueIdentifier>
       <Extensions>png;xcf</Extensions>
     </Filter>
+    <Filter Include="asset\graphic\editor">
+      <UniqueIdentifier>{323dc01d-da22-4f6e-92ef-39a77497c4d9}</UniqueIdentifier>
+      <Extensions>png;xcf</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bddgame.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enums.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\gamebase.h">
@@ -59,6 +76,42 @@
     <ClInclude Include="src\td\testtd.h">
       <Filter>src\td</Filter>
     </ClInclude>
+    <ClInclude Include="src\td\Projectiles\arrow.h">
+      <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\Projectiles\boomerang.h">
+      <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\Projectiles\fire.h">
+      <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\Projectiles\link.h">
+      <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\Projectiles\projectile.h">
+      <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\tower\linkedListTower.h">
+      <Filter>src\td\tower</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\tower\pointerTower.h">
+      <Filter>src\td\tower</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\tower\recursivTower.h">
+      <Filter>src\td\tower</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\tower\tower.h">
+      <Filter>src\td\tower</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\audioHandler.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\coordinateTransformer.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\dataHandler.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
     <ClInclude Include="src\tdUtil\editor.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
@@ -68,19 +121,31 @@
     <ClInclude Include="src\tdUtil\map.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
+    <ClInclude Include="src\tdUtil\player.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
     <ClInclude Include="src\tdUtil\projectilesHandler.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
     <ClInclude Include="src\tdUtil\tdTileHandler.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
+    <ClInclude Include="src\tdUtil\Wave.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdUtil\waveHandler.h">
+      <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\renderHelper.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
     <ClInclude Include="src\util\TextureCache.h">
       <Filter>src\util</Filter>
     </ClInclude>
-    <ClInclude Include="src\util\TextWithValue.h">
-      <Filter>src\util</Filter>
-    </ClInclude>
     <ClInclude Include="src\util\gui\Button.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\gui\floatingMenu.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
     <ClInclude Include="src\util\gui\gui.h">
@@ -89,48 +154,56 @@
     <ClInclude Include="src\util\gui\inputDialog.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\gui\linkEstablisher.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
     <ClInclude Include="src\util\gui\selectorDialog.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\gui\sizeDialog.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
     <ClInclude Include="src\util\gui\textbox.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
-    <ClInclude Include="src\util\gui\sizeDialog.h" />
-    <ClInclude Include="src\tdUtil\dataHandler.h" />
-    <ClInclude Include="src\tdUtil\player.h" />
-    <ClInclude Include="src\tdUtil\Wave.h" />
-    <ClInclude Include="src\tdUtil\waveHandler.h" />
-    <ClInclude Include="src\util\renderHelper.h" />
-    <ClInclude Include="src\tdUtil\coordinateTransformer.h" />
-    <ClInclude Include="src\td\Projectiles\projectile.h" />
-    <ClInclude Include="src\td\Projectiles\arrow.h" />
-    <ClInclude Include="src\td\Projectiles\fire.h" />
-    <ClInclude Include="src\td\tower\pointerTower.h" />
-    <ClInclude Include="src\td\tower\tower.h" />
-    <ClInclude Include="src\enums.h" />
-    <ClInclude Include="src\tdUtil\musicHandler.h" />
+    <ClInclude Include="src\util\gui\TextWithValue.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="classdiagram.drawio" />
+    <None Include="LICENSE" />
+    <None Include="old_README.md" />
     <None Include="packages.config" />
-    <None Include="asset\music\severance.ogg">
-      <Filter>asset\music</Filter>
-    </None>
+    <None Include="README.md" />
+    <None Include="tileTD.pdn" />
     <None Include="Maps\neueMap.map">
       <Filter>Maps</Filter>
     </None>
-    <None Include="README.md" />
-    <None Include="LICENSE" />
-    <None Include="classdiagram.drawio" />
-    <None Include=".gitignore" />
-    <None Include="asset\graphic\td\tileTD.xcf">
-      <Filter>asset\graphic\td</Filter>
-    </None>
-    <None Include="old_README.md" />
     <None Include="asset\graphic\Unbenannt.xcf">
       <Filter>asset\graphic</Filter>
     </None>
+    <None Include="asset\graphic\td\tileTD.xcf">
+      <Filter>asset\graphic\td</Filter>
+    </None>
+    <None Include="asset\music\severance.ogg">
+      <Filter>asset\music</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <Font Include="asset\font\MonkeyIsland-1991-refined.ttf">
+      <Filter>asset\font</Filter>
+    </Font>
+    <Font Include="asset\font\RobotoSlab-Bold.ttf">
+      <Filter>asset\font</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="classdiagram.png" />
     <Image Include="asset\graphic\background.png">
       <Filter>asset\graphic</Filter>
     </Image>
@@ -161,30 +234,27 @@
     <Image Include="asset\graphic\fire.png">
       <Filter>asset\graphic</Filter>
     </Image>
+    <Image Include="asset\graphic\methran1.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
     <Image Include="asset\graphic\poison.png">
       <Filter>asset\graphic</Filter>
+    </Image>
+    <Image Include="asset\graphic\tf_tileSet.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
+    <Image Include="asset\graphic\td\floatingMenu.png">
+      <Filter>asset\graphic\td</Filter>
     </Image>
     <Image Include="asset\graphic\td\tileTD.png">
       <Filter>asset\graphic\td</Filter>
     </Image>
-    <Image Include="classdiagram.png" />
-    <Image Include="asset\graphic\tf_tileSet.png">
-      <Filter>asset\graphic</Filter>
-    </Image>
     <Image Include="asset\graphic\editor\arrow.png">
-      <Filter>asset\graphic\td</Filter>
+      <Filter>asset\graphic\editor</Filter>
     </Image>
     <Image Include="asset\graphic\editor\blocked.png">
-      <Filter>asset\graphic\td</Filter>
+      <Filter>asset\graphic\editor</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="asset\font\MonkeyIsland-1991-refined.ttf">
-      <Filter>asset\font</Filter>
-    </Font>
-    <Font Include="asset\font\RobotoSlab-Bold.ttf">
-      <Filter>asset\font</Filter>
-    </Font>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bddgame.cpp">
@@ -202,6 +272,42 @@
     <ClCompile Include="src\td\testtd.cpp">
       <Filter>src\td</Filter>
     </ClCompile>
+    <ClCompile Include="src\td\Projectiles\arrow.cpp">
+      <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\Projectiles\boomerang.cpp">
+      <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\Projectiles\fire.cpp">
+      <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\Projectiles\link.cpp">
+      <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\Projectiles\projectile.cpp">
+      <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\tower\linkedListTower.cpp">
+      <Filter>src\td\tower</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\tower\pointerTower.cpp">
+      <Filter>src\td\tower</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\tower\recursivTower.cpp">
+      <Filter>src\td\tower</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\tower\tower.cpp">
+      <Filter>src\td\tower</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\audioHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\coordinateTransformer.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\dataHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
     <ClCompile Include="src\tdUtil\editor.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
@@ -211,19 +317,31 @@
     <ClCompile Include="src\tdUtil\map.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
+    <ClCompile Include="src\tdUtil\player.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
     <ClCompile Include="src\tdUtil\projectilesHandler.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
     <ClCompile Include="src\tdUtil\tdTileHandler.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
+    <ClCompile Include="src\tdUtil\Wave.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdUtil\waveHandler.cpp">
+      <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\renderHelper.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
     <ClCompile Include="src\util\TextureCache.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
-    <ClCompile Include="src\util\TextWithValue.cpp">
-      <Filter>src\util</Filter>
-    </ClCompile>
     <ClCompile Include="src\util\gui\Button.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\floatingMenu.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
     <ClCompile Include="src\util\gui\gui.cpp">
@@ -232,27 +350,37 @@
     <ClCompile Include="src\util\gui\inputDialog.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\gui\linkEstablisher.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
     <ClCompile Include="src\util\gui\selectorDialog.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\sizeDialog.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
     <ClCompile Include="src\util\gui\textbox.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
-    <ClCompile Include="src\util\gui\sizeDialog.cpp" />
-    <ClCompile Include="src\tdUtil\dataHandler.cpp" />
-    <ClCompile Include="src\tdUtil\player.cpp" />
-    <ClCompile Include="src\tdUtil\Wave.cpp" />
-    <ClCompile Include="src\tdUtil\waveHandler.cpp" />
-    <ClCompile Include="src\util\renderHelper.cpp" />
-    <ClCompile Include="src\tdUtil\coordinateTransformer.cpp" />
-    <ClCompile Include="src\td\Projectiles\arrow.cpp" />
-    <ClCompile Include="src\td\Projectiles\fire.cpp" />
-    <ClCompile Include="src\td\Projectiles\projectile.cpp" />
-    <ClCompile Include="src\td\tower\pointerTower.cpp" />
-    <ClCompile Include="src\td\tower\tower.cpp" />
-    <ClCompile Include="src\tdUtil\musicHandler.cpp" />
+    <ClCompile Include="src\util\gui\TextWithValue.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="CMakeLists.txt" />
+    <Media Include="asset\music\testsound.wav">
+      <Filter>asset\music</Filter>
+    </Media>
+    <Media Include="asset\sound\Darth_Vader_NO.mp3">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\pewf.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\ArrowHit.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\thriee.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
   </ItemGroup>
 </Project>
