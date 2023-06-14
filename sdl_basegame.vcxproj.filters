@@ -85,8 +85,14 @@
     <ClInclude Include="src\td\Projectiles\fire.h">
       <Filter>src\td\Projectiles</Filter>
     </ClInclude>
+    <ClInclude Include="src\td\Projectiles\link.h">
+      <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
     <ClInclude Include="src\td\Projectiles\projectile.h">
       <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\tower\linkedListTower.h">
+      <Filter>src\td\tower</Filter>
     </ClInclude>
     <ClInclude Include="src\td\tower\pointerTower.h">
       <Filter>src\td\tower</Filter>
@@ -148,6 +154,9 @@
     <ClInclude Include="src\util\gui\inputDialog.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\gui\linkEstablisher.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
     <ClInclude Include="src\util\gui\selectorDialog.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
@@ -171,7 +180,6 @@
     <None Include="old_README.md" />
     <None Include="packages.config" />
     <None Include="README.md" />
-    <None Include="tileBD.pdn" />
     <None Include="tileTD.pdn" />
     <None Include="Maps\neueMap.map">
       <Filter>Maps</Filter>
@@ -226,6 +234,9 @@
     <Image Include="asset\graphic\fire.png">
       <Filter>asset\graphic</Filter>
     </Image>
+    <Image Include="asset\graphic\methran1.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
     <Image Include="asset\graphic\poison.png">
       <Filter>asset\graphic</Filter>
     </Image>
@@ -270,8 +281,14 @@
     <ClCompile Include="src\td\Projectiles\fire.cpp">
       <Filter>src\td\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="src\td\Projectiles\link.cpp">
+      <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
     <ClCompile Include="src\td\Projectiles\projectile.cpp">
       <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\tower\linkedListTower.cpp">
+      <Filter>src\td\tower</Filter>
     </ClCompile>
     <ClCompile Include="src\td\tower\pointerTower.cpp">
       <Filter>src\td\tower</Filter>
@@ -331,6 +348,9 @@
       <Filter>src\util\gui</Filter>
     </ClCompile>
     <ClCompile Include="src\util\gui\inputDialog.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\linkEstablisher.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
     <ClCompile Include="src\util\gui\selectorDialog.cpp">
