@@ -52,7 +52,7 @@ void TestTD::Render(u32 frame, u32 totalMSec, float deltaT) {
     rh->rect(&SanityBar, 4, BLACK);
     // Menu
     for (auto &tower: globals._towers) {
-        tower->RenderMenu(deltaT);
+        tower->RenderMenu();
     }
     _creditPointDisplay.draw();
     _floatingMenu.Render();

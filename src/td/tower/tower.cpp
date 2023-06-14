@@ -48,7 +48,7 @@ bool Tower::isClicked(Point md) {
     return (CT::getTileInGame(md) == _rPos);
 }
 
-void Tower::RenderMenu(float deltaT) {
+void Tower::RenderMenu() {
     if (_floatingMenu != nullptr)
         _floatingMenu->Render();
 }

@@ -29,15 +29,13 @@ public:
 
     virtual void setCosts(uint cp) = 0;
 
-    virtual Point getPos();
-
     virtual ~Tower();
 
     bool isClicked(Point md);
 
     virtual void showMenu(Gui **focus) = 0;
 
-    void RenderMenu(float deltaT);
+    void RenderMenu();
 
     void removeFromMap();
 
