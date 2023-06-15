@@ -56,6 +56,9 @@ public:
     // used to handle collision detection - is not necessarily same as dstRect
     [[nodiscard]] bool isPointInside(const FPoint &p) const;
     [[nodiscard]] FRect getHitBox() const;
+
+    bool hasCollision(Projectile *&pProjectile) const;
+
 protected:
     void startDeathAnimation();
 
@@ -72,6 +75,8 @@ protected:
     float _poisonTimer = 0;
     bool _reachedGoal = false;
     void updateDir();
+
+    static bool hasLineIntersection(Projectile *&pProjectile);
 };
 
 

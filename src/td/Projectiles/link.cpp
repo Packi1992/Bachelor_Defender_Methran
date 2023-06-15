@@ -8,7 +8,7 @@ LinkProjectile::LinkProjectile() {
     _type=ProjectileType::LINK;
     _speed = 0;
     _alive = true;
-    _ttl = 1000;
+    _ttl = 100;
 }
 void LinkProjectile::set(float length, u16 timeToLife, FPoint position, FPoint position2, u16 direction){
     _length = length;

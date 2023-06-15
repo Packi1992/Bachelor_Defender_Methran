@@ -47,7 +47,7 @@ void LinkedListTower::Update() {
         if(_shootCoolDown<=0){
             _shootCoolDown = _reloadTime;
             auto *lp = new LinkProjectile();
-            lp->set(0,10,_pos,_next->_pos,200);
+            lp->set(0,100,_pos,_next->_pos,200);
             tdGlobals->_ph.add(lp);
 
         }
@@ -62,7 +62,7 @@ int LinkedListTower::_creditPointCosts = 5;
 LinkedListTower::LinkedListTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
-    _shootCoolDown = 3;
+    _reloadTime = 5;
     _damage = 50;
     _aimSpeed = 1;
     if (pMap->getObject(pos) == Empty)
