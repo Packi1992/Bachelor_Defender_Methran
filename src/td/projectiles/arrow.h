@@ -10,9 +10,6 @@
 class Arrow : public Projectile {
 public:
     Arrow();
-
-    void move() override;
-    void collide() override;
 };
 
 

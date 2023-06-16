@@ -103,7 +103,7 @@ void TextBox::Input() {
                 if (event.key.keysym.sym == SDLK_BACKSPACE && !_input.empty())
                     _input.erase(_input.size() - 1);
                 if (event.key.keysym.sym == SDLK_KP_ENTER)
-                    releaseFocus();
+                    releaseFocus(true);
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 bool left = event.motion.x < _rInputField.x;
@@ -112,7 +112,7 @@ void TextBox::Input() {
                 bool bottom = event.motion.y > _rInputField.y + _rInputField.h;
                 if (left || right || top || bottom) {
                     SDL_PushEvent(&event);
-                    releaseFocus();
+                    releaseFocus(true);
                     return;
                 }
                 break;

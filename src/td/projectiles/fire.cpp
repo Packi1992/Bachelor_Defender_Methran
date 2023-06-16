@@ -9,11 +9,11 @@ Fire::Fire() {
     _type = ProjectileType::FFIRE;
 }
 
-void Fire::move() {
+void Fire::Update() {
     if (_ttl < 30) {
         _moveable = false;
     }
-    Projectile::move();
+    Projectile::Update();
 }
 
 void Fire::collide() {

@@ -9,7 +9,10 @@
 #include "../../td/testtd.h"
 
 void LinkEstablisher::set(LinkedListTower *srcTower, bool first) {
-    _tower = srcTower;
+    _last = srcTower;
+    _next = srcTower->getNext();
+    if(_next == nullptr)
+        _isLinkNextInRange = true;
     _first = first;
     calcLinkPosition();
 
@@ -23,7 +26,6 @@ void LinkEstablisher::Input() {
             return;
         switch (event.type) {
             case SDL_MOUSEBUTTONDOWN:
-                _clickPos = {event.motion.x, event.motion.y};
                 if (event.button.button == SDL_BUTTON_RIGHT) {
                     _mbRightDown = true;
                 }
@@ -40,7 +42,6 @@ void LinkEstablisher::Input() {
                 }
                 break;
             case SDL_MOUSEMOTION:
-                _clickPos = {event.motion.x, event.motion.y};
                 _clickRel = {event.motion.xrel, event.motion.yrel};
                 break;
             case SDL_MOUSEWHEEL:
@@ -49,10 +50,16 @@ void LinkEstablisher::Input() {
                 break;
             case SDL_KEYDOWN:
                 if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
-                    _tower->removeFromMap();
-                    _tower->setDead(true);
-                    tdGlobals->_pl._creditPoints += _tower->getCosts();
-                    releaseFocus();
+                    if(_first){
+                    _last->removeFromMap();
+                    _last->setDead(true);
+                    tdGlobals->_pl._creditPoints += _last->getCosts();
+                    releaseFocus(false);
+                    return;
+                    }
+                    else{
+                        tdGlobals->_pl._creditPoints += _last->getLinkCosts();
+                    }
                 }
         }
     }
@@ -65,26 +72,49 @@ void LinkEstablisher::Render() {
             rh->tile(&_towerLinkRect, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
             rh->tile(&_towerLinkRect, ((int) 0) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, 0));
         }
-        t_color markerColor = RED;
+        t_color markerColorBefore = RED;
+        t_color markerColorNext = RED;
         if (_isLinkInRange) {
-            markerColor = GREEN;
+            markerColorBefore = GREEN;
+        }
+        if (_isLinkNextInRange) {
+            markerColorNext = GREEN;
         }
 
+        // draw range markers of tower before
         FPoint range{0, 0};
         for (int angle = 0; angle < 360; angle += 10) {
             float angleF = (float) angle / 180.0f * (float) M_PI;
-            range.x = (float) _tower->getPos().x + sin(angleF) * (float) _tower->getRange();
-            range.y = (float) _tower->getPos().y + cos(angleF) * (float) _tower->getRange();
+            range.x = (float) _last->getPos().x + sin(angleF) * (float) _last->getRange();
+            range.y = (float) _last->getPos().y + cos(angleF) * (float) _last->getRange();
             if(range.x>0 && range.x < pMap->_width && range.y > 0 && range.y < pMap->_height){
                 Point range2 = CT::getPosOnScreen(range);
                 Rect dstMarker = {range2.x, range2.y, 5, 5};
-                rh->fillRect(&dstMarker, markerColor);
+                rh->fillRect(&dstMarker, markerColorBefore);
             }
         }
         if (_isLinkInRange) {
-            Point towerCenter = CT::getPosOnScreen(_tower->getPos());
+            Point towerCenter = CT::getPosOnScreen(_last->getPos());
             Point newTowerCenter = CT::getPosOnScreen(_cursorCenterPos);
             rh->line(towerCenter,newTowerCenter,GREEN);
+        }
+        // draw range markers of next tower
+        if(_next != nullptr){
+            for (int angle = 0; angle < 360; angle += 10) {
+                float angleF = (float) angle / 180.0f * (float) M_PI;
+                range.x = (float) _next->getPos().x + sin(angleF) * (float) _next->getRange();
+                range.y = (float) _next->getPos().y + cos(angleF) * (float) _next->getRange();
+                if(range.x>0 && range.x < pMap->_width && range.y > 0 && range.y < pMap->_height){
+                    Point range2 = CT::getPosOnScreen(range);
+                    Rect dstMarker = {range2.x, range2.y, 5, 5};
+                    rh->fillRect(&dstMarker, markerColorNext);
+                }
+            }
+            if (_isLinkNextInRange) {
+                Point towerCenter = CT::getPosOnScreen(_next->getPos());
+                Point newTowerCenter = CT::getPosOnScreen(_cursorCenterPos);
+                rh->line(towerCenter,newTowerCenter,GREEN);
+            }
         }
     }
 }
@@ -102,19 +132,20 @@ void LinkEstablisher::Update() {
             _mouseWheel = false;
         }
         if (_mbLeftDown) {
-            if(_isLinkInRange){
+            if(_isLinkInRange && _isLinkNextInRange){
                 std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(_cursorRenderPos);
                 tdGlobals->_towers.push_back(tower);
                 std::shared_ptr<LinkedListTower> lTower = std::dynamic_pointer_cast<LinkedListTower>(tdGlobals->_towers.at(tdGlobals->_towers.size()-1));
-                lTower->setLink(_tower);
-                releaseFocus();
+                lTower->setLink(_last);
+                releaseFocus(false);
+                return;
             }
         }
         calcLinkPosition();
     }
 }
 
-bool LinkEstablisher::isDone() const {
+bool LinkEstablisher::isDone() {
     return false;
 }
 
@@ -131,11 +162,27 @@ void LinkEstablisher::calcLinkPosition() {
     SDL_GetMouseState(&_cursorRenderPos.x, &_cursorRenderPos.y);
     _cursorCenterPos = CT::getTileCenterInGame(_cursorRenderPos);
     _cursorRenderPos = CT::getTileInGame(_cursorRenderPos);
-    // check if tower link is in range
+    // check if tower before is in range
     FRect destRect = {_cursorCenterPos.x - 0.25f, _cursorCenterPos.y - 0.25f, 0.5f, 0.5f};
-    _isLinkInRange = _tower->inRange(destRect);
+    _isLinkInRange = _last->inRange(destRect);
     Point dst = CT::getPosOnScreen(_cursorRenderPos);
     _towerLinkRect = {dst.x,dst.y,scale,scale};
+    // check if tower after is in range
+    if(_next != nullptr){
+        FRect destRect2 = {_cursorCenterPos.x - 0.25f, _cursorCenterPos.y - 0.25f, 0.5f, 0.5f};
+        _isLinkNextInRange = _next->inRange(destRect2);
+        Point dst2 = CT::getPosOnScreen(_cursorRenderPos);
+        _towerNextLinkRect = {dst2.x,dst2.y,scale,scale};
+    }
+}
 
+void LinkEstablisher::releaseFocus( bool continueRender) {
+    Gui::releaseFocus( continueRender);
+    _mbRightDown = false;
+    _mbLeftDown = false;
+    _escape = false;
+    _mouseWheel = false;
+    _last = nullptr;
+    _next = nullptr;
 }
 

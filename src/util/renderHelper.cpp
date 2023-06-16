@@ -204,6 +204,8 @@ void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
         case MenuEntry_Upgrade:
             helperInstance->texture(_arrow, center);
             break;
+        case MenuEntry_AddLink:
+            helperInstance->texture(_link, center);
         case MenuEntry_Error:
         case MenuEntry_Disabled:
         default:

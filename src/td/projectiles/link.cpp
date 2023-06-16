@@ -3,28 +3,34 @@
 //
 
 #include "link.h"
+#include "../enemy/enemy.h"
 
 LinkProjectile::LinkProjectile() {
     _type=ProjectileType::LINK;
     _speed = 0;
     _alive = true;
-    _ttl = 100;
+    _ttl = 200;
 }
-void LinkProjectile::set(float length, u16 timeToLife, FPoint position, FPoint position2, u16 direction){
-    _length = length;
+void LinkProjectile::set(u16 timeToLife, FPoint position, FPoint position2, u8 damage){
     _ttl = timeToLife;
     _position = position;
-    _direction = direction;
     _position2 = position2;
-
+    _damage = damage;
 }
 
-void LinkProjectile::move() {
-    Projectile::move();
+void LinkProjectile::Update() {
+    Projectile::Update();
 }
 
 void LinkProjectile::Render() {
     Point p1 = CT::getPosOnScreen(_position);
     Point p2 = CT::getPosOnScreen(_position2);
     rh->line(p1,p2,GREEN);
+}
+
+bool LinkProjectile::collision(Enemy *e) {
+    if(CT::collisionLineRect(_position,_position2,e->getHitBox())){
+        e->takeDamage(this);
+    }
+    return true;
 }

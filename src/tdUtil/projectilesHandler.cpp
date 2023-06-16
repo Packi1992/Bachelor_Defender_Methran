@@ -3,7 +3,7 @@
 //
 
 #include "projectilesHandler.h"
-#include "../td/Projectiles/projectile.h"
+#include "../td/projectiles/projectile.h"
 
 void ProjectilesHandler::set() {
     this->_texture = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
@@ -40,18 +40,12 @@ void ProjectilesHandler::Update() {
     for (int i = 0; i < MAXPROJECTILES; i++) {
         if (_projectiles[i] != nullptr) {
             if (_projectiles[i]->_alive) {
-                _projectiles[i]->move();
+                _projectiles[i]->Update();
             }
-
-            //checking if Projectile still alive?
-            cout << "projectile " << i << " ttl: " << _projectiles[i]->_ttl << endl;
-            if (--_projectiles[i]->_ttl <= 0) {
-                _projectiles[i]->_alive = false;
+            else{
                 delete _projectiles[i];
                 _projectiles[i] = nullptr;
             }
-
-
         }
     }
 }

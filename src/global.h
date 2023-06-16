@@ -81,10 +81,10 @@ using std::cout, std::cin, std::cerr, std::endl, std::string;
 #define MAXPROJECTILES 100
 #define SOUNDCHANNELCOUNT 8
 
-#include "tdUtil/coordinateTransformer.h"
+#include "util/coordinateTransformer.h"
 #include "util/TextureCache.h"
 #include "util/renderHelper.h"
 #include "enums.h"
-#include "tdUtil/audioHandler.h"
+#include "util/audioHandler.h"
 using CT = CoordinateTransformer;
 

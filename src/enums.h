@@ -89,6 +89,7 @@ enum MenuEntries{
     MenuEntry_Disabled,
     MenuEntry_Sell,
     MenuEntry_Upgrade,
+    MenuEntry_AddLink,
 };
 
 enum Status{

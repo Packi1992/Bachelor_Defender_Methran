@@ -7,6 +7,8 @@
 #include "../global.h"
 struct SpeechEvent{
     std::string command;
+    u32 time=0;
+    u16 duration=0;
     static SpeechEvent readLine(string input);
 };
 struct SpawnEvent{
@@ -38,7 +40,7 @@ struct SpawnEvent{
 
     static SpawnEvent readLine(string EventAsString);
 };
-#include "enemy.h"
+#include "../td/enemy/enemy.h"
 
 class Wave{
 public:

@@ -4,7 +4,7 @@
 
 #include "recursivTower.h"
 #include "../testtd.h"
-#include "../Projectiles/boomerang.h"
+#include "../projectiles/boomerang.h"
 #include "../../util/gui/floatingMenu.h"
 
 void RecursivTower::Render() {
@@ -13,10 +13,10 @@ void RecursivTower::Render() {
     rh->tile(&dst, TdTileHandler::getTowerSrcRect(RecursivBase));
     int anim = ((int) ((_shootCoolDown - _reloadTime))) / 2;
     long animT = (anim > 2) ? 0 : anim;
-    if (_reloadTime <= 0.05f) {
+    if (_reloadTime <= 50) {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Boomerang, 1));
         //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
-    } else if (_reloadTime > 0.05 && _reloadTime <= 3.0f) {
+    } else if (_reloadTime > 50 && _reloadTime <= 3000) {
         rh->tile(&dst, 360-((int)_spin%360), TdTileHandler::getTowerSrcRect(Boomerang, 1));
         //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
     } else {
@@ -76,7 +76,7 @@ void RecursivTower::Update() {
                     audioHandler->playSound(SoundBoomerangFire, x);
                     tdGlobals->_ph.add(p);
                 } else {
-                    _reloadTime -= deltaTg;
+                    _reloadTime -= _diff;
                 }
             }
             // enemy target is locked -> change direction to enemy and shoot

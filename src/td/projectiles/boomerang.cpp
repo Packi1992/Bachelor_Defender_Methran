@@ -3,21 +3,22 @@
 //
 
 #include "boomerang.h"
-#include "../../recthelper.h"
 
 Boomerang::Boomerang() {
     _type = ProjectileType::BOOMERANG;
 }
 
-void Boomerang::move() {
-    _hitCooldown -= deltaTg;
+void Boomerang::Update() {
+    _diff = (int)(totalMscg - _lastTimePoint);
+    if(_diff < 0 )_diff = 0;
+    _lastTimePoint = totalMscg;
     _direction += 3;
     auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
     auto speed = (float) (((float) _speed) * 0.01f);
     _position.x += (sin(direction) * speed);
     _position.y -= (cos(direction) * speed);
-    _minFlyingTime -= deltaTg;
-    if (_minFlyingTime <= 0.0f) {
+    _minFlyingTime -= _diff;
+    if (_minFlyingTime <= 0) {
         _toggleDirection = !_toggleDirection;
     }
     if (((int) _position.x == (int) _startingPoint.x) && ((int) _position.y == (int) _startingPoint.y) &&

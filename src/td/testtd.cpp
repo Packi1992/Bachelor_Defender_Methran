@@ -2,8 +2,10 @@
 // Created by banoodle on 14.05.23.
 //
 #include "testtd.h"
-#include "../tdUtil/dataHandler.h"
-#include "../td/Projectiles/arrow.h"
+
+#include <utility>
+#include "../util/dataHandler.h"
+#include "../td/projectiles/arrow.h"
 
 TDGlobals *tdGlobals{};
 
@@ -11,7 +13,7 @@ void TestTD::Init() {
     GameState::Init();
     pGame = &game;
     pMap = &_map;
-    DataHandler::load(globals._pl, globals._wh, _map);
+    DataHandler::load(globals._pl, globals._wh, _map,BasePath"Maps/"+_mapPath);
     globals._ph.set();
     tdGlobals = &globals;
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
@@ -117,37 +119,14 @@ void TestTD::Update() {
             Game::scrollScreen(_motionEvent);
             _mouseMotion = false;
         }
-
-        // ---- DEV -------------------------------------
-        // add projectiles and particles
-        // update projectile direction
-        if (_btn_space) {
-            _arrowDir = (_arrowDir + 5) % 360;
-            _btn_space = false;
-        }
-        if (_btn_control) {
-            Point cursor;
-            SDL_GetMouseState(&cursor.x, &cursor.y);
-            auto *p = new Arrow();
-            p->_direction = _arrowDir;
-            p->_position = CT::getPosInGame(cursor);
-            p->_speed = 1;
-            globals._ph.add(p);
-            Fire *f = new Fire();
-            f->_direction = _arrowDir;
-            f->_position = CT::getPosInGame(cursor);
-            f->_speed = 1;
-            f->_moveable = true;
-            f->_ttl = 80;
-            _btn_control = false;
-        }
+        // input handling
         if (_mbLeft) {
             bool clickTower = false;
             Point cursor;
             SDL_GetMouseState(&cursor.x, &cursor.y);
             for (auto &t: globals._towers) {
                 if (t->isClicked(cursor)) {
-                    t->showMenu(&focus);
+                    t->showMenu(&globals._focus);
                     clickTower = true;
                     break;
                 }
@@ -160,7 +139,7 @@ void TestTD::Update() {
                         _floatingMenu.reset();
                         updateFloatingMenu();
                         _floatingMenu.set(&_buildMenuEntries, CT::getTileCenterInGame(cursor));
-                        _floatingMenu.show(&focus);
+                        _floatingMenu.show(&globals._focus);
                         break;
                     default:
                         break;
@@ -179,22 +158,14 @@ void TestTD::Update() {
 }
 
 void TestTD::collision() {
-    for (auto &e: globals._enemies) {
-        if (e._alive) {
-            for (auto &p: globals._ph._projectiles) {
-                if (p != nullptr) {
-                    if (p->_alive) {
-                        if (e.hasCollision(p)) {
-                            e.takeDamage(p);
-                            p->collide();
-                            if (!p->_alive) {
-                                delete p;
-                                p = nullptr;
-                            }
-                            if (!e._alive) {
-                                break;
-                            }
-                        }
+    for (auto &p: globals._ph._projectiles) {
+        if (p != nullptr && p->_alive) {
+            for (auto &e: globals._enemies) {
+                if (e._alive && p->collision(&e)) {
+                    if (!p->_alive) {
+                        delete p;
+                        p = nullptr;
+                        break;
                     }
                 }
             }
@@ -203,8 +174,7 @@ void TestTD::collision() {
 }
 
 void TestTD::Events() {
-    if (focus == nullptr) {
-
+    if (globals._focus == nullptr) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             if (pGame->HandleEvent(event))
@@ -237,7 +207,7 @@ void TestTD::Events() {
             }
         }
     } else {
-        focus->Input();
+        globals._focus->Input();
     }
 }
 
@@ -275,34 +245,20 @@ void TestTD::keyDown(SDL_Event &event) {
 
 void TestTD::updateFloatingMenu() {
     _buildMenuEntries.clear();
-    MenuEntry linkedListTower{MenuEntry_LinkedList, Status_Active, 5};
+    MenuEntry linkedListTower{MenuEntry_LinkedList, Status_Active, 10};
     MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 5};
     MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 5};
-    if (globals._pl._creditPoints < 5) {
-        pointerTower._status = Status_NotEnoughMoney;
-        linkedListTower._status = Status_NotEnoughMoney;
-        recursiveTower._status = Status_NotEnoughMoney;
-    }
     if (!pMap->checkPath(CT::getMousePosTile())) {
         pointerTower._status = Status_Disabled;
         recursiveTower._status = Status_Disabled;
+        linkedListTower._status = Status_Disabled;
     }
     _buildMenuEntries.push_back(pointerTower);
-    if (!pMap->checkPath(CT::getMousePosTile())) linkedListTower._status = Status_Disabled;
     _buildMenuEntries.push_back(linkedListTower);
     _buildMenuEntries.push_back(recursiveTower);
 }
 
-bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
-    if (tower->getCosts() > globals._pl._creditPoints) {
-        return false;
-    }
-    if (tower->init(&focus)) {
-        globals._pl._creditPoints -= tower->getCosts();
-        return true;
-    }
-    return false;
-}
+
 
 void TestTD::updateUI() {
     SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
@@ -312,9 +268,9 @@ void TestTD::updateUI() {
     Sanity.y += SanityBar.h - sanity_left;
     Sanity.h = sanity_left;
     // calculate Methran Size
-    float MethanScaleFactor = 0.35f * (float) windowSize.y / (float) MethranDst.h;
-    MethranDst.w = (int) (MethanScaleFactor * (float) MethranDst.w);
-    MethranDst.h = (int) (MethanScaleFactor * (float) MethranDst.h);
+    float MethrannScaleFactor = 0.35f * (float) windowSize.y / (float) MethranDst.h;
+    MethranDst.w = (int) (MethrannScaleFactor * (float) MethranDst.w);
+    MethranDst.h = (int) (MethrannScaleFactor * (float) MethranDst.h);
     MethranDst.x = windowSize.x - MethranDst.w - 100;
     MethranDst.y = windowSize.y - MethranDst.h - 100;
     if (fSanity <= 0.1f) {
@@ -378,4 +334,19 @@ void TestTD::updateTowers() {
         }
     }
 
+}
+
+bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
+    if (tower->getCosts() > globals._pl._creditPoints) {
+        return false;
+    }
+    if (tower->init(&tdGlobals->_focus)) {
+        globals._pl._creditPoints -= tower->getCosts();
+        return true;
+    }
+    return false;
+}
+
+TestTD::TestTD(Game &game, string mapPath): GameState(game) {
+    _mapPath = std::move(mapPath);
 }

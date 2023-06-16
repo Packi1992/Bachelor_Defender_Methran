@@ -9,12 +9,14 @@
 
 class Boomerang : public Projectile {
 private:
-    float _minFlyingTime = .1f;
+    int _minFlyingTime = 3000;
     bool _toggleDirection = false;
+    u_int32_t _lastTimePoint=0;
+    int _diff=0;
 public:
     Boomerang();
     void Render() override;
-    void move() override;
+    void Update() override;
     void collide() override;
 };
 
