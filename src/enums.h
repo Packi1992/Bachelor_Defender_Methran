@@ -39,7 +39,7 @@ enum TowerType{
     Tower_LinkedList,
     Tower_LinkedListBase,
     RecursivBase,
-    Boomerang,
+    Tower_Boomerang,
 };
 
 //  specific Colors to make things easier regarding drawing colors

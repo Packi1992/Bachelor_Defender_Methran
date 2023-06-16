@@ -16,7 +16,7 @@ public:
         u16 hitCooldown = 0;
     };
     bool _alive = true;
-    int _ttl = 1000;
+    int _ttl = 0;
 
     bool _destroy = false;
     ProjectileType _type = ProjectileType::DISABLED;
