@@ -7,7 +7,7 @@ BddGame::BddGame() :
         Game("Bachelor Defender: Methran und das goldene Zertifikat", {1680, 1000},false) {
     allStates = {
             new IntroState(*this),
-            new TestTD(*this),
+            new TestTD(*this, "neueMap.map"),
             new Editor(*this),
     };
 

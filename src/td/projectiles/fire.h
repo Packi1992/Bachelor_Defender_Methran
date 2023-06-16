@@ -10,7 +10,7 @@
 class Fire:public Projectile {
 public:
     Fire();
-    void move() override;
+    void Update() override;
     void collide() override;
 };
 

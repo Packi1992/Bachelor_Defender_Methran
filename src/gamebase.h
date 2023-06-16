@@ -150,7 +150,7 @@ public:
     virtual void Render() = 0;
 };
 
-#include "tdUtil/coordinateTransformer.h"
+#include "util/coordinateTransformer.h"
 
 using CT = CoordinateTransformer;
 #endif

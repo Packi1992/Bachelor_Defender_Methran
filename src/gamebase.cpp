@@ -243,7 +243,7 @@ void Game::zoomScreen(SDL_Event event) {
     int wheel = event.wheel.y;
     FPoint cursorGamePos = CT::getPosInGame(cursor);
     if (wheel / abs(wheel) < 1) {// zoom out
-        if (scale > 20) {
+        if (scale > 32) {
             scale = (int) ((float) scale * 0.8f);
             Point newScreenPos = CT::getPosOnScreen(cursorGamePos);
             offset = offset + (newScreenPos - cursor);

@@ -109,4 +109,23 @@ SDL_Point CoordinateTransformer::getMousePosTile() {
     return getTileInGame(Game::getMousePos());
 }
 
+bool CoordinateTransformer::collisionLineLine(const SDL_FPoint &p11, const SDL_FPoint &p12, const SDL_FPoint &p21,
+                                              const SDL_FPoint &p22) {
+    float uD = ((p22.y - p21.y) * (p12.x - p11.x) - (p22.x - p21.x) * (p12.y - p11.y));
+    if (uD != 0) {
+        float uA = ((((p22.x - p21.x) * (p11.y - p21.y)) - ((p22.y - p21.y) * (p11.x - p21.x))) / uD);
+        float uB = ((((p12.x - p11.x) * (p11.y - p21.y)) - ((p12.y - p11.y) * (p11.x - p21.x))) / uD);
+        if (uA > 0 && uA < 1 && uB > 0 && uB < 1) {
+            return true;
+        }
+    }
+    return false;
+}
 
+bool CoordinateTransformer::collisionLineRect(const SDL_FPoint &p1, const SDL_FPoint &p2, const SDL_FRect &r) {
+    bool top = collisionLineLine(p1, p2, {r.x, r.y}, {r.x + r.w, r.y});
+    bool right = collisionLineLine(p1, p2, {r.x + r.w, r.y}, {r.x + r.w, r.y + r.h});
+    bool bot = collisionLineLine(p1, p2, {r.x, r.y + r.h}, {r.x + r.w, r.y + r.h});
+    bool left = collisionLineLine(p1, p2, {r.x, r.y}, {r.x, r.y + r.h});
+    return (left || top || right || bot);
+}

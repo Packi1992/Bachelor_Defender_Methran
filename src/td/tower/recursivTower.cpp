@@ -4,7 +4,7 @@
 
 #include "recursivTower.h"
 #include "../testtd.h"
-#include "../Projectiles/boomerang.h"
+#include "../projectiles/boomerang.h"
 #include "../../util/gui/floatingMenu.h"
 
 void RecursivTower::Render() {
@@ -13,14 +13,14 @@ void RecursivTower::Render() {
     rh->tile(&dst, TdTileHandler::getTowerSrcRect(RecursivBase));
     int anim = ((int) ((_shootCoolDown - _reloadTime))) / 2;
     long animT = (anim > 2) ? 0 : anim;
-    if (_reloadTime <= 0.05f) {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Boomerang, 1));
+    if (_reloadTime <= 50) {
+        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_Boomerang, 1));
         //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
-    } else if (_reloadTime > 0.05 && _reloadTime <= 3.0f) {
-        rh->tile(&dst, 360-((int)_spin%360), TdTileHandler::getTowerSrcRect(Boomerang, 1));
+    } else if (_reloadTime > 50 && _reloadTime <= 3000) {
+        rh->tile(&dst, 360-((int)_spin%360), TdTileHandler::getTowerSrcRect(Tower_Boomerang, 1));
         //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
     } else {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Boomerang, animT));
+        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_Boomerang, animT));
     }
     _spin += 160;
     Tower::Render();
@@ -61,7 +61,7 @@ void RecursivTower::Update() {
             if (aimAtEnemy(_targetEnemy->_pos)) {
                 if (_reloadTime <= 0) {
                     _reloadTime = _shootCoolDown;
-                    Projectile *p = new class Boomerang();
+                    Projectile *p = new Boomerang();
                     p->_direction = ((int) _direction) % 360;
                     p->_damage = _damage;
                     p->_moveable = true;
@@ -76,7 +76,7 @@ void RecursivTower::Update() {
                     audioHandler->playSound(SoundBoomerangFire, x);
                     tdGlobals->_ph.add(p);
                 } else {
-                    _reloadTime -= deltaTg;
+                    _reloadTime -= _diff;
                 }
             }
             // enemy target is locked -> change direction to enemy and shoot
@@ -91,7 +91,7 @@ int RecursivTower::_creditPointCosts = 5;
 RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
-    _shootCoolDown = 5;
+    _shootCoolDown = 5000;
     _damage = 25;
     _aimSpeed = 1;
     if (pMap->getObject(pos) == Empty)

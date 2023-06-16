@@ -11,10 +11,10 @@ public:
     virtual void Input()=0;
     virtual void Render()=0;
     virtual void Update()=0;
-    void releaseFocus(Event *event=nullptr, bool continueRender=false);
+    virtual void releaseFocus(bool continueRender);
     void show(Gui **focus);
     void setNextFocus(Gui *next);
-    bool getDialog();
+    [[nodiscard]] bool getDialog() const;
     [[nodiscard]] bool isActive() const;
 protected:
     Event _lastEvent{};

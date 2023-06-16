@@ -14,7 +14,7 @@ class Editor;
 #include "../util/gui/selectorDialog.h"
 #include "../util/gui/inputDialog.h"
 #include "../util/gui/sizeDialog.h"
-#include "dataHandler.h"
+#include "../util/dataHandler.h"
 
 class Editor: public GameState{
 protected:

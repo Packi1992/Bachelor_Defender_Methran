@@ -93,8 +93,7 @@ SelectorDialog::~SelectorDialog(){
 }
 
 void SelectorDialog::tidyUp() {
-    dialog = false;
-    releaseFocus();
+    releaseFocus(false);
     for (auto btn: buttons) {
         delete(btn);
     }

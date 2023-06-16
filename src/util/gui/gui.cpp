@@ -8,9 +8,7 @@ void Gui::show(Gui **pFocus) {
     *pFocus = this;
 }
 
-void Gui::releaseFocus(Event *event, bool continueRender) {
-    if(event != nullptr)
-        _lastEvent=*event;
+void Gui::releaseFocus(bool continueRender) {
     *focus = nextFocus;
     dialog = continueRender;
     nextFocus = nullptr;
@@ -24,6 +22,6 @@ bool Gui::isActive() const {
     return dialog;
 }
 
-bool Gui::getDialog() {
+bool Gui::getDialog() const {
     return dialog;
 }

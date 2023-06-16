@@ -13,18 +13,18 @@ public:
     void Input() override;
     void Render() override;
     void Update() override;
-    [[nodiscard]] bool isDone() const;
+    [[nodiscard]] static bool isDone() ;
 
+    void releaseFocus(bool continueRender) override;
     void handleEvent(Event event);
     void acceptInput();
 private:
-    LinkedListTower *_tower{};
+    LinkedListTower *_last{};
+    LinkedListTower *_next{};
     bool _first=false;
     // zoom handling
     bool _mouseWheel = false;
     SDL_Event _wheelEvent{};
-    FPoint _position{};
-    Point _clickPos{};
     Point _clickRel{};
     bool _mbRightDown = false;
     bool _mbLeftDown = false;
@@ -35,8 +35,10 @@ private:
 
     Point _cursorRenderPos{};
     Rect _towerLinkRect{};
+    Rect _towerNextLinkRect{};
     FPoint _cursorCenterPos{};
     bool _isLinkInRange=false;
+    bool _isLinkNextInRange=false;
 
 
 

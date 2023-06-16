@@ -22,6 +22,7 @@ public:
     ~LinkedListTower() override;
 
     uint getCosts() override;
+    uint getLinkCosts() const;
 
     void setLink(LinkedListTower *before);
 
@@ -35,12 +36,21 @@ public:
 
     void setDead(bool b);
 
+    LinkedListTower *getNext();
+
 private:
     static int _creditPointCosts;
-    LinkEstablisher _le;
-    LinkedListTower *_last{};
+    LinkEstablisher _linkEstablisher;
+    LinkedListTower *_before{};
     LinkedListTower *_next{};
-    int _listRange=0;
+    int _linkCosts = 2;
+    LinkedListTower *_trigger{};
+    LinkedListTower *_trigger2{};
+    u16 _delay2=0;
+
+    void sell();
+
+    void shoot(LinkedListTower* trigger, u16 delay);
 };
 
 #endif //SDL_BACHELORDEFENDER_LinkedListTower_H

@@ -146,6 +146,11 @@ void FloatingMenu::Render() {
 
 void FloatingMenu::Update() {
     if (dialog) {
+        for (int i = 0; i < (int)_menuEntries->size(); i++) {
+            if(_menuEntries->at(i)._status != Status_Disabled){
+                tdGlobals->_pl._creditPoints >= _menuEntries->at(i)._costs? _menuEntries->at(i)._status=Status_Active:_menuEntries->at(i)._status = Status_NotEnoughMoney;
+            }
+        }
         if (_mbRightDown) {
             offset = offset - _clickRel;
             _clickRel = {};
@@ -158,7 +163,7 @@ void FloatingMenu::Update() {
         if (_mbLeftDown&& _anim >= ANIMATIONTIME) {
             if (!onMenu(_clickPos)) {
                 SDL_PushEvent(&_lastEvent);
-                releaseFocus();
+                releaseFocus(false);
             } else {
                 // we need to further investigate if entry is selected
                 Point renderPos = CT::getPosOnScreen(_position);
@@ -177,7 +182,7 @@ void FloatingMenu::Update() {
                     direction = (direction + 300) % 360;
                     if (onSymbol(_clickPos, center, symbolRadiant)) {
                         if (_menuEntries->at(i)._status == Status_Active) {
-                            releaseFocus();
+                            releaseFocus(false);
                             _selectedEntry = _menuEntries->at(i)._menuEntry;
                         }
                     }

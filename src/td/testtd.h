@@ -6,7 +6,7 @@
 
 #include "../gamebase.h"
 #include "../enums.h"
-#include "../tdUtil/enemy.h"
+#include "enemy/enemy.h"
 #include "../tdUtil/projectilesHandler.h"
 #include "../tdUtil/waveHandler.h"
 #include "../tdUtil/player.h"
@@ -18,6 +18,7 @@
 class Gui;
 
 struct TDGlobals {
+    Gui *_focus{};
     Enemy _enemies[MAXENEMIES]{};
     Vector<std::shared_ptr<class Tower>> _towers{};
     ProjectilesHandler _ph{};
@@ -39,8 +40,6 @@ protected:
 
     void addEnemy(Enemy e);
 
-    void buyTower(Gui **focus);
-
     //  debug stuff
     int _arrowDir = 0;
 
@@ -55,7 +54,6 @@ protected:
     SDL_Event _motionEvent{};
 
     // ui
-    Gui *focus{};
     FloatingMenu _floatingMenu;
     TextWithValue _creditPointDisplay;
 public:
@@ -64,8 +62,11 @@ public:
     Vector<MenuEntry> _buildMenuEntries{};
     TDGlobals globals{};
 
+    string _mapPath;
+
     // ctor
     using GameState::GameState;
+    TestTD(Game &game, string mapPath);
 
     void Init() override;
 

@@ -43,7 +43,6 @@ public:
 
     [[nodiscard]] bool isDead() const;
     [[nodiscard]] bool inRange(FRect p) const;
-
 protected:
 
 
@@ -56,9 +55,9 @@ protected:
     float _aimSpeed = 5;
     // direction can be between 0-359
     float _direction = 0;
-    float _reloadTime = 0.5;
+    int32_t _reloadTime =1000;
     u8 animate = 0;
-    float _shootCoolDown = 10;
+    int32_t _shootCoolDown = 1000;
     u32 _damage = 0;
     Enemy *_targetEnemy{};
     int _range = 1;
@@ -66,6 +65,8 @@ protected:
     FloatingMenu *_floatingMenu = nullptr;
     Vector<MenuEntry> _menuEntries;
     bool _showRange = false;
+    u_int32_t _lastTimePoint=0;
+    int _diff=0;
 };
 
 #include "pointerTower.h"

@@ -11,25 +11,42 @@ class Enemy;
 
 class Projectile {
 public:
-    float _hitCooldown = 0.1f;
+    struct HitTimer {
+        Enemy *enemy = nullptr;
+        u16 hitCooldown = 0;
+    };
     bool _alive = true;
-    FPoint _position = {-1.0f, -1.0f};
-    FPoint _startingPoint = {-1.0f, -1.0f};
+    int _ttl = 0;
+
+    bool _destroy = false;
     ProjectileType _type = ProjectileType::DISABLED;
+
+    FPoint _startingPoint = {-1.0f, -1.0f};
+    FPoint _position = {-1.0f, -1.0f};
+    float _hitCoolDown = 0.1f;
+
     uint16_t _size = 100;
     uint16_t _speed = 100;
     uint16_t _direction = 270;
-    bool _destroy = false;
+
     Enemy *_targetE = nullptr;
     FPoint _targetP = {0, 0};
-    int _ttl = 1000;
+
     uint8_t _damage = 100;
     bool _moveable = false;
-    virtual ~Projectile();
+    Vector<HitTimer> hitList;
+    soundType _hitSound=SoundDisabled;
+    u_int32_t _lastTimePoint;
 
-    virtual void move();
+    virtual ~Projectile();
+    Projectile();
+    virtual bool collision(Enemy *e);
     virtual void collide();
+
+    virtual void Update();
+
     virtual void Render();
+
 
     [[nodiscard]] bool onScreen() const;
 };

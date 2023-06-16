@@ -34,6 +34,11 @@ public:
     static float getAngle(const SDL_Point &p1, const SDL_Point &p2);
 
     static float getAngle(const SDL_FPoint &p1, const SDL_FPoint &p2);
+
+    static bool
+    collisionLineLine(const SDL_FPoint &p11, const SDL_FPoint &p12, const SDL_FPoint &p21, const SDL_FPoint &p22);
+
+    static bool collisionLineRect(const SDL_FPoint &p1, const SDL_FPoint &p2, const SDL_FRect &r);
 };
 
 #endif //SDL_BACHELORDEFENDER_COORDINATETRANSFORMER_H

@@ -2,7 +2,7 @@
 #ifndef SDL_BASEGAME_ENEMY_H
 #define SDL_BASEGAME_ENEMY_H
 
-#include "../global.h"
+#include "../../global.h"
 class Projectile;
 class Enemy {
 public:
@@ -53,17 +53,12 @@ public:
 
     u16 _sanity = 1;
 
-    // used to handle collision detection - is not necessarily same as dstRect
-    [[nodiscard]] bool isPointInside(const FPoint &p) const;
     [[nodiscard]] FRect getHitBox() const;
-
-    bool hasCollision(Projectile *&pProjectile) const;
 
 protected:
     void startDeathAnimation();
 
     u16 _dying = false;
-
 
     u8 _speed = 0;
     u8 _speedDiff = 0;
@@ -76,7 +71,6 @@ protected:
     bool _reachedGoal = false;
     void updateDir();
 
-    static bool hasLineIntersection(Projectile *&pProjectile);
 };
 
 

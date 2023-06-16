@@ -56,7 +56,7 @@ void SizeDialog::handleEvent(Event event) {
         case SDL_KEYDOWN:
             switch (event.key.keysym.scancode) {
                 case SDL_SCANCODE_ESCAPE:
-                    releaseFocus();
+                    releaseFocus(false);
                     break;
                 case SDL_SCANCODE_KP_ENTER:
                     acceptInput();
@@ -82,13 +82,13 @@ void SizeDialog::selection(Event event){
             acceptInput();
         }
         if (_btn_abb.clicked(event)) {
-            releaseFocus();
+            releaseFocus(false);
         }
     }
 }
 
 void SizeDialog::acceptInput() {
-    releaseFocus();
+    releaseFocus(false);
     _width= _txtb_width.getNumber();
     _height= _txtb_height.getNumber();
     _takeNewValues = true;

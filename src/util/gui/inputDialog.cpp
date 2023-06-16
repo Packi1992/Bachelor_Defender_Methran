@@ -46,7 +46,7 @@ void InputDialog::Input() {
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.scancode) {
                         case SDL_SCANCODE_ESCAPE:
-                            releaseFocus();
+                            releaseFocus(false);
                             break;
                         case SDL_SCANCODE_KP_ENTER:
                             acceptInput();
@@ -68,13 +68,13 @@ void InputDialog::selection(Event event) {
             acceptInput();
         }
         if (_btn_abb.clicked(event)) {
-            releaseFocus();
+            releaseFocus(false);
         }
     }
 }
 
 void InputDialog::acceptInput() {
-    releaseFocus();
+    releaseFocus(false);
     _input = _textBox.getText();
     _takeNewValues = true;
 }

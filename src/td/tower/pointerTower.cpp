@@ -3,7 +3,7 @@
 //
 #include "pointerTower.h"
 #include "../testtd.h"
-#include "../Projectiles/arrow.h"
+#include "../projectiles/arrow.h"
 #include "../../util/gui/floatingMenu.h"
 
 void PointerTower::Render() {
@@ -69,7 +69,7 @@ void PointerTower::Update() {
                     audioHandler->playSound(SoundArrowFire, x);
                     tdGlobals->_ph.add(p);
                 } else {
-                    _reloadTime -= deltaTg;
+                    _reloadTime -= _diff;
                 }
             }
             // enemy target is locked -> change direction to enemy and shoot
@@ -84,7 +84,7 @@ int PointerTower::_creditPointCosts = 5;
 PointerTower::PointerTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
-    _shootCoolDown = 3;
+    _shootCoolDown = 3000;
     _damage = 50;
     _aimSpeed = 1;
     if (pMap->getObject(pos) == Empty)
