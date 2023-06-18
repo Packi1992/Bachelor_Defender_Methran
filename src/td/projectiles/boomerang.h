@@ -21,6 +21,8 @@ public:
     void Update() override;
 
     void collide() override;
+
+    bool collision(Enemy * e) override;
 };
 
 #endif //SDL_BACHELORDEFENDER_BOOMERANG_H
