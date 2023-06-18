@@ -11,6 +11,16 @@ Boomerang::Boomerang() {
 
 void Boomerang::Update() {
     _diff = (int)(totalMscg - _lastTimePoint);
+    for(auto &entry: hitList){
+        entry.hitCooldown -= _diff;
+    }
+    hitList.erase(
+            std::remove_if(
+                    hitList.begin(),
+                    hitList.end(),
+                    [](HitTimer mov) { return mov.hitCooldown <= 0; }
+            ),
+            hitList.end());
     if(_diff < 0 )_diff = 0;
     _lastTimePoint = totalMscg;
     _direction += 3;
@@ -55,4 +65,19 @@ void Boomerang::Render() {
 void Boomerang::collide() {
     float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
     audioHandler->playSound(SoundArrowHit, x);
+}
+
+bool Boomerang::collision(Enemy *e) {
+    bool inList = false;
+    for(auto &entry: hitList){
+        if(entry.enemy == e) {
+            inList = true;
+            break;
+        }
+    }
+    if(!inList && Projectile::collision(e)){
+        hitList.push_back({e,250});
+        return true;
+    }
+    return false;
 }
