@@ -28,13 +28,13 @@ void Enemy::Update() {
                 runLength = (float) ((double) runLength * (_speedDiff / 10.0));
             }
             if (_dir == 0)
-                (_pos.y + runLength) - _nextPos.y > 0 ? _pos.y -= runLength : _pos.y = _nextPos.y;
+                ((_pos.y - runLength) > _nextPos.y) ? _pos.y -= runLength : _pos.y = _nextPos.y;
             if (_dir == 90)
                 _nextPos.x - (_pos.x + runLength) > 0 ? _pos.x += runLength : _pos.x = _nextPos.x;
             if (_dir == 180)
                 _nextPos.y - (_pos.y + runLength) > 0 ? _pos.y += runLength : _pos.y = _nextPos.y;
             if (_dir == 270)
-                (_pos.x + runLength) - _nextPos.x > 0 ? _pos.x -= runLength : _pos.x = _nextPos.x;
+                _nextPos.x - (_pos.x - runLength) < 0 ? _pos.x -= runLength : _pos.x = _nextPos.x;
         } else {
             // enemy reached goal
             _alive = false;

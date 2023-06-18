@@ -15,10 +15,8 @@ void RecursivTower::Render() {
     long animT = (anim > 2) ? 0 : anim;
     if (_reloadTime <= 50) {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_Boomerang, 1));
-        //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
     } else if (_reloadTime > 50 && _reloadTime <= 3000) {
-        rh->tile(&dst, 360-((int)_spin%360), TdTileHandler::getTowerSrcRect(Tower_Boomerang, 1));
-        //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
+        rh->tile(&dst, 360 - ((int) _spin % 360), TdTileHandler::getTowerSrcRect(Tower_Boomerang, 1));
     } else {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_Boomerang, animT));
     }
@@ -33,7 +31,7 @@ void RecursivTower::Update() {
             switch (_floatingMenu->getSelectedEntry()) {
                 case MenuEntry_Sell:
                     tdGlobals->_pl._creditPoints += 2;
-                    if(pMap->getObject(_rPos) == MapObjects::Tower)
+                    if (pMap->getObject(_rPos) == MapObjects::Tower)
                         pMap->setTile(_rPos, MapObjects::Empty);
                     _alive = false;
                     break;
