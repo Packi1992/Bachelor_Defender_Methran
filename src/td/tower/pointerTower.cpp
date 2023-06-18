@@ -103,11 +103,11 @@ void PointerTower::showMenu(Gui **focus) {
     _showRange = true;
 }
 
-uint PointerTower::getCosts() {
+int PointerTower::getCosts() {
     return _creditPointCosts;
 }
 
-void PointerTower::setCosts(uint cp) {
+void PointerTower::setCosts(int cp) {
     _creditPointCosts = cp;
 }
 

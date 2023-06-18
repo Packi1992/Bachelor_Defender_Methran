@@ -20,9 +20,9 @@ public:
 
     ~PointerTower() override;
 
-    uint getCosts() override;
+    int getCosts() override;
 
-    void setCosts(uint cp) override;
+    void setCosts(int cp) override;
 
     // init the Menu
     void showMenu(Gui **focus) override;

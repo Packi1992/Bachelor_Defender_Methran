@@ -21,12 +21,12 @@ public:
 
     ~LinkedListTower() override;
 
-    uint getCosts() override;
-    uint getLinkCosts() const;
+    int getCosts() override;
+    [[nodiscard]] int getLinkCosts() const;
 
     void setLink(LinkedListTower *before);
 
-    void setCosts(uint cp) override;
+    void setCosts(int cp) override;
 
     // init the Menu
     void showMenu(Gui **focus) override;
