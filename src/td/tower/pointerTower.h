@@ -7,6 +7,7 @@
 
 
 #include "tower.h"
+#include "../projectiles/arrow.h"
 
 class PointerTower : public Tower {
 public:
@@ -29,6 +30,7 @@ public:
 
 private:
     static int _creditPointCosts;
+    Arrow _arrow;
 };
 
 #endif //SDL_BACHELORDEFENDER_POINTERTOWER_H

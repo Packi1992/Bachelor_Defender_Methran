@@ -10,6 +10,7 @@
 class Fire:public Projectile {
 public:
     Fire();
+    Fire(Fire &p, std::shared_ptr<Enemy> e, uint16_t direction);
     void Update() override;
     void collide() override;
 };

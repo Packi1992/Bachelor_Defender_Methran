@@ -59,20 +59,10 @@ void RecursivTower::Update() {
             if (aimAtEnemy(_targetEnemy->_pos)) {
                 if (_reloadTime <= 0) {
                     _reloadTime = _shootCoolDown;
-                    std::shared_ptr<Boomerang> p = std::make_shared<Boomerang>();
-                    p->_direction = ((int) _direction) % 360;
-                    p->_damage = _damage;
-                    p->_moveable = true;
-                    p->_speed = 10;
-                    p->_damage = 10;
-                    p->_targetE = _targetEnemy;
-                    p->_size = 100;
-                    p->_position = _pos;
-                    p->_startingPoint = _pos;
                     float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
                     //audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundBoomerangFire, x);
-                    tdGlobals->_projectiles.push_back(p);
+                    tdGlobals->_projectiles.push_back(std::make_shared<Boomerang>(_boomerang, _targetEnemy,((int) _direction) % 360));
                 } else {
                     _reloadTime -= _diff;
                 }
@@ -94,6 +84,14 @@ RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _aimSpeed = 1;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
+
+    _boomerang._damage = _damage;
+    _boomerang._moveable = true;
+    _boomerang._speed = 10;
+    _boomerang._damage = 10;
+    _boomerang._size = 100;
+    _boomerang._position = _pos;
+    _boomerang._startingPoint = _pos;
 }
 
 RecursivTower::~RecursivTower() = default;

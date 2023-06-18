@@ -12,7 +12,7 @@ void PointerTower::Render() {
     rh->tile(&dst, TdTileHandler::getTowerSrcRect(Base));
     int anim = ((int) ((_shootCoolDown - _reloadTime)));
     long animT = (anim > 4) ? 0 : anim;
-    if (_reloadTime <= 1) {
+    if (_reloadTime <= 1000) {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, 1));
         //rh->tile(&dst, ((int) _direction)% 360, TdTileHandler::getProjectileSrcRect(ARROW));
     } else {
@@ -56,18 +56,11 @@ void PointerTower::Update() {
             if (aimAtEnemy(_targetEnemy->_pos)) {
                 if (_reloadTime <= 0) {
                     _reloadTime = _shootCoolDown;
-                    std::shared_ptr<Arrow> p = std::make_shared<Arrow>();
-                    p->_direction = ((int) _direction) % 360;
-                    p->_damage = _damage;
-                    p->_moveable = true;
-                    p->_speed = 10;
-                    p->_targetE = _targetEnemy;
-                    p->_size = 100;
-                    p->_position = _pos;
+
                     float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
                     audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundArrowFire, x);
-                    tdGlobals->_projectiles.push_back(p);
+                    tdGlobals->_projectiles.push_back(std::make_shared<Arrow>(_arrow, _targetEnemy,((int) _direction) % 360));
                 } else {
                     _reloadTime -= _diff;
                 }
@@ -87,8 +80,17 @@ PointerTower::PointerTower(Point pos) : Tower(pos) {
     _shootCoolDown = 3000;
     _damage = 50;
     _aimSpeed = 1;
+
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
+
+    _arrow._direction = 0;
+    _arrow._damage = _damage;
+    _arrow._moveable = true;
+    _arrow._speed = 10;
+    _arrow._targetE = nullptr;
+    _arrow._size = 100;
+    _arrow._position = _pos;
 }
 
 PointerTower::~PointerTower() = default;

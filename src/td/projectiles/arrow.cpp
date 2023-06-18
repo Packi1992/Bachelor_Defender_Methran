@@ -7,3 +7,7 @@
 Arrow::Arrow() {
     _type=ProjectileType::ARROW;
 }
+
+Arrow::Arrow(Arrow &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
+
+}

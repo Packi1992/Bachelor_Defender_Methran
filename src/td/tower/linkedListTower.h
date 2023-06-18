@@ -8,6 +8,7 @@
 
 #include "tower.h"
 #include "../../util/gui/linkEstablisher.h"
+#include "../projectiles/link.h"
 
 class LinkedListTower : public Tower {
 public:
@@ -47,7 +48,7 @@ private:
     LinkedListTower *_trigger{};
     LinkedListTower *_trigger2{};
     u16 _delay2=0;
-
+    LinkProjectile _link;
     void sell();
 
     void shoot(LinkedListTower* trigger, u16 delay);
