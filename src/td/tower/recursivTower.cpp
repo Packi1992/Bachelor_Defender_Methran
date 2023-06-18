@@ -44,10 +44,10 @@ void RecursivTower::Update() {
     }
     if (_targetEnemy == nullptr) {
         for (auto &enemy: tdGlobals->_enemies) {
-            if (enemy._alive) {
-                if (inRange(enemy.getHitBox())) {
+            if (enemy->_alive) {
+                if (inRange(enemy->getHitBox())) {
                     //selects first enemy
-                    _targetEnemy = &enemy;
+                    _targetEnemy = enemy;
                     break;
                 }
             }

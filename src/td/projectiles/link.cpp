@@ -28,7 +28,7 @@ void LinkProjectile::Render() {
     rh->line(p1,p2,GREEN);
 }
 
-bool LinkProjectile::collision(Enemy *e) {
+bool LinkProjectile::collision(std::shared_ptr<Enemy> e) {
     if(CT::collisionLineRect(_position,_position2,e->getHitBox())){
         e->takeDamage(this);
     }

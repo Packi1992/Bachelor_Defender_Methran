@@ -17,7 +17,7 @@ public:
 
     void Render() override;
 
-    bool collision(Enemy *e) override;
+    bool collision(std::shared_ptr<Enemy> e) override;
 
 private:
     FPoint _position2{};

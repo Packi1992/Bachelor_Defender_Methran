@@ -53,7 +53,7 @@ void Projectile::Render() {
     }
 }
 
-bool Projectile::collision(Enemy *e) {
+bool Projectile::collision(std::shared_ptr<Enemy> e) {
     FRect en = e->getHitBox();
     if ((_position.x >= en.x) &&
     (_position.x < (en.x + en.w)) &&

@@ -26,9 +26,6 @@ void TestTD::Init() {
 
 void TestTD::UnInit() {
     GameState::UnInit();
-    for (auto &enemy: globals._enemies) {
-        enemy._alive = false;
-    }
     globals._towers.clear();
     audioHandler->stopMusic();
 }
@@ -44,7 +41,7 @@ void TestTD::Render() {
     }
     //  render Enemies
     for (auto &enemy: globals._enemies) {
-        enemy.Render();
+        enemy->Render();
     }
     // projectiles and particles
     for (auto &p: tdGlobals->_projectiles) {
@@ -55,7 +52,7 @@ void TestTD::Render() {
 
     // render enemy extras (lifeBar or hitBox)
     for (auto &enemy: globals._enemies) {
-        enemy.RenderExtras(true);
+        enemy->RenderExtras(true);
     }
     // at last render UI
     rh->fillRect(&SanityBar, RED);
@@ -76,20 +73,6 @@ void TestTD::Render() {
     }
 }
 
-void TestTD::addEnemy(Enemy e) {
-    for (auto &enemy: globals._enemies) {
-        if (!enemy._alive) {
-            enemy = e;
-            enemy._alive = true;
-            return;
-        }
-    }
-    if (enemyOverflow >= MAXENEMIES)
-        enemyOverflow = 0;
-    globals._enemies[enemyOverflow] = e;
-    globals._enemies[enemyOverflow++]._alive = true;
-}
-
 void TestTD::Update() {
     if (!_gameover) {
         _floatingMenu.Update();
@@ -98,11 +81,7 @@ void TestTD::Update() {
         // collision detection
         collision();
         // Update Enemies
-        for (auto &enemy: globals._enemies) {
-            if (enemy._alive) {
-                enemy.Update();
-            }
-        }
+        updateEnemeies();
         // calculate sanity bar (only every 10 frames)
         if (frameg % 10 == 0) {
             updateUI();
@@ -153,9 +132,9 @@ void TestTD::Update() {
         }
         // add enemy
         if (totalMscg % 100 == 0) {
-            Enemy e;
-            e.setEnemy({7, 3}, 100, 100, 1);
-            addEnemy(e);
+            std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
+            e->setEnemy({7, 3}, 100, 100, 1);
+            tdGlobals->_enemies.push_back(e);
         }
         // -------------------------------------------------------------------
     }
@@ -165,7 +144,7 @@ void TestTD::collision() {
     for (auto &p: globals._projectiles) {
         if (p->_alive) {
             for (auto &e: globals._enemies) {
-                if (e._alive && p->collision(&e) && p->_alive) {
+                if (e->_alive && p->collision(e) && p->_alive) {
                     p->collide();
                 }
             }
@@ -347,6 +326,18 @@ void TestTD::updateProjectiles() {
             globals._projectiles.end());
 }
 
+void TestTD::updateEnemeies() {
+    for (auto & _enemy : globals._enemies) {
+        _enemy->Update();
+    }
+    globals._enemies.erase(
+            std::remove_if(
+                    globals._enemies.begin(),
+                    globals._enemies.end(),
+                    [](const std::shared_ptr<Enemy> &mov) { return !mov->_alive; }
+            ),
+            globals._enemies.end());
+}
 
 bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
     if (tower->getCosts() > globals._pl._creditPoints) {

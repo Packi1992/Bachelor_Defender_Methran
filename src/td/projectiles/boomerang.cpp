@@ -67,7 +67,7 @@ void Boomerang::collide() {
     audioHandler->playSound(SoundArrowHit, x);
 }
 
-bool Boomerang::collision(Enemy *e) {
+bool Boomerang::collision(std::shared_ptr<Enemy> e) {
     bool inList = false;
     for(auto &entry: hitList){
         if(entry.enemy == e) {

@@ -18,7 +18,7 @@ class Gui;
 
 struct TDGlobals {
     Gui *_focus{};
-    Enemy _enemies[MAXENEMIES]{};
+    Vector<std::shared_ptr<Enemy>> _enemies{};
     Vector<std::shared_ptr<class Tower>> _towers{};
     Vector<std::shared_ptr<Projectile>> _projectiles{};
     WaveHandler _wh{};
@@ -36,8 +36,6 @@ protected:
     Map _map;
 
     int enemyOverflow = 0;
-
-    void addEnemy(Enemy e);
 
     //  debug stuff
     int _arrowDir = 0;
@@ -92,6 +90,8 @@ public:
     void updateTowers();
 
     void updateProjectiles();
+
+    void updateEnemeies();
 };
 
 #endif //SDL_BASEGAME_TESTTD_H
