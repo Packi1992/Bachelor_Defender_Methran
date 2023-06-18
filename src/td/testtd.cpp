@@ -46,7 +46,7 @@ void TestTD::Init() {
     Update();
 
     //Test
-    globals._pl._creditPoints = 50;
+    globals._pl._creditPoints = 120;
 }
 
 void TestTD::UnInit() {

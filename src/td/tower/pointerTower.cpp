@@ -66,8 +66,18 @@ void PointerTower::Update() {
                     float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
                     audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundArrowFire, x);
-                    tdGlobals->_projectiles.push_back(
-                            std::make_shared<Arrow>(_arrow, _targetEnemy, ((int) _direction) % 360));
+                    if (!_doubleArrow)
+                        tdGlobals->_projectiles.push_back(
+                                std::make_shared<Arrow>(_arrow, (_level >= 3 ? _targetEnemy : nullptr), ((int) _direction) % 360));
+                    else {
+                        tdGlobals->_projectiles.push_back(
+                                std::make_shared<Arrow>(_arrow, nullptr,
+                                                        ((int) _direction + 5) % 360));
+                        tdGlobals->_projectiles.push_back(
+                                std::make_shared<Arrow>(_arrow, nullptr,
+                                                        ((int) (_direction < 5 ? 360 - _direction : _direction) - 5) %
+                                                        360));
+                    }
                 } else {
                     _reloadTime -= _diff;
                 }
@@ -134,8 +144,15 @@ bool PointerTower::updateTower() {
                 _damage = int((float) _damage * 1.2);
                 _arrow._damage = _damage;
                 _arrow._speed = 12;
+                _doubleArrow = true;
+                _range++;
                 break;
             case 3:
+                _damage = int((float) _damage * 2);
+                _arrow._damage = _damage;
+                _arrow._speed = 18;
+                _range++;
+                _doubleArrow = false;
                 break;
             default:
                 break;
