@@ -25,9 +25,9 @@ public:
     virtual void Update();
 
     // give costs of tower back
-    virtual uint getCosts() = 0;
+    virtual int getCosts() = 0;
 
-    virtual void setCosts(uint cp) = 0;
+    virtual void setCosts(int cp) = 0;
 
     virtual FPoint getPos();
     virtual int getRange();

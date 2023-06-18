@@ -39,6 +39,7 @@ private:
     FPoint _cursorCenterPos{};
     bool _isLinkInRange=false;
     bool _isLinkNextInRange=false;
+    bool _blockingPath = false;
 
 
 

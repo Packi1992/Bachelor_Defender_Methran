@@ -68,9 +68,12 @@ void LinkEstablisher::Input() {
 void LinkEstablisher::Render() {
     if (dialog) {
         // draw tower on dest pos
+
         if(_cursorRenderPos.x >= 0 && _cursorRenderPos.x < pMap->_width && _cursorRenderPos.y >= 0 && _cursorRenderPos.y < pMap->_height) {
             rh->tile(&_towerLinkRect, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
             rh->tile(&_towerLinkRect, ((int) 0) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, 0));
+            if(_blockingPath)
+                rh->texture(rh->_blocked, &_towerLinkRect);
         }
         t_color markerColorBefore = RED;
         t_color markerColorNext = RED;
@@ -87,7 +90,7 @@ void LinkEstablisher::Render() {
             float angleF = (float) angle / 180.0f * (float) M_PI;
             range.x = (float) _last->getPos().x + sin(angleF) * (float) _last->getRange();
             range.y = (float) _last->getPos().y + cos(angleF) * (float) _last->getRange();
-            if(range.x>0 && range.x < pMap->_width && range.y > 0 && range.y < pMap->_height){
+            if(range.x>0 && range.x < (float)pMap->_width && range.y > 0 && range.y < (float)pMap->_height){
                 Point range2 = CT::getPosOnScreen(range);
                 Rect dstMarker = {range2.x, range2.y, 5, 5};
                 rh->fillRect(&dstMarker, markerColorBefore);
@@ -104,7 +107,7 @@ void LinkEstablisher::Render() {
                 float angleF = (float) angle / 180.0f * (float) M_PI;
                 range.x = (float) _next->getPos().x + sin(angleF) * (float) _next->getRange();
                 range.y = (float) _next->getPos().y + cos(angleF) * (float) _next->getRange();
-                if(range.x>0 && range.x < pMap->_width && range.y > 0 && range.y < pMap->_height){
+                if(range.x>0 && range.x < (float)pMap->_width && range.y > 0 && range.y < (float)pMap->_height){
                     Point range2 = CT::getPosOnScreen(range);
                     Rect dstMarker = {range2.x, range2.y, 5, 5};
                     rh->fillRect(&dstMarker, markerColorNext);
@@ -132,7 +135,7 @@ void LinkEstablisher::Update() {
             _mouseWheel = false;
         }
         if (_mbLeftDown) {
-            if(_isLinkInRange && _isLinkNextInRange){
+            if(_isLinkInRange && _isLinkNextInRange && !_blockingPath){
                 std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(_cursorRenderPos);
                 tdGlobals->_towers.push_back(tower);
                 std::shared_ptr<LinkedListTower> lTower = std::dynamic_pointer_cast<LinkedListTower>(tdGlobals->_towers.at(tdGlobals->_towers.size()-1));
@@ -174,6 +177,7 @@ void LinkEstablisher::calcLinkPosition() {
         Point dst2 = CT::getPosOnScreen(_cursorRenderPos);
         _towerNextLinkRect = {dst2.x,dst2.y,scale,scale};
     }
+    _blockingPath = !pMap->checkPath(_cursorRenderPos);
 }
 
 void LinkEstablisher::releaseFocus( bool continueRender) {

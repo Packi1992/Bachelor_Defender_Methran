@@ -125,11 +125,11 @@ void LinkedListTower::showMenu(Gui **focus) {
     _floatingMenu->show(focus);
 }
 
-uint LinkedListTower::getCosts() {
+int LinkedListTower::getCosts() {
     return _creditPointCosts;
 }
 
-void LinkedListTower::setCosts(uint cp) {
+void LinkedListTower::setCosts(int cp) {
     _creditPointCosts = (int) cp;
 }
 
@@ -185,7 +185,7 @@ void LinkedListTower::shoot(LinkedListTower *trigger, u16 delay) {
     }
 }
 
-uint LinkedListTower::getLinkCosts() const {
+int LinkedListTower::getLinkCosts() const {
     return _linkCosts;
 }
 

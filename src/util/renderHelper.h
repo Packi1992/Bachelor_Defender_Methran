@@ -61,9 +61,10 @@ public:
 
 
     void symbol(SDL_Rect *pRect, MenuEntry &entry);
+    SDL_Texture *_blocked = {};
 
 private:
-    SDL_Texture *_blocked = {};
+
     SDL_Texture *_nemoney = {};
     SDL_Texture *_sell = {};
     SDL_Texture *_texture = {};

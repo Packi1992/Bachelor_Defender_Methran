@@ -108,10 +108,10 @@ void RecursivTower::showMenu(Gui **focus) {
     _showRange = true;
 }
 
-uint RecursivTower::getCosts() {
+int RecursivTower::getCosts() {
     return _creditPointCosts;
 }
 
-void RecursivTower::setCosts(uint cp) {
+void RecursivTower::setCosts(int cp) {
     _creditPointCosts = cp;
 }
