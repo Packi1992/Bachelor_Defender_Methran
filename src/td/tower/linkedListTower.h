@@ -39,6 +39,9 @@ public:
 
     LinkedListTower *getNext();
 
+    bool updateTower() override;
+
+    bool updateLinkTowers();
 private:
     static int _creditPointCosts;
     LinkEstablisher _linkEstablisher;

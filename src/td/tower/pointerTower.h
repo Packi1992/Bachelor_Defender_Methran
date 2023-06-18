@@ -28,6 +28,8 @@ public:
     // init the Menu
     void showMenu(Gui **focus) override;
 
+    bool updateTower() override;
+
 private:
     static int _creditPointCosts;
     Arrow _arrow;

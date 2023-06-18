@@ -81,7 +81,8 @@ BaseExplosion::BaseExplosion(BaseExplosion &p, std::shared_ptr<Enemy> e, uint16_
 
 }
 
-BaseExplosion::BaseExplosion(SDL_FPoint pos) : BaseExplosion(){
+BaseExplosion::BaseExplosion(SDL_FPoint pos, int exdmg) : BaseExplosion(){
     _direction = 0;
     _position = pos;
+    _damage = exdmg;
 }

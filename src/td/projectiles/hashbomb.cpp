@@ -11,6 +11,7 @@ Hashbomb::Hashbomb() {
     _lastTimePoint = totalMscg;
     _ttl = 1500;
     _endDirection = 0;
+    _exdmg = 20;
 }
 
 
@@ -77,16 +78,18 @@ bool Hashbomb::collision(std::shared_ptr<Enemy> e) {
 
 Hashbomb::Hashbomb(Hashbomb &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
     _endDirection = (_direction + 180) % 360;
+    _exrange = p._exrange;
+    _exdmg = p._exdmg;
     // need to get fixed
     if (_endDirection > _direction)
         _upDown = false;
 }
 
 void Hashbomb::addExplosion() {
-    for (int i = -1; i < 2; i++) {
-        for (int j = -1; j < 2; j++) {
+    for (int i = (-1*_exrange); i <= _exrange; i++) {
+        for (int j = (-1*_exrange); j <= _exrange; j++) {
             SDL_FPoint tmp = {_position.x + (float) i, _position.y + (float) j};
-            tdGlobals->_projectiles.push_back(std::make_shared<BaseExplosion>(tmp));
+            tdGlobals->_projectiles.push_back(std::make_shared<BaseExplosion>(tmp,_exdmg));
         }
     }
 }

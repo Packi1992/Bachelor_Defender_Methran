@@ -30,16 +30,23 @@ void RecursivTower::Update() {
         if (_floatingMenu->isDone()) {
             switch (_floatingMenu->getSelectedEntry()) {
                 case MenuEntry_Sell:
-                    tdGlobals->_pl._creditPoints += 2;
+                    tdGlobals->_pl._creditPoints += _sellGain;
                     if (pMap->getObject(_rPos) == MapObjects::Tower)
                         pMap->setTile(_rPos, MapObjects::Empty);
                     _alive = false;
+                    break;
+                case MenuEntry_Upgrade:
+                    if ((int) tdGlobals->_pl._creditPoints >= _upgradeCosts) {
+                        tdGlobals->_pl._creditPoints -= _upgradeCosts;
+                        updateTower();
+                    }
                     break;
                 default:
                     break;
             }
             delete _floatingMenu;
             _floatingMenu = nullptr;
+            _showRange = false;
         }
     }
     if (_targetEnemy == nullptr) {
@@ -82,6 +89,8 @@ RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _shootCoolDown = 5000;
     _damage = 25;
     _aimSpeed = 1;
+    _upgradeCosts = 10;
+    _sellGain = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
 
@@ -100,7 +109,13 @@ void RecursivTower::showMenu(Gui **focus) {
     delete _floatingMenu;
     _menuEntries.clear();
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
-    _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, 0});
+    if (_level < 3) {
+        MenuEntry e = {MenuEntries::MenuEntry_Upgrade, Status_Active, 0};
+        if ((int) tdGlobals->_pl._creditPoints < _upgradeCosts) {
+            e._status = Status_Disabled;
+        }
+        _menuEntries.push_back(e);
+    }
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
     _showRange = true;
@@ -112,4 +127,12 @@ int RecursivTower::getCosts() {
 
 void RecursivTower::setCosts(int cp) {
     _creditPointCosts = cp;
+}
+
+bool RecursivTower::updateTower() {
+    if(Tower::updateTower()){
+        return true;
+    }else{
+        return false;
+    }
 }

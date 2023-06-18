@@ -42,24 +42,31 @@ void LinkedListTower::Update() {
         if (_floatingMenu->isDone()) {
             switch (_floatingMenu->getSelectedEntry()) {
                 case MenuEntry_Sell:
-                    tdGlobals->_pl._creditPoints += 2;
+                    tdGlobals->_pl._creditPoints += _sellGain;
                     if (pMap->getObject(_rPos) == MapObjects::Tower)
                         pMap->setTile(_rPos, MapObjects::Empty);
                     _alive = false;
                     sell();
                     break;
                 case MenuEntry_AddLink:
-
                     if ((int) tdGlobals->_pl._creditPoints >= _linkCosts) {
                         tdGlobals->_pl._creditPoints -= _linkCosts;
                         _linkEstablisher.set(this, false);
                         _linkEstablisher.show(&tdGlobals->_focus);
                     }
+                    break;
+                case MenuEntry_Upgrade:
+                    if ((int) tdGlobals->_pl._creditPoints >= _upgradeCosts) {
+                        tdGlobals->_pl._creditPoints -= _upgradeCosts;
+                        updateLinkTowers();
+                    }
+                    break;
                 default:
                     break;
             }
             delete _floatingMenu;
             _floatingMenu = nullptr;
+            _showRange = false;
         }
     }
     if (_next != nullptr && _before == nullptr) {
@@ -106,6 +113,8 @@ LinkedListTower::LinkedListTower(Point pos) : Tower(pos) {
     _reloadTime = 4000;
     _damage = 3;
     _aimSpeed = 1;
+    _upgradeCosts = 10;
+    _sellGain = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
     _link._direction = 0;
@@ -123,7 +132,13 @@ void LinkedListTower::showMenu(Gui **focus) {
     _menuEntries.clear();
     _menuEntries.push_back({MenuEntries::MenuEntry_AddLink, Status_Active, (uint) _linkCosts});
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
-    _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, 0});
+    if (_level < 3) {
+        MenuEntry e = {MenuEntries::MenuEntry_Upgrade, Status_Active, 0};
+        if ((int) tdGlobals->_pl._creditPoints < _upgradeCosts) {
+            e._status = Status_Disabled;
+        }
+        _menuEntries.push_back(e);
+    }
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
 }
@@ -192,3 +207,21 @@ int LinkedListTower::getLinkCosts() const {
     return _linkCosts;
 }
 
+bool LinkedListTower::updateTower() {
+    if (Tower::updateTower()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool LinkedListTower::updateLinkTowers() {
+    LinkedListTower *cur = this;
+    while (cur->_before != nullptr) {
+        cur = cur->_before;
+    }
+    do {
+        cur->updateTower();
+        cur = cur->_next;
+    } while (cur != nullptr);
+}

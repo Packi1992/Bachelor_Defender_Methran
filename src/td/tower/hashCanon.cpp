@@ -14,7 +14,7 @@ void HashCanon::Render() {
     long animT = (anim > 4) ? 0 : anim;
     if (_reloadTime <= 500) {
         rh->tile(&dst, 0, TdTileHandler::getTowerSrcRect(Hashcanon, animT));
-    }else {
+    } else {
         rh->tile(&dst, 0, TdTileHandler::getTowerSrcRect(Hashcanon, 1));
     }
     rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Hashcanon_Dir, 1));
@@ -27,16 +27,23 @@ void HashCanon::Update() {
         if (_floatingMenu->isDone()) {
             switch (_floatingMenu->getSelectedEntry()) {
                 case MenuEntry_Sell:
-                    tdGlobals->_pl._creditPoints += 2;
+                    tdGlobals->_pl._creditPoints += _sellGain;
                     if (pMap->getObject(_rPos) == MapObjects::Tower)
                         pMap->setTile(_rPos, MapObjects::Empty);
                     _alive = false;
+                    break;
+                case MenuEntry_Upgrade:
+                    if ((int) tdGlobals->_pl._creditPoints >= _upgradeCosts) {
+                        tdGlobals->_pl._creditPoints -= _upgradeCosts;
+                        updateTower();
+                    }
                     break;
                 default:
                     break;
             }
             delete _floatingMenu;
             _floatingMenu = nullptr;
+            _showRange = false;
         }
     }
     if (_targetEnemy == nullptr) {
@@ -80,7 +87,8 @@ HashCanon::HashCanon(Point pos) : Tower(pos) {
     _shootCoolDown = 3000;
     _damage = 50;
     _aimSpeed = 1;
-
+    _upgradeCosts = 10;
+    _sellGain = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
 
@@ -92,6 +100,8 @@ HashCanon::HashCanon(Point pos) : Tower(pos) {
     _hashbomb._size = 100;
     _hashbomb._position = _pos;
     _hashbomb._ttl = 1500;
+    _hashbomb._exrange = 1;
+    _hashbomb._exdmg = 20;
 }
 
 HashCanon::~HashCanon() = default;
@@ -100,7 +110,13 @@ void HashCanon::showMenu(Gui **focus) {
     delete _floatingMenu;
     _menuEntries.clear();
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
-    _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, 0});
+    if (_level < 3) {
+        MenuEntry e = {MenuEntries::MenuEntry_Upgrade, Status_Active, 0};
+        if ((int) tdGlobals->_pl._creditPoints < _upgradeCosts) {
+            e._status = Status_Disabled;
+        }
+        _menuEntries.push_back(e);
+    }
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
     _showRange = true;
@@ -112,4 +128,28 @@ int HashCanon::getCosts() {
 
 void HashCanon::setCosts(int cp) {
     _creditPointCosts = cp;
+}
+
+bool HashCanon::updateTower() {
+    if (Tower::updateTower()) {
+        switch (_level) {
+            case 2:
+                _damage = int((float) _damage * 1.4);
+                _hashbomb._damage = _damage;
+                _hashbomb._speed = 12;
+                _hashbomb._ttl = 1700;
+                _range = 6;
+                _upgradeCosts = (int)((float)_upgradeCosts * 1.8);
+                break;
+            case 3:
+                _hashbomb._exrange = 2;
+                _hashbomb._exdmg = 30;
+                break;
+            default:
+                break;
+        }
+        return true;
+    } else {
+        return false;
+    }
 }

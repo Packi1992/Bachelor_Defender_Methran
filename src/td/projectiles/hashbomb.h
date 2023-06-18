@@ -15,6 +15,8 @@ private:
     int _endDirection = 0;
     bool _upDown = true;
 public:
+    int _exrange = 0;
+    int _exdmg = 0;
     Hashbomb();
 
     Hashbomb(Hashbomb &p, std::shared_ptr<Enemy> e, uint16_t direction);

@@ -13,7 +13,7 @@ class BaseExplosion : public Projectile {
 public:
     BaseExplosion();
 
-    BaseExplosion(SDL_FPoint pos);
+    BaseExplosion(SDL_FPoint pos, int exdmg);
 
     BaseExplosion(BaseExplosion &p, std::shared_ptr<Enemy> e, uint16_t direction);
 
