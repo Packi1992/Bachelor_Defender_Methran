@@ -12,7 +12,7 @@ class Enemy;
 class Projectile {
 public:
     struct HitTimer {
-        Enemy *enemy = nullptr;
+        std::shared_ptr<Enemy> enemy = nullptr;
         u16 hitCooldown = 0;
     };
     bool _alive = true;
@@ -29,7 +29,7 @@ public:
     uint16_t _speed = 100;
     uint16_t _direction = 270;
 
-    Enemy *_targetE = nullptr;
+    std::shared_ptr<Enemy> _targetE = nullptr;
     FPoint _targetP = {0, 0};
 
     uint8_t _damage = 100;
@@ -40,7 +40,7 @@ public:
 
     virtual ~Projectile();
     Projectile();
-    virtual bool collision(Enemy *e);
+    virtual bool collision(std::shared_ptr<Enemy> e);
     virtual void collide();
 
     virtual void Update();

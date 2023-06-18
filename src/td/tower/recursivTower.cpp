@@ -44,10 +44,10 @@ void RecursivTower::Update() {
     }
     if (_targetEnemy == nullptr) {
         for (auto &enemy: tdGlobals->_enemies) {
-            if (enemy._alive) {
-                if (inRange(enemy.getHitBox())) {
+            if (enemy->_alive) {
+                if (inRange(enemy->getHitBox())) {
                     //selects first enemy
-                    _targetEnemy = &enemy;
+                    _targetEnemy = enemy;
                     break;
                 }
             }
@@ -59,7 +59,7 @@ void RecursivTower::Update() {
             if (aimAtEnemy(_targetEnemy->_pos)) {
                 if (_reloadTime <= 0) {
                     _reloadTime = _shootCoolDown;
-                    Projectile *p = new Boomerang();
+                    std::shared_ptr<Boomerang> p = std::make_shared<Boomerang>();
                     p->_direction = ((int) _direction) % 360;
                     p->_damage = _damage;
                     p->_moveable = true;
@@ -72,7 +72,7 @@ void RecursivTower::Update() {
                     float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
                     //audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundBoomerangFire, x);
-                    tdGlobals->_ph.add(p);
+                    tdGlobals->_projectiles.push_back(p);
                 } else {
                     _reloadTime -= _diff;
                 }

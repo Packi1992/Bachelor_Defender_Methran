@@ -22,7 +22,7 @@ public:
 
     void collide() override;
 
-    bool collision(Enemy * e) override;
+    bool collision(std::shared_ptr<Enemy> e) override;
 };
 
 #endif //SDL_BACHELORDEFENDER_BOOMERANG_H

@@ -59,7 +59,7 @@ protected:
     u8 animate = 0;
     int32_t _shootCoolDown = 1000;
     u32 _damage = 0;
-    Enemy *_targetEnemy{};
+    std::shared_ptr<Enemy> _targetEnemy{};
     int _range = 1;
     bool _alive = true;
     FloatingMenu *_floatingMenu = nullptr;

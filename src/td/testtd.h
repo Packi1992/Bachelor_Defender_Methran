@@ -7,7 +7,6 @@
 #include "../gamebase.h"
 #include "../enums.h"
 #include "enemy/enemy.h"
-#include "../tdUtil/projectilesHandler.h"
 #include "../tdUtil/waveHandler.h"
 #include "../tdUtil/player.h"
 #include "tower/tower.h"
@@ -19,9 +18,9 @@ class Gui;
 
 struct TDGlobals {
     Gui *_focus{};
-    Enemy _enemies[MAXENEMIES]{};
+    Vector<std::shared_ptr<Enemy>> _enemies{};
     Vector<std::shared_ptr<class Tower>> _towers{};
-    ProjectilesHandler _ph{};
+    Vector<std::shared_ptr<Projectile>> _projectiles{};
     WaveHandler _wh{};
     Player _pl{};
 };
@@ -37,8 +36,6 @@ protected:
     Map _map;
 
     int enemyOverflow = 0;
-
-    void addEnemy(Enemy e);
 
     //  debug stuff
     int _arrowDir = 0;
@@ -91,6 +88,10 @@ public:
     void handleFloatingMenuSelection();
 
     void updateTowers();
+
+    void updateProjectiles();
+
+    void updateEnemeies();
 };
 
 #endif //SDL_BASEGAME_TESTTD_H
