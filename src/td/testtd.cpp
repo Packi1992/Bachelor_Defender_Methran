@@ -50,6 +50,8 @@ void TestTD::Init() {
 void TestTD::UnInit() {
     GameState::UnInit();
     globals._towers.clear();
+    globals._projectiles.clear();
+    globals._enemies.clear();
     audioHandler->stopMusic();
 }
 

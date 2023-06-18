@@ -23,7 +23,7 @@ void Boomerang::Update() {
             hitList.end());
     if(_diff < 0 )_diff = 0;
     _lastTimePoint = totalMscg;
-    _direction += 3;
+    _direction -= 3;
     auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
     auto speed = (float) (((float) _speed) * 0.01f);
     _position.x += (sin(direction) * speed);
@@ -80,4 +80,9 @@ bool Boomerang::collision(std::shared_ptr<Enemy> e) {
         return true;
     }
     return false;
+}
+
+Boomerang::Boomerang(Boomerang &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
+    _minFlyingTime = p._minFlyingTime;
+    _toggleDirection = p._toggleDirection;
 }

@@ -3,6 +3,8 @@
 //
 
 #include "projectile.h"
+
+#include <utility>
 #include "../../gamebase.h"
 #include "../enemy/enemy.h"
 
@@ -15,8 +17,8 @@ void Projectile::Update() {
     _position.x += (sin(direction) * speed);
     _position.y -= (cos(direction) * speed);
     if (_ttl != 0) {
-        _ttl -= (int)diff;
-        if(_ttl <= 0){
+        _ttl -= (int) diff;
+        if (_ttl <= 0) {
             _alive = false;
         }
     }
@@ -56,10 +58,9 @@ void Projectile::Render() {
 bool Projectile::collision(std::shared_ptr<Enemy> e) {
     FRect en = e->getHitBox();
     if ((_position.x >= en.x) &&
-    (_position.x < (en.x + en.w)) &&
-    (_position.y >= en.y) &&
-    (_position.y < (en.y + en.h)))
-    {
+        (_position.x < (en.x + en.w)) &&
+        (_position.y >= en.y) &&
+        (_position.y < (en.y + en.h))) {
         e->takeDamage(this);
         collide();
         return true;
@@ -69,12 +70,34 @@ bool Projectile::collision(std::shared_ptr<Enemy> e) {
 
 void Projectile::collide() {
     _alive = false;
-    float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+    float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
     audioHandler->playSound(SoundArrowHit, x);
 }
 
 Projectile::Projectile() {
     _lastTimePoint = totalMscg;
+}
+
+Projectile::Projectile(Projectile &p) {
+    _alive = p._alive;
+    _ttl = p._ttl;
+    _destroy = p._destroy;
+    _type = p._type;
+    _startingPoint = p._startingPoint;
+    _position = p._position;
+    _hitCoolDown = p._hitCoolDown;
+    _size = p._size;
+    _speed = p._speed;
+    _direction = p._direction;
+    _damage = p._damage;
+    _moveable = p._moveable;
+    _hitSound = p._hitSound;
+    _lastTimePoint = totalMscg;
+}
+
+Projectile::Projectile(Projectile &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p) {
+    _targetE = e;
+    _direction = direction;
 }
 
 Projectile::~Projectile() = default;

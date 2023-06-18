@@ -40,6 +40,8 @@ public:
 
     virtual ~Projectile();
     Projectile();
+    Projectile(Projectile &p);
+    Projectile(Projectile &p, std::shared_ptr<Enemy> e, uint16_t direction);
     virtual bool collision(std::shared_ptr<Enemy> e);
     virtual void collide();
 

@@ -65,9 +65,8 @@ void LinkedListTower::Update() {
     if (_next != nullptr && _before == nullptr) {
         if (_shootCoolDown <= 0) {
             _shootCoolDown = (int) _reloadTime;
-            std::shared_ptr<LinkProjectile> lp = std::make_shared<LinkProjectile>();
-            lp->set(_reloadTime / 4, _pos, _next->_pos, _damage);
-            tdGlobals->_projectiles.push_back(lp);
+            _link.set(_reloadTime / 4, _pos, _next->_pos, _damage);
+            tdGlobals->_projectiles.push_back(std::make_shared<LinkProjectile>(_link));
             _next->shoot(this, _reloadTime / 4);
         } else {
             _shootCoolDown -= _diff;
@@ -77,14 +76,12 @@ void LinkedListTower::Update() {
         if (_shootCoolDown <= 0) {
             _shootCoolDown = (int) _reloadTime;
             if (_trigger == _next) {
-                std::shared_ptr<LinkProjectile> lp = std::make_shared<LinkProjectile>();
-                lp->set(_reloadTime / 4, _pos, _before->_pos, _damage);
-                tdGlobals->_projectiles.push_back(lp);
+                _link.set(_reloadTime / 4, _pos, _before->_pos, _damage);
+                tdGlobals->_projectiles.push_back(std::make_shared<LinkProjectile>(_link));
                 _before->shoot(this, _reloadTime / 4);
             } else {
-                std::shared_ptr<LinkProjectile> lp = std::make_shared<LinkProjectile>();
-                lp->set(_reloadTime / 4, _pos, _next->_pos, _damage);
-                tdGlobals->_projectiles.push_back(lp);
+                _link.set(_reloadTime / 4, _pos, _next->_pos, _damage);
+                tdGlobals->_projectiles.push_back(std::make_shared<LinkProjectile>(_link));
                 _next->shoot(this, _reloadTime / 4);
             }
             if (_trigger2 != nullptr) {
@@ -111,6 +108,12 @@ LinkedListTower::LinkedListTower(Point pos) : Tower(pos) {
     _aimSpeed = 1;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
+    _link._direction = 0;
+    _link._damage = _damage;
+    _link._moveable = true;
+    _link._targetE = nullptr;
+    _link._size = 100;
+    _link._position = _pos;
 }
 
 LinkedListTower::~LinkedListTower() = default;

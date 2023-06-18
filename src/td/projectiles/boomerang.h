@@ -11,10 +11,12 @@ class Boomerang : public Projectile {
 private:
     int _minFlyingTime = 1000;
     bool _toggleDirection = false;
-    u_int32_t _lastTimePoint = 0;
+ //   u_int32_t _lastTimePoint = 0;
     int _diff = 0;
 public:
     Boomerang();
+
+    Boomerang(Boomerang &p, std::shared_ptr<Enemy> e, uint16_t direction);
 
     void Render() override;
 

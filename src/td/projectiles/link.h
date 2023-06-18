@@ -11,6 +11,8 @@ class LinkProjectile : public Projectile {
 public:
     LinkProjectile();
 
+    LinkProjectile(LinkProjectile &p);
+
     void Update() override;
 
     void set(u16 timeToLife, FPoint position, FPoint position2, u8 damage);
@@ -18,6 +20,8 @@ public:
     void Render() override;
 
     bool collision(std::shared_ptr<Enemy> e) override;
+
+    void collide() override;
 
 private:
     FPoint _position2{};

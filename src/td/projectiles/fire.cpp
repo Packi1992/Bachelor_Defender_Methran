@@ -22,3 +22,7 @@ void Fire::collide() {
     Projectile::collide();
 
 }
+
+Fire::Fire(Fire &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
+
+}
