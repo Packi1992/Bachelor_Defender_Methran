@@ -6,6 +6,7 @@
 
 Boomerang::Boomerang() {
     _type = ProjectileType::BOOMERANG;
+    _lastTimePoint = totalMscg;
 }
 
 void Boomerang::Update() {
