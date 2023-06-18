@@ -11,14 +11,27 @@
 
 class WaveHandler{
 public:
-    void pullEvent(SpawnEvent &event);
+    bool pullEvent(SpawnEvent &event);
     string getWaveName();
 
-    void addWave(Wave);
-    int waveCur = 0;
+    void addWave(const Wave&);
+
     void Update();
+    void Render();
     std::string save();
     bool load(const Vector<string>& vector1);
-    Vector<Wave> waveVec;
+    bool isOver();
+    void init();
+private:
+    Vector<Wave> _waveVec;
+    u32 _pause = 15000;
+    u32 _lastTimePoint=0;
+    bool _doRenderCounter=false;
+    int _waveCur = 0;
+    string _counterText;
+    SDL_Rect _txtSrcRect{};
+    Texture *_txtTexture{};
+    SDL_Rect _txtDstRect{};
+    bool _isOver = false;
 };
 #endif //SDL_BACHELORDEFENDER_WAVEHANDLER_H

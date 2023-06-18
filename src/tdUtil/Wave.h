@@ -64,14 +64,17 @@ public:
     int index=0;
     ~Wave();
 
+
     void setName(std::string name);
 
+    string getName();
+
+    bool hasStarted = false;
 private:
     Vector<SpawnEvent> Events{};    // i want to implement a min heap ... but i dont
     List<SpawnEvent> pendingEvents{};
-    u32 waveStart=0;
-    string name{};
-    bool hasStarted = false;
+    u32 _startTimePoint=0;
+    string _name{};
     bool hasEnded = false;
 
 };

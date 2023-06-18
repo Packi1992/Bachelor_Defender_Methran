@@ -113,4 +113,22 @@ TextureCache* TextureCache::getCache() {
 }
 TextureCache* TextureCache::cacheInstance = nullptr;
 
+Texture *TextureCache::getText(string *string, u8 size, Rect *sRect, t_color TextColor) {
+    auto font = TTF_OpenFont(ttf_path, size);
+    if (!font) {
+        printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
+        exit(2);
+    }
+    Surface *surface;
+    surface = TTF_RenderUTF8_Blended(font, string->c_str(), RenderHelper::getColor(TextColor));
+
+    Texture *texture = SDL_CreateTextureFromSurface(render, surface);
+    SDL_FreeSurface(surface);
+    TTF_CloseFont(font);
+    if (sRect != nullptr) {
+        SDL_QueryTexture(texture, nullptr, nullptr, &sRect->w, &sRect->h);
+    }
+    return texture;
+}
+
 

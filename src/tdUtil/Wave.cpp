@@ -3,8 +3,11 @@
 //
 
 #include "Wave.h"
+#include "../td/testtd.h"
 
-Wave::Wave(int SpawnCount ) {
+#include <utility>
+
+Wave::Wave(int SpawnCount) {
     Events.resize(SpawnCount);
 }
 
@@ -16,8 +19,8 @@ Wave::~Wave() {
 void Wave::addEvent(string Event) {
     // we need to define a function to write and load Spawn Events ...
     // maybe inside Struct?
-    if(Event.substr()=="NAME")
-    addEvent(SpawnEvent::readLine(Event));
+    if (Event.substr() == "NAME")
+        addEvent(SpawnEvent::readLine(Event));
 }
 
 void Wave::addEvent(SpawnEvent Event) {
@@ -26,7 +29,7 @@ void Wave::addEvent(SpawnEvent Event) {
 }
 
 bool Wave::PollEvent(SpawnEvent &event) {
-    if(pendingEvents.empty())
+    if (pendingEvents.empty())
         return false;
     event = pendingEvents.front();
     pendingEvents.pop_front();
@@ -34,30 +37,44 @@ bool Wave::PollEvent(SpawnEvent &event) {
 }
 
 void Wave::Update() {
-    u32 now = totalMscg-waveStart;
-    for (SpawnEvent event:Events) {
-        if(event.time > now){
-            pendingEvents.push_back(event);
+    if(hasStarted){
+        if(!Events.empty()){
+            u32 now = totalMscg - _startTimePoint;
+            Events.erase(
+                    std::remove_if(
+                            Events.begin(),
+                            Events.end(),
+                            [&now, this](const SpawnEvent &mov) {
+                                if (now >= mov.time) {
+                                    pendingEvents.push_back(mov);
+                                    return true;
+                                }
+                                return false;
+                            }
+                    ),
+                    Events.end());
         }
-    }
-    for (SpawnEvent event: pendingEvents){
-        for(int i =0 ; i < (int)Events.size(); i++){
-            Events.erase(std::remove(Events.begin(), Events.end(), event), Events.end());
+        else{
+            hasEnded = true;
         }
     }
 }
 
 void Wave::startWave() {
-    waveStart = totalMscg;
+    _startTimePoint = totalMscg;
     hasStarted = true;
 }
 
 bool Wave::isOver() {
-    return Events.empty();
+    return hasEnded && tdGlobals->_enemies.empty();
 }
 
 void Wave::setName(std::string name) {
+    _name = std::move(name);
+}
 
+string Wave::getName() {
+    return _name;
 }
 
 SpeechEvent SpeechEvent::readLine(string input) {
