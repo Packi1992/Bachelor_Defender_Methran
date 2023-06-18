@@ -19,7 +19,30 @@ void TestTD::Init() {
                             {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
     _texMethran = t_cache->get(BasePath"asset/graphic/methran1.png");
     SDL_QueryTexture(_texMethran, nullptr, nullptr, &MethranDst.w, &MethranDst.h);
-    //globals._pl._sanity = 10;
+
+
+    // use wave handler
+    Wave w1;
+    SpawnEvent se{};
+    se.time = 1000;
+    se.SpawnPoint = 0;
+    se.count = 1;
+    se.speed = 100;
+    for(int i = 0; i<=10; i++){
+        se.time += 500;
+        w1.addEvent(se);
+    }
+    se.health += 50;
+    se.time = 1000;
+    Wave w2;
+    for(int i = 0; i<=10; i++){
+        se.time += 500;
+        w1.addEvent(se);
+    }
+
+    globals._wh.addWave(w1);
+    globals._wh.addWave(w2);
+    globals._wh.init();
     updateUI();
     Update();
 }
@@ -55,6 +78,7 @@ void TestTD::Render() {
         enemy->RenderExtras(true);
     }
     // at last render UI
+    globals._wh.Render();
     rh->fillRect(&SanityBar, RED);
     rh->fillRect(&Sanity, GREEN);
     rh->rect(&SanityBar, 4, BLACK);
@@ -71,6 +95,10 @@ void TestTD::Render() {
         rh->background(BLACK, 128);
         rh->CenteredText("Game Over", 70, RED, windowSize.x, windowSize.y);
     }
+    if (!_gameover && globals._wh.isOver()){
+        rh->background(BLACK, 128);
+        rh->CenteredText("Congraz, Du hast gewonnen!", 70, RED, windowSize.x, windowSize.y);
+    }
 }
 
 void TestTD::Update() {
@@ -82,6 +110,13 @@ void TestTD::Update() {
         collision();
         // Update Enemies
         updateEnemeies();
+
+        // Handle new enemies
+        globals._wh.Update();
+        SpawnEvent sEvent;
+        while(globals._wh.pullEvent(sEvent)){
+            handleEvent(sEvent);
+        }
         // calculate sanity bar (only every 10 frames)
         if (frameg % 10 == 0) {
             updateUI();
@@ -130,13 +165,6 @@ void TestTD::Update() {
             }
             _mbLeft = false;
         }
-        // add enemy
-        if (totalMscg % 100 == 0) {
-            std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
-            e->setEnemy({7, 3}, 100, 100, 1);
-            tdGlobals->_enemies.push_back(e);
-        }
-        // -------------------------------------------------------------------
     }
 }
 
@@ -300,6 +328,7 @@ void TestTD::handleFloatingMenuSelection() {
 
 void TestTD::updateTowers() {
     for (int i = 0; i < (int) globals._towers.size(); i++) {
+
         globals._towers.at(i)->Update();
         if (globals._towers.at(i)->isDead()) {
             globals._towers.erase(
@@ -352,4 +381,11 @@ bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
 
 TestTD::TestTD(Game &game, string mapPath): GameState(game) {
     _mapPath = std::move(mapPath);
+}
+
+void TestTD::handleEvent(SpawnEvent event) {
+    std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
+    e->setEnemy(pMap->getStartPoint(event.SpawnPoint),event.health,event.speed,event.value,event.type);
+    globals._enemies.push_back(e);
+
 }

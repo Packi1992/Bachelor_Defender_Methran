@@ -92,6 +92,8 @@ public:
     void updateProjectiles();
 
     void updateEnemeies();
+
+    void handleEvent(SpawnEvent event);
 };
 
 #endif //SDL_BASEGAME_TESTTD_H

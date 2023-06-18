@@ -44,7 +44,7 @@ public:
     int _height = 20;
 
     bool checkPath(Point pos);
-
+    Point getStartPoint(int i);
 private:
     struct PathEntry {
         Point pos;
@@ -52,6 +52,8 @@ private:
         bool goal;
         bool set;
     };
+
+    Vector<Point> _startPoints{};
     Texture *_tileMap = {};
     Texture *_blocked = {};
     Texture *_arrow{};

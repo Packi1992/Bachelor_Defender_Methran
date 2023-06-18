@@ -190,9 +190,12 @@ void Map::Update() {
 }
 
 bool Map::updatePathFinding() {
+    _startPoints.clear();
     // clear path array
     for (int j = 0; j < _height; j++) {
         for (int i = 0; i < _width; i++) {
+            if(_map[i][j] == MapObjects::Start)
+                _startPoints.push_back({i,j});
             _pathMap[i][j].pos = {-1, -1}; //-1/-1 is not set
             _pathMap[i][j].blocked = isBlocked(i, j);
             _pathMap[i][j].goal = _map[i][j] == MapObjects::Goal;
@@ -309,4 +312,10 @@ bool Map::checkPath(Point pos) {
         setTile(pos, MapObjects::Empty);
     }
     return true;
+}
+
+Point Map::getStartPoint(int i) {
+    if((int)_startPoints.size()>=i+1)
+        return _startPoints.at(i);
+    return _startPoints.at(0);
 }
