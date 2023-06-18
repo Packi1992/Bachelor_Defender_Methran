@@ -14,7 +14,6 @@ void TestTD::Init() {
     pGame = &game;
     pMap = &_map;
     DataHandler::load(globals._pl, globals._wh, _map,BasePath"Maps/"+_mapPath);
-    globals._ph.set();
     tdGlobals = &globals;
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
@@ -48,7 +47,12 @@ void TestTD::Render() {
         enemy.Render();
     }
     // projectiles and particles
-    globals._ph.Render();
+    for (auto &p: tdGlobals->_projectiles) {
+        if (p != nullptr) {
+            p->Render();
+        }
+    }
+
     // render enemy extras (lifeBar or hitBox)
     for (auto &enemy: globals._enemies) {
         enemy.RenderExtras(true);
@@ -108,7 +112,7 @@ void TestTD::Update() {
         // Update towers
         updateTowers();
         // update projectiles
-        globals._ph.Update();
+        updateProjectiles();
 
         // update "Viewport" / Zoom in or Out / Scroll
         if (_mouseWheel) {
@@ -158,15 +162,11 @@ void TestTD::Update() {
 }
 
 void TestTD::collision() {
-    for (auto &p: globals._ph._projectiles) {
-        if (p != nullptr && p->_alive) {
+    for (auto &p: globals._projectiles) {
+        if (p->_alive) {
             for (auto &e: globals._enemies) {
-                if (e._alive && p->collision(&e)) {
-                    if (!p->_alive) {
-                        delete p;
-                        p = nullptr;
-                        break;
-                    }
+                if (e._alive && p->collision(&e) && p->_alive) {
+                    p->collide();
                 }
             }
         }
@@ -321,7 +321,6 @@ void TestTD::handleFloatingMenuSelection() {
 
 void TestTD::updateTowers() {
     for (int i = 0; i < (int) globals._towers.size(); i++) {
-
         globals._towers.at(i)->Update();
         if (globals._towers.at(i)->isDead()) {
             globals._towers.erase(
@@ -333,8 +332,21 @@ void TestTD::updateTowers() {
                     globals._towers.end());
         }
     }
-
 }
+
+void TestTD::updateProjectiles() {
+    for (auto & _projectile : globals._projectiles) {
+        _projectile->Update();
+    }
+    globals._projectiles.erase(
+            std::remove_if(
+                    globals._projectiles.begin(),
+                    globals._projectiles.end(),
+                    [](const std::shared_ptr<Projectile> &mov) { return !mov->_alive; }
+            ),
+            globals._projectiles.end());
+}
+
 
 bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
     if (tower->getCosts() > globals._pl._creditPoints) {

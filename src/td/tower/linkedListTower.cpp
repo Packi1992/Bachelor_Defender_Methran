@@ -50,7 +50,7 @@ void LinkedListTower::Update() {
                     break;
                 case MenuEntry_AddLink:
 
-                    if ((int)tdGlobals->_pl._creditPoints >= _linkCosts) {
+                    if ((int) tdGlobals->_pl._creditPoints >= _linkCosts) {
                         tdGlobals->_pl._creditPoints -= _linkCosts;
                         _linkEstablisher.set(this, false);
                         _linkEstablisher.show(&tdGlobals->_focus);
@@ -64,10 +64,10 @@ void LinkedListTower::Update() {
     }
     if (_next != nullptr && _before == nullptr) {
         if (_shootCoolDown <= 0) {
-            _shootCoolDown = (int)_reloadTime;
-            auto *lp = new LinkProjectile();
+            _shootCoolDown = (int) _reloadTime;
+            std::shared_ptr<LinkProjectile> lp = std::make_shared<LinkProjectile>();
             lp->set(_reloadTime / 4, _pos, _next->_pos, _damage);
-            tdGlobals->_ph.add(lp);
+            tdGlobals->_projectiles.push_back(lp);
             _next->shoot(this, _reloadTime / 4);
         } else {
             _shootCoolDown -= _diff;
@@ -75,16 +75,16 @@ void LinkedListTower::Update() {
     }
     if (_trigger != nullptr) {
         if (_shootCoolDown <= 0) {
-            _shootCoolDown = (int)_reloadTime;
+            _shootCoolDown = (int) _reloadTime;
             if (_trigger == _next) {
-                auto *lp = new LinkProjectile();
+                std::shared_ptr<LinkProjectile> lp = std::make_shared<LinkProjectile>();
                 lp->set(_reloadTime / 4, _pos, _before->_pos, _damage);
-                tdGlobals->_ph.add(lp);
+                tdGlobals->_projectiles.push_back(lp);
                 _before->shoot(this, _reloadTime / 4);
             } else {
-                auto *lp = new LinkProjectile();
+                std::shared_ptr<LinkProjectile> lp = std::make_shared<LinkProjectile>();
                 lp->set(_reloadTime / 4, _pos, _next->_pos, _damage);
-                tdGlobals->_ph.add(lp);
+                tdGlobals->_projectiles.push_back(lp);
                 _next->shoot(this, _reloadTime / 4);
             }
             if (_trigger2 != nullptr) {
