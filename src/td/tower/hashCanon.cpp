@@ -1,27 +1,27 @@
 //
-// Created by banoodle on 23.05.23.
+// Created by dex on 6/18/23.
 //
-#include "pointerTower.h"
+
+#include "hashCanon.h"
 #include "../testtd.h"
-#include "../projectiles/arrow.h"
+#include "../projectiles/hashbomb.h"
 #include "../../util/gui/floatingMenu.h"
 
-void PointerTower::Render() {
+void HashCanon::Render() {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
-    rh->tile(&dst, TdTileHandler::getTowerSrcRect(Base));
     int anim = ((int) ((_shootCoolDown - _reloadTime)));
     long animT = (anim > 4) ? 0 : anim;
-    if (_reloadTime <= 1000) {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, 1));
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getProjectileSrcRect(ARROW_FULLRECT));
-    } else {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, animT));
+    if (_reloadTime <= 500) {
+        rh->tile(&dst, 0, TdTileHandler::getTowerSrcRect(Hashcanon, animT));
+    }else {
+        rh->tile(&dst, 0, TdTileHandler::getTowerSrcRect(Hashcanon, 1));
     }
+    rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Hashcanon_Dir, 1));
     Tower::Render();
 }
 
-void PointerTower::Update() {
+void HashCanon::Update() {
     if (_floatingMenu != nullptr) {
         _floatingMenu->Update();
         if (_floatingMenu->isDone()) {
@@ -60,7 +60,7 @@ void PointerTower::Update() {
                     audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundArrowFire, x);
                     tdGlobals->_projectiles.push_back(
-                            std::make_shared<Arrow>(_arrow, _targetEnemy, ((int) _direction) % 360));
+                            std::make_shared<Hashbomb>(_hashbomb, _targetEnemy, ((int) _direction) % 360));
                 } else {
                     _reloadTime -= _diff;
                 }
@@ -72,9 +72,9 @@ void PointerTower::Update() {
     Tower::Update();
 }
 
-int PointerTower::_creditPointCosts = 5;
+int HashCanon::_creditPointCosts = 5;
 
-PointerTower::PointerTower(Point pos) : Tower(pos) {
+HashCanon::HashCanon(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
     _shootCoolDown = 3000;
@@ -84,18 +84,19 @@ PointerTower::PointerTower(Point pos) : Tower(pos) {
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
 
-    _arrow._direction = 0;
-    _arrow._damage = _damage;
-    _arrow._moveable = true;
-    _arrow._speed = 10;
-    _arrow._targetE = nullptr;
-    _arrow._size = 100;
-    _arrow._position = _pos;
+    _hashbomb._direction = 0;
+    _hashbomb._damage = _damage;
+    _hashbomb._moveable = true;
+    _hashbomb._speed = 10;
+    _hashbomb._targetE = nullptr;
+    _hashbomb._size = 100;
+    _hashbomb._position = _pos;
+    _hashbomb._ttl = 1500;
 }
 
-PointerTower::~PointerTower() = default;
+HashCanon::~HashCanon() = default;
 
-void PointerTower::showMenu(Gui **focus) {
+void HashCanon::showMenu(Gui **focus) {
     delete _floatingMenu;
     _menuEntries.clear();
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
@@ -105,11 +106,10 @@ void PointerTower::showMenu(Gui **focus) {
     _showRange = true;
 }
 
-int PointerTower::getCosts() {
+int HashCanon::getCosts() {
     return _creditPointCosts;
 }
 
-void PointerTower::setCosts(int cp) {
+void HashCanon::setCosts(int cp) {
     _creditPointCosts = cp;
 }
-

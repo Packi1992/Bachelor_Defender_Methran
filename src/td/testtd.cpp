@@ -5,7 +5,6 @@
 
 #include <utility>
 #include "../util/dataHandler.h"
-#include "../td/projectiles/arrow.h"
 
 TDGlobals *tdGlobals{};
 
@@ -257,14 +256,17 @@ void TestTD::updateFloatingMenu() {
     MenuEntry linkedListTower{MenuEntry_LinkedList, Status_Active, 10};
     MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 5};
     MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 5};
+    MenuEntry hashCanon{MenuEntry_HASHCANON, Status_Active, 5};
     if (!pMap->checkPath(CT::getMousePosTile())) {
         pointerTower._status = Status_Disabled;
         recursiveTower._status = Status_Disabled;
         linkedListTower._status = Status_Disabled;
+        hashCanon._status = Status_Disabled;
     }
     _buildMenuEntries.push_back(pointerTower);
     _buildMenuEntries.push_back(linkedListTower);
     _buildMenuEntries.push_back(recursiveTower);
+    _buildMenuEntries.push_back(hashCanon);
 }
 
 
@@ -321,6 +323,14 @@ void TestTD::handleFloatingMenuSelection() {
                 _floatingMenu.reset();
                 break;
             }
+            case MenuEntry_HASHCANON: {
+                std::shared_ptr<class Tower> tower = std::make_shared<HashCanon>(pos);
+                if (buyTower(tower)) {
+                    globals._towers.push_back(tower);
+                }
+                _floatingMenu.reset();
+                break;
+            }
             case MenuEntry_Error:
             default:
                 break;
@@ -345,8 +355,9 @@ void TestTD::updateTowers() {
 }
 
 void TestTD::updateProjectiles() {
-    for (auto & _projectile : globals._projectiles) {
-        _projectile->Update();
+    // NO AUTO LOOP! We add Particales in the Update function to the projectiles list.
+    for (int i = 0; i < tdGlobals->_projectiles.size(); i++) {
+        tdGlobals->_projectiles.at(i)->Update();
     }
     globals._projectiles.erase(
             std::remove_if(

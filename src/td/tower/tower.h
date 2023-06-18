@@ -72,5 +72,6 @@ protected:
 #include "pointerTower.h"
 #include "linkedListTower.h"
 #include "recursivTower.h"
+#include "hashCanon.h"
 
 #endif //BACHELOR_DEFENDER_TOWER_H
