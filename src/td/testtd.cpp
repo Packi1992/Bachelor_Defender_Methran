@@ -27,7 +27,7 @@ void TestTD::Init() {
     se.SpawnPoint = 0;
     se.count = 1;
     se.speed = 100;
-    for(int i = 0; i<=10; i++){
+    for(int i = 0; i<=1; i++){
         se.time += 500;
         w1.addEvent(se);
     }

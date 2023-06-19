@@ -70,6 +70,8 @@ void RecursivTower::Update() {
                     //audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundBoomerangFire, x);
                     tdGlobals->_projectiles.push_back(std::make_shared<Boomerang>(_boomerang, _targetEnemy,(((((int) _direction) % 360)+90)%360)));
+                    if(_level >=3 )
+                        tdGlobals->_projectiles.push_back(std::make_shared<Boomerang>(_boomerang, _targetEnemy,(((((int) _direction) % 360)-90)%360)));
                 } else {
                     _reloadTime -= _diff;
                 }
@@ -145,7 +147,7 @@ bool RecursivTower::updateTower() {
             case 3:
                 _damage = int((float) _damage * 2);
                 _boomerang._damage = _damage;
-                _boomerang._enHittable = true;
+                //_boomerang._enHittable = true;
                 break;
             default:
                 break;
