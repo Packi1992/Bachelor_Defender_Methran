@@ -89,15 +89,15 @@ void PointerTower::Update() {
     Tower::Update();
 }
 
-int PointerTower::_creditPointCosts = 5;
+int PointerTower::_creditPointCosts = 3;
 
 PointerTower::PointerTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
     _shootCoolDown = 3000;
-    _damage = 20;
+    _damage = 10;
     _aimSpeed = 1;
-    _upgradeCosts = 10;
+    _upgradeCosts = 8;
     _sellGain = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
@@ -147,13 +147,15 @@ bool PointerTower::updateTower() {
                 _doubleArrow = true;
                 _range++;
                 _upgradeCosts*=2;
+                _sellGain = (int)((float)_sellGain * 2.0f);
                 break;
             case 3:
-                _damage = int((float) _damage * 2);
+                _damage = int((float) _damage * 2.3);
                 _arrow._damage = _damage;
                 _arrow._speed = 18;
                 _range++;
                 _doubleArrow = false;
+                _sellGain = (int)((float)_sellGain * 1.5f);
                 break;
             default:
                 break;

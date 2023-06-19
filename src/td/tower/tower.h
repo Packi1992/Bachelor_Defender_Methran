@@ -82,5 +82,6 @@ protected:
 #include "linkedListTower.h"
 #include "recursivTower.h"
 #include "hashCanon.h"
+#include "stringTower.h"
 
 #endif //BACHELOR_DEFENDER_TOWER_H

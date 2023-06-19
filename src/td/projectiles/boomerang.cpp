@@ -5,7 +5,6 @@
 #include "boomerang.h"
 #include "../enemy/enemy.h"
 #include "../testtd.h"
-#include "../enemy/smallemy.h"
 
 Boomerang::Boomerang() {
     _type = ProjectileType::BOOMERANG;

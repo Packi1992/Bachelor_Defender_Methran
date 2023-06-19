@@ -1,27 +1,20 @@
 //
-// Created by dex on 6/18/23.
+// Created by dex on 6/19/23.
 //
 
-#include "hashCanon.h"
+#include "stringTower.h"
 #include "../testtd.h"
-#include "../projectiles/hashbomb.h"
+#include "../projectiles/stringProjectile.h"
 #include "../../util/gui/floatingMenu.h"
 
-void HashCanon::Render() {
+void StringTower::Render() {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
-    int anim = ((int) ((_shootCoolDown - _reloadTime)));
-    long animT = (anim > 4) ? 0 : anim;
-    if (_reloadTime <= 500) {
-        rh->tile(&dst, 0, TdTileHandler::getTowerSrcRect(Hashcanon, animT));
-    } else {
-        rh->tile(&dst, 0, TdTileHandler::getTowerSrcRect(Hashcanon, 1));
-    }
-    rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Hashcanon_Dir, 1));
+    rh->tile(&dst, TdTileHandler::getTowerSrcRect(TowerType::StringTower));
     Tower::Render();
 }
 
-void HashCanon::Update() {
+void StringTower::Update() {
     if (_floatingMenu != nullptr) {
         _floatingMenu->Update();
         if (_floatingMenu->isDone()) {
@@ -67,7 +60,7 @@ void HashCanon::Update() {
                     audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundArrowFire, x);
                     tdGlobals->_projectiles.push_back(
-                            std::make_shared<Hashbomb>(_hashbomb, _targetEnemy, ((int) _direction) % 360));
+                            std::make_shared<StringProjectile>(_stringProjectile));
                 } else {
                     _reloadTime -= _diff;
                 }
@@ -79,34 +72,33 @@ void HashCanon::Update() {
     Tower::Update();
 }
 
-int HashCanon::_creditPointCosts = 6;
+int StringTower::_creditPointCosts = 3;
 
-HashCanon::HashCanon(Point pos) : Tower(pos) {
+StringTower::StringTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
     _shootCoolDown = 3000;
-    _damage = 25;
+    _damage = 20;
     _aimSpeed = 1;
-    _upgradeCosts = 10;
-    _sellGain = 3;
+    _upgradeCosts = 8;
+    _sellGain = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
 
-    _hashbomb._direction = 0;
-    _hashbomb._damage = 0;
-    _hashbomb._moveable = true;
-    _hashbomb._speed = 10;
-    _hashbomb._targetE = nullptr;
-    _hashbomb._size = 100;
-    _hashbomb._position = _pos;
-    _hashbomb._ttl = 1500;
-    _hashbomb._exrange = 1;
-    _hashbomb._exdmg = _damage;
+    _stringProjectile._direction = 0;
+    _stringProjectile._damage = _damage;
+    _stringProjectile._moveable = true;
+    _stringProjectile._ttl = 1400;
+    //_stringProjectile._speed = 10;
+    _stringProjectile._targetE = nullptr;
+    _stringProjectile._size = 100;
+    _stringProjectile._position = _pos;
+    _stringProjectile._type = STRINGPROJECTILE;
 }
 
-HashCanon::~HashCanon() = default;
+StringTower::~StringTower() = default;
 
-void HashCanon::showMenu(Gui **focus) {
+void StringTower::showMenu(Gui **focus) {
     delete _floatingMenu;
     _menuEntries.clear();
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
@@ -122,31 +114,27 @@ void HashCanon::showMenu(Gui **focus) {
     _showRange = true;
 }
 
-int HashCanon::getCosts() {
+int StringTower::getCosts() {
     return _creditPointCosts;
 }
 
-void HashCanon::setCosts(int cp) {
+void StringTower::setCosts(int cp) {
     _creditPointCosts = cp;
 }
 
-bool HashCanon::updateTower() {
+bool StringTower::updateTower() {
     if (Tower::updateTower()) {
         switch (_level) {
             case 2:
-                _damage = int((float) _damage * 1.4);
-                _hashbomb._exdmg = _damage;
-                _hashbomb._speed = 12;
-                _hashbomb._ttl = 1700;
-                _range = 6;
-                _upgradeCosts = (int)((float)_upgradeCosts * 1.8);
-                _sellGain = (int)((float)_sellGain * 2.0f);
+                _damage = int((float) _damage * 1.5);
+                _stringProjectile._damage = _damage;
+                _upgradeCosts *= 2;
+                _sellGain = (int) ((float) _sellGain * 2.0f);
                 break;
             case 3:
-                _damage = int((float) _damage * 1.4);
-                _hashbomb._exdmg = _damage;
-                _hashbomb._exrange ++;
-                _sellGain = (int)((float)_sellGain * 1.5f);
+                _damage = int((float) _damage * 2.0);
+                _stringProjectile._damage = _damage;
+                _sellGain = (int) ((float) _sellGain * 1.5f);
                 break;
             default:
                 break;

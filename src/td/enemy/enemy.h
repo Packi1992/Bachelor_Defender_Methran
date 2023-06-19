@@ -76,5 +76,5 @@ protected:
 
 };
 
-
+#include "smallemy.h"
 #endif //SDL_BASEGAME_ENEMY_H

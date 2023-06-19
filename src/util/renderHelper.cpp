@@ -196,6 +196,9 @@ void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
         case MenuEntry_HASHCANON:
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Hashcanon));
             break;
+        case MenuEntry_STRINGTOWER:
+            helperInstance->tile(center, TdTileHandler::getTowerSrcRect(StringTower));
+            break;
         case MenuEntry_LinkedList:
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
             helperInstance->tile(center, TdTileHandler::getTowerSrcRect(Tower_LinkedList));

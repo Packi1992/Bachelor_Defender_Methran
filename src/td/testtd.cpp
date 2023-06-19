@@ -27,7 +27,7 @@ void TestTD::Init() {
     se.SpawnPoint = 0;
     se.count = 1;
     se.speed = 100;
-    for(int i = 0; i<=1; i++){
+    for(int i = 0; i<=10; i++){
         se.time += 500;
         w1.addEvent(se);
     }
@@ -260,16 +260,19 @@ void TestTD::updateFloatingMenu() {
     MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 5};
     MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 5};
     MenuEntry hashCanon{MenuEntry_HASHCANON, Status_Active, 5};
+    MenuEntry stringTower{MenuEntry_STRINGTOWER, Status_Active, 5};
     if (!pMap->checkPath(CT::getMousePosTile())) {
         pointerTower._status = Status_Disabled;
         recursiveTower._status = Status_Disabled;
         linkedListTower._status = Status_Disabled;
         hashCanon._status = Status_Disabled;
+        stringTower._status = Status_Disabled;
     }
     _buildMenuEntries.push_back(pointerTower);
     _buildMenuEntries.push_back(linkedListTower);
     _buildMenuEntries.push_back(recursiveTower);
     _buildMenuEntries.push_back(hashCanon);
+    _buildMenuEntries.push_back(stringTower);
 }
 
 
@@ -328,6 +331,14 @@ void TestTD::handleFloatingMenuSelection() {
             }
             case MenuEntry_HASHCANON: {
                 std::shared_ptr<class Tower> tower = std::make_shared<HashCanon>(pos);
+                if (buyTower(tower)) {
+                    globals._towers.push_back(tower);
+                }
+                _floatingMenu.reset();
+                break;
+            }
+            case MenuEntry_STRINGTOWER: {
+                std::shared_ptr<class Tower> tower = std::make_shared<class StringTower>(pos);
                 if (buyTower(tower)) {
                     globals._towers.push_back(tower);
                 }

@@ -111,6 +111,10 @@ Rect *TdTileHandler::getTowerSrcRect(TowerType t, ul anim) {
             src.y = 640;
             src.x = (int)(anim%4)*64;
             return &src;
+        case StringTower:
+            src.y = 704;
+            src.x = 0;
+            return &src;
         case Hashcanon_Dir:
             src.y = 640;
             src.x = 256;
@@ -164,6 +168,9 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
             break;
         case BASEEXPLOSION:
             src = {384, 640, 64, 64};
+            break;
+        case STRINGPROJECTILE:
+            src = {128, 704, 64, 95};
             break;
         case DISABLED:
             cerr << "Projectile Type DISABLED has no srcRect";
