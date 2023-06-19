@@ -1,30 +1,27 @@
 //
-// Created by dex on 6/10/23.
+// Created by dex on 6/18/23.
 //
 
-#include "recursivTower.h"
+#include "hashCanon.h"
 #include "../testtd.h"
-#include "../projectiles/boomerang.h"
+#include "../projectiles/hashbomb.h"
 #include "../../util/gui/floatingMenu.h"
 
-void RecursivTower::Render() {
+void HashCanon::Render() {
     Point pos = CT::getPosOnScreen(_rPos);
     Rect dst = {pos.x, pos.y, scale, scale};
-    rh->tile(&dst, TdTileHandler::getTowerSrcRect(RecursivBase));
-    int anim = ((int) ((_shootCoolDown - _reloadTime))) / 2;
-    long animT = (anim > 2) ? 0 : anim;
-    if (_reloadTime <= 50) {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_Boomerang, 1));
-    } else if (_reloadTime > 50 && _reloadTime <= 3000) {
-        rh->tile(&dst, 360 - ((int) _spin % 360), TdTileHandler::getTowerSrcRect(Tower_Boomerang, 1));
+    int anim = ((int) ((_shootCoolDown - _reloadTime)));
+    long animT = (anim > 4) ? 0 : anim;
+    if (_reloadTime <= 500) {
+        rh->tile(&dst, 0, TdTileHandler::getTowerSrcRect(Hashcanon, animT));
     } else {
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_Boomerang, animT));
+        rh->tile(&dst, 0, TdTileHandler::getTowerSrcRect(Hashcanon, 1));
     }
-    _spin += 160;
+    rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Hashcanon_Dir, 1));
     Tower::Render();
 }
 
-void RecursivTower::Update() {
+void HashCanon::Update() {
     if (_floatingMenu != nullptr) {
         _floatingMenu->Update();
         if (_floatingMenu->isDone()) {
@@ -67,9 +64,10 @@ void RecursivTower::Update() {
                 if (_reloadTime <= 0) {
                     _reloadTime = _shootCoolDown;
                     float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
-                    //audioHandler->playSound(SoundTowerPointer, x);
-                    audioHandler->playSound(SoundBoomerangFire, x);
-                    tdGlobals->_projectiles.push_back(std::make_shared<Boomerang>(_boomerang, _targetEnemy,(((((int) _direction) % 360)+90)%360)));
+                    audioHandler->playSound(SoundTowerPointer, x);
+                    audioHandler->playSound(SoundArrowFire, x);
+                    tdGlobals->_projectiles.push_back(
+                            std::make_shared<Hashbomb>(_hashbomb, _targetEnemy, ((int) _direction) % 360));
                 } else {
                     _reloadTime -= _diff;
                 }
@@ -81,35 +79,34 @@ void RecursivTower::Update() {
     Tower::Update();
 }
 
-int RecursivTower::_creditPointCosts = 5;
+int HashCanon::_creditPointCosts = 5;
 
-RecursivTower::RecursivTower(Point pos) : Tower(pos) {
+HashCanon::HashCanon(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
-    _shootCoolDown = 5000;
-    _damage = 25;
+    _shootCoolDown = 3000;
+    _damage = 50;
     _aimSpeed = 1;
     _upgradeCosts = 10;
     _sellGain = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
 
-    _boomerang._damage = _damage;
-    _boomerang._moveable = true;
-    _boomerang._speed = 10;
-    _boomerang._damage = 10;
-    _boomerang._size = 100;
-    _boomerang._position = _pos;
-    _boomerang._startingPoint = _pos;
-    _boomerang._freez = false;
-    _boomerang._enHittable = false;
-    // have to fix the ttl...
-    _boomerang._ttl = 2100;
+    _hashbomb._direction = 0;
+    _hashbomb._damage = _damage;
+    _hashbomb._moveable = true;
+    _hashbomb._speed = 10;
+    _hashbomb._targetE = nullptr;
+    _hashbomb._size = 100;
+    _hashbomb._position = _pos;
+    _hashbomb._ttl = 1500;
+    _hashbomb._exrange = 1;
+    _hashbomb._exdmg = 20;
 }
 
-RecursivTower::~RecursivTower() = default;
+HashCanon::~HashCanon() = default;
 
-void RecursivTower::showMenu(Gui **focus) {
+void HashCanon::showMenu(Gui **focus) {
     delete _floatingMenu;
     _menuEntries.clear();
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
@@ -125,33 +122,34 @@ void RecursivTower::showMenu(Gui **focus) {
     _showRange = true;
 }
 
-int RecursivTower::getCosts() {
+int HashCanon::getCosts() {
     return _creditPointCosts;
 }
 
-void RecursivTower::setCosts(int cp) {
+void HashCanon::setCosts(int cp) {
     _creditPointCosts = cp;
 }
 
-bool RecursivTower::updateTower() {
-    if(Tower::updateTower()){
+bool HashCanon::updateTower() {
+    if (Tower::updateTower()) {
         switch (_level) {
             case 2:
-                _damage = int((float) _damage * 1.2);
-                _boomerang._damage = _damage;
-                _boomerang._freez = true;
-                _upgradeCosts*=2;
+                _damage = int((float) _damage * 1.4);
+                _hashbomb._damage = _damage;
+                _hashbomb._speed = 12;
+                _hashbomb._ttl = 1700;
+                _range = 6;
+                _upgradeCosts = (int)((float)_upgradeCosts * 1.8);
                 break;
             case 3:
-                _damage = int((float) _damage * 2);
-                _boomerang._damage = _damage;
-                _boomerang._enHittable = true;
+                _hashbomb._exrange = 2;
+                _hashbomb._exdmg = 30;
                 break;
             default:
                 break;
         }
         return true;
-    }else{
+    } else {
         return false;
     }
 }

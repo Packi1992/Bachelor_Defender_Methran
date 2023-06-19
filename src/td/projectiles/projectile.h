@@ -57,5 +57,8 @@ public:
 #include "fire.h"
 #include "link.h"
 #include "boomerang.h"
+#include "baseExplosion.h"
+#include "hashbomb.h"
+
 
 #endif //SDL_BACHELORDEFENDER_PROJECTILE_H

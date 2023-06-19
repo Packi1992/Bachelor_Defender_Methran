@@ -1,15 +1,15 @@
 //
-// Created by dex on 6/10/23.
+// Created by dex on 6/18/23.
 //
 
-#ifndef SDL_BACHELORDEFENDER_RECURSIVTOWER_H
-#define SDL_BACHELORDEFENDER_RECURSIVTOWER_H
+#ifndef SDL_BACHELORDEFENDER_HASHCANON_H
+#define SDL_BACHELORDEFENDER_HASHCANON_H
 
 #include "tower.h"
 
-class RecursivTower:public Tower {
+class HashCanon : public Tower {
 public:
-    explicit RecursivTower(Point pos);
+    explicit HashCanon(Point pos);
 
     // Draws the tower
     void Render() override;
@@ -17,7 +17,7 @@ public:
     // Place Tower on Map
     void Update() override;
 
-    ~RecursivTower() override;
+    ~HashCanon() override;
 
     int getCosts() override;
 
@@ -30,10 +30,6 @@ public:
 
 private:
     static int _creditPointCosts;
-    Boomerang _boomerang;
-    uint _spin = 0;
-
+    Hashbomb _hashbomb;
 };
-
-
-#endif //SDL_BACHELORDEFENDER_RECURSIVTOWER_H
+#endif //SDL_BACHELORDEFENDER_HASHCANON_H

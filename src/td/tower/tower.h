@@ -30,7 +30,9 @@ public:
     virtual void setCosts(int cp) = 0;
 
     virtual FPoint getPos();
+
     virtual int getRange();
+
     virtual ~Tower();
 
     bool isClicked(Point md);
@@ -41,8 +43,12 @@ public:
 
     void removeFromMap();
 
+    virtual bool updateTower();
+
     [[nodiscard]] bool isDead() const;
+
     [[nodiscard]] bool inRange(FRect p) const;
+
 protected:
 
 
@@ -55,7 +61,7 @@ protected:
     float _aimSpeed = 5;
     // direction can be between 0-359
     float _direction = 0;
-    int32_t _reloadTime =1000;
+    int32_t _reloadTime = 1000;
     u8 animate = 0;
     int32_t _shootCoolDown = 1000;
     u32 _damage = 0;
@@ -65,12 +71,16 @@ protected:
     FloatingMenu *_floatingMenu = nullptr;
     Vector<MenuEntry> _menuEntries;
     bool _showRange = false;
-    u_int32_t _lastTimePoint=0;
-    int _diff=0;
+    u_int32_t _lastTimePoint = 0;
+    int _diff = 0;
+    uint _level = 1;
+    int _upgradeCosts = 0;
+    int _sellGain = 0;
 };
 
 #include "pointerTower.h"
 #include "linkedListTower.h"
 #include "recursivTower.h"
+#include "hashCanon.h"
 
 #endif //BACHELOR_DEFENDER_TOWER_H

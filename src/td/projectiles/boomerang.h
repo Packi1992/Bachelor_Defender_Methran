@@ -14,6 +14,8 @@ private:
  //   u_int32_t _lastTimePoint = 0;
     int _diff = 0;
 public:
+    bool _enHittable = false;
+    bool _freez = false;
     Boomerang();
 
     Boomerang(Boomerang &p, std::shared_ptr<Enemy> e, uint16_t direction);

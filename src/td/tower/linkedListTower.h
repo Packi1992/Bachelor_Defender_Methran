@@ -14,6 +14,8 @@ class LinkedListTower : public Tower {
 public:
     explicit LinkedListTower(Point pos);
 
+    LinkedListTower(Point pos, LinkedListTower * srcTower);
+
     // Draws the tower
     void Render() override;
 
@@ -39,6 +41,9 @@ public:
 
     LinkedListTower *getNext();
 
+    bool updateTower() override;
+
+    bool updateLinkTowers();
 private:
     static int _creditPointCosts;
     LinkEstablisher _linkEstablisher;
@@ -48,7 +53,10 @@ private:
     LinkedListTower *_trigger{};
     LinkedListTower *_trigger2{};
     u16 _delay2=0;
+    uint16_t _lvlu = 4;
+    uint16_t _lvld = 4;
     LinkProjectile _link;
+    bool _doubleLinkActive = false;
     void sell();
 
     void shoot(LinkedListTower* trigger, u16 delay);

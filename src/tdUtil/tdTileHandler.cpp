@@ -107,6 +107,14 @@ Rect *TdTileHandler::getTowerSrcRect(TowerType t, ul anim) {
         case Tower_LinkedListBase:
             src.y = 576;
             return &src;
+        case Hashcanon:
+            src.y = 640;
+            src.x = (int)(anim%4)*64;
+            return &src;
+        case Hashcanon_Dir:
+            src.y = 640;
+            src.x = 256;
+            return &src;
     }
     return &src;
 }
@@ -136,6 +144,10 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
         case ARROW:
             src = {23, 335, 18, 32};
             break;
+        case ARROW_FULLRECT:
+            src.x = 0;
+            src.y = 320;
+            break;
         case LINK:
             src = {26, 334, 11, 35};
             break;
@@ -146,6 +158,12 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
             localAnimate = (int)((anim / 40) % 2);
             src.x = 64+(localAnimate* 64);
             src.y = 320;
+            break;
+        case HASHBOMB:
+            src = {344, 664, 16, 16};
+            break;
+        case BASEEXPLOSION:
+            src = {384, 640, 64, 64};
             break;
         case DISABLED:
             cerr << "Projectile Type DISABLED has no srcRect";

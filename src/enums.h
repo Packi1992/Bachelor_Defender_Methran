@@ -26,11 +26,13 @@ enum EnemyType{
 enum ProjectileType{
     DISABLED,
     ARROW,
+    ARROW_FULLRECT,
     BULLET,
     LINK,
     BASEEXPLOSION,
     FFIRE,
     BOOMERANG,
+    HASHBOMB,
 };
 
 enum TowerType{
@@ -40,6 +42,8 @@ enum TowerType{
     Tower_LinkedListBase,
     RecursivBase,
     Tower_Boomerang,
+    Hashcanon,
+    Hashcanon_Dir,
 };
 
 //  specific Colors to make things easier regarding drawing colors
@@ -85,6 +89,7 @@ enum MenuEntries{
     MenuEntry_POINTER,
     MenuEntry_BOOMERANG,
     MenuEntry_LinkedList,
+    MenuEntry_HASHCANON,
     MenuEntry_Error,
     MenuEntry_Disabled,
     MenuEntry_Sell,

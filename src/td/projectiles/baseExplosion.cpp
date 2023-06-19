@@ -1,17 +1,19 @@
 //
-// Created by dex on 6/10/23.
+// Created by dex on 6/18/23.
 //
 
-#include "boomerang.h"
-#include "../enemy/enemy.h"
-#include "../testtd.h"
-Boomerang::Boomerang() {
-    _type = ProjectileType::BOOMERANG;
+#include "baseExplosion.h"
+
+BaseExplosion::BaseExplosion() {
+    _type = ProjectileType::BASEEXPLOSION;
     _lastTimePoint = totalMscg;
+    _ttl = 1500;
+    _speed = 0;
+    _damage = 10;
 }
 
-void Boomerang::Update() {
-    _diff = (int)(totalMscg - _lastTimePoint);
+void BaseExplosion::Update() {
+    _diff = (int) (totalMscg - _lastTimePoint);
     for(auto &entry: hitList){
         entry.hitCooldown -= _diff;
     }
@@ -22,21 +24,9 @@ void Boomerang::Update() {
                     [](HitTimer mov) { return mov.hitCooldown <= 0; }
             ),
             hitList.end());
-    if(_diff < 0 )_diff = 0;
+    if (_diff < 0)_diff = 0;
     _lastTimePoint = totalMscg;
-    _direction -= 3;
-    auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
-    auto speed = (float) (((float) _speed) * 0.01f);
-    _position.x += (sin(direction) * speed);
-    _position.y -= (cos(direction) * speed);
-    _minFlyingTime -= _diff;
-    if (_minFlyingTime <= 0) {
-        _toggleDirection = !_toggleDirection;
-    }
-    if (((int) _position.x == (int) _startingPoint.x) && ((int) _position.y == (int) _startingPoint.y) &&
-        _toggleDirection) {
-        _alive = false;
-    }
+    _ttl -= _diff;
     if (_ttl != 0) {
         _ttl -= (int) _diff;
         if (_ttl <= 0) {
@@ -45,15 +35,13 @@ void Boomerang::Update() {
     }
 }
 
-void Boomerang::Render() {
+void BaseExplosion::Render() {
     if (_alive && onScreen()) {
         Point pos = CT::getPosOnScreen(_position);
 
         Rect srcRect = *TdTileHandler::getProjectileSrcRect(_type, totalMscg);
         float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.w;
         float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.h;
-        //dstRect needs to be changed depending on direction
-        //float angle = (float)(totalMSec%360)/180.0f*(float)M_PI;
         float angle = (float) _direction / 180.0f * (float) M_PI;
         float sinAngle = sin(angle);
         float cosAngle = cos(angle);
@@ -69,12 +57,12 @@ void Boomerang::Render() {
     }
 }
 
-void Boomerang::collide() {
+void BaseExplosion::collide() {
     float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
     audioHandler->playSound(SoundArrowHit, x);
 }
 
-bool Boomerang::collision(std::shared_ptr<Enemy> e) {
+bool BaseExplosion::collision(std::shared_ptr<Enemy> e) {
     bool inList = false;
     for(auto &entry: hitList){
         if(entry.enemy == e) {
@@ -83,18 +71,18 @@ bool Boomerang::collision(std::shared_ptr<Enemy> e) {
         }
     }
     if(!inList && Projectile::collision(e)){
-        if(e->_copyable){
-            e->stun(true, _enHittable);
-            tdGlobals->_enemies.push_back(std::make_shared<Enemy>(e->_pos, 40, 80, 0, Ordinary));
-            tdGlobals->_enemies.push_back(std::make_shared<Enemy>(e->_pos, 40, 80, 0, Ordinary));
-        }
         hitList.push_back({e,250});
         return true;
     }
     return false;
 }
 
-Boomerang::Boomerang(Boomerang &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
-    _minFlyingTime = p._minFlyingTime;
-    _toggleDirection = p._toggleDirection;
+BaseExplosion::BaseExplosion(BaseExplosion &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
+
+}
+
+BaseExplosion::BaseExplosion(SDL_FPoint pos, int exdmg) : BaseExplosion(){
+    _direction = 0;
+    _position = pos;
+    _damage = exdmg;
 }

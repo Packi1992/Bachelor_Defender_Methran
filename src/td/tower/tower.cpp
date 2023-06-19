@@ -106,3 +106,12 @@ int Tower::getRange() {
     return _range;
 }
 
+bool Tower::updateTower() {
+    if(_level < 3){
+        _level++;
+        return true;
+    }else{
+        return false;
+    }
+}
+

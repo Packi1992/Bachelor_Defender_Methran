@@ -5,7 +5,6 @@
 
 #include <utility>
 #include "../util/dataHandler.h"
-#include "../td/projectiles/arrow.h"
 
 TDGlobals *tdGlobals{};
 
@@ -35,9 +34,9 @@ void TestTD::Init() {
     se.health += 50;
     se.time = 1000;
     Wave w2;
-    for(int i = 0; i<=10; i++){
+    for(int i = 0; i<=20; i++){
         se.time += 500;
-        w1.addEvent(se);
+        w2.addEvent(se);
     }
 
     globals._wh.addWave(w1);
@@ -45,6 +44,9 @@ void TestTD::Init() {
     globals._wh.init();
     updateUI();
     Update();
+
+    //Test
+    globals._pl._creditPoints = 120;
 }
 
 void TestTD::UnInit() {
@@ -173,8 +175,8 @@ void TestTD::Update() {
 void TestTD::collision() {
     for (auto &p: globals._projectiles) {
         if (p->_alive) {
-            for (auto &e: globals._enemies) {
-                if (e->_alive && p->collision(e) && p->_alive) {
+            for (int j = 0; j < globals._enemies.size(); j++) {
+                if (globals._enemies.at(j)->_alive && p->collision(globals._enemies.at(j)) && p->_alive) {
                     p->collide();
                 }
             }
@@ -257,14 +259,17 @@ void TestTD::updateFloatingMenu() {
     MenuEntry linkedListTower{MenuEntry_LinkedList, Status_Active, 10};
     MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 5};
     MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 5};
+    MenuEntry hashCanon{MenuEntry_HASHCANON, Status_Active, 5};
     if (!pMap->checkPath(CT::getMousePosTile())) {
         pointerTower._status = Status_Disabled;
         recursiveTower._status = Status_Disabled;
         linkedListTower._status = Status_Disabled;
+        hashCanon._status = Status_Disabled;
     }
     _buildMenuEntries.push_back(pointerTower);
     _buildMenuEntries.push_back(linkedListTower);
     _buildMenuEntries.push_back(recursiveTower);
+    _buildMenuEntries.push_back(hashCanon);
 }
 
 
@@ -321,6 +326,14 @@ void TestTD::handleFloatingMenuSelection() {
                 _floatingMenu.reset();
                 break;
             }
+            case MenuEntry_HASHCANON: {
+                std::shared_ptr<class Tower> tower = std::make_shared<HashCanon>(pos);
+                if (buyTower(tower)) {
+                    globals._towers.push_back(tower);
+                }
+                _floatingMenu.reset();
+                break;
+            }
             case MenuEntry_Error:
             default:
                 break;
@@ -345,8 +358,9 @@ void TestTD::updateTowers() {
 }
 
 void TestTD::updateProjectiles() {
-    for (auto & _projectile : globals._projectiles) {
-        _projectile->Update();
+    // NO AUTO LOOP! We add Particales in the Update function to the projectiles list.
+    for (int i = 0; i < tdGlobals->_projectiles.size(); i++) {
+        tdGlobals->_projectiles.at(i)->Update();
     }
     globals._projectiles.erase(
             std::remove_if(
@@ -358,8 +372,9 @@ void TestTD::updateProjectiles() {
 }
 
 void TestTD::updateEnemeies() {
-    for (auto & _enemy : globals._enemies) {
-        _enemy->Update();
+    // NO AUTO LOOP! We add Enemies in the Update function to the enemy list.
+    for (int i = 0; i < tdGlobals->_enemies.size(); i++) {
+        tdGlobals->_enemies.at(i)->Update();
     }
     globals._enemies.erase(
             std::remove_if(
