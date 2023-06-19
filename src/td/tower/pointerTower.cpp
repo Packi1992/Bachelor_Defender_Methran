@@ -146,6 +146,7 @@ bool PointerTower::updateTower() {
                 _arrow._speed = 12;
                 _doubleArrow = true;
                 _range++;
+                _upgradeCosts*=2;
                 break;
             case 3:
                 _damage = int((float) _damage * 2);

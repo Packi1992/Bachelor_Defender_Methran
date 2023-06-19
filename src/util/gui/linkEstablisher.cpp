@@ -136,7 +136,7 @@ void LinkEstablisher::Update() {
         }
         if (_mbLeftDown) {
             if(_isLinkInRange && _isLinkNextInRange && !_blockingPath){
-                std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(_cursorRenderPos);
+                std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(_cursorRenderPos, _last);
                 tdGlobals->_towers.push_back(tower);
                 std::shared_ptr<LinkedListTower> lTower = std::dynamic_pointer_cast<LinkedListTower>(tdGlobals->_towers.at(tdGlobals->_towers.size()-1));
                 lTower->setLink(_last);

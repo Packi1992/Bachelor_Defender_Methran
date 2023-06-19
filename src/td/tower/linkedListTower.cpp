@@ -72,9 +72,18 @@ void LinkedListTower::Update() {
     if (_next != nullptr && _before == nullptr) {
         if (_shootCoolDown <= 0) {
             _shootCoolDown = (int) _reloadTime;
-            _link.set(_reloadTime / 4, _pos, _next->_pos, _damage);
+            _link.set(_reloadTime / _lvld, _pos, _next->_pos, _damage);
             tdGlobals->_projectiles.push_back(std::make_shared<LinkProjectile>(_link));
-            _next->shoot(this, _reloadTime / 4);
+            _next->shoot(this, _reloadTime / _lvlu);
+        } else {
+            _shootCoolDown -= _diff;
+        }
+    }else if(_next == nullptr && _before != nullptr && _doubleLinkActive){
+        if (_shootCoolDown <= 0) {
+            _shootCoolDown = (int) _reloadTime;
+            _link.set(_reloadTime / _lvld, _pos, _before->_pos, _damage);
+            tdGlobals->_projectiles.push_back(std::make_shared<LinkProjectile>(_link));
+            _before->shoot(this, _reloadTime / _lvlu);
         } else {
             _shootCoolDown -= _diff;
         }
@@ -83,13 +92,13 @@ void LinkedListTower::Update() {
         if (_shootCoolDown <= 0) {
             _shootCoolDown = (int) _reloadTime;
             if (_trigger == _next) {
-                _link.set(_reloadTime / 4, _pos, _before->_pos, _damage);
+                _link.set(_reloadTime / _lvld, _pos, _before->_pos, _damage);
                 tdGlobals->_projectiles.push_back(std::make_shared<LinkProjectile>(_link));
-                _before->shoot(this, _reloadTime / 4);
+                _before->shoot(this, _reloadTime / _lvlu);
             } else {
-                _link.set(_reloadTime / 4, _pos, _next->_pos, _damage);
+                _link.set(_reloadTime / _lvld, _pos, _next->_pos, _damage);
                 tdGlobals->_projectiles.push_back(std::make_shared<LinkProjectile>(_link));
-                _next->shoot(this, _reloadTime / 4);
+                _next->shoot(this, _reloadTime / _lvlu);
             }
             if (_trigger2 != nullptr) {
                 _trigger = _trigger2;
@@ -119,6 +128,26 @@ LinkedListTower::LinkedListTower(Point pos) : Tower(pos) {
         pMap->setTile(_rPos, MapObjects::Tower);
     _link._direction = 0;
     _link._damage = _damage;
+    _link._moveable = true;
+    _link._targetE = nullptr;
+    _link._size = 100;
+    _link._position = _pos;
+}
+
+LinkedListTower::LinkedListTower(Point pos, LinkedListTower * srcTower) : Tower(pos) {
+    _health = 200;
+    _range = srcTower->_range;
+    _reloadTime = srcTower->_reloadTime;
+    _damage = srcTower->_damage;
+    _aimSpeed = srcTower->_aimSpeed;
+    _upgradeCosts = srcTower->_upgradeCosts;
+    _sellGain = srcTower->_sellGain;
+    _level = srcTower->_level;
+    _doubleLinkActive = srcTower->_doubleLinkActive;
+    if (pMap->getObject(pos) == Empty)
+        pMap->setTile(_rPos, MapObjects::Tower);
+    _link._direction = srcTower->_link._direction;
+    _link._damage = srcTower->_link._damage;
     _link._moveable = true;
     _link._targetE = nullptr;
     _link._size = 100;
@@ -209,6 +238,24 @@ int LinkedListTower::getLinkCosts() const {
 
 bool LinkedListTower::updateTower() {
     if (Tower::updateTower()) {
+        switch (_level) {
+            case 2:
+                _damage = 5;
+                _link._damage = _damage;
+                _range++;
+                _lvld-=2;
+                _upgradeCosts*=2;
+                break;
+            case 3:
+                _damage = 7;
+                _link._damage = _damage;
+                _range++;
+                _lvlu+=2;
+                _doubleLinkActive = true;
+                break;
+            default:
+                break;
+        }
         return true;
     } else {
         return false;
