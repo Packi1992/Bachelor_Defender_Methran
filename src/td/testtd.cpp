@@ -175,8 +175,8 @@ void TestTD::Update() {
 void TestTD::collision() {
     for (auto &p: globals._projectiles) {
         if (p->_alive) {
-            for (auto &e: globals._enemies) {
-                if (e->_alive && p->collision(e) && p->_alive) {
+            for (int j = 0; j < globals._enemies.size(); j++) {
+                if (globals._enemies.at(j)->_alive && p->collision(globals._enemies.at(j)) && p->_alive) {
                     p->collide();
                 }
             }
@@ -372,8 +372,9 @@ void TestTD::updateProjectiles() {
 }
 
 void TestTD::updateEnemeies() {
-    for (auto & _enemy : globals._enemies) {
-        _enemy->Update();
+    // NO AUTO LOOP! We add Enemies in the Update function to the enemy list.
+    for (int i = 0; i < tdGlobals->_enemies.size(); i++) {
+        tdGlobals->_enemies.at(i)->Update();
     }
     globals._enemies.erase(
             std::remove_if(

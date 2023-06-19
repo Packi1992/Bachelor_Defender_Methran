@@ -6,8 +6,8 @@
 class Projectile;
 class Enemy {
 public:
-    Enemy() = default;
-
+    Enemy();
+    Enemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type);
     // move enemy -> status effects will impact here
     void Update();
 
@@ -24,10 +24,11 @@ public:
 
     // stun _time in ms / enemy will not move
     void stun(u16 time);
+    void stun(bool stun, bool hittable);
 
     // take damage
     void takeDamage(Projectile * p);
-
+    bool isHittable();
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;
 
@@ -55,17 +56,19 @@ public:
 
     [[nodiscard]] FRect getHitBox() const;
 
+    bool _copyable = true;
+
 protected:
     void startDeathAnimation();
-
+    u_int32_t _lastTimePoint;
     u16 _dying = false;
-
     u8 _speed = 0;
     u8 _speedDiff = 0;
     u8 _value = 0;
-
+    bool _hittable = true;
     u8 _poisonStrength = 0;
-    float _stunTime = 0;
+    u_int32_t _stunTime = 0;
+    bool _forceStun = false;
     float _slowTimer = 0;
     float _poisonTimer = 0;
     bool _reachedGoal = false;

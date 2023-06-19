@@ -32,6 +32,7 @@ private:
     static int _creditPointCosts;
     Boomerang _boomerang;
     uint _spin = 0;
+
 };
 
 

@@ -11,8 +11,11 @@
 #include "../../gamebase.h"
 
 void Enemy::Update() {
-    if (_stunTime > 0) {
-        _stunTime > deltaTg ? _stunTime -= deltaTg : _stunTime = 0;
+    u32 diff = totalMscg - _lastTimePoint;
+    _lastTimePoint = totalMscg;
+    if (_stunTime > 0 || _forceStun) {
+        if(_stunTime > 0)_stunTime -= diff;
+
     } else {
         // move ...
         updateDir();
@@ -122,7 +125,7 @@ void Enemy::Render() const {
         Rect dstRect = {POS.x, POS.y, scale, scale + scale};
         dstRect.x = (int) (POS.x - dstRect.w * 0.5);
         dstRect.y = (int) (POS.y - dstRect.h * 0.8);
-        u32 anim = (pGame->isGameover()?0:totalMscg);
+        u32 anim = _forceStun?0:(pGame->isGameover()?0:totalMscg);
         // check if enemy is on screen
         if (Game::onScreen(dstRect)) {
             Direction dir;
@@ -183,5 +186,29 @@ FRect Enemy::getHitBox() const {
     return {_pos.x - 0.35f, _pos.y - 1.4f, 0.7f, 1.6f};
 }
 
+void Enemy::stun(bool stun, bool hittable) {
+    _forceStun = stun;
+    _hittable = hittable;
+}
 
+Enemy::Enemy() {
+    _lastTimePoint = totalMscg;
+}
+
+bool Enemy::isHittable() {
+    return _hittable;
+}
+
+Enemy::Enemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type) {
+    _pos.x = pos.x;
+    _pos.y = pos.y;
+    _nextPos = pMap->getNextPosCentre(_pos);
+    _health = health;
+    _maxHealth = health;
+    _speed = speed;
+    _type = type;
+    _alive = true;
+    _value = value;
+    _copyable = false;
+}
 

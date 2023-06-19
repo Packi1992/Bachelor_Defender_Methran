@@ -3,7 +3,8 @@
 //
 
 #include "boomerang.h"
-
+#include "../enemy/enemy.h"
+#include "../testtd.h"
 Boomerang::Boomerang() {
     _type = ProjectileType::BOOMERANG;
     _lastTimePoint = totalMscg;
@@ -35,6 +36,12 @@ void Boomerang::Update() {
     if (((int) _position.x == (int) _startingPoint.x) && ((int) _position.y == (int) _startingPoint.y) &&
         _toggleDirection) {
         _alive = false;
+    }
+    if (_ttl != 0) {
+        _ttl -= (int) _diff;
+        if (_ttl <= 0) {
+            _alive = false;
+        }
     }
 }
 
@@ -76,6 +83,11 @@ bool Boomerang::collision(std::shared_ptr<Enemy> e) {
         }
     }
     if(!inList && Projectile::collision(e)){
+        if(e->_copyable){
+            e->stun(true, _enHittable);
+            tdGlobals->_enemies.push_back(std::make_shared<Enemy>(e->_pos, 40, 80, 0, Ordinary));
+            tdGlobals->_enemies.push_back(std::make_shared<Enemy>(e->_pos, 40, 80, 0, Ordinary));
+        }
         hitList.push_back({e,250});
         return true;
     }
