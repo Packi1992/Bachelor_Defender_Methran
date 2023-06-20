@@ -161,13 +161,8 @@ void LinkedListTower::showMenu(Gui **focus) {
     _menuEntries.clear();
     _menuEntries.push_back({MenuEntries::MenuEntry_AddLink, Status_Active, (uint) _linkCosts});
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
-    if (_level < 3) {
-        MenuEntry e = {MenuEntries::MenuEntry_Upgrade, Status_Active, 0};
-        if ((int) tdGlobals->_pl._creditPoints < _upgradeCosts) {
-            e._status = Status_Disabled;
-        }
-        _menuEntries.push_back(e);
-    }
+    if(_level<3)
+        _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, (uint)_upgradeCosts});
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
 }

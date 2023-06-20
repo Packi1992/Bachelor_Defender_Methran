@@ -113,7 +113,7 @@ void TestTD::Render() {
 }
 
 void TestTD::Update() {
-    if (!_gameover) {
+    if (!_gameover&&!globals._wh.isOver()) {
         _floatingMenu.Update();
         handleFloatingMenuSelection();
 
