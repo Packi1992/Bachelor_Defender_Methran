@@ -11,7 +11,7 @@
 void LinkEstablisher::set(LinkedListTower *srcTower, bool first) {
     _last = srcTower;
     _next = srcTower->getNext();
-    if(_next == nullptr)
+    if (_next == nullptr)
         _isLinkNextInRange = true;
     _first = first;
     calcLinkPosition();
@@ -50,14 +50,13 @@ void LinkEstablisher::Input() {
                 break;
             case SDL_KEYDOWN:
                 if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
-                    if(_first){
-                    _last->removeFromMap();
-                    _last->setDead(true);
-                    tdGlobals->_pl._creditPoints += _last->getCosts();
-                    releaseFocus(false);
-                    return;
-                    }
-                    else{
+                    if (_first) {
+                        _last->removeFromMap();
+                        _last->setDead(true);
+                        tdGlobals->_pl._creditPoints += _last->getCosts();
+                        releaseFocus(false);
+                        return;
+                    } else {
                         tdGlobals->_pl._creditPoints += _last->getLinkCosts();
                     }
                 }
@@ -69,10 +68,11 @@ void LinkEstablisher::Render() {
     if (dialog) {
         // draw tower on dest pos
 
-        if(_cursorRenderPos.x >= 0 && _cursorRenderPos.x < pMap->_width && _cursorRenderPos.y >= 0 && _cursorRenderPos.y < pMap->_height) {
+        if (_cursorRenderPos.x >= 0 && _cursorRenderPos.x < pMap->_width && _cursorRenderPos.y >= 0 &&
+            _cursorRenderPos.y < pMap->_height) {
             rh->tile(&_towerLinkRect, TdTileHandler::getTowerSrcRect(Tower_LinkedListBase));
             rh->tile(&_towerLinkRect, ((int) 0) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, 0));
-            if(_blockingPath)
+            if (_blockingPath)
                 rh->texture(rh->_blocked, &_towerLinkRect);
         }
         t_color markerColorBefore = RED;
@@ -90,7 +90,7 @@ void LinkEstablisher::Render() {
             float angleF = (float) angle / 180.0f * (float) M_PI;
             range.x = (float) _last->getPos().x + sin(angleF) * (float) _last->getRange();
             range.y = (float) _last->getPos().y + cos(angleF) * (float) _last->getRange();
-            if(range.x>0 && range.x < (float)pMap->_width && range.y > 0 && range.y < (float)pMap->_height){
+            if (range.x > 0 && range.x < (float) pMap->_width && range.y > 0 && range.y < (float) pMap->_height) {
                 Point range2 = CT::getPosOnScreen(range);
                 Rect dstMarker = {range2.x, range2.y, 5, 5};
                 rh->fillRect(&dstMarker, markerColorBefore);
@@ -99,15 +99,15 @@ void LinkEstablisher::Render() {
         if (_isLinkInRange) {
             Point towerCenter = CT::getPosOnScreen(_last->getPos());
             Point newTowerCenter = CT::getPosOnScreen(_cursorCenterPos);
-            rh->line(towerCenter,newTowerCenter,GREEN);
+            rh->line(towerCenter, newTowerCenter, GREEN);
         }
         // draw range markers of next tower
-        if(_next != nullptr){
+        if (_next != nullptr) {
             for (int angle = 0; angle < 360; angle += 10) {
                 float angleF = (float) angle / 180.0f * (float) M_PI;
                 range.x = (float) _next->getPos().x + sin(angleF) * (float) _next->getRange();
                 range.y = (float) _next->getPos().y + cos(angleF) * (float) _next->getRange();
-                if(range.x>0 && range.x < (float)pMap->_width && range.y > 0 && range.y < (float)pMap->_height){
+                if (range.x > 0 && range.x < (float) pMap->_width && range.y > 0 && range.y < (float) pMap->_height) {
                     Point range2 = CT::getPosOnScreen(range);
                     Rect dstMarker = {range2.x, range2.y, 5, 5};
                     rh->fillRect(&dstMarker, markerColorNext);
@@ -116,7 +116,7 @@ void LinkEstablisher::Render() {
             if (_isLinkNextInRange) {
                 Point towerCenter = CT::getPosOnScreen(_next->getPos());
                 Point newTowerCenter = CT::getPosOnScreen(_cursorCenterPos);
-                rh->line(towerCenter,newTowerCenter,GREEN);
+                rh->line(towerCenter, newTowerCenter, GREEN);
             }
         }
     }
@@ -135,10 +135,11 @@ void LinkEstablisher::Update() {
             _mouseWheel = false;
         }
         if (_mbLeftDown) {
-            if(_isLinkInRange && _isLinkNextInRange && !_blockingPath){
+            if (_isLinkInRange && _isLinkNextInRange && !_blockingPath) {
                 std::shared_ptr<class Tower> tower = std::make_shared<LinkedListTower>(_cursorRenderPos, _last);
                 tdGlobals->_towers.push_back(tower);
-                std::shared_ptr<LinkedListTower> lTower = std::dynamic_pointer_cast<LinkedListTower>(tdGlobals->_towers.at(tdGlobals->_towers.size()-1));
+                std::shared_ptr<LinkedListTower> lTower = std::dynamic_pointer_cast<LinkedListTower>(
+                        tdGlobals->_towers.at(tdGlobals->_towers.size() - 1));
                 lTower->setLink(_last);
                 releaseFocus(false);
                 return;
@@ -169,19 +170,19 @@ void LinkEstablisher::calcLinkPosition() {
     FRect destRect = {_cursorCenterPos.x - 0.25f, _cursorCenterPos.y - 0.25f, 0.5f, 0.5f};
     _isLinkInRange = _last->inRange(destRect);
     Point dst = CT::getPosOnScreen(_cursorRenderPos);
-    _towerLinkRect = {dst.x,dst.y,scale,scale};
+    _towerLinkRect = {dst.x, dst.y, scale, scale};
     // check if tower after is in range
-    if(_next != nullptr){
+    if (_next != nullptr) {
         FRect destRect2 = {_cursorCenterPos.x - 0.25f, _cursorCenterPos.y - 0.25f, 0.5f, 0.5f};
         _isLinkNextInRange = _next->inRange(destRect2);
         Point dst2 = CT::getPosOnScreen(_cursorRenderPos);
-        _towerNextLinkRect = {dst2.x,dst2.y,scale,scale};
+        _towerNextLinkRect = {dst2.x, dst2.y, scale, scale};
     }
     _blockingPath = !pMap->checkPath(_cursorRenderPos);
 }
 
-void LinkEstablisher::releaseFocus( bool continueRender) {
-    Gui::releaseFocus( continueRender);
+void LinkEstablisher::releaseFocus(bool continueRender) {
+    Gui::releaseFocus(continueRender);
     _mbRightDown = false;
     _mbLeftDown = false;
     _escape = false;

@@ -11,7 +11,7 @@ public:
     // move enemy -> status effects will impact here
     void Update();
 
-    void Render() const;
+    virtual void Render() const;
     void RenderExtras(bool life=false, bool hitBox=false) const;
     // use Enemy slot for new enemy spawn
     void setEnemy(Point pos, u16 Health, u8 speed, u8 value,EnemyType type = EnemyType::Ordinary);
@@ -54,7 +54,7 @@ public:
 
     u16 _sanity = 1;
 
-    [[nodiscard]] FRect getHitBox() const;
+    [[nodiscard]] virtual FRect getHitBox() const;
 
     bool _copyable = true;
 
@@ -76,5 +76,5 @@ protected:
 
 };
 
-
+#include "smallemy.h"
 #endif //SDL_BASEGAME_ENEMY_H

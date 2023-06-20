@@ -70,6 +70,8 @@ void RecursivTower::Update() {
                     //audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundBoomerangFire, x);
                     tdGlobals->_projectiles.push_back(std::make_shared<Boomerang>(_boomerang, _targetEnemy,(((((int) _direction) % 360)+90)%360)));
+                    if(_level >=3 )
+                        tdGlobals->_projectiles.push_back(std::make_shared<Boomerang>(_boomerang, _targetEnemy,(((((int) _direction) % 360)-90)%360)));
                 } else {
                     _reloadTime -= _diff;
                 }
@@ -86,8 +88,8 @@ int RecursivTower::_creditPointCosts = 5;
 RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
-    _shootCoolDown = 5000;
-    _damage = 25;
+    _shootCoolDown = 6000;
+    _damage = 13;
     _aimSpeed = 1;
     _upgradeCosts = 10;
     _sellGain = 2;
@@ -97,7 +99,6 @@ RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _boomerang._damage = _damage;
     _boomerang._moveable = true;
     _boomerang._speed = 10;
-    _boomerang._damage = 10;
     _boomerang._size = 100;
     _boomerang._position = _pos;
     _boomerang._startingPoint = _pos;
@@ -141,11 +142,14 @@ bool RecursivTower::updateTower() {
                 _boomerang._damage = _damage;
                 _boomerang._freez = true;
                 _upgradeCosts*=2;
+                _sellGain*=2;
                 break;
             case 3:
                 _damage = int((float) _damage * 2);
                 _boomerang._damage = _damage;
-                _boomerang._enHittable = true;
+                _shootCoolDown -= 500;
+                _sellGain = (int)((float)_sellGain * 1.5f);
+                //_boomerang._enHittable = true;
                 break;
             default:
                 break;

@@ -33,6 +33,7 @@ enum ProjectileType{
     FFIRE,
     BOOMERANG,
     HASHBOMB,
+    STRINGPROJECTILE
 };
 
 enum TowerType{
@@ -44,6 +45,7 @@ enum TowerType{
     Tower_Boomerang,
     Hashcanon,
     Hashcanon_Dir,
+    StringTower,
 };
 
 //  specific Colors to make things easier regarding drawing colors
@@ -90,6 +92,7 @@ enum MenuEntries{
     MenuEntry_BOOMERANG,
     MenuEntry_LinkedList,
     MenuEntry_HASHCANON,
+    MenuEntry_STRINGTOWER,
     MenuEntry_Error,
     MenuEntry_Disabled,
     MenuEntry_Sell,

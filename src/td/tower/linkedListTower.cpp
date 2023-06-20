@@ -120,7 +120,7 @@ LinkedListTower::LinkedListTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
     _reloadTime = 4000;
-    _damage = 3;
+    _damage = 2;
     _aimSpeed = 1;
     _upgradeCosts = 10;
     _sellGain = 2;
@@ -240,18 +240,20 @@ bool LinkedListTower::updateTower() {
     if (Tower::updateTower()) {
         switch (_level) {
             case 2:
-                _damage = 5;
+                _damage = 3;
                 _link._damage = _damage;
                 _range++;
                 _lvld-=2;
                 _upgradeCosts*=2;
+                _sellGain = (int)((float)_sellGain * 2.0f);
                 break;
             case 3:
-                _damage = 7;
+                _damage = 4;
                 _link._damage = _damage;
                 _range++;
                 _lvlu+=2;
                 _doubleLinkActive = true;
+                _sellGain = (int)((float)_sellGain * 1.5f);
                 break;
             default:
                 break;
