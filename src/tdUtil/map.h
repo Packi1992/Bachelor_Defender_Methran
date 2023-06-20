@@ -45,6 +45,9 @@ public:
 
     bool checkPath(Point pos);
     Point getStartPoint(int i);
+
+    bool blockingTile(Point point);
+
 private:
     struct PathEntry {
         Point pos;

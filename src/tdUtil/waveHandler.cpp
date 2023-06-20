@@ -49,9 +49,12 @@ void WaveHandler::addWave(const Wave &w) {
 void WaveHandler::Update() {
     u32 diff = totalMscg - _lastTimePoint;
     _lastTimePoint = totalMscg;
-    if (_waveCur == (int) _waveVec.size() && _waveVec.at(_waveCur).isOver()) {
-        _isOver = true;
-    }
+    bool waveIsOver = _waveVec.at(_waveCur).isOver();
+    bool lastWave = _waveCur+1 >= (int) _waveVec.size();
+    cout << tdGlobals->_enemies.size() << endl;
+    cout << (lastWave?"isLastWave":"is not LastWave") << endl;
+    cout << (waveIsOver?"Wave is Over":"Wave is running")<< endl;
+    _isOver = lastWave && waveIsOver;
     if (!_isOver) {
         if (_pause > diff) {
             _pause -= diff;

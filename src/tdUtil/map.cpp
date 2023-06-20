@@ -3,6 +3,7 @@
 //
 
 #include "map.h"
+#include "../td/testtd.h"
 
 Map::Map() {
     this->_height = 8;
@@ -303,6 +304,7 @@ u16 Map::getDir(int ex, int ey, int tx, int ty) {
 }
 
 bool Map::checkPath(Point pos) {
+
     if (getObject(pos) == MapObjects::Empty) {
         setTile(pos, MapObjects::Tower);
         if (!updatePathFinding()) {
@@ -313,6 +315,25 @@ bool Map::checkPath(Point pos) {
     }
     return true;
 }
+bool Map::blockingTile(SDL_Point pos) {
+    for(auto& tower: tdGlobals->_towers){
+        if(pos.x == tower->getRenderPos().x && pos.y == tower->getRenderPos().y){
+            return true;
+        }
+    }
+
+    MapObjects obj = getObject(pos);
+    cout << TdTileHandler::getName(obj) << endl;
+
+    switch (obj) {
+        case Empty:
+        case Table:
+            return false;
+        default:
+            return true;
+    }
+}
+
 
 Point Map::getStartPoint(int i) {
     if((int)_startPoints.size()>=i+1)

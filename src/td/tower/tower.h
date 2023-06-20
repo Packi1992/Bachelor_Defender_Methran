@@ -31,6 +31,8 @@ public:
 
     virtual FPoint getPos();
 
+    virtual Point getRenderPos();
+
     virtual int getRange();
 
     virtual ~Tower();

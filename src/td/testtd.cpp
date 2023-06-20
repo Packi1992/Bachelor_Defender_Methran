@@ -38,9 +38,16 @@ void TestTD::Init() {
         se.time += 500;
         w2.addEvent(se);
     }
-
+    Wave w3;
+    se.health += 100;
+    se.time = 1000;
+    for(int i = 0; i<=20; i++){
+        se.time += 500;
+        w3.addEvent(se);
+    }
     globals._wh.addWave(w1);
     globals._wh.addWave(w2);
+    globals._wh.addWave(w3);
     globals._wh.init();
     updateUI();
     Update();
@@ -101,7 +108,7 @@ void TestTD::Render() {
     }
     if (!_gameover && globals._wh.isOver()){
         rh->background(BLACK, 128);
-        rh->CenteredText("Congraz, Du hast gewonnen!", 70, RED, windowSize.x, windowSize.y);
+        rh->CenteredText("Congraz, Du hast gewonnen!", 70, GREEN, windowSize.x, windowSize.y);
     }
 }
 

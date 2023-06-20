@@ -115,3 +115,7 @@ bool Tower::updateTower() {
     }
 }
 
+Point Tower::getRenderPos() {
+    return _rPos;
+}
+

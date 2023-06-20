@@ -178,7 +178,9 @@ void LinkEstablisher::calcLinkPosition() {
         Point dst2 = CT::getPosOnScreen(_cursorRenderPos);
         _towerNextLinkRect = {dst2.x, dst2.y, scale, scale};
     }
-    _blockingPath = !pMap->checkPath(_cursorRenderPos);
+    bool blockingTile = pMap->blockingTile(_cursorRenderPos);
+    bool blockingPath = !pMap->checkPath(_cursorRenderPos);
+    _blockingPath = blockingTile||blockingPath;
 }
 
 void LinkEstablisher::releaseFocus(bool continueRender) {
