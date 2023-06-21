@@ -41,19 +41,32 @@ void TestTD::Init() {
     Wave w3;
     se.health += 100;
     se.time = 1000;
-    for(int i = 0; i<=20; i++){
+    for(int i = 0; i<=25; i++){
         se.time += 500;
         w3.addEvent(se);
+    }
+    Wave w4;
+    se.health += 200;
+    se.time = 1000;
+    for(int i = 0; i<=20; i++){
+        se.time += 500;
+        w4.addEvent(se);
+    }
+    Wave w5;
+    se.health += 300;
+    se.time = 1000;
+    for(int i = 0; i<=100; i++){
+        se.time += 500;
+        w5.addEvent(se);
     }
     globals._wh.addWave(w1);
     globals._wh.addWave(w2);
     globals._wh.addWave(w3);
+    globals._wh.addWave(w4);
+    globals._wh.addWave(w5);
     globals._wh.init();
     updateUI();
     Update();
-
-    //Test
-    globals._pl._creditPoints = 120;
 }
 
 void TestTD::UnInit() {
@@ -62,6 +75,7 @@ void TestTD::UnInit() {
     globals._projectiles.clear();
     globals._enemies.clear();
     audioHandler->stopMusic();
+    globals._wh.reset();
 }
 
 void TestTD::Render() {
@@ -267,7 +281,7 @@ void TestTD::updateFloatingMenu() {
     MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 5};
     MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 5};
     MenuEntry hashCanon{MenuEntry_HASHCANON, Status_Active, 5};
-    MenuEntry stringTower{MenuEntry_STRINGTOWER, Status_Active, 5};
+    MenuEntry stringTower{MenuEntry_STRINGTOWER, Status_Active, 3};
     if (!pMap->checkPath(CT::getMousePosTile())) {
         pointerTower._status = Status_Disabled;
         recursiveTower._status = Status_Disabled;

@@ -30,7 +30,7 @@ void RecursivTower::Update() {
         if (_floatingMenu->isDone()) {
             switch (_floatingMenu->getSelectedEntry()) {
                 case MenuEntry_Sell:
-                    tdGlobals->_pl._creditPoints += _sellGain;
+                    tdGlobals->_pl._creditPoints += _sellingValue;
                     if (pMap->getObject(_rPos) == MapObjects::Tower)
                         pMap->setTile(_rPos, MapObjects::Empty);
                     _alive = false;
@@ -92,7 +92,7 @@ RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _damage = 13;
     _aimSpeed = 1;
     _upgradeCosts = 10;
-    _sellGain = 2;
+    _sellingValue = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
 
@@ -142,13 +142,13 @@ bool RecursivTower::updateTower() {
                 _boomerang._damage = _damage;
                 _boomerang._freez = true;
                 _upgradeCosts*=2;
-                _sellGain*=2;
+                _sellingValue*=2;
                 break;
             case 3:
                 _damage = int((float) _damage * 2);
                 _boomerang._damage = _damage;
                 _shootCoolDown -= 500;
-                _sellGain = (int)((float)_sellGain * 1.5f);
+                _sellingValue = (int)((float)_sellingValue * 1.5f);
                 //_boomerang._enHittable = true;
                 break;
             default:

@@ -42,7 +42,7 @@ void LinkedListTower::Update() {
         if (_floatingMenu->isDone()) {
             switch (_floatingMenu->getSelectedEntry()) {
                 case MenuEntry_Sell:
-                    tdGlobals->_pl._creditPoints += _sellGain;
+                    tdGlobals->_pl._creditPoints += _sellingValue;
                     if (pMap->getObject(_rPos) == MapObjects::Tower)
                         pMap->setTile(_rPos, MapObjects::Empty);
                     _alive = false;
@@ -123,7 +123,7 @@ LinkedListTower::LinkedListTower(Point pos) : Tower(pos) {
     _damage = 2;
     _aimSpeed = 1;
     _upgradeCosts = 10;
-    _sellGain = 2;
+    _sellingValue = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
     _link._direction = 0;
@@ -141,7 +141,7 @@ LinkedListTower::LinkedListTower(Point pos, LinkedListTower * srcTower) : Tower(
     _damage = srcTower->_damage;
     _aimSpeed = srcTower->_aimSpeed;
     _upgradeCosts = srcTower->_upgradeCosts;
-    _sellGain = srcTower->_sellGain;
+    _sellingValue = srcTower->_sellingValue;
     _level = srcTower->_level;
     _doubleLinkActive = srcTower->_doubleLinkActive;
     if (pMap->getObject(pos) == Empty)
@@ -235,20 +235,20 @@ bool LinkedListTower::updateTower() {
     if (Tower::updateTower()) {
         switch (_level) {
             case 2:
-                _damage = 3;
+                _damage = 2;
                 _link._damage = _damage;
                 _range++;
                 _lvld-=2;
                 _upgradeCosts*=2;
-                _sellGain = (int)((float)_sellGain * 2.0f);
+                _sellingValue = (int)((float)_sellingValue * 2.0f);
                 break;
             case 3:
-                _damage = 4;
+                _damage = 3;
                 _link._damage = _damage;
                 _range++;
                 _lvlu+=2;
                 _doubleLinkActive = true;
-                _sellGain = (int)((float)_sellGain * 1.5f);
+                _sellingValue = (int)((float)_sellingValue * 1.5f);
                 break;
             default:
                 break;

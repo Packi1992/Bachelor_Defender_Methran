@@ -22,6 +22,9 @@ public:
     bool load(const Vector<string>& vector1);
     bool isOver();
     void init();
+
+    void reset();
+
 private:
     Vector<Wave> _waveVec;
     u32 _pause = 15000;
