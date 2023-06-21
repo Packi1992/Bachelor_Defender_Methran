@@ -20,7 +20,7 @@ void StringTower::Update() {
         if (_floatingMenu->isDone()) {
             switch (_floatingMenu->getSelectedEntry()) {
                 case MenuEntry_Sell:
-                    tdGlobals->_pl._creditPoints += _sellGain;
+                    tdGlobals->_pl._creditPoints += _sellingValue;
                     if (pMap->getObject(_rPos) == MapObjects::Tower)
                         pMap->setTile(_rPos, MapObjects::Empty);
                     _alive = false;
@@ -58,7 +58,7 @@ void StringTower::Update() {
                 float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
                 audioHandler->playSound(SoundTowerPointer, x);
                 audioHandler->playSound(SoundArrowFire, x);
-                _stringProjectile._string = strText.at(rand() % 3);
+                _stringProjectile._string = strText.at(rand() % (int)strText.size());
                 tdGlobals->_projectiles.push_back(
                         std::make_shared<StringProjectile>(_stringProjectile));
             } else {
@@ -75,10 +75,10 @@ StringTower::StringTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 2;
     _shootCoolDown = 3000;
-    _damage = 20;
-    _aimSpeed = 1;
+    _damage = 5;
+    _aimSpeed = 0;
     _upgradeCosts = 8;
-    _sellGain = 2;
+    _sellingValue = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
 
@@ -126,12 +126,12 @@ bool StringTower::updateTower() {
                 _damage = int((float) _damage * 1.5);
                 _stringProjectile._damage = _damage;
                 _upgradeCosts *= 2;
-                _sellGain = (int) ((float) _sellGain * 2.0f);
+                _sellingValue = (int) ((float) _sellingValue * 1.5f);
                 break;
             case 3:
-                _damage = int((float) _damage * 2.0);
+                _damage = int((float) _damage * 1.5);
                 _stringProjectile._damage = _damage;
-                _sellGain = (int) ((float) _sellGain * 1.5f);
+                _sellingValue = (int) ((float) _sellingValue * 1.5f);
                 break;
             default:
                 break;

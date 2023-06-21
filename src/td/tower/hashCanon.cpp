@@ -27,7 +27,7 @@ void HashCanon::Update() {
         if (_floatingMenu->isDone()) {
             switch (_floatingMenu->getSelectedEntry()) {
                 case MenuEntry_Sell:
-                    tdGlobals->_pl._creditPoints += _sellGain;
+                    tdGlobals->_pl._creditPoints += _sellingValue;
                     if (pMap->getObject(_rPos) == MapObjects::Tower)
                         pMap->setTile(_rPos, MapObjects::Empty);
                     _alive = false;
@@ -88,7 +88,7 @@ HashCanon::HashCanon(Point pos) : Tower(pos) {
     _damage = 25;
     _aimSpeed = 1;
     _upgradeCosts = 10;
-    _sellGain = 3;
+    _sellingValue = 3;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
 
@@ -140,13 +140,13 @@ bool HashCanon::updateTower() {
                 _hashbomb._ttl = 1700;
                 _range = 6;
                 _upgradeCosts = (int)((float)_upgradeCosts * 1.8);
-                _sellGain = (int)((float)_sellGain * 2.0f);
+                _sellingValue = (int)((float)_sellingValue * 2.0f);
                 break;
             case 3:
                 _damage = int((float) _damage * 1.4);
                 _hashbomb._exdmg = _damage;
                 _hashbomb._exrange ++;
-                _sellGain = (int)((float)_sellGain * 1.5f);
+                _sellingValue = (int)((float)_sellingValue * 1.5f);
                 break;
             default:
                 break;
