@@ -4,6 +4,7 @@
 
 #include "stringProjectile.h"
 #include "../../gamebase.h"
+#include "../enemy/enemy.h"
 
 StringProjectile::StringProjectile() {
     _type = ProjectileType::STRINGPROJECTILE;
@@ -51,8 +52,7 @@ void StringProjectile::Update() {
     float cosAngle = cos(angle);
     _xFix = (int) (-sizeW/2+(cosAngle)*sizeW/2);
     _yFix = (int) (-sizeH/2+(sinAngle)*sizeW/2);
-    _end.x = _posOnScreen.x + (int)(sizeW*cosAngle);
-    _end.y = _posOnScreen.y + (int)(sizeW*sinAngle);
+    _end = CT::getPosInGame({_posOnScreen.x + (int)(sizeW*cosAngle),_posOnScreen.y + (int)(sizeW*sinAngle)});
     _dstRect = {_posOnScreen.x + _xFix, _posOnScreen.y + _yFix, (int) sizeW, (int) sizeH};
 }
 
@@ -69,18 +69,18 @@ bool StringProjectile::collision(std::shared_ptr<Enemy> e) {
             break;
         }
     }
-    if (!inList && Projectile::collision(e)) {
-        hitList.push_back({e, 50});
-        return true;
+    if (!inList&&CT::collisionLineRect(_position, _end, e->getHitBox())) {
+        e->takeDamage(this);
     }
-    return false;
+    return true;
 }
 
 void StringProjectile::Render() {
     if (_alive && onScreen()) {
 
         rh->texture(_texture,&_dstRect,_direction);
-        rh->line(_posOnScreen,_end,BLACK);
+
+        //rh->line(_posOnScreen,CT::getPosOnScreen(_end),BLACK);
     }
 }
 

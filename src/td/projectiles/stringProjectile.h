@@ -26,7 +26,7 @@ public:
     bool collision(std::shared_ptr<Enemy> e) override;
     int _xFix;
     int _yFix;
-    Point _end;
+    SDL_FPoint _end;
     string _string;
 };
 
