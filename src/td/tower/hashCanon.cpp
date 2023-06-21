@@ -60,17 +60,15 @@ void HashCanon::Update() {
         if (!inRange(_targetEnemy->getHitBox()) || !_targetEnemy->_alive) {
             _targetEnemy = nullptr;
         } else {
-            if (aimAtEnemy(_targetEnemy->_pos)) {
-                if (_reloadTime <= 0) {
-                    _reloadTime = _shootCoolDown;
-                    float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
-                    audioHandler->playSound(SoundTowerPointer, x);
-                    audioHandler->playSound(SoundArrowFire, x);
-                    tdGlobals->_projectiles.push_back(
-                            std::make_shared<Hashbomb>(_hashbomb, _targetEnemy, ((int) _direction) % 360));
-                } else {
-                    _reloadTime -= _diff;
-                }
+            if (_reloadTime <= 0) {
+                _reloadTime = _shootCoolDown;
+                float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
+                audioHandler->playSound(SoundTowerPointer, x);
+                audioHandler->playSound(SoundArrowFire, x);
+                tdGlobals->_projectiles.push_back(
+                        std::make_shared<Hashbomb>(_hashbomb, _targetEnemy->_pos));
+            } else {
+                _reloadTime -= _diff;
             }
             // enemy target is locked -> change direction to enemy and shoot
 
