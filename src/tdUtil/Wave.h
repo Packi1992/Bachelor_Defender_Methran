@@ -5,13 +5,8 @@
 #ifndef SDL_BACHELORDEFENDER_WAVE_H
 #define SDL_BACHELORDEFENDER_WAVE_H
 #include "../global.h"
-struct SpeechEvent{
-    std::string command;
-    u32 time=0;
-    u16 duration=0;
-    static SpeechEvent readLine(string input);
-};
-struct SpawnEvent{
+
+struct GameEvent{
     //  Enemy Type, which will be spawned
     EnemyType type=EnemyType::Ordinary;
     //  Spawn Time (0 will be directly spawned)
@@ -25,12 +20,14 @@ struct SpawnEvent{
     u16 health=100;
     u16 speed=100;
     u16 sanity=1;
+    u16 duration=0;
+    std::string text;
 
-    bool operator< (const SpawnEvent &other) const{
+    bool operator< (const GameEvent &other) const{
         return time < other.time;
     }
 
-    bool operator== (const SpawnEvent &other) const{
+    bool operator== (const GameEvent &other) const{
         return (type == other.type)&&
                 (time == other.time)&&
                 (count == other.count)&&
@@ -38,7 +35,7 @@ struct SpawnEvent{
                 (value == other.value);
     }
 
-    static SpawnEvent readLine(string EventAsString);
+    static GameEvent readLine(string EventAsString);
 };
 #include "../td/enemy/enemy.h"
 
@@ -52,12 +49,12 @@ public:
     // add Event takes a String should be easier to load
     void addEvent(string Event);
     // add Event kann also handle an actual spawn event
-    void addEvent(SpawnEvent Event);
+    void addEvent(GameEvent Event);
     // simply sets waveStart, it will be used to calculate spawn events
     void startWave();
 
     // will be false, if que is empty
-    bool PollEvent(SpawnEvent &event);
+    bool PollEvent(GameEvent &event);
     void Update();
     // index showing wave progress
     bool isOver();
@@ -70,9 +67,12 @@ public:
     string getName();
 
     bool hasStarted = false;
+
+    void clear();
+
 private:
-    Vector<SpawnEvent> Events{};    // i want to implement a min heap ... but i dont
-    List<SpawnEvent> pendingEvents{};
+    Vector<GameEvent> Events{};    // i want to implement a min heap ... but i dont
+    List<GameEvent> pendingEvents{};
     u32 _startTimePoint=0;
     string _name{};
     bool hasEnded = false;

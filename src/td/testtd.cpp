@@ -22,7 +22,7 @@ void TestTD::Init() {
 
     // use wave handler
     Wave w1;
-    SpawnEvent se{};
+    GameEvent se{};
     se.time = 1000;
     se.SpawnPoint = 0;
     se.count = 1;
@@ -124,7 +124,7 @@ void TestTD::Update() {
 
         // Handle new enemies
         globals._wh.Update();
-        SpawnEvent sEvent;
+        GameEvent sEvent;
         while(globals._wh.pullEvent(sEvent)){
             handleEvent(sEvent);
         }
@@ -418,7 +418,7 @@ TestTD::TestTD(Game &game, string mapPath): GameState(game) {
     _mapPath = std::move(mapPath);
 }
 
-void TestTD::handleEvent(SpawnEvent event) {
+void TestTD::handleEvent(GameEvent event) {
     std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
     e->setEnemy(pMap->getStartPoint(event.SpawnPoint),event.health,event.speed,event.value,event.type);
     globals._enemies.push_back(e);

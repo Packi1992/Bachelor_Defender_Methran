@@ -82,6 +82,7 @@ void InputDialog::acceptInput() {
 void InputDialog::Render() {
     if (dialog) {
         rh->fillRect(&_rDialog, EDITOR_UI_BG);
+        rh->rect(&_rDialog, 3,BLACK);
         rh->texture(_texTitle, &_rTitle);
         _textBox.Render();
         _btn_ok.draw();

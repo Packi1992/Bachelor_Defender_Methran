@@ -20,15 +20,15 @@ void Wave::addEvent(string Event) {
     // we need to define a function to write and load Spawn Events ...
     // maybe inside Struct?
     if (Event.substr() == "NAME")
-        addEvent(SpawnEvent::readLine(Event));
+        addEvent(GameEvent::readLine(Event));
 }
 
-void Wave::addEvent(SpawnEvent Event) {
+void Wave::addEvent(GameEvent Event) {
     Events.push_back(Event);
     std::sort(Events.begin(), Events.end());
 }
 
-bool Wave::PollEvent(SpawnEvent &event) {
+bool Wave::PollEvent(GameEvent &event) {
     if (pendingEvents.empty())
         return false;
     event = pendingEvents.front();
@@ -44,7 +44,7 @@ void Wave::Update() {
                     std::remove_if(
                             Events.begin(),
                             Events.end(),
-                            [&now, this](const SpawnEvent &mov) {
+                            [&now, this](const GameEvent &mov) {
                                 if (now >= mov.time) {
                                     pendingEvents.push_back(mov);
                                     return true;
@@ -77,13 +77,15 @@ string Wave::getName() {
     return _name;
 }
 
-SpeechEvent SpeechEvent::readLine(string input) {
-    return SpeechEvent();
+void Wave::clear() {
+    this->Events.clear();
+    this->_name ="";
+    this->pendingEvents.clear();
 }
 
-SpawnEvent SpawnEvent::readLine(string EventAsString) {
+GameEvent GameEvent::readLine(string EventAsString) {
     {
         cerr << "implement Spawn Event parsing from String";
-        return SpawnEvent{};
+        return GameEvent{};
     }
 }

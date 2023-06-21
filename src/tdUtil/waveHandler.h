@@ -11,7 +11,7 @@
 
 class WaveHandler{
 public:
-    bool pullEvent(SpawnEvent &event);
+    bool pullEvent(GameEvent &event);
     string getWaveName();
 
     void addWave(const Wave&);

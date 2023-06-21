@@ -334,7 +334,6 @@ bool Map::blockingTile(SDL_Point pos) {
     }
 }
 
-
 Point Map::getStartPoint(int i) {
     if((int)_startPoints.size()>=i+1)
         return _startPoints.at(i);

@@ -6,7 +6,7 @@
 #include "Wave.h"
 #include "../td/testtd.h"
 
-bool WaveHandler::pullEvent(SpawnEvent &event) {
+bool WaveHandler::pullEvent(GameEvent &event) {
     return _waveVec.at(_waveCur).PollEvent(event);
 }
 
@@ -24,12 +24,21 @@ bool WaveHandler::load(const Vector<string> &vector1) {
         if (waveStart && line.substr(0, 5) == "NAME :") {
             newWave.setName(line.substr(5));
         }
+        if (waveStart && line.substr( 0,6) == "SPAWN:"){
+            newWave.addEvent(line.substr(5));
+        }
+        if (waveStart && line.substr(0,8) == "WAVE-END"){
+            waveStart = false;
+            this->_waveVec.push_back(newWave);
+            newWave.clear();
+        }
         // how should a WAVE start string look like?
         // WAVE : 1
         // NAME : super-duper Wave Name
         //
         // SPAWN-EVENT : EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
         // EVENT : .. ..
+        // WAVE-END
         // WAVE : 2
 
 
