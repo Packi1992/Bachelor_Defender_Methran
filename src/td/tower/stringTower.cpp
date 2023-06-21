@@ -75,7 +75,7 @@ StringTower::StringTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 2;
     _shootCoolDown = 3000;
-    _damage = 5;
+    _damage = 2;
     _aimSpeed = 0;
     _upgradeCosts = 8;
     _sellingValue = 2;

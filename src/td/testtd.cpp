@@ -41,7 +41,7 @@ void TestTD::Init() {
     Wave w3;
     se.health += 100;
     se.time = 1000;
-    for(int i = 0; i<=20; i++){
+    for(int i = 0; i<=25; i++){
         se.time += 500;
         w3.addEvent(se);
     }
@@ -55,7 +55,7 @@ void TestTD::Init() {
     Wave w5;
     se.health += 300;
     se.time = 1000;
-    for(int i = 0; i<=20; i++){
+    for(int i = 0; i<=100; i++){
         se.time += 500;
         w5.addEvent(se);
     }
