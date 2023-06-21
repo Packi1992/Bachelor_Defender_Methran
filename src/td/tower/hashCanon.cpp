@@ -67,7 +67,7 @@ void HashCanon::Update() {
                     audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundArrowFire, x);
                     tdGlobals->_projectiles.push_back(
-                            std::make_shared<Hashbomb>(_hashbomb, _targetEnemy, ((int) _direction) % 360));
+                            std::make_shared<Hashbomb>(_hashbomb, _targetEnemy->_pos));
                 } else {
                     _reloadTime -= _diff;
                 }

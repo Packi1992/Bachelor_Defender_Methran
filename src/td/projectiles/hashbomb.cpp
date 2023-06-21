@@ -20,27 +20,27 @@ void Hashbomb::Update() {
 
     if (_diff < 0)_diff = 0;
     _lastTimePoint = totalMscg;
-    _ttl -= _diff;
 
-    if (_endDirection != _direction) {
-        if (_upDown)
-            _direction++;
-        else
-            _direction--;
-    }
 
-    auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
     auto speed = (float) (((float) _speed) * 0.01f);
-    _position.x += (sin(direction) * speed);
-    _position.y -= (cos(direction) * speed);
+
+    _xDistance = abs(_position.x - _targetP.x);
+    _position.x = _position.x + (_direction <= 180 ? 1.0f : -1.0f) * speed;
+
+    if (_xDistance >= abs(_startingPoint.x - _targetP.x) / 2)
+        _position.y -= 1 * speed;
+    else
+        _position.y += 1 * speed;
+
+
     if (_ttl != 0) {
         _ttl -= (int) _diff;
-        if (_ttl <= 0) {
-            _alive = false;
-            float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
-            audioHandler->playSound(SoundArrowHit, x);
-            addExplosion();
-        }
+    }
+    if ((_ttl <= 0) || ((_targetP.x == _position.x) && (_targetP.y == _position.y))) {
+        _alive = false;
+        float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
+        audioHandler->playSound(SoundArrowHit, x);
+        addExplosion();
     }
 }
 
@@ -76,20 +76,24 @@ bool Hashbomb::collision(std::shared_ptr<Enemy> e) {
     return false;
 }
 
-Hashbomb::Hashbomb(Hashbomb &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
-    _endDirection = (_direction + 180) % 360;
+Hashbomb::Hashbomb(Hashbomb &p, SDL_FPoint target) : Projectile(p, nullptr, 0) {
     _exrange = p._exrange;
     _exdmg = p._exdmg;
-    // need to get fixed
-    if (_endDirection > _direction)
-        _upDown = false;
+    _targetP = target;
+    _startDistance = sqrt(pow(target.x, 2.0f) * pow(target.y, 2.0f));
+    _distance = _startDistance;
+    _direction = (uint16_t) CT::getAngle(_position, _targetP);
+    _xDistance = abs(_position.x - _targetP.x);
+    _startingPoint = p._position;
+    // Umrechnung von Radiant in Grad
+
 }
 
 void Hashbomb::addExplosion() {
-    for (int i = (-1*_exrange); i <= _exrange; i++) {
-        for (int j = (-1*_exrange); j <= _exrange; j++) {
+    for (int i = (-1 * _exrange); i <= _exrange; i++) {
+        for (int j = (-1 * _exrange); j <= _exrange; j++) {
             SDL_FPoint tmp = {_position.x + (float) i, _position.y + (float) j};
-            tdGlobals->_projectiles.push_back(std::make_shared<BaseExplosion>(tmp,_exdmg));
+            tdGlobals->_projectiles.push_back(std::make_shared<BaseExplosion>(tmp, _exdmg));
         }
     }
 }

@@ -14,12 +14,15 @@ private:
     int _diff = 0;
     int _endDirection = 0;
     bool _upDown = true;
+    float _distance = 0.0f;
+    float _startDistance = 0.0f;
+    float _xDistance = 0.0f;
 public:
     int _exrange = 0;
     int _exdmg = 0;
     Hashbomb();
 
-    Hashbomb(Hashbomb &p, std::shared_ptr<Enemy> e, uint16_t direction);
+    Hashbomb(Hashbomb &p, SDL_FPoint target);
 
     void Render() override;
 
