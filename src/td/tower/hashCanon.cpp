@@ -60,18 +60,17 @@ void HashCanon::Update() {
         if (!inRange(_targetEnemy->getHitBox()) || !_targetEnemy->_alive) {
             _targetEnemy = nullptr;
         } else {
-            if (aimAtEnemy(_targetEnemy->_pos)) {
-                if (_reloadTime <= 0) {
-                    _reloadTime = _shootCoolDown;
-                    float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
-                    audioHandler->playSound(SoundTowerPointer, x);
-                    audioHandler->playSound(SoundArrowFire, x);
-                    tdGlobals->_projectiles.push_back(
-                            std::make_shared<Hashbomb>(_hashbomb, _targetEnemy->_pos));
-                } else {
-                    _reloadTime -= _diff;
-                }
+            if (_reloadTime <= 0) {
+                _reloadTime = _shootCoolDown;
+                float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
+                audioHandler->playSound(SoundTowerPointer, x);
+                audioHandler->playSound(SoundArrowFire, x);
+                tdGlobals->_projectiles.push_back(
+                        std::make_shared<Hashbomb>(_hashbomb, _targetEnemy->_pos));
+            } else {
+                _reloadTime -= _diff;
             }
+
             // enemy target is locked -> change direction to enemy and shoot
 
         }
@@ -139,14 +138,14 @@ bool HashCanon::updateTower() {
                 _hashbomb._speed = 12;
                 _hashbomb._ttl = 1700;
                 _range = 6;
-                _upgradeCosts = (int)((float)_upgradeCosts * 1.8);
-                _sellGain = (int)((float)_sellGain * 2.0f);
+                _upgradeCosts = (int) ((float) _upgradeCosts * 1.8);
+                _sellGain = (int) ((float) _sellGain * 2.0f);
                 break;
             case 3:
                 _damage = int((float) _damage * 1.4);
                 _hashbomb._exdmg = _damage;
-                _hashbomb._exrange ++;
-                _sellGain = (int)((float)_sellGain * 1.5f);
+                _hashbomb._exrange++;
+                _sellGain = (int) ((float) _sellGain * 1.5f);
                 break;
             default:
                 break;

@@ -17,26 +17,29 @@ Hashbomb::Hashbomb() {
 
 void Hashbomb::Update() {
     _diff = (int) (totalMscg - _lastTimePoint);
-
     if (_diff < 0)_diff = 0;
     _lastTimePoint = totalMscg;
 
+    auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
+    auto speed = (float) (((float) _speed) * (float) _diff * 0.0005f);
+    FPoint diff = {(sin(direction) * speed), (cos(direction) * speed)};
+    _position.x += diff.x;
+    _position.y -= diff.y;
 
-    auto speed = (float) (((float) _speed) * 0.01f);
-
-    _xDistance = abs(_position.x - _targetP.x);
-    _position.x = _position.x + (_direction <= 180 ? 1.0f : -1.0f) * speed;
-
-    if (_xDistance >= abs(_startingPoint.x - _targetP.x) / 2)
-        _position.y -= 1 * speed;
-    else
-        _position.y += 1 * speed;
-
-
-    if (_ttl != 0) {
-        _ttl -= (int) _diff;
+    bool xrange = false;
+    bool yrange = false;
+    if (diff.x > 0) {
+        xrange = _targetP.x - _position.x < diff.x;
+    } else {
+        xrange = _position.x - _targetP.x < diff.x;
     }
-    if ((_ttl <= 0) || ((_targetP.x == _position.x) && (_targetP.y == _position.y))) {
+
+    if (diff.y < 0) {
+        yrange = _targetP.y - _position.y < diff.y;
+    } else {
+        yrange = _position.y - _targetP.y < diff.y;
+    }
+    if(xrange && yrange){
         _alive = false;
         float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
         audioHandler->playSound(SoundArrowHit, x);
@@ -60,8 +63,9 @@ void Hashbomb::Render() {
         int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
         Rect dstRect = {pos.x + xFix, pos.y + yFix, (int) sizeW, (int) sizeH};
         rh->tile(&dstRect, 360 - (totalMscg % 360), TdTileHandler::getProjectileSrcRect(_type, totalMscg));
-        dstRect.y = pos.y;
-        dstRect.x = pos.x;
+        Point t = CT::getPosOnScreen(_targetP);
+        dstRect.y = t.y;
+        dstRect.x = t.x;
         dstRect.w = 5;
         dstRect.h = 5;
         rh->fillRect(&dstRect, BLACK);

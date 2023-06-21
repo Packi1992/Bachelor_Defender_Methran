@@ -16,6 +16,7 @@ void Projectile::Update() {
     auto speed = (float) (((float) _speed) * 0.01f);
     _position.x += (sin(direction) * speed);
     _position.y -= (cos(direction) * speed);
+
     if (_ttl != 0) {
         _ttl -= (int) diff;
         if (_ttl <= 0) {
