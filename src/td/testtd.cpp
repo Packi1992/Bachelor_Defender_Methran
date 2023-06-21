@@ -45,15 +45,28 @@ void TestTD::Init() {
         se.time += 500;
         w3.addEvent(se);
     }
+    Wave w4;
+    se.health += 200;
+    se.time = 1000;
+    for(int i = 0; i<=20; i++){
+        se.time += 500;
+        w4.addEvent(se);
+    }
+    Wave w5;
+    se.health += 300;
+    se.time = 1000;
+    for(int i = 0; i<=20; i++){
+        se.time += 500;
+        w5.addEvent(se);
+    }
     globals._wh.addWave(w1);
     globals._wh.addWave(w2);
     globals._wh.addWave(w3);
+    globals._wh.addWave(w4);
+    globals._wh.addWave(w5);
     globals._wh.init();
     updateUI();
     Update();
-
-    //Test
-    globals._pl._creditPoints = 120;
 }
 
 void TestTD::UnInit() {
@@ -62,6 +75,7 @@ void TestTD::UnInit() {
     globals._projectiles.clear();
     globals._enemies.clear();
     audioHandler->stopMusic();
+    globals._wh.reset();
 }
 
 void TestTD::Render() {

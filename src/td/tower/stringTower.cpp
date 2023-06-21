@@ -58,7 +58,7 @@ void StringTower::Update() {
                 float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
                 audioHandler->playSound(SoundTowerPointer, x);
                 audioHandler->playSound(SoundArrowFire, x);
-                _stringProjectile._string = strText.at(rand() % (int)strText.size());
+                _stringProjectile._string = strText.at(rand() % (int) strText.size());
                 tdGlobals->_projectiles.push_back(
                         std::make_shared<StringProjectile>(_stringProjectile));
             } else {
@@ -88,6 +88,7 @@ StringTower::StringTower(Point pos) : Tower(pos) {
     _stringProjectile._ttl = 1400;
     //_stringProjectile._speed = 10;
     _stringProjectile._targetE = nullptr;
+    _stringProjectile._fontSize = 12;
     _stringProjectile._size = 100;
     _stringProjectile._position = _pos;
     _stringProjectile._type = STRINGPROJECTILE;
@@ -127,11 +128,13 @@ bool StringTower::updateTower() {
                 _stringProjectile._damage = _damage;
                 _upgradeCosts *= 2;
                 _sellingValue = (int) ((float) _sellingValue * 1.5f);
+                _stringProjectile._fontSize += 5;
                 break;
             case 3:
                 _damage = int((float) _damage * 1.5);
                 _stringProjectile._damage = _damage;
                 _sellingValue = (int) ((float) _sellingValue * 1.5f);
+                _stringProjectile._fontSize += 5;
                 break;
             default:
                 break;

@@ -13,7 +13,9 @@ StringProjectile::StringProjectile() {
 
 StringProjectile::StringProjectile(StringProjectile &p) : Projectile(p, nullptr, 0) {
     _string = p._string;
-    _texture = t_cache->getText(&_string,20, &_src, GREEN);
+    _fontSize = p._fontSize;
+    _texture = t_cache->getText(&_string,_fontSize, &_src, GREEN);
+
 }
 
 void StringProjectile::Update() {

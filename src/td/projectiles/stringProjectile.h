@@ -22,7 +22,7 @@ public:
     void Render() override;
 
     void collide() override;
-
+    int _fontSize=0;
     bool collision(std::shared_ptr<Enemy> e) override;
     int _xFix;
     int _yFix;

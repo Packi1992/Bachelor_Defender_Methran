@@ -235,7 +235,7 @@ bool LinkedListTower::updateTower() {
     if (Tower::updateTower()) {
         switch (_level) {
             case 2:
-                _damage = 3;
+                _damage = 2;
                 _link._damage = _damage;
                 _range++;
                 _lvld-=2;
@@ -243,7 +243,7 @@ bool LinkedListTower::updateTower() {
                 _sellingValue = (int)((float)_sellingValue * 2.0f);
                 break;
             case 3:
-                _damage = 4;
+                _damage = 3;
                 _link._damage = _damage;
                 _range++;
                 _lvlu+=2;

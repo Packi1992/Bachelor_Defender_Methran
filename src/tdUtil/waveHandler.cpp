@@ -97,3 +97,7 @@ void WaveHandler::init() {
 bool WaveHandler::isOver() {
     return _isOver;
 }
+
+void WaveHandler::reset() {
+    _waveCur = 0;
+}
