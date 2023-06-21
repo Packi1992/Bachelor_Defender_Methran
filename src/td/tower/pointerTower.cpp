@@ -14,7 +14,13 @@ void PointerTower::Render() {
     long animT = (anim > 4) ? 0 : anim;
     if (_reloadTime <= 1000) {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, 1));
-        rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getProjectileSrcRect(ARROW_FULLRECT));
+        if(_doubleArrow){
+            rh->tile(&dst, ((int) _direction+10) % 360, TdTileHandler::getProjectileSrcRect(ARROW_FULLRECT));
+            rh->tile(&dst, ((int) _direction-10) % 360, TdTileHandler::getProjectileSrcRect(ARROW_FULLRECT));
+
+        }
+        else
+            rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getProjectileSrcRect(ARROW_FULLRECT));
     } else {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Pointer, animT));
     }
@@ -27,7 +33,7 @@ void PointerTower::Update() {
         if (_floatingMenu->isDone()) {
             switch (_floatingMenu->getSelectedEntry()) {
                 case MenuEntry_Sell:
-                    tdGlobals->_pl._creditPoints += _sellGain;
+                    tdGlobals->_pl._creditPoints += _sellingValue;
                     if (pMap->getObject(_rPos) == MapObjects::Tower)
                         pMap->setTile(_rPos, MapObjects::Empty);
                     _alive = false;
@@ -95,10 +101,10 @@ PointerTower::PointerTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
     _shootCoolDown = 3000;
-    _damage = 10;
+    _damage = 15;
     _aimSpeed = 1;
-    _upgradeCosts = 8;
-    _sellGain = 2;
+    _upgradeCosts = 5;
+    _sellingValue = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
 
@@ -141,21 +147,21 @@ bool PointerTower::updateTower() {
     if (Tower::updateTower()) {
         switch (_level) {
             case 2:
-                _damage = int((float) _damage * 1.2);
+                _damage = (u32)((float)_damage * 1.2);
                 _arrow._damage = _damage;
                 _arrow._speed = 12;
-                _doubleArrow = true;
+                _doubleArrow = false;
                 _range++;
                 _upgradeCosts*=2;
-                _sellGain = (int)((float)_sellGain * 2.0f);
+                _sellingValue = (int)((float)_sellingValue * 2.0f);
                 break;
             case 3:
-                _damage = int((float) _damage * 2.3);
+                _damage = (u32)((float) _damage * 2.3);
                 _arrow._damage = _damage;
                 _arrow._speed = 18;
                 _range++;
-                _doubleArrow = false;
-                _sellGain = (int)((float)_sellGain * 1.5f);
+                _doubleArrow = true;
+                _sellingValue = (int)((float)_sellingValue * 1.5f);
                 break;
             default:
                 break;

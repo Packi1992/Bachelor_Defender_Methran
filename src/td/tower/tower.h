@@ -77,7 +77,7 @@ protected:
     int _diff = 0;
     uint _level = 1;
     int _upgradeCosts = 0;
-    int _sellGain = 0;
+    int _sellingValue = 0;
 };
 
 #include "pointerTower.h"
