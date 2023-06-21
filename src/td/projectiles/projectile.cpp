@@ -9,27 +9,29 @@
 #include "../enemy/enemy.h"
 
 void Projectile::Update() {
-    u32 diff = totalMscg - _lastTimePoint;
-    _lastTimePoint = totalMscg;
-    // need to fix travel speed with render time
-    auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
-    auto speed = (float) (((float) _speed) * 0.01f);
-    _position.x += (sin(direction) * speed);
-    _position.y -= (cos(direction) * speed);
-    if (_ttl != 0) {
-        _ttl -= (int) diff;
-        if (_ttl <= 0) {
-            _alive = false;
+    if(_alive){
+        u32 diff = totalMscg - _lastTimePoint;
+        _lastTimePoint = totalMscg;
+        _posOnScreen = CT::getPosOnScreen(_position);
+        // need to fix travel speed with render time
+        auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
+        auto speed = (float) (((float) _speed) * 0.01f);
+        _position.x += (sin(direction) * speed);
+        _position.y -= (cos(direction) * speed);
+        if (_ttl != 0) {
+            _ttl -= (int) diff;
+            if (_ttl <= 0) {
+                _alive = false;
+            }
         }
     }
 }
 
-bool Projectile::onScreen() const {
-    Point posOnScreen = CT::getPosOnScreen(_position);
-    return (posOnScreen.x + _size > 0) &&      // left
-           (posOnScreen.y + _size > 0) &&             // top
-           (posOnScreen.y < windowSize.y) &&        // bot
-           (posOnScreen.x < windowSize.x);         // right
+bool Projectile::onScreen() const{
+    return (_posOnScreen.x + _size > 0) &&      // left
+           (_posOnScreen.y + _size > 0) &&             // top
+           (_posOnScreen.y < windowSize.y) &&        // bot
+           (_posOnScreen.x < windowSize.x);         // right
 }
 
 void Projectile::Render() {

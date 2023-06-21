@@ -12,10 +12,11 @@ StringProjectile::StringProjectile() {
 
 StringProjectile::StringProjectile(StringProjectile &p) : Projectile(p, nullptr, 0) {
     _string = p._string;
-    _texture = t_cache->getText(&_string,12, &_src, GREEN);
+    _texture = t_cache->getText(&_string,20, &_src, GREEN);
 }
 
 void StringProjectile::Update() {
+    _posOnScreen = CT::getPosOnScreen(_position);
     _diff = (int) (totalMscg - _lastTimePoint);
     for (auto &entry: hitList) {
         entry.hitCooldown -= _diff;
@@ -42,6 +43,17 @@ void StringProjectile::Update() {
             }
         }
     }
+    float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) _src.w;
+    float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) _src.h;
+    //dstRect needs to be changed depending on direction
+    float angle = (float) _direction / 180.0f * (float) M_PI;
+    float sinAngle = sin(angle);
+    float cosAngle = cos(angle);
+    _xFix = (int) (-sizeW/2+(cosAngle)*sizeW/2);
+    _yFix = (int) (-sizeH/2+(sinAngle)*sizeW/2);
+    _end.x = _posOnScreen.x + (int)(sizeW*cosAngle);
+    _end.y = _posOnScreen.y + (int)(sizeW*sinAngle);
+    _dstRect = {_posOnScreen.x + _xFix, _posOnScreen.y + _yFix, (int) sizeW, (int) sizeH};
 }
 
 void StringProjectile::collide() {
@@ -66,23 +78,9 @@ bool StringProjectile::collision(std::shared_ptr<Enemy> e) {
 
 void StringProjectile::Render() {
     if (_alive && onScreen()) {
-        Point pos = CT::getPosOnScreen(_position);
 
-        float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) _src.w;
-        float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) _src.h;
-        //dstRect needs to be changed depending on direction
-        float angle = (float) _direction / 180.0f * (float) M_PI;
-        float sinAngle = sin(angle);
-        float cosAngle = cos(angle);
-        int xFix = (int) (-sizeW * 0.5 - sinAngle * sizeW);
-        int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
-        Rect dstRect = {pos.x + xFix, pos.y + yFix, (int) sizeW, (int) sizeH};
-        rh->texture(_texture,&dstRect,_direction+270);
-        dstRect.y = pos.y;
-        dstRect.x = pos.x;
-        dstRect.w = 5;
-        dstRect.h = 5;
-        rh->fillRect(&dstRect, BLACK);
+        rh->texture(_texture,&_dstRect,_direction);
+        rh->line(_posOnScreen,_end,BLACK);
     }
 }
 
