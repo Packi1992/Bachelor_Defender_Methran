@@ -281,7 +281,7 @@ void TestTD::updateFloatingMenu() {
     MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 5};
     MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 5};
     MenuEntry hashCanon{MenuEntry_HASHCANON, Status_Active, 5};
-    MenuEntry stringTower{MenuEntry_STRINGTOWER, Status_Active, 5};
+    MenuEntry stringTower{MenuEntry_STRINGTOWER, Status_Active, 3};
     if (!pMap->checkPath(CT::getMousePosTile())) {
         pointerTower._status = Status_Disabled;
         recursiveTower._status = Status_Disabled;
