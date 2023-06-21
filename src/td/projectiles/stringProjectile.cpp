@@ -3,6 +3,7 @@
 //
 
 #include "stringProjectile.h"
+#include "../../gamebase.h"
 
 StringProjectile::StringProjectile() {
     _type = ProjectileType::STRINGPROJECTILE;
@@ -10,7 +11,8 @@ StringProjectile::StringProjectile() {
 }
 
 StringProjectile::StringProjectile(StringProjectile &p) : Projectile(p, nullptr, 0) {
-
+    _string = p._string;
+    _texture = t_cache->getText(&_string,12, &_src, GREEN);
 }
 
 void StringProjectile::Update() {
@@ -35,7 +37,7 @@ void StringProjectile::Update() {
             _alive = false;
         } else {
             if (((_ttl / 10) % 100) < _tick) {
-                _direction+=4;
+                _direction += 4;
                 _tick--;
             }
         }
@@ -60,5 +62,27 @@ bool StringProjectile::collision(std::shared_ptr<Enemy> e) {
         return true;
     }
     return false;
+}
+
+void StringProjectile::Render() {
+    if (_alive && onScreen()) {
+        Point pos = CT::getPosOnScreen(_position);
+
+        float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) _src.w;
+        float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) _src.h;
+        //dstRect needs to be changed depending on direction
+        float angle = (float) _direction / 180.0f * (float) M_PI;
+        float sinAngle = sin(angle);
+        float cosAngle = cos(angle);
+        int xFix = (int) (-sizeW * 0.5 - sinAngle * sizeW);
+        int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
+        Rect dstRect = {pos.x + xFix, pos.y + yFix, (int) sizeW, (int) sizeH};
+        rh->texture(_texture,&dstRect,_direction+270);
+        dstRect.y = pos.y;
+        dstRect.x = pos.x;
+        dstRect.w = 5;
+        dstRect.h = 5;
+        rh->fillRect(&dstRect, BLACK);
+    }
 }
 

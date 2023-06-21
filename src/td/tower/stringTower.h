@@ -32,6 +32,7 @@ class StringTower : public Tower {
     private:
         static int _creditPointCosts;
         StringProjectile _stringProjectile;
+        Vector<string> strText = {"Hello World!", "~~The Cake~~", "~~Is a Lie~~"};
     };
 
 

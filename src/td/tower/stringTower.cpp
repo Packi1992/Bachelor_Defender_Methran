@@ -59,6 +59,7 @@ void StringTower::Update() {
                     float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
                     audioHandler->playSound(SoundTowerPointer, x);
                     audioHandler->playSound(SoundArrowFire, x);
+                    _stringProjectile._string = strText.at(rand()%3);
                     tdGlobals->_projectiles.push_back(
                             std::make_shared<StringProjectile>(_stringProjectile));
                 } else {
@@ -76,7 +77,7 @@ int StringTower::_creditPointCosts = 3;
 
 StringTower::StringTower(Point pos) : Tower(pos) {
     _health = 200;
-    _range = 4;
+    _range = 2;
     _shootCoolDown = 3000;
     _damage = 20;
     _aimSpeed = 1;
