@@ -36,7 +36,7 @@ public:
     bool _moveable = false;
     Vector<HitTimer> hitList;
     soundType _hitSound=SoundDisabled;
-    u_int32_t _lastTimePoint;
+    u32 _lastTimePoint;
 
     virtual ~Projectile();
     Projectile();
