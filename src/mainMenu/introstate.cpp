@@ -99,7 +99,6 @@ MainMenu::MainMenu(Game &game) : GameState(game, GS_MainMenu) {
     _image = t_cache->get(BasePath "asset/graphic/bg-main.png");
     _buttons.emplace_back("Start", _fontSize, Buttons::btn_Start);
     _buttons.emplace_back("Einstellungen", _fontSize, Buttons::btn_Settings);
-    _buttons.emplace_back("Editor", _fontSize, Buttons::btn_Editor);
     _buttons.emplace_back("Beenden", _fontSize, Buttons::btn_Exit);
 }
 

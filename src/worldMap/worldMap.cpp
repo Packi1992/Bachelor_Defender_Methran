@@ -76,7 +76,7 @@ void WorldMap::Render() {
         btn.draw();
 }
 
-WorldMap::WorldMap(Game &game) : GameState(game, GS_MainMenu) {
+WorldMap::WorldMap(Game &game) : GameState(game, GS_WorldMap) {
     _image = t_cache->get(BasePath "asset/graphic/bg-world.png");
     _buttons.emplace_back("1", _fontSize, btn_w1);
     _buttons.emplace_back("2", _fontSize, btn_w2);

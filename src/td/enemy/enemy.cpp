@@ -25,7 +25,7 @@ void Enemy::Update() {
             _nextPos = pMap->getNextPosCentre(_pos);
         } else if (!_reachedGoal) {
             // actually move
-            float runLength = (float)diff * (float) _speed / 30.0f;
+            float runLength = (float)(diff * (float) _speed*0.00001);
             if (_slowTimer > 0) {
                 _slowTimer -= (float)diff;
                 runLength = (float) ((double) runLength * (_speedDiff / 10.0));
