@@ -8,22 +8,25 @@
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef40}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\util\gui">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef45}</UniqueIdentifier>
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef41}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\tdutil">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef42}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\td">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\td\tower">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\td\Projectiles">
+    <Filter Include="src\td\enemy">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\td\tower">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\td\Projectiles">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef46}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Maps">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef43}</UniqueIdentifier>
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef47}</UniqueIdentifier>
     </Filter>
     <Filter Include="asset">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -76,7 +79,16 @@
     <ClInclude Include="src\td\testtd.h">
       <Filter>src\td</Filter>
     </ClInclude>
+    <ClInclude Include="src\td\enemy\enemy.h">
+      <Filter>src\td\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\enemy\smallemy.h">
+      <Filter>src\td\enemy</Filter>
+    </ClInclude>
     <ClInclude Include="src\td\Projectiles\arrow.h">
+      <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\Projectiles\baseExplosion.h">
       <Filter>src\td\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="src\td\Projectiles\boomerang.h">
@@ -85,11 +97,20 @@
     <ClInclude Include="src\td\Projectiles\fire.h">
       <Filter>src\td\Projectiles</Filter>
     </ClInclude>
+    <ClInclude Include="src\td\Projectiles\hashbomb.h">
+      <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
     <ClInclude Include="src\td\Projectiles\link.h">
       <Filter>src\td\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="src\td\Projectiles\projectile.h">
       <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\Projectiles\stringProjectile.h">
+      <Filter>src\td\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\tower\hashCanon.h">
+      <Filter>src\td\tower</Filter>
     </ClInclude>
     <ClInclude Include="src\td\tower\linkedListTower.h">
       <Filter>src\td\tower</Filter>
@@ -100,31 +121,19 @@
     <ClInclude Include="src\td\tower\recursivTower.h">
       <Filter>src\td\tower</Filter>
     </ClInclude>
+    <ClInclude Include="src\td\tower\stringTower.h">
+      <Filter>src\td\tower</Filter>
+    </ClInclude>
     <ClInclude Include="src\td\tower\tower.h">
       <Filter>src\td\tower</Filter>
     </ClInclude>
-    <ClInclude Include="src\tdUtil\audioHandler.h">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\coordinateTransformer.h">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\dataHandler.h">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
     <ClInclude Include="src\tdUtil\editor.h">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\enemy.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
     <ClInclude Include="src\tdUtil\map.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
     <ClInclude Include="src\tdUtil\player.h">
-      <Filter>src\tdUtil</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tdUtil\projectilesHandler.h">
       <Filter>src\tdUtil</Filter>
     </ClInclude>
     <ClInclude Include="src\tdUtil\tdTileHandler.h">
@@ -135,6 +144,15 @@
     </ClInclude>
     <ClInclude Include="src\tdUtil\waveHandler.h">
       <Filter>src\tdUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\audioHandler.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\coordinateTransformer.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\dataHandler.h">
+      <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\renderHelper.h">
       <Filter>src\util</Filter>
@@ -272,7 +290,16 @@
     <ClCompile Include="src\td\testtd.cpp">
       <Filter>src\td</Filter>
     </ClCompile>
+    <ClCompile Include="src\td\enemy\enemy.cpp">
+      <Filter>src\td\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\enemy\smallemy.cpp">
+      <Filter>src\td\enemy</Filter>
+    </ClCompile>
     <ClCompile Include="src\td\Projectiles\arrow.cpp">
+      <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\Projectiles\baseExplosion.cpp">
       <Filter>src\td\Projectiles</Filter>
     </ClCompile>
     <ClCompile Include="src\td\Projectiles\boomerang.cpp">
@@ -281,11 +308,20 @@
     <ClCompile Include="src\td\Projectiles\fire.cpp">
       <Filter>src\td\Projectiles</Filter>
     </ClCompile>
+    <ClCompile Include="src\td\Projectiles\hashbomb.cpp">
+      <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
     <ClCompile Include="src\td\Projectiles\link.cpp">
       <Filter>src\td\Projectiles</Filter>
     </ClCompile>
     <ClCompile Include="src\td\Projectiles\projectile.cpp">
       <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\Projectiles\stringProjectile.cpp">
+      <Filter>src\td\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\tower\hashCanon.cpp">
+      <Filter>src\td\tower</Filter>
     </ClCompile>
     <ClCompile Include="src\td\tower\linkedListTower.cpp">
       <Filter>src\td\tower</Filter>
@@ -296,31 +332,19 @@
     <ClCompile Include="src\td\tower\recursivTower.cpp">
       <Filter>src\td\tower</Filter>
     </ClCompile>
+    <ClCompile Include="src\td\tower\stringTower.cpp">
+      <Filter>src\td\tower</Filter>
+    </ClCompile>
     <ClCompile Include="src\td\tower\tower.cpp">
       <Filter>src\td\tower</Filter>
     </ClCompile>
-    <ClCompile Include="src\tdUtil\audioHandler.cpp">
-      <Filter>src\tdutil</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tdUtil\coordinateTransformer.cpp">
-      <Filter>src\tdutil</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tdUtil\dataHandler.cpp">
-      <Filter>src\tdutil</Filter>
-    </ClCompile>
     <ClCompile Include="src\tdUtil\editor.cpp">
-      <Filter>src\tdutil</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tdUtil\enemy.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
     <ClCompile Include="src\tdUtil\map.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
     <ClCompile Include="src\tdUtil\player.cpp">
-      <Filter>src\tdutil</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tdUtil\projectilesHandler.cpp">
       <Filter>src\tdutil</Filter>
     </ClCompile>
     <ClCompile Include="src\tdUtil\tdTileHandler.cpp">
@@ -331,6 +355,15 @@
     </ClCompile>
     <ClCompile Include="src\tdUtil\waveHandler.cpp">
       <Filter>src\tdutil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\audioHandler.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\coordinateTransformer.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\dataHandler.cpp">
+      <Filter>src\util</Filter>
     </ClCompile>
     <ClCompile Include="src\util\renderHelper.cpp">
       <Filter>src\util</Filter>

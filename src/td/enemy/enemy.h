@@ -61,14 +61,14 @@ public:
 protected:
     int small = 0;
     void startDeathAnimation();
-    u_int32_t _lastTimePoint;
+    u32 _lastTimePoint;
     u16 _dying = false;
     u8 _speed = 0;
     u8 _speedDiff = 0;
     u8 _value = 0;
     bool _hittable = true;
     u8 _poisonStrength = 0;
-    u_int32_t _stunTime = 0;
+    u32 _stunTime = 0;
     bool _forceStun = false;
     float _slowTimer = 0;
     float _poisonTimer = 0;

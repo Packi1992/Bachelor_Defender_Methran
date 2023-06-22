@@ -134,7 +134,7 @@ LinkedListTower::LinkedListTower(Point pos) : Tower(pos) {
     _link._position = _pos;
 }
 
-LinkedListTower::LinkedListTower(Point pos, LinkedListTower *srcTower) : Tower(pos) {
+LinkedListTower::LinkedListTower(Point pos, LinkedListTower * srcTower) : Tower(pos) {
     _health = 200;
     _range = srcTower->_range;
     _reloadTime = srcTower->_reloadTime;
@@ -161,8 +161,8 @@ void LinkedListTower::showMenu(Gui **focus) {
     _menuEntries.clear();
     _menuEntries.push_back({MenuEntries::MenuEntry_AddLink, Status_Active, (uint) _linkCosts});
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
-    if (_level < 3)
-        _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, (uint) _upgradeCosts});
+    if(_level<3)
+        _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, (uint)_upgradeCosts});
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
 }
