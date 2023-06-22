@@ -10,15 +10,9 @@ TDGlobals *tdGlobals{};
 
 void TestTD::Init() {
     GameState::Init();
-    pGame = &game;
-    pMap = &_map;
-    DataHandler::load(globals._pl, globals._wh, _map,BasePath"Maps/"+_mapPath);
-    tdGlobals = &globals;
+    DataHandler::load(globals._pl, globals._wh, _map,BasePath"Maps/"+*(tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
-    _texMethran = t_cache->get(BasePath"asset/graphic/methran1.png");
-    SDL_QueryTexture(_texMethran, nullptr, nullptr, &MethranDst.w, &MethranDst.h);
-
 
     // use wave handler
     Wave w1;
@@ -116,10 +110,10 @@ void TestTD::Render() {
     rh->texture(_texMethran, &MethranDst);
     // Menu
     rh->fillRect(&_menuBot, EDITOR_UI_BG);
+    _creditPointDisplay.draw();
     for (auto &tower: globals._towers) {
         tower->RenderMenu();
     }
-    _creditPointDisplay.draw();
     _floatingMenu.Render();
     if (_gameover) {
         rh->background(BLACK, 128);
@@ -294,14 +288,28 @@ void TestTD::updateFloatingMenu() {
         hashCanon._status = Status_Disabled;
         stringTower._status = Status_Disabled;
     }
-    _buildMenuEntries.push_back(pointerTower);
-    _buildMenuEntries.push_back(linkedListTower);
-    _buildMenuEntries.push_back(recursiveTower);
-    _buildMenuEntries.push_back(hashCanon);
-    _buildMenuEntries.push_back(stringTower);
+    for( auto &entry :globals._pl._usableTowers){
+        switch (entry) {
+            case MenuEntry_POINTER:
+                _buildMenuEntries.push_back(pointerTower);
+                break;
+            case MenuEntry_BOOMERANG:
+                _buildMenuEntries.push_back(recursiveTower);
+                break;
+            case MenuEntry_LinkedList:
+                _buildMenuEntries.push_back(linkedListTower);
+                break;
+            case MenuEntry_HASHCANON:
+                _buildMenuEntries.push_back(hashCanon);
+                break;
+            case MenuEntry_STRINGTOWER:
+                _buildMenuEntries.push_back(stringTower);
+                break;
+            default:
+                break;
+        }
+    }
 }
-
-
 
 void TestTD::updateUI() {
     SanityBar = {windowSize.x - 100, (int) (windowSize.y * 0.1), 50, (int) (windowSize.y * 0.7)};
@@ -434,7 +442,12 @@ bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
 }
 
 TestTD::TestTD(Game &game, string mapPath): GameState(game, GS_TD) {
-    _mapPath = std::move(mapPath);
+    tdGlobals = &globals;
+    _texMethran = t_cache->get(BasePath"asset/graphic/methran1.png");
+    SDL_QueryTexture(_texMethran, nullptr, nullptr, &MethranDst.w, &MethranDst.h);
+    pGame = &game;
+    pMap = &_map;
+    globals._mapPath =new string(std::move(mapPath));
 }
 
 void TestTD::handleEvent(const GameEvent& event) {
@@ -442,4 +455,9 @@ void TestTD::handleEvent(const GameEvent& event) {
     e->setEnemy(pMap->getStartPoint(event.SpawnPoint),event.health,event.speed,event.value,event.type);
     globals._enemies.push_back(e);
 
+}
+
+void TDGlobals::setPath(string newMapPath) {
+    delete _mapPath;
+    _mapPath = new string(std::move(newMapPath));
 }

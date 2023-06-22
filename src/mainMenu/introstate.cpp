@@ -56,7 +56,6 @@ void MainMenu::Update() {
                             else
                                 game.SetNextState(GS_TD);
                         };
-                        game.SetNextState(GS_TD);
                         break;
                     case btn_Settings:
                         game.SetNextState(GS_Settings);

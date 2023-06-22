@@ -5,6 +5,7 @@
 #define SDL_BASEGAME_WORLDMAP_H
 
 #include "../util/global.h"
+#include "../util/gui/selectorDialog.h"
 
 class Button;
 
@@ -25,6 +26,9 @@ protected:
 
     int _fontSize = 30;
     bool _msBtn_left = false;
+
+    SelectorDialog mapSelector;
+    Gui *focus= nullptr;
 public:
     explicit WorldMap(Game &game);
 

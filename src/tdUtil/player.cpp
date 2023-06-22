@@ -18,6 +18,9 @@ bool Player::load(const Vector<string> &data) {
             _creditPoints = (int) strtol(line.substr(15).c_str(), nullptr, 10);
             creditPointsLoaded = true;
         }
+        if(line.substr(0, 13) == ("TOWER-ENTRY :")){
+            _usableTowers.insert((MenuEntries) strtol(line.substr(13).c_str(), nullptr, 10));
+        }
     }
     return SanityLoaded&&creditPointsLoaded;
 }

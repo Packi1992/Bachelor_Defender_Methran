@@ -23,6 +23,11 @@ struct TDGlobals {
     Vector<std::shared_ptr<Projectile>> _projectiles{};
     WaveHandler _wh{};
     Player _pl{};
+    string *_mapPath{};
+    void setPath(string newMapPath);
+    ~TDGlobals(){
+        delete _mapPath;
+    }
 };
 extern TDGlobals *tdGlobals;
 
@@ -58,8 +63,6 @@ public:
 
     Vector<MenuEntry> _buildMenuEntries{};
     TDGlobals globals{};
-
-    string _mapPath;
 
     // ctor
     using GameState::GameState;
