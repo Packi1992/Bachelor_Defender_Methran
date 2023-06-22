@@ -36,6 +36,7 @@ void TextBox::setText(std::string text) {
     if (_texInput != nullptr)
         SDL_DestroyTexture(_texInput);
     _texInput = t_cache->getText(_input.c_str(), 18, &_rInput);
+    _renderedInput = _input;
 }
 
 std::string TextBox::getText() {
@@ -48,14 +49,17 @@ int TextBox::getNumber() {
 
 void TextBox::setNumber(int number) {
     _input = std::to_string(number);
-    Update();
+    if (_texInput != nullptr)
+        SDL_DestroyTexture(_texInput);
+    _texInput = t_cache->getText(_input.c_str(), 18, &_rInput);
+    _renderedInput = _input;
 }
 
 void TextBox::Render() {
     rh->texture(_texLabel, &_rLabel);
     rh->fillRect(&_rInputField, WHITE);
     rh->rect(&_rInputField, 1,BLACK);
-    if (!_renderedInput.empty())
+    if (_renderedInput!="")
         rh->texture(_texInput, &_rInput);
     if (dialog) {
         if (blink > 20) {
@@ -102,8 +106,11 @@ void TextBox::Input() {
             case SDL_KEYDOWN:
                 if (event.key.keysym.sym == SDLK_BACKSPACE && !_input.empty())
                     _input.erase(_input.size() - 1);
-                if (event.key.keysym.sym == SDLK_KP_ENTER)
+                if (event.key.keysym.sym == SDLK_KP_ENTER){
                     releaseFocus(true);
+                    blink = 0;
+                }
+
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 bool left = event.motion.x < _rInputField.x;
@@ -112,6 +119,7 @@ void TextBox::Input() {
                 bool bottom = event.motion.y > _rInputField.y + _rInputField.h;
                 if (left || right || top || bottom) {
                     SDL_PushEvent(&event);
+                    blink = 0;
                     releaseFocus(true);
                     return;
                 }
@@ -130,13 +138,15 @@ TextBox::~TextBox() {
 }
 
 void TextBox::Update() {
-    if (_input.compare(_renderedInput) != 0) {
+    if (_input!=_renderedInput) {
         if (_texInput != nullptr)
             SDL_DestroyTexture(_texInput);
-        _texInput = t_cache->getText(_input.c_str(), 18, &_rInput);
+        _texInput = t_cache->getText(_input.c_str(), 18, &_rInput,BLACK);
         _renderedInput = _input;
     }
     if(dialog)
         blink = (blink + 1) % 40;
+    else
+        blink = 0;
 }
 

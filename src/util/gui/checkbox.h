@@ -1,26 +1,24 @@
 //
-// Created by banoodle on 15.04.23.
+// Created by banoodle on 24.05.23.
 //
 
-#ifndef JUMPNRUN_BUTTON_H
-#define JUMPNRUN_BUTTON_H
+#ifndef SDL_BACHELORDEFENDER_CHECKBOX_H
+#define SDL_BACHELORDEFENDER_CHECKBOX_H
+#include "gui.h"
 
-#include "../gamebase.h"
-
-
-class Button {
+class CheckBox{
 public:
-    Button() = default;
+    CheckBox() = default;
 
-    Button(const Button &b);
-    Button(const string &label, int size, Rect rect, int id=0, t_color btn_color = BTN_COLOR);
-    Button(const string &label, int size, int id=0, t_color btn_color = BTN_COLOR);
+    CheckBox(const CheckBox &b);
+    CheckBox(const string &label, int size, Rect rect, int id=0, t_color btn_color = BTN_COLOR);
+    CheckBox(const string &label, int size, int id=0, t_color btn_color = BTN_COLOR);
 
     void draw(bool highlighted = false);
 
     bool clicked(Event e);
     bool clicked(Point p);
-    ~Button();
+    ~CheckBox();
 
     void entered(Event e);
     void entered(Point p);
@@ -51,5 +49,4 @@ private:
     int _id=0;
     char _textArr[50]{};
 };
-
-#endif //JUMPNRUN_BUTTON_H
+#endif //SDL_BACHELORDEFENDER_CHECKBOX_H

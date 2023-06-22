@@ -31,5 +31,8 @@ std::string Player::save() const {
     //checkPlayerStartSpot();
     s << "SANITY :" << _maxSanity << "\n";
     s << "CREDIT-POINTS :" << _creditPoints << "\n";
+    for( auto &entry : _usableTowers){
+        s << "TOWER-ENTRY :" << (int)entry << "\n";
+    }
     return s.str();
 }

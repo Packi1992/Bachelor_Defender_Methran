@@ -15,31 +15,34 @@ class Editor;
 #include "../util/gui/inputDialog.h"
 #include "../util/gui/sizeDialog.h"
 #include "../util/dataHandler.h"
+#include "../util/gui/playerSettings.h"
 
 class Editor: public GameState{
 protected:
     Texture *t_tileMap= nullptr;
-    Map map;
-    WaveHandler waves;
-    Player player;
+    Map map{};
+    WaveHandler waves{};
+    Player player{};
 
     // label hint
     bool isLabelActive=false;
     int labelTimer=0;
     Point labelPos={};
-    MapObjects labelObject;
+    MapObjects labelObject{};
 
     // window handling
     Gui *focus= nullptr;
     SelectorDialog mapSelector;
     InputDialog mapNameInput;
     SizeDialog resizeMap;
+    PlayerSettings settingsDialog;
 
     // buttons
     Button btn_load;
     Button btn_save;
     Button btn_change_size;
     Button btn_path;
+    Button btn_playerSettings;
     bool showPath=false;
 
     int rainbowColor=0;
@@ -51,10 +54,10 @@ protected:
 
     // zooming
     bool _mouseWheel = false;
-    SDL_Event _wheelEvent;
+    SDL_Event _wheelEvent{};
     // scrolling
     bool _mouseMotion = false;
-    SDL_Event _motionEvent;
+    SDL_Event _motionEvent{};
     bool _mbLeft=false;
     bool _mbRight=false;
 public:
