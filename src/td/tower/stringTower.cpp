@@ -28,7 +28,7 @@ void StringTower::Update() {
                 case MenuEntry_Upgrade:
                     if ((int) tdGlobals->_pl._creditPoints >= _upgradeCosts) {
                         tdGlobals->_pl._creditPoints -= _upgradeCosts;
-                        updateTower();
+                        upgrade();
                     }
                     break;
                 default:
@@ -120,8 +120,8 @@ void StringTower::setCosts(int cp) {
     _creditPointCosts = cp;
 }
 
-bool StringTower::updateTower() {
-    if (Tower::updateTower()) {
+bool StringTower::upgrade() {
+    if (Tower::upgrade()) {
         switch (_level) {
             case 2:
                 _damage = int((float) _damage * 1.5);

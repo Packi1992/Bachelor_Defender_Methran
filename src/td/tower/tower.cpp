@@ -4,7 +4,7 @@
 
 #include "tower.h"
 #include "../enemy/enemy.h"
-#include "../../recthelper.h"
+#include "../../util/recthelper.h"
 #include "../../util/gui/floatingMenu.h"
 #include "../../tdUtil/map.h"
 
@@ -13,7 +13,7 @@ Tower::Tower(Point pos) {
     _rPos = pos;
     _health = 10;
     _alive = true;
-    _lastTimePoint = totalMscg;
+    _lastTimePoint = totalMSec;
 }
 
 bool Tower::inRange(FRect p) const {
@@ -85,9 +85,9 @@ void Tower::Render() {
 }
 
 void Tower::Update() {
-    _diff = (int)(totalMscg - _lastTimePoint);
+    _diff = (int)(totalMSec - _lastTimePoint);
     if(_diff < 0 )_diff = 0;
-    _lastTimePoint = totalMscg;
+    _lastTimePoint = totalMSec;
     if (_floatingMenu != nullptr) {
         if (!_floatingMenu->getDialog())
             _showRange = false;
@@ -106,7 +106,7 @@ int Tower::getRange() {
     return _range;
 }
 
-bool Tower::updateTower() {
+bool Tower::upgrade() {
     if(_level < 3){
         _level++;
         return true;

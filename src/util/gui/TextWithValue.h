@@ -4,7 +4,7 @@
 
 
 #include <string>
-#include "../../gamebase.h"
+#include "../gamebase.h"
 
 
 class TextWithValue {

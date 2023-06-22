@@ -56,8 +56,8 @@ void WaveHandler::addWave(const Wave &w) {
 }
 
 void WaveHandler::Update() {
-    u32 diff = totalMscg - _lastTimePoint;
-    _lastTimePoint = totalMscg;
+    u32 diff = totalMSec - _lastTimePoint;
+    _lastTimePoint = totalMSec;
     bool waveIsOver = _waveVec.at(_waveCur).isOver();
     bool lastWave = _waveCur+1 >= (int) _waveVec.size();
     cout << tdGlobals->_enemies.size() << endl;
@@ -86,6 +86,7 @@ void WaveHandler::Update() {
             if (_waveVec.at(_waveCur).isOver()) {
                 if (_waveCur < (int) _waveVec.size() - 1) {
                     _waveCur++;
+                    tdGlobals->_pl._creditPoints += _waveCur*3;
                     _pause = 15000;
                 }
             }
@@ -99,7 +100,7 @@ void WaveHandler::Render() {
 }
 
 void WaveHandler::init() {
-    _lastTimePoint = totalMscg;
+    _lastTimePoint = totalMSec;
     _pause = 15000;
 }
 

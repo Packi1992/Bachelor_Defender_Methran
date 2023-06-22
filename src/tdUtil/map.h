@@ -6,7 +6,7 @@
 #define SDL_BASEGAME_MAP_H
 
 
-#include "../gamebase.h"
+#include "../util/gamebase.h"
 #include "tdTileHandler.h"
 #include <fstream>
 

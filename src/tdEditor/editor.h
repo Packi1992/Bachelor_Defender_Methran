@@ -6,10 +6,10 @@
 #define SDL_BACHELORDEFENDER_EDITOR_H
 
 class Editor;
-#include "../gamebase.h"
+#include "../util/gamebase.h"
 #include "../util/TextureCache.h"
-#include "tdTileHandler.h"
-#include "map.h"
+#include "../tdUtil/tdTileHandler.h"
+#include "../tdUtil/map.h"
 #include "../util/gui/Button.h"
 #include "../util/gui/selectorDialog.h"
 #include "../util/gui/inputDialog.h"
@@ -61,6 +61,7 @@ public:
 
     // ctor
     using GameState::GameState;
+    Editor(Game &game);
 
     void Init() override;
     void UnInit() override;

@@ -5,7 +5,7 @@
 #ifndef BACHELOR_DEFENDER_GUI_SELECTOR_H
 #define BACHELOR_DEFENDER_GUI_SELECTOR_H
 
-#include "../../gamebase.h"
+#include "../gamebase.h"
 #include "gui.h"
 class Button;
 

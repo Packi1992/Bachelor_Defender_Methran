@@ -11,7 +11,7 @@ void Smallemy::Render() const {
         Rect dstRect = {POS.x, POS.y, (int)((float)scale * 0.5f), (int)((float)(scale+scale) * 0.5f)};
         dstRect.x = (int) (POS.x - dstRect.w * 0.5);
         dstRect.y = (int) (POS.y - dstRect.h * 0.8);
-        u32 anim = _forceStun?0:(pGame->isGameover()?0:totalMscg);
+        u32 anim = _forceStun?0:(pGame->isGameover()? 0: totalMSec);
         // check if enemy is on screen
         if (Game::onScreen(dstRect)) {
             Direction dir;

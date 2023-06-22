@@ -3,8 +3,8 @@
 //
 #include "linkEstablisher.h"
 #include "../../td/tower/linkedListTower.h"
-#include "../../recthelper.h"
-#include "../../gamebase.h"
+#include "../recthelper.h"
+#include "../gamebase.h"
 #include "../../tdUtil/map.h"
 #include "../../td/testtd.h"
 

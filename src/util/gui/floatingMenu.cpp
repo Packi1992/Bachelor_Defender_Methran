@@ -1,8 +1,8 @@
 //
 // Created by dex on 6/9/23.
 //
-#include "../../recthelper.h"
-#include "../../gamebase.h"
+#include "../recthelper.h"
+#include "../gamebase.h"
 #include "../../tdUtil/map.h"
 #include "floatingMenu.h"
 #include "../../td/testtd.h"
@@ -85,10 +85,10 @@ void FloatingMenu::Render() {
         float distance = 70.0f / 192.0f * (float) size;
         int direction = 30;
         if (_oldTotalMsc == 0) {
-            _oldTotalMsc = totalMscg;
+            _oldTotalMsc = totalMSec;
         }
-        _anim += (totalMscg - _oldTotalMsc);
-        _oldTotalMsc = totalMscg;
+        _anim += (totalMSec - _oldTotalMsc);
+        _oldTotalMsc = totalMSec;
 
         for (u32 i = 0; i < _menuEntries->size(); i++) {
             if (_anim >= ANIMATIONTIME) {

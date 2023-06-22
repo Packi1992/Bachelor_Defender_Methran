@@ -26,7 +26,7 @@ public:
     // init the Menu
     void showMenu(Gui **focus) override;
 
-    bool updateTower() override;
+    bool upgrade() override;
 
 private:
     static int _creditPointCosts;

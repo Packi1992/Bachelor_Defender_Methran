@@ -6,7 +6,7 @@
 #define SDL_BACHELORDEFENDER_WAVEHANDLER_H
 
 
-#include "../global.h"
+#include "../util/global.h"
 #include "Wave.h"
 
 class WaveHandler{

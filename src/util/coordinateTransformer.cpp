@@ -1,7 +1,7 @@
 
-#include "../global.h"
-#include "../gamebase.h"
-#include "../recthelper.h"
+#include "global.h"
+#include "gamebase.h"
+#include "recthelper.h"
 #include "coordinateTransformer.h"
 
 // game base will define global variables like offset and scale (this will be used in calculations)

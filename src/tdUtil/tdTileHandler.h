@@ -7,7 +7,7 @@
 
 #include <SDL_render.h>
 #include <string>
-#include "../enums.h"
+#include "../util/enums.h"
 
 // using Tile png with Tile Size 50px x 50px
 class TdTileHandler {

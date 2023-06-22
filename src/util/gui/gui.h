@@ -5,7 +5,7 @@
 #ifndef SDL_BACHELORDEFENDER_GUI_H
 #define SDL_BACHELORDEFENDER_GUI_H
 class Gui;
-#include "../../gamebase.h"
+#include "../gamebase.h"
 class Gui{
 public:
     virtual void Input()=0;

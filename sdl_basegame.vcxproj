@@ -236,7 +236,7 @@
     <None Include=".gitignore" />
     <None Include="asset\graphic\td\tileTD.xcf" />
     <None Include="asset\graphic\Unbenannt.xcf" />
-    <None Include="asset\music\severance.ogg" />
+    <None Include="asset\_music\severance.ogg" />
     <None Include="classdiagram.drawio" />
     <None Include="LICENSE" />
     <None Include="Maps\neueMap.map" />
@@ -273,7 +273,7 @@
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="asset\music\testsound.wav" />
+    <Media Include="asset\_music\testsound.wav" />
     <Media Include="asset\sound\ArrowHit.wav" />
     <Media Include="asset\sound\Darth_Vader_NO.mp3" />
     <Media Include="asset\sound\pewf.wav" />

@@ -6,102 +6,130 @@
 
 void Button::draw(bool highlighted) {
     if (highlighted)
-        rh->setColor(highlightedColor);
+        rh->setColor(_highlightedColor);
     else
-        rh->setColor(drawColor);
-    rh->fillRect(&rect);
-    rh->rect(&rect,2,BLACK);
-    rh->texture(text,&tRect);
+        rh->setColor(_drawColor);
+    rh->fillRect(&_rect);
+    rh->rect(&_rect, 2, BLACK);
+    rh->texture(_texText, &_rText);
 }
 
-bool Button::clicked(SDL_Event e) {
-    bool xAxis = e.motion.x > this->rect.x && e.motion.x < this->rect.x + this->rect.w;
-    bool yAxis = e.motion.y > this->rect.y && e.motion.y < this->rect.y + this->rect.h;
-    if (xAxis && yAxis) {
-        std::cout << "button " << textArr << " clicked" << std::endl;
-    }
+bool Button::isPointOnBtn(Point &p) const {
+    bool xAxis = this->_rect.x <= p.x && this->_rect.x + this->_rect.w >= p.x;
+    bool yAxis = this->_rect.y <= p.y && this->_rect.y + this->_rect.h >= p.y;
     return xAxis && yAxis;
 }
 
+bool Button::clicked(SDL_Event e) {
+    return clicked({e.motion.x,e.motion.y});
+}
+
+
+bool Button::clicked(Point p) {
+    if (isPointOnBtn(p)) {
+        IfDebug{
+            std::cout << "button " << _textArr << " clicked" << std::endl;
+        }
+        return true;
+    }
+    return false;
+}
+
+
 Button::~Button() {
-    if (text != nullptr)
-        SDL_DestroyTexture(text);
+    if (_texText != nullptr)
+        SDL_DestroyTexture(_texText);
 }
 
 void Button::entered(SDL_Event e) {
-    bool xAxis = this->rect.x <= e.motion.x && this->rect.x + this->rect.w >= e.motion.x;
-    bool yAxis = this->rect.y <= e.motion.y && this->rect.y + this->rect.h >= e.motion.y;
-    if (xAxis && yAxis) {
-        drawColor = highlightedColor;
+    entered({e.motion.x,e.motion.y});
+}
+void Button::entered(Point p) {
+    if (isPointOnBtn(p)) {
+        _drawColor = _highlightedColor;
     } else {
-        drawColor = buttonColor;
+        _drawColor = _buttonColor;
     }
 }
 
 Button::Button(const Button &b) {
-    strcpy(textArr, b.textArr);
-    std::cout << "using Copy Constuctor: " << textArr << std::endl;
-    this->size = b.size;
-    this->rect = b.rect;
+    strcpy(_textArr, b._textArr);
+    IfDebug{
+        std::cout << "using Copy Constuctor: " << _textArr << std::endl;
+    };
+    this->_size = b._size;
+    this->_rect = b._rect;
+    this->_id = b._id;
 
-    this->buttonColor = b.buttonColor;
-    this->drawColor = b.drawColor;
-    this->highlightedColor = b.highlightedColor;
-    this->text = t_cache->getText(textArr, size,&tRect);
+    this->_buttonColor = b._buttonColor;
+    this->_drawColor = b._drawColor;
+    this->_highlightedColor = b._highlightedColor;
+    this->_texText = t_cache->getText(_textArr, _size, &_rText);
 
-    tRect.x = rect.x + (rect.w - tRect.w) / 2;
-    tRect.y = rect.y + (rect.h - tRect.h) / 2;
+    _rText.x = _rect.x + (_rect.w - _rText.w) / 2;
+    _rText.y = _rect.y + (_rect.h - _rText.h) / 2;
 }
 
-void Button::set(const string &label, int nSize, Rect nRect, t_color btnColor) {
-    this->size = nSize;
-    strcpy(textArr, label.c_str());
-    this->rect = nRect;
-    this->buttonColor = RenderHelper::getColor(btnColor);
+void Button::set(const string &label, int nSize, Rect nRect, int id, t_color btnColor) {
+    this->_size = nSize;
+    strcpy(_textArr, label.c_str());
+    this->_rect = nRect;
+    this->_buttonColor = RenderHelper::getColor(btnColor);
+    this->_id = id;
     setHighlightedColor(&btnColor);
 
-    this->text = t_cache->getText(textArr, size,&tRect);
+    this->_texText = t_cache->getText(_textArr, _size, &_rText);
 
-    tRect.x = rect.x + (rect.w - tRect.w) / 2;
-    tRect.y = rect.y + (rect.h - tRect.h) / 2;
-    drawColor = buttonColor;
+    _rText.x = _rect.x + (_rect.w - _rText.w) / 2;
+    _rText.y = _rect.y + (_rect.h - _rText.h) / 2;
+    _drawColor = _buttonColor;
 }
 
 std::string Button::getText() {
-    return this->textArr;
+    return this->_textArr;
 }
 
 int Button::getX() const {
-    return rect.x;
+    return _rect.x;
 }
 
 void Button::setHighlightedColor(t_color* high_color) {
     Color c;
     if(high_color == nullptr){
-        c = buttonColor;
-        this->highlightedColor.r = c.r +20 <=255 ? c.r+20 :255;
-        this->highlightedColor.g = c.g +20 <=255 ? c.g+20 :255;
-        this->highlightedColor.b = c.b +20 <=255 ? c.b+20 :255;
-        this->highlightedColor.a = c.a;
+        c = _buttonColor;
+        this->_highlightedColor.r = c.r + 20 <= 255 ? c.r + 20 : 255;
+        this->_highlightedColor.g = c.g + 20 <= 255 ? c.g + 20 : 255;
+        this->_highlightedColor.b = c.b + 20 <= 255 ? c.b + 20 : 255;
+        this->_highlightedColor.a = c.a;
     }
     else{
         c = RenderHelper::getColor(*high_color);
-        this->highlightedColor = c;
+        this->_highlightedColor = c;
     }
 }
 void Button::setHighlightedColor(t_color high_color) {
-    this->highlightedColor = RenderHelper::getColor(high_color);
+    this->_highlightedColor = RenderHelper::getColor(high_color);
 }
 
 
 void Button::setSize(SDL_Rect nRect) {
-    this->rect = nRect;
-    tRect.x = rect.x + (rect.w - tRect.w) / 2;
-    tRect.y = rect.y + (rect.h - tRect.h) / 2;
+    this->_rect = nRect;
+    _rText.x = _rect.x + (_rect.w - _rText.w) / 2;
+    _rText.y = _rect.y + (_rect.h - _rText.h) / 2;
 }
 
 void Button::setColor(t_color color) {
-    this->buttonColor = RenderHelper::getColor(color);
+    this->_buttonColor = RenderHelper::getColor(color);
 }
 
+Button::Button(const string &label, int size, Rect rect, int id, t_color btn_color) {
+    set(label, size,rect,id,btn_color);
+}
 
+int Button::getId() const {
+    return _id;
+}
+
+Button::Button(const string &label, int size, int id, t_color btn_color) {
+    set(label, size, {},id,btn_color);
+}

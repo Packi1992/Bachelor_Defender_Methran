@@ -4,7 +4,7 @@
 
 #ifndef SDL_BACHELORDEFENDER_WAVE_H
 #define SDL_BACHELORDEFENDER_WAVE_H
-#include "../global.h"
+#include "../util/global.h"
 
 struct GameEvent{
     //  Enemy Type, which will be spawned

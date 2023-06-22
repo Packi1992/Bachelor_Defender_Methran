@@ -4,7 +4,7 @@
 
 #include "tdTileHandler.h"
 
-#include "../global.h"
+#include "../util/global.h"
 
 MapObjects TdTileHandler::selectObject(int i) {
     if (i >= 0 && i <= OBJECTCOUNT) {

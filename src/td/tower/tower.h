@@ -5,7 +5,7 @@
 #ifndef BACHELOR_DEFENDER_TOWER_H
 #define BACHELOR_DEFENDER_TOWER_H
 
-#include "../../global.h"
+#include "../../util/global.h"
 #include "../../util/gui/floatingMenu.h"
 
 class Enemy;
@@ -45,7 +45,7 @@ public:
 
     void removeFromMap();
 
-    virtual bool updateTower();
+    virtual bool upgrade();
 
     [[nodiscard]] bool isDead() const;
 

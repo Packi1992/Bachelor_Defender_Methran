@@ -2,7 +2,7 @@
 // Created by banoodle on 08.06.23.
 //
 #include "renderHelper.h"
-#include "../global.h"
+#include "global.h"
 #include "gui/floatingMenu.h"
 
 using MapObjects = MapObjects;

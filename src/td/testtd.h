@@ -4,8 +4,8 @@
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
 
-#include "../gamebase.h"
-#include "../enums.h"
+#include "../util/gamebase.h"
+#include "../util/enums.h"
 #include "enemy/enemy.h"
 #include "../tdUtil/waveHandler.h"
 #include "../tdUtil/player.h"
@@ -93,7 +93,7 @@ public:
 
     void updateEnemeies();
 
-    void handleEvent(GameEvent event);
+    void handleEvent(const GameEvent& event);
 };
 
 #endif //SDL_BASEGAME_TESTTD_H

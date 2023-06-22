@@ -33,7 +33,7 @@
       <UniqueIdentifier>{9601a807-58a3-4a90-91db-953266201670}</UniqueIdentifier>
       <Extensions>ttf</Extensions>
     </Filter>
-    <Filter Include="asset\music">
+    <Filter Include="asset\_music">
       <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4f2}</UniqueIdentifier>
       <Extensions>mp3;ogg;wav</Extensions>
     </Filter>
@@ -190,8 +190,8 @@
     <None Include="asset\graphic\td\tileTD.xcf">
       <Filter>asset\graphic\td</Filter>
     </None>
-    <None Include="asset\music\severance.ogg">
-      <Filter>asset\music</Filter>
+    <None Include="asset\_music\severance.ogg">
+      <Filter>asset\_music</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -367,8 +367,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="asset\music\testsound.wav">
-      <Filter>asset\music</Filter>
+    <Media Include="asset\_music\testsound.wav">
+      <Filter>asset\_music</Filter>
     </Media>
     <Media Include="asset\sound\Darth_Vader_NO.mp3">
       <Filter>asset\sound</Filter>

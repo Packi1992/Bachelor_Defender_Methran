@@ -58,7 +58,7 @@ void LinkedListTower::Update() {
                 case MenuEntry_Upgrade:
                     if ((int) tdGlobals->_pl._creditPoints >= _upgradeCosts) {
                         tdGlobals->_pl._creditPoints -= _upgradeCosts;
-                        updateLinkTowers();
+                        upgradeLinkTowers();
                     }
                     break;
                 default:
@@ -78,7 +78,7 @@ void LinkedListTower::Update() {
         } else {
             _shootCoolDown -= _diff;
         }
-    }else if(_next == nullptr && _before != nullptr && _doubleLinkActive){
+    } else if (_next == nullptr && _before != nullptr && _doubleLinkActive) {
         if (_shootCoolDown <= 0) {
             _shootCoolDown = (int) _reloadTime;
             _link.set(_reloadTime / _lvld, _pos, _before->_pos, _damage);
@@ -134,7 +134,7 @@ LinkedListTower::LinkedListTower(Point pos) : Tower(pos) {
     _link._position = _pos;
 }
 
-LinkedListTower::LinkedListTower(Point pos, LinkedListTower * srcTower) : Tower(pos) {
+LinkedListTower::LinkedListTower(Point pos, LinkedListTower *srcTower) : Tower(pos) {
     _health = 200;
     _range = srcTower->_range;
     _reloadTime = srcTower->_reloadTime;
@@ -161,8 +161,8 @@ void LinkedListTower::showMenu(Gui **focus) {
     _menuEntries.clear();
     _menuEntries.push_back({MenuEntries::MenuEntry_AddLink, Status_Active, (uint) _linkCosts});
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
-    if(_level<3)
-        _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, (uint)_upgradeCosts});
+    if (_level < 3)
+        _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, (uint) _upgradeCosts});
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
 }
@@ -231,24 +231,24 @@ int LinkedListTower::getLinkCosts() const {
     return _linkCosts;
 }
 
-bool LinkedListTower::updateTower() {
-    if (Tower::updateTower()) {
+bool LinkedListTower::upgrade() {
+    if (Tower::upgrade()) {
         switch (_level) {
             case 2:
                 _damage = 2;
                 _link._damage = _damage;
                 _range++;
-                _lvld-=2;
-                _upgradeCosts*=2;
-                _sellingValue = (int)((float)_sellingValue * 2.0f);
+                _lvld -= 2;
+                _upgradeCosts *= 2;
+                _sellingValue = (int) ((float) _sellingValue * 2.0f);
                 break;
             case 3:
                 _damage = 3;
                 _link._damage = _damage;
                 _range++;
-                _lvlu+=2;
+                _lvlu += 2;
                 _doubleLinkActive = true;
-                _sellingValue = (int)((float)_sellingValue * 1.5f);
+                _sellingValue = (int) ((float) _sellingValue * 1.5f);
                 break;
             default:
                 break;
@@ -259,13 +259,13 @@ bool LinkedListTower::updateTower() {
     }
 }
 
-bool LinkedListTower::updateLinkTowers() {
+void LinkedListTower::upgradeLinkTowers() {
     LinkedListTower *cur = this;
     while (cur->_before != nullptr) {
         cur = cur->_before;
     }
     do {
-        cur->updateTower();
+        cur->upgrade();
         cur = cur->_next;
     } while (cur != nullptr);
 }

@@ -4,8 +4,8 @@
 #ifndef SDL_BACHELORDEFENDER_MUSICHANDLER_H
 #define SDL_BACHELORDEFENDER_MUSICHANDLER_H
 
-#include "../global.h"
-#include "../gamebase.h"
+#include "global.h"
+#include "gamebase.h"
 
 class AudioHandler {
 public:

@@ -6,14 +6,14 @@
 
 BaseExplosion::BaseExplosion() {
     _type = ProjectileType::BASEEXPLOSION;
-    _lastTimePoint = totalMscg;
+    _lastTimePoint = totalMSec;
     _ttl = 1500;
     _speed = 0;
     _damage = 10;
 }
 
 void BaseExplosion::Update() {
-    _diff = (int) (totalMscg - _lastTimePoint);
+    _diff = (int) (totalMSec - _lastTimePoint);
     for(auto &entry: hitList){
         entry.hitCooldown -= _diff;
     }
@@ -25,7 +25,7 @@ void BaseExplosion::Update() {
             ),
             hitList.end());
     if (_diff < 0)_diff = 0;
-    _lastTimePoint = totalMscg;
+    _lastTimePoint = totalMSec;
     _ttl -= _diff;
     if (_ttl != 0) {
         _ttl -= (int) _diff;
@@ -39,7 +39,7 @@ void BaseExplosion::Render() {
     if (_alive && onScreen()) {
         Point pos = CT::getPosOnScreen(_position);
 
-        Rect srcRect = *TdTileHandler::getProjectileSrcRect(_type, totalMscg);
+        Rect srcRect = *TdTileHandler::getProjectileSrcRect(_type, totalMSec);
         float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.w;
         float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.h;
         float angle = (float) _direction / 180.0f * (float) M_PI;
@@ -48,7 +48,7 @@ void BaseExplosion::Render() {
         int xFix = (int) (-sizeW * 0.5 - sinAngle * sizeW);
         int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
         Rect dstRect = {pos.x + xFix, pos.y + yFix, (int) sizeW, (int) sizeH};
-        rh->tile(&dstRect, 360 - (totalMscg % 360), TdTileHandler::getProjectileSrcRect(_type, totalMscg));
+        rh->tile(&dstRect, 360 - (totalMSec % 360), TdTileHandler::getProjectileSrcRect(_type, totalMSec));
         dstRect.y = pos.y;
         dstRect.x = pos.x;
         dstRect.w = 5;

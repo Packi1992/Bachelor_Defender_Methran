@@ -5,13 +5,13 @@
 #include "projectile.h"
 
 #include <utility>
-#include "../../gamebase.h"
+#include "../../util/gamebase.h"
 #include "../enemy/enemy.h"
 
 void Projectile::Update() {
     if(_alive){
-        u32 diff = totalMscg - _lastTimePoint;
-        _lastTimePoint = totalMscg;
+        u32 diff = totalMSec - _lastTimePoint;
+        _lastTimePoint = totalMSec;
         _posOnScreen = CT::getPosOnScreen(_position);
         // need to fix travel speed with render time
         auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
@@ -38,7 +38,7 @@ void Projectile::Render() {
     if (_alive && onScreen()) {
         Point pos = CT::getPosOnScreen(_position);
 
-        Rect srcRect = *TdTileHandler::getProjectileSrcRect(_type, totalMscg);
+        Rect srcRect = *TdTileHandler::getProjectileSrcRect(_type, totalMSec);
         float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.w;
         float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.h;
         //dstRect needs to be changed depending on direction
@@ -48,7 +48,7 @@ void Projectile::Render() {
         int xFix = (int) (-sizeW * 0.5 - sinAngle * sizeW);
         int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
         Rect dstRect = {pos.x + xFix, pos.y + yFix, (int) sizeW, (int) sizeH};
-        rh->tile(&dstRect, _direction, TdTileHandler::getProjectileSrcRect(_type, totalMscg));
+        rh->tile(&dstRect, _direction, TdTileHandler::getProjectileSrcRect(_type, totalMSec));
         dstRect.y = pos.y;
         dstRect.x = pos.x;
         dstRect.w = 5;
@@ -77,7 +77,7 @@ void Projectile::collide() {
 }
 
 Projectile::Projectile() {
-    _lastTimePoint = totalMscg;
+    _lastTimePoint = totalMSec;
 }
 
 Projectile::Projectile(Projectile &p) {
@@ -94,7 +94,7 @@ Projectile::Projectile(Projectile &p) {
     _damage = p._damage;
     _moveable = p._moveable;
     _hitSound = p._hitSound;
-    _lastTimePoint = totalMscg;
+    _lastTimePoint = totalMSec;
 }
 
 Projectile::Projectile(Projectile &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p) {

@@ -112,7 +112,7 @@ void Editor::Events() {
             switch (event.type) {
                 case SDL_WINDOWEVENT:
                     if (event.window.event == SDL_WINDOWEVENT_CLOSE)
-                        game.SetNextState(99);
+                        game.SetNextState(GS_Close);
                     break;
                 case SDL_MOUSEBUTTONDOWN:
                     MouseDown(event);
@@ -194,7 +194,7 @@ void Editor::MouseMotion(SDL_Event event) {
 void Editor::keyDown(SDL_Event event) {
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
-            game.SetNextState(0);
+            game.SetNextState(GS_MainMenu);
             break;
         case SDL_SCANCODE_D:
         case SDL_SCANCODE_RIGHT:
@@ -214,5 +214,9 @@ void Editor::keyDown(SDL_Event event) {
         default:
             break;
     }
+}
+
+Editor::Editor(Game &game) : GameState(game, GS_Editor) {
+
 }
 

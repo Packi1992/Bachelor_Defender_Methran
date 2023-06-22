@@ -6,7 +6,7 @@
 #define SDL_BACHELORDEFENDER_PLAYER_H
 
 
-#include "../global.h"
+#include "../util/global.h"
 
 class Player {
 public:
