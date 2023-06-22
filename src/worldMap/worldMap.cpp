@@ -2,20 +2,20 @@
 // Created by banoodle on 10.05.23.
 //
 
-#include "introstate.h"
+#include "worldMap.h"
 #include "../util/recthelper.h"
 #include "../util/gui/Button.h"
 
-void MainMenu::Init() {
+void WorldMap::Init() {
     audioHandler->playMusic(MusicMainMenu);
 }
 
-void MainMenu::UnInit() {
+void WorldMap::UnInit() {
     audioHandler->stopMusic();
     _msBtn_left = false;
 }
 
-void MainMenu::Events() {
+void WorldMap::Events() {
     SDL_PumpEvents();
     Event event;
     while (SDL_PollEvent(&event)) {
@@ -38,34 +38,15 @@ void MainMenu::Events() {
     }
 }
 
-void MainMenu::Update() {
+void WorldMap::Update() {
     Point mousePos{};
     SDL_GetMouseState(&mousePos.x, &mousePos.y);
     if (_msBtn_left) {
         for (auto &btn: _buttons)
             if (btn.clicked(mousePos)) {
                 switch (btn.getId()) {
-                    case btn_Start:
-                        IfDebug{
-                            game.SetNextState(GS_WorldMap);
-                        }
-                        IfNotDebug{
-                            // only if first start of Game -> we need a config / save file
-                            if(true)
-                                game.SetNextState(GS_WorldMap);
-                            else
-                                game.SetNextState(GS_TD);
-                        };
+                    case btn_w1:
                         game.SetNextState(GS_TD);
-                        break;
-                    case btn_Settings:
-                        game.SetNextState(GS_Settings);
-                        break;
-                    case btn_Editor:
-                        game.SetNextState(GS_Editor);
-                        break;
-                    case btn_Exit:
-                        game.SetNextState(GS_Close);
                         break;
                 }
             }
@@ -88,22 +69,26 @@ void MainMenu::Update() {
     }
 }
 
-void MainMenu::Render() {
+void WorldMap::Render() {
     const Rect dst_rect{0, 0, windowSize.x, windowSize.y};
     SDL_RenderCopy(render, _image, EntireRect, &dst_rect /* same result as EntireRect */ );
     for (auto &btn: _buttons)
         btn.draw();
 }
 
-MainMenu::MainMenu(Game &game) : GameState(game, GS_MainMenu) {
-    _image = t_cache->get(BasePath "asset/graphic/bg-main.png");
-    _buttons.emplace_back("Start", _fontSize, Buttons::btn_Start);
-    _buttons.emplace_back("Einstellungen", _fontSize, Buttons::btn_Settings);
-    _buttons.emplace_back("Editor", _fontSize, Buttons::btn_Editor);
-    _buttons.emplace_back("Beenden", _fontSize, Buttons::btn_Exit);
+WorldMap::WorldMap(Game &game) : GameState(game, GS_MainMenu) {
+    _image = t_cache->get(BasePath "asset/graphic/bg-world.png");
+    _buttons.emplace_back("1", _fontSize, btn_w1);
+    _buttons.emplace_back("2", _fontSize, btn_w2);
+    _buttons.emplace_back("3", _fontSize, btn_w3);
+    _buttons.emplace_back("4", _fontSize, btn_w4);
+    _buttons.emplace_back("5", _fontSize, btn_w5);
+    _buttons.emplace_back("Editor",_fontSize,btn_Editor);
+    _buttons.emplace_back("Wähle eine Map", _fontSize,btn_ChooseMap);
+
 }
 
-MainMenu::~MainMenu() {
+WorldMap::~WorldMap() {
     _buttons.clear();
     GameState::~GameState();
 }

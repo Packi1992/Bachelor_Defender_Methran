@@ -24,9 +24,9 @@ public:
     void collide() override;
     int _fontSize=0;
     bool collision(std::shared_ptr<Enemy> e) override;
-    int _xFix;
-    int _yFix;
-    SDL_FPoint _end;
+    int _xFix=0;
+    int _yFix=0;
+    SDL_FPoint _end{};
     string _string;
 };
 

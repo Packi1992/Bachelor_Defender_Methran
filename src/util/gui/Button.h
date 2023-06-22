@@ -33,7 +33,7 @@ public:
 
     void setSize(Rect rect);
 
-    void setHighlightedColor(t_color *high_color = nullptr);
+    void setHighlightedColor(const t_color *high_color = nullptr);
     void setHighlightedColor(t_color high_color);
     void setColor(t_color color);
 

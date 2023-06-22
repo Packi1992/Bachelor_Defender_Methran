@@ -61,7 +61,7 @@ public:
 
     // ctor
     using GameState::GameState;
-    Editor(Game &game);
+    explicit Editor(Game &game);
 
     void Init() override;
     void UnInit() override;

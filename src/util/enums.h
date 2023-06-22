@@ -119,6 +119,7 @@ enum GameStates{
     GS_Moorhuhn,
     GS_Settings,
     GS_Editor,
+    GS_WorldMap,
     GS_Close,
 };
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

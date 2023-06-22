@@ -74,9 +74,11 @@ using CT = CoordinateTransformer;
 #if defined( _DEBUG )
 #define DebugOnly( ... ) __VA_ARGS__
 #define IfDebug if constexpr( true )
+#define IfNotDebug if constexpr( false )
 #else
 #define DebugOnly( ... )
 #define IfDebug if constexpr( false )
+#define IfNotDebug if constexpr( true )
 #endif
 
 // Defines
