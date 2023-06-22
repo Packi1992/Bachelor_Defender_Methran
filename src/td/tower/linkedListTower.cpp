@@ -259,7 +259,7 @@ bool LinkedListTower::updateTower() {
     }
 }
 
-bool LinkedListTower::updateLinkTowers() {
+void LinkedListTower::updateLinkTowers() {
     LinkedListTower *cur = this;
     while (cur->_before != nullptr) {
         cur = cur->_before;

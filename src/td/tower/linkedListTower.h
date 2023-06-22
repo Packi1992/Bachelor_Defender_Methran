@@ -43,7 +43,7 @@ public:
 
     bool updateTower() override;
 
-    bool updateLinkTowers();
+    void updateLinkTowers();
 private:
     static int _creditPointCosts;
     LinkEstablisher _linkEstablisher;

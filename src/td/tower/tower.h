@@ -73,7 +73,7 @@ protected:
     FloatingMenu *_floatingMenu = nullptr;
     Vector<MenuEntry> _menuEntries;
     bool _showRange = false;
-    u_int32_t _lastTimePoint = 0;
+    u32 _lastTimePoint = 0;
     int _diff = 0;
     uint _level = 1;
     int _upgradeCosts = 0;
