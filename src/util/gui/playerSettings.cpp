@@ -107,7 +107,7 @@ void PlayerSettings::acceptInput() {
     releaseFocus(false);
     _creditPoints = _txtb_sanity.getNumber();
     _sanity = _txtb_creditPoints.getNumber();
-
+    _entries.clear();
     for (auto &entry: _usableTowers) {
         if(entry.isChecked())
             _entries.insert(entry.getMenuEntry());

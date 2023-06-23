@@ -27,9 +27,9 @@ CheckSymbol::CheckSymbol(const CheckSymbol &b) {
 
 bool CheckSymbol::isChecked() const {
     if(_entry._status == Status_Disabled)
-        return true;
-    else
         return false;
+    else
+        return true;
 }
 
 bool CheckSymbol::isPointOnBox(Point &p) const {
@@ -44,6 +44,10 @@ void CheckSymbol::Render() {
 
 void CheckSymbol::setChecked(bool b) {
     _checked = b;
+    if(_checked)
+        _entry._status = Status_Active;
+    else
+        _entry._status = Status_Disabled;
 }
 
 MenuEntries CheckSymbol::getMenuEntry() {

@@ -33,6 +33,9 @@ void WorldMap::Events() {
                         // crash/shutdown, since State #99 does not exist
                         game.SetNextState(GS_Close);
                     }
+                    if(what_key.scancode== SDL_SCANCODE_ESCAPE){
+                        game.SetNextState(GS_MainMenu);
+                    }
                 }
                 default:
                     break;
@@ -94,14 +97,51 @@ void WorldMap::Update() {
         }
         if (!_buttons.empty()) {
             // buttons will have both 80% (window.height and window.width)
-            Point total = {(int) (windowSize.x * 0.8), (int) (windowSize.y * 0.8)};
-            int btnHeight = total.y / ((int) _buttons.size() + 1);
-            int btnMargin = btnHeight / (int) _buttons.size();
-            Point btnStart = {(int) ((windowSize.x - total.x) * 0.5), (int) ((windowSize.y - total.y) * 0.5)};
-            for (int i = 0; i < (int) _buttons.size(); i++) {
-                _buttons[i].setSize(
-                        {btnStart.x, (int) (btnStart.y + (btnHeight * i) + (btnMargin * i) + btnMargin * 0.5), total.x,
-                         btnHeight});
+            int btnSize = (int)((float)windowSize.x*0.05f);
+            Point  btnEdit, btnChoose;
+            for (auto & _button : _buttons) {
+                Rect size = {0,0,btnSize,btnSize};
+                switch ((Buttons)_button.getId()) {
+
+                    case btn_w1:
+                        size.x = (int)((float)windowSize.x * 0.3f);
+                        size.y = (int)((float)windowSize.y * 0.85f);
+                        _button.setSize(size);
+                        break;
+                    case btn_w2:
+                        size.x = (int)((float)windowSize.x * 0.8f);
+                        size.y = (int)((float)windowSize.y * 0.8f);
+                        _button.setSize(size);
+                        break;
+                    case btn_w3:
+                        size.x = (int)((float)windowSize.x * 0.6f);
+                        size.y = (int)((float)windowSize.y * 0.65f);
+                        _button.setSize(size);
+                        break;
+                    case btn_w4:
+                        size.x = (int)((float)windowSize.x * 0.3f);
+                        size.y = (int)((float)windowSize.y * 0.5f);
+                        _button.setSize(size);
+                        break;
+                    case btn_w5:
+                        size.x = (int)((float)windowSize.x * 0.5f);
+                        size.y = (int)((float)windowSize.y * 0.4f);
+                        _button.setSize(size);
+                        break;
+                    case btn_Editor:
+                        size.x = (int)((float)windowSize.x * 0.8f);
+                        size.y = (int)((float)windowSize.y * 0.1f);
+                        size.w = (int)((float)windowSize.x*0.15f);
+                        _button.setSize(size);
+                        break;
+                    case btn_ChooseMap:
+                        size.x = (int)((float)windowSize.x * 0.1f);
+                        size.y = (int)((float)windowSize.y * 0.1f);
+                        size.w = (int)((float)windowSize.x*0.25f);
+                        _button.setSize(size);
+                        break;
+                }
+
             }
         }
     }
