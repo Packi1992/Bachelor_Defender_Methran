@@ -84,16 +84,18 @@ bool Boomerang::collision(std::shared_ptr<Enemy> e) {
         }
     }
     if(!inList && Projectile::collision(e)){
-        if(e->_copyable){
-            e->stun(true, true);
-            std::shared_ptr<Enemy> e1 = std::make_shared<Smallemy>(e->_pos, 30, 70, 0, Ordinary);
-            std::shared_ptr<Enemy> e2 = std::make_shared<Smallemy>(e->_pos, 30, 70, 0, Ordinary);
+        if(e->isCopyable()){
+            std::shared_ptr<Enemy> e1 = std::make_shared<Enemy>(e->_pos, 30, 70, 0, e->_type, 0.5f,false);
+            std::shared_ptr<Enemy> e2 = std::make_shared<Enemy>(e->_pos, 30, 70, 0, e->_type, 0.5f,false);
             tdGlobals->_enemies.push_back(e1);
             tdGlobals->_enemies.push_back(e2);
             hitList.push_back({e1,500});
             hitList.push_back({e2,500});
         }
-        hitList.push_back({e,250});
+        if(e->isStunable()){
+            e->stun(3000);
+        }
+        hitList.push_back({e,500});
         return true;
     }
     return false;

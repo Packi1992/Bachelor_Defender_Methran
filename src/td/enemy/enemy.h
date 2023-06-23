@@ -7,14 +7,14 @@ class Projectile;
 class Enemy {
 public:
     Enemy();
-    Enemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type);
+    Enemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size = 1.0f, bool stunable = true);
     // move enemy -> status effects will impact here
     void Update();
 
     virtual void Render() const;
     void RenderExtras(bool life=false, bool hitBox=false) const;
     // use Enemy slot for new enemy spawn
-    void setEnemy(Point pos, u16 Health, u8 speed, u8 value,EnemyType type = EnemyType::Ordinary);
+    void setEnemy(Point pos, u16 Health, u8 speed, u8 value,EnemyType type = EnemyType::Ordinary, float size = 1.0f, bool stunable = true);
 
     // setTile enemy speed -- maybe a buff or something else
     void setSpeed(u8 speed);
@@ -24,11 +24,10 @@ public:
 
     // stun _time in ms / enemy will not move
     void stun(u16 time);
-    void stun(bool stun, bool hittable);
 
     // take damage
     void takeDamage(Projectile * p);
-    bool isHittable();
+    bool isCopyable();
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;
 
@@ -37,6 +36,8 @@ public:
     [[nodiscard]] bool isSlowed() const;
 
     [[nodiscard]] bool hasReachedGoal() const;
+
+    [[nodiscard]] bool isStunable() const;
 
     EnemyType _type = EnemyType::Ordinary;
 
@@ -56,9 +57,12 @@ public:
 
     [[nodiscard]] virtual FRect getHitBox() const;
 
-    bool _copyable = true;
+
 
 protected:
+    float _size = 1.0f;
+    bool _copyable = true;
+    u32 _animOffset = 0;
     int small = 0;
     void startDeathAnimation();
     u32 _lastTimePoint;
@@ -66,16 +70,16 @@ protected:
     u8 _speed = 0;
     u8 _speedDiff = 0;
     u8 _value = 0;
-    bool _hittable = true;
     u8 _poisonStrength = 0;
-    u32 _stunTime = 0;
-    bool _forceStun = false;
+    int _stunTime = 0;
+    int _stunCooldown = 4000;
+    int _stunCooldownTimer = 0;
     float _slowTimer = 0;
     float _poisonTimer = 0;
+    bool _stunable = true;
     bool _reachedGoal = false;
     void updateDir();
 
 };
 
-#include "smallemy.h"
 #endif //SDL_BASEGAME_ENEMY_H

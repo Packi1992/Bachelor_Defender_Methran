@@ -13,9 +13,9 @@
 void Enemy::Update() {
     u32 diff = totalMSec - _lastTimePoint;
     _lastTimePoint = totalMSec;
-    if (_stunTime > 0 || _forceStun) {
-        if(_stunTime > 0)_stunTime -= diff;
-
+    if (_stunTime > 0) {
+        _stunTime -= (int) diff;
+        if (_stunTime < 0) _stunTime = 0;
     } else {
         // move ...
         updateDir();
@@ -25,9 +25,9 @@ void Enemy::Update() {
             _nextPos = pMap->getNextPosCentre(_pos);
         } else if (!_reachedGoal) {
             // actually move
-            float runLength = (float)(diff * (float) _speed*0.00001);
+            auto runLength = (float) ((float) diff * (float) _speed * 0.00001);
             if (_slowTimer > 0) {
-                _slowTimer -= (float)diff;
+                _slowTimer -= (float) diff;
                 runLength = (float) ((double) runLength * (_speedDiff / 10.0));
             }
             if (_dir == 0)
@@ -43,6 +43,12 @@ void Enemy::Update() {
             _alive = false;
             tdGlobals->_pl._sanity -= _sanity;
         }
+
+        // check stun cooldown
+        if (_stunCooldownTimer > 0) {
+            _stunCooldownTimer -= (int) diff;
+            if (_stunCooldownTimer < 0) _stunCooldownTimer = 0;
+        }
     }
 }
 
@@ -55,11 +61,7 @@ void Enemy::takeDamage(Projectile *p) {
     }
 }
 
-void Enemy::stun(uint16_t time) {
-    _stunTime = time;
-}
-
-void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyType type) {
+void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size, bool stunable) {
     _pos.x = (float) pos.x + 0.5f;
     _pos.y = (float) pos.y + 0.5f;
     _nextPos = pMap->getNextPosCentre(_pos);
@@ -67,9 +69,14 @@ void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyT
     _health = health;
     _maxHealth = health;
     _speed = speed;
+    if (type == Ordinary) {
+        type = (totalMSec % 4 > 0) ? Boy : Girl;
+    }
     _type = type;
     _alive = true;
     _value = value;
+    _size = size;
+    _stunable = stunable;
 }
 
 void Enemy::startDeathAnimation() {
@@ -122,10 +129,10 @@ void Enemy::Render() const {
     if (_alive) {
         // make dstRect
         Point POS = CT::getPosOnScreen(_pos);
-        Rect dstRect = {POS.x, POS.y, scale, scale + scale};
+        Rect dstRect = {POS.x, POS.y, (int)((float)scale * _size), (int)((float)(scale+scale) * _size)};
         dstRect.x = (int) (POS.x - dstRect.w * 0.5);
         dstRect.y = (int) (POS.y - dstRect.h * 0.8);
-        u32 anim = _forceStun?0:(pGame->isGameover()? 0: totalMSec);
+        u32 anim = _stunTime > 0 ? 0 : (pGame->isGameover() ? 0 : totalMSec + _animOffset);
         // check if enemy is on screen
         if (Game::onScreen(dstRect)) {
             Direction dir;
@@ -183,23 +190,27 @@ void Enemy::RenderExtras(bool life, bool hitBox) const {
 }
 
 FRect Enemy::getHitBox() const {
-    return {_pos.x - 0.35f, _pos.y - 1.4f, 0.7f, 1.6f};
+    return {_pos.x - 0.35f*_size, _pos.y - 1.4f*_size, 0.7f*_size, 1.6f*_size};
 }
 
-void Enemy::stun(bool stun, bool hittable) {
-    _forceStun = stun;
-    _hittable = hittable;
+void Enemy::stun(u16 time) {
+    if (_stunCooldownTimer == 0) {
+        _stunTime = time;
+        _stunCooldownTimer = _stunCooldown;
+    }
+    _copyable = false;
 }
 
 Enemy::Enemy() {
     _lastTimePoint = totalMSec;
+    _animOffset = _lastTimePoint % 800;
 }
 
-bool Enemy::isHittable() {
-    return _hittable;
+bool Enemy::isCopyable() {
+    return _copyable;
 }
 
-Enemy::Enemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type) {
+Enemy::Enemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size, bool stunable) {
     _pos.x = pos.x;
     _pos.y = pos.y;
     _nextPos = pMap->getNextPosCentre(_pos);
@@ -210,5 +221,11 @@ Enemy::Enemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType typ
     _alive = true;
     _value = value;
     _copyable = false;
+    _size = size;
+    _stunable = stunable;
+}
+
+bool Enemy::isStunable() const {
+    return (_stunCooldownTimer <= 0 && _stunable);
 }
 

@@ -195,8 +195,8 @@ void TestTD::Update() {
 void TestTD::collision() {
     for (auto &p: globals._projectiles) {
         if (p->_alive) {
-            for (auto & _enemie : globals._enemies) {
-                if (_enemie->_alive && p->collision(_enemie) && p->_alive) {
+            for(int i = 0; i < globals._enemies.size(); i++){
+                if (globals._enemies.at(i)->_alive && p->collision(globals._enemies.at(i)) && p->_alive) {
                     p->collide();
                 }
             }

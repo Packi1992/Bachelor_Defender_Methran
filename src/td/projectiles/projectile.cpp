@@ -62,7 +62,7 @@ bool Projectile::collision(std::shared_ptr<Enemy> e) {
     if ((_position.x >= en.x) &&
         (_position.x < (en.x + en.w)) &&
         (_position.y >= en.y) &&
-        (_position.y < (en.y + en.h)) && e->isHittable()) {
+        (_position.y < (en.y + en.h))) {
         e->takeDamage(this);
         collide();
         return true;
