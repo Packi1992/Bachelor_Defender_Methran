@@ -5,7 +5,7 @@
 #ifndef GRAFIK_TEXTURE_H
 #define GRAFIK_TEXTURE_H
 
-#include "../global.h"
+#include "global.h"
 #include "../tdUtil/tdTileHandler.h"
 class TextureCache;
 #include "renderHelper.h"

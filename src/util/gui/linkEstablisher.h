@@ -5,7 +5,7 @@
 #ifndef SDL_BACHELORDEFENDER_LINKESTABLISHER_H
 #define SDL_BACHELORDEFENDER_LINKESTABLISHER_H
 #include "gui.h"
-#include "../../gamebase.h"
+#include "../gamebase.h"
 class LinkedListTower;
 class LinkEstablisher: public Gui{
 public:

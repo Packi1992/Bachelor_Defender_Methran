@@ -40,7 +40,7 @@ void Map::Render(bool wire, bool pathFinding) {
         for (int j = 0; j < _height; j++) {
             int y = (j * scale) - offset.y;
             dstRect = {x, y, scale, scale};
-            rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][j], totalMscg));
+            rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][j], totalMSec));
         }
     }
     if (pathFinding) {

@@ -3,16 +3,16 @@
 //
 
 #include "enemy.h"
-#include "../../global.h"
+#include "../../util/global.h"
 #include "../testtd.h"
 #include "../projectiles/projectile.h"
 #include "../../tdUtil/tdTileHandler.h"
 #include "../../tdUtil/map.h"
-#include "../../gamebase.h"
+#include "../../util/gamebase.h"
 
 void Enemy::Update() {
-    u32 diff = totalMscg - _lastTimePoint;
-    _lastTimePoint = totalMscg;
+    u32 diff = totalMSec - _lastTimePoint;
+    _lastTimePoint = totalMSec;
     if (_stunTime > 0 || _forceStun) {
         if(_stunTime > 0)_stunTime -= diff;
 
@@ -25,9 +25,9 @@ void Enemy::Update() {
             _nextPos = pMap->getNextPosCentre(_pos);
         } else if (!_reachedGoal) {
             // actually move
-            float runLength = deltaTg * (float) _speed / 30.0f;
+            float runLength = (float)(diff * (float) _speed*0.00001);
             if (_slowTimer > 0) {
-                _slowTimer -= deltaTg;
+                _slowTimer -= (float)diff;
                 runLength = (float) ((double) runLength * (_speedDiff / 10.0));
             }
             if (_dir == 0)
@@ -125,7 +125,7 @@ void Enemy::Render() const {
         Rect dstRect = {POS.x, POS.y, scale, scale + scale};
         dstRect.x = (int) (POS.x - dstRect.w * 0.5);
         dstRect.y = (int) (POS.y - dstRect.h * 0.8);
-        u32 anim = _forceStun?0:(pGame->isGameover()?0:totalMscg);
+        u32 anim = _forceStun?0:(pGame->isGameover()? 0: totalMSec);
         // check if enemy is on screen
         if (Game::onScreen(dstRect)) {
             Direction dir;
@@ -192,7 +192,7 @@ void Enemy::stun(bool stun, bool hittable) {
 }
 
 Enemy::Enemy() {
-    _lastTimePoint = totalMscg;
+    _lastTimePoint = totalMSec;
 }
 
 bool Enemy::isHittable() {

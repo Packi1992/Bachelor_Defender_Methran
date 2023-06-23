@@ -5,7 +5,7 @@
 #ifndef SDL_BACHELORDEFENDER_PROJECTILE_H
 #define SDL_BACHELORDEFENDER_PROJECTILE_H
 
-#include "../../global.h"
+#include "../../util/global.h"
 
 class Enemy;
 

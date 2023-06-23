@@ -35,7 +35,7 @@ void HashCanon::Update() {
                 case MenuEntry_Upgrade:
                     if ((int) tdGlobals->_pl._creditPoints >= _upgradeCosts) {
                         tdGlobals->_pl._creditPoints -= _upgradeCosts;
-                        updateTower();
+                        upgrade();
                     }
                     break;
                 default:
@@ -128,8 +128,8 @@ void HashCanon::setCosts(int cp) {
     _creditPointCosts = cp;
 }
 
-bool HashCanon::updateTower() {
-    if (Tower::updateTower()) {
+bool HashCanon::upgrade() {
+    if (Tower::upgrade()) {
         switch (_level) {
             case 2:
                 _damage = int((float) _damage * 1.4);

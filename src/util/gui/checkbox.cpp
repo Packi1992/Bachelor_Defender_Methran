@@ -2,9 +2,9 @@
 // Created by banoodle on 15.04.23.
 //
 
-#include "Button.h"
+#include "checkbox.h"
 
-void Button::draw(bool highlighted) {
+void CheckBox::draw(bool highlighted) {
     if (highlighted)
         rh->setColor(_highlightedColor);
     else
@@ -14,18 +14,18 @@ void Button::draw(bool highlighted) {
     rh->texture(_texText, &_rText);
 }
 
-bool Button::isPointOnBtn(Point &p) const {
+bool CheckBox::isPointOnBtn(Point &p) const {
     bool xAxis = this->_rect.x <= p.x && this->_rect.x + this->_rect.w >= p.x;
     bool yAxis = this->_rect.y <= p.y && this->_rect.y + this->_rect.h >= p.y;
     return xAxis && yAxis;
 }
 
-bool Button::clicked(SDL_Event e) {
+bool CheckBox::clicked(SDL_Event e) {
     return clicked({e.motion.x,e.motion.y});
 }
 
 
-bool Button::clicked(Point p) {
+bool CheckBox::clicked(Point p) {
     if (isPointOnBtn(p)) {
         IfDebug{
             std::cout << "button " << _textArr << " clicked" << std::endl;
@@ -36,15 +36,15 @@ bool Button::clicked(Point p) {
 }
 
 
-Button::~Button() {
+CheckBox::~CheckBox() {
     if (_texText != nullptr)
         SDL_DestroyTexture(_texText);
 }
 
-void Button::entered(SDL_Event e) {
+void CheckBox::entered(SDL_Event e) {
     entered({e.motion.x,e.motion.y});
 }
-void Button::entered(Point p) {
+void CheckBox::entered(Point p) {
     if (isPointOnBtn(p)) {
         _drawColor = _highlightedColor;
     } else {
@@ -52,7 +52,7 @@ void Button::entered(Point p) {
     }
 }
 
-Button::Button(const Button &b) {
+CheckBox::CheckBox(const CheckBox &b) {
     strcpy(_textArr, b._textArr);
     IfDebug{
         std::cout << "using Copy Constructor: " << _textArr << std::endl;
@@ -70,7 +70,7 @@ Button::Button(const Button &b) {
     _rText.y = _rect.y + (_rect.h - _rText.h) / 2;
 }
 
-void Button::set(const string &label, int nSize, Rect nRect, int id, t_color btnColor) {
+void CheckBox::set(const string &label, int nSize, Rect nRect, int id, t_color btnColor) {
     this->_size = nSize;
     strcpy(_textArr, label.c_str());
     this->_rect = nRect;
@@ -85,15 +85,15 @@ void Button::set(const string &label, int nSize, Rect nRect, int id, t_color btn
     _drawColor = _buttonColor;
 }
 
-std::string Button::getText() {
+std::string CheckBox::getText() {
     return this->_textArr;
 }
 
-int Button::getX() const {
+int CheckBox::getX() const {
     return _rect.x;
 }
 
-void Button::setHighlightedColor(const t_color* high_color) {
+void CheckBox::setHighlightedColor(const t_color* high_color) {
     Color c;
     if(high_color == nullptr){
         c = _buttonColor;
@@ -107,29 +107,29 @@ void Button::setHighlightedColor(const t_color* high_color) {
         this->_highlightedColor = c;
     }
 }
-void Button::setHighlightedColor(t_color high_color) {
+void CheckBox::setHighlightedColor(t_color high_color) {
     this->_highlightedColor = RenderHelper::getColor(high_color);
 }
 
 
-void Button::setSize(SDL_Rect nRect) {
+void CheckBox::setSize(SDL_Rect nRect) {
     this->_rect = nRect;
     _rText.x = _rect.x + (_rect.w - _rText.w) / 2;
     _rText.y = _rect.y + (_rect.h - _rText.h) / 2;
 }
 
-void Button::setColor(t_color color) {
+void CheckBox::setColor(t_color color) {
     this->_buttonColor = RenderHelper::getColor(color);
 }
 
-Button::Button(const string &label, int size, Rect rect, int id, t_color btn_color) {
+CheckBox::CheckBox(const string &label, int size, Rect rect, int id, t_color btn_color) {
     set(label, size,rect,id,btn_color);
 }
 
-int Button::getId() const {
+int CheckBox::getId() const {
     return _id;
 }
 
-Button::Button(const string &label, int size, int id, t_color btn_color) {
+CheckBox::CheckBox(const string &label, int size, int id, t_color btn_color) {
     set(label, size, {},id,btn_color);
 }

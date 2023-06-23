@@ -7,7 +7,7 @@
 
 #include <SDL_render.h>
 #include <string>
-#include "../enums.h"
+#include "enums.h"
 
 struct MenuEntry;
 

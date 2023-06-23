@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
 add_compile_options("$<$<CONFIG:DEBUG>:-D_DEBUG>")
 
-file(GLOB SOURCES src/* src/util/* src/util/gui/* src/tdUtil/* src/td/projectiles/* src/td/* src/td/tower/* src/td/enemy/*)
+file(GLOB_RECURSE SOURCES src/*)
 
 add_executable(sdl_bachelorDefender ${SOURCES})
 

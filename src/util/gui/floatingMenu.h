@@ -5,7 +5,7 @@
 #ifndef SDL_BACHELORDEFENDER_FLOATINGMENU_H
 #define SDL_BACHELORDEFENDER_FLOATINGMENU_H
 
-#include "../../gamebase.h"
+#include "../gamebase.h"
 #include "gui.h"
 
 struct MenuEntry{

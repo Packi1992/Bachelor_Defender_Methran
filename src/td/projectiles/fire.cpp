@@ -3,7 +3,7 @@
 //
 
 #include "fire.h"
-#include "../../gamebase.h"
+#include "../../util/gamebase.h"
 
 Fire::Fire() {
     _type = ProjectileType::FFIRE;
@@ -17,7 +17,7 @@ void Fire::Update() {
 }
 
 void Fire::collide() {
-    float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+    //float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
 
     Projectile::collide();
 

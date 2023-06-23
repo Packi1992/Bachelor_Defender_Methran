@@ -2,7 +2,7 @@
 #ifndef SDL_BASEGAME_ENEMY_H
 #define SDL_BASEGAME_ENEMY_H
 
-#include "../../global.h"
+#include "../../util/global.h"
 class Projectile;
 class Enemy {
 public:
@@ -59,6 +59,7 @@ public:
     bool _copyable = true;
 
 protected:
+    int small = 0;
     void startDeathAnimation();
     u32 _lastTimePoint;
     u16 _dying = false;

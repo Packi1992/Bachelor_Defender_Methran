@@ -3,11 +3,13 @@
 //
 #include "editor.h"
 
+Editor::Editor(Game &game) : GameState(game, GS_Editor) {
+    pGame = &game;
+    t_tileMap = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
+}
 
 void Editor::Init() {
     GameState::Init();
-    pGame = &game;
-    t_tileMap = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
     Toolbox = {0, windowSize.y - 100, windowSize.x, 100};
     int yPos = windowSize.y - 90;
     btn_load.set("Laden", 18, {5, yPos, 80, 80});
@@ -18,9 +20,9 @@ void Editor::Init() {
     btn_path.setHighlightedColor(BTN_HIGHLIGHTED);
     btn_change_size.set("Größe ändern", 18, {btn_path.getX() - 135, yPos, 130, 80});
     btn_change_size.setHighlightedColor(BTN_HIGHLIGHTED);
+    btn_playerSettings.set("Map Settings", 18, {btn_change_size.getX() - 135, yPos, 130, 80});
+    btn_playerSettings.setHighlightedColor(BTN_HIGHLIGHTED);
     audioHandler->playMusic(MusicEditor);
-    player._creditPoints = 15;
-    player._sanity = 100;
 }
 
 void Editor::UnInit() {
@@ -41,6 +43,13 @@ void Editor::Update() {
         if(resizeMap.isDone()){
             map.resize(resizeMap.getInput());
             resizeMap.reset();
+        }
+        if(settingsDialog.isDone()){
+            player._sanity = settingsDialog.getSanity();
+            player._creditPoints = settingsDialog.getCreditPoints();
+            player._usableTowers.clear();
+            for(auto &entry: settingsDialog.getUsableTowers())
+                player._usableTowers.insert(entry);
         }
         // update "Viewport" / Zoom in or Out
         if(_mouseWheel){
@@ -85,9 +94,11 @@ void Editor::Render() {
     btn_load.draw();
     btn_path.draw();
     btn_change_size.draw();
+    btn_playerSettings.draw();
     mapSelector.Render();
     mapNameInput.Render();
     resizeMap.Render();
+    settingsDialog.Render();
 }
 
 void Editor::handleSelection(Event event) {
@@ -112,7 +123,7 @@ void Editor::Events() {
             switch (event.type) {
                 case SDL_WINDOWEVENT:
                     if (event.window.event == SDL_WINDOWEVENT_CLOSE)
-                        game.SetNextState(99);
+                        game.SetNextState(GS_Close);
                     break;
                 case SDL_MOUSEBUTTONDOWN:
                     MouseDown(event);
@@ -165,6 +176,10 @@ void Editor::MouseDown(SDL_Event event) {
                 resizeMap.set(map._width, map._height);
                 resizeMap.show(&focus);
             }
+            else if (btn_playerSettings.clicked(event)) {
+                settingsDialog.set(&player);
+                settingsDialog.show(&focus);
+            }
             else handleSelection(event);
         }
     } else if (event.button.button == SDL_BUTTON_RIGHT) {
@@ -189,12 +204,13 @@ void Editor::MouseMotion(SDL_Event event) {
     btn_path.entered(event);
     btn_change_size.entered(event);
     btn_save.entered(event);
+    btn_playerSettings.entered(event);
 }
 
 void Editor::keyDown(SDL_Event event) {
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
-            game.SetNextState(0);
+            game.SetNextState(GS_MainMenu);
             break;
         case SDL_SCANCODE_D:
         case SDL_SCANCODE_RIGHT:
@@ -215,4 +231,3 @@ void Editor::keyDown(SDL_Event event) {
             break;
     }
 }
-

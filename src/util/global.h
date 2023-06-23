@@ -24,6 +24,8 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 
+#include "coordinateTransformer.h"
+
 using uint  = unsigned int;
 using u8    = std::uint8_t;
 using u16   = std::uint16_t;
@@ -59,6 +61,7 @@ using TimePoint = Clock::time_point;
 using Duration  = Clock::duration;
 
 using std::cout, std::cin, std::cerr, std::endl, std::string;
+using CT = CoordinateTransformer;
 
 #ifdef _MSC_VER
 #define BasePath ""
@@ -71,9 +74,11 @@ using std::cout, std::cin, std::cerr, std::endl, std::string;
 #if defined( _DEBUG )
 #define DebugOnly( ... ) __VA_ARGS__
 #define IfDebug if constexpr( true )
+#define IfNotDebug if constexpr( false )
 #else
 #define DebugOnly( ... )
 #define IfDebug if constexpr( false )
+#define IfNotDebug if constexpr( true )
 #endif
 
 // Defines
@@ -81,10 +86,10 @@ using std::cout, std::cin, std::cerr, std::endl, std::string;
 #define MAXPROJECTILES 100
 #define SOUNDCHANNELCOUNT 8
 
-#include "util/coordinateTransformer.h"
-#include "util/TextureCache.h"
-#include "util/renderHelper.h"
+#include "coordinateTransformer.h"
+#include "TextureCache.h"
+#include "renderHelper.h"
 #include "enums.h"
-#include "util/audioHandler.h"
+#include "audioHandler.h"
 using CT = CoordinateTransformer;
 

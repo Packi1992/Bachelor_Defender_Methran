@@ -2,22 +2,26 @@
 // Created by banoodle on 22.04.23.
 //
 
-#ifndef BOULDERDASH_SIZEDIALOG_H
-#define BOULDERDASH_SIZEDIALOG_H
+#ifndef BOULDERDASH_PLAYERSETTINGS_H
+#define BOULDERDASH_PLAYERSETTINGS_H
 
+#include <set>
 #include "../gamebase.h"
 #include "gui.h"
 #include "textbox.h"
 #include "Button.h"
+#include "checkSymbol.h"
+class Player;
 
-class SizeDialog: public Gui{
+class PlayerSettings: public Gui{
 public:
-    void set(int width, int height);
-    ~SizeDialog();
+    PlayerSettings();
+    void set(Player *pl);
+    ~PlayerSettings();
     // read values
-    int getHeight();
-    int getWidth();
-    Point getInput();
+    int getCreditPoints();
+    int getSanity();
+    std::set<MenuEntries> getUsableTowers();
 
     void Input() override;
     void Render() override;
@@ -44,10 +48,15 @@ private:
 
     // Input handling
     Gui *focus{};
-    int _width=0;
-    int _height=0;
-    TextBox _txtb_width;
-    TextBox _txtb_height;
+    int _creditPoints=0;
+    int _sanity=0;
+
+    // towerText
+    Rect _rTowerText{};
+    Texture *_texTowerText{};
+    Vector<CheckSymbol> _usableTowers;
+    TextBox _txtb_sanity;
+    TextBox _txtb_creditPoints;
 
     bool _takeNewValues = false;
 
@@ -57,4 +66,4 @@ private:
 };
 
 
-#endif //BOULDERDASH_SIZEDIALOG_H
+#endif //BOULDERDASH_PLAYERSETTINGS_H

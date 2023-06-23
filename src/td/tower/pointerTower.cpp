@@ -41,7 +41,7 @@ void PointerTower::Update() {
                 case MenuEntry_Upgrade:
                     if ((int) tdGlobals->_pl._creditPoints >= _upgradeCosts) {
                         tdGlobals->_pl._creditPoints -= _upgradeCosts;
-                        updateTower();
+                        upgrade();
                     }
                     break;
                 default:
@@ -143,8 +143,8 @@ void PointerTower::setCosts(int cp) {
     _creditPointCosts = cp;
 }
 
-bool PointerTower::updateTower() {
-    if (Tower::updateTower()) {
+bool PointerTower::upgrade() {
+    if (Tower::upgrade()) {
         switch (_level) {
             case 2:
                 _damage = (u32)((float)_damage * 1.2);

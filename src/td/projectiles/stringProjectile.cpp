@@ -3,7 +3,7 @@
 //
 
 #include "stringProjectile.h"
-#include "../../gamebase.h"
+#include "../../util/gamebase.h"
 #include "../enemy/enemy.h"
 
 StringProjectile::StringProjectile() {
@@ -20,7 +20,7 @@ StringProjectile::StringProjectile(StringProjectile &p) : Projectile(p, nullptr,
 
 void StringProjectile::Update() {
     _posOnScreen = CT::getPosOnScreen(_position);
-    _diff = (int) (totalMscg - _lastTimePoint);
+    _diff = (int) (totalMSec - _lastTimePoint);
     for (auto &entry: hitList) {
         entry.hitCooldown -= _diff;
     }
@@ -28,11 +28,10 @@ void StringProjectile::Update() {
             std::remove_if(
                     hitList.begin(),
                     hitList.end(),
-                    [](HitTimer mov) { return mov.hitCooldown <= 0; }
+                    [](const HitTimer& mov) { return mov.hitCooldown <= 0; }
             ),
             hitList.end());
-    if (_diff < 0)_diff = 0;
-    _lastTimePoint = totalMscg;
+    _lastTimePoint = totalMSec;
     // need to fix travel speed with render time
 
     if (_ttl != 0) {
@@ -40,7 +39,7 @@ void StringProjectile::Update() {
         if (_ttl <= 0) {
             _alive = false;
         } else {
-            if (((_ttl / 10) % 100) < _tick) {
+            if (((_ttl / 10) % 100) < (int)_tick) {
                 _direction += 4;
                 _tick--;
             }

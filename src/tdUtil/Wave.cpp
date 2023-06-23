@@ -39,7 +39,7 @@ bool Wave::PollEvent(GameEvent &event) {
 void Wave::Update() {
     if(hasStarted){
         if(!Events.empty()){
-            u32 now = totalMscg - _startTimePoint;
+            u32 now = totalMSec - _startTimePoint;
             Events.erase(
                     std::remove_if(
                             Events.begin(),
@@ -61,7 +61,7 @@ void Wave::Update() {
 }
 
 void Wave::startWave() {
-    _startTimePoint = totalMscg;
+    _startTimePoint = totalMSec;
     hasStarted = true;
 }
 

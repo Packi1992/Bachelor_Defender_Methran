@@ -31,9 +31,11 @@ extern Point offset;
 extern Point windowSize;
 extern int scale;
 
-extern float deltaTg;
-extern u32 totalMscg;
-extern u32 frameg;
+// Timer
+extern float deltaTF;
+extern Duration deltaT;
+extern u32 totalMSec;
+extern u32 frame;
 
 class GameState;
 
@@ -42,10 +44,9 @@ protected:
     Window *window;
 
     bool isRunning = true;
-    u32 frame = 0;
 
-    int currentStateIdx = -1;
-    int nextStateIdx = -1;
+    GameStates currentStateIdx = GS_MainMenu;
+    GameStates nextStateIdx = GS_MainMenu;
 
     GameState *currentState = nullptr;
     Vector<GameState *> allStates;
@@ -82,7 +83,7 @@ public:
 
     virtual int Run();
 
-    virtual void SetNextState(int index) { nextStateIdx = index; }
+    virtual void SetNextState(GameStates gs) { nextStateIdx = gs; }
 
 
 protected:
@@ -120,14 +121,18 @@ protected:
     Game &game;
 
 public:
+    [[nodiscard]] GameStates getType() const;
+    GameStates _type = GS_Close;
     bool _gameover = false;
     [[nodiscard]] virtual bool IsFPSLimited() const { return true; }
 
     [[nodiscard]] virtual Color GetClearColor() const { return Color{0, 0, 0, SDL_ALPHA_OPAQUE}; }
 
     explicit GameState(Game &&game) = delete; // prevent taking an rvalue
-    explicit GameState(Game &game)
-            : game(game) {}
+    explicit GameState(Game &game, GameStates gs)
+            : game(game) {
+        _type = gs;
+    }
 
     GameState(const GameState &) = delete;
 
@@ -149,8 +154,4 @@ public:
 
     virtual void Render() = 0;
 };
-
-#include "util/coordinateTransformer.h"
-
-using CT = CoordinateTransformer;
 #endif

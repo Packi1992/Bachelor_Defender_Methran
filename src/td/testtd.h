@@ -4,8 +4,8 @@
 #ifndef SDL_BASEGAME_TESTTD_H
 #define SDL_BASEGAME_TESTTD_H
 
-#include "../gamebase.h"
-#include "../enums.h"
+#include "../util/gamebase.h"
+#include "../util/enums.h"
 #include "enemy/enemy.h"
 #include "../tdUtil/waveHandler.h"
 #include "../tdUtil/player.h"
@@ -23,6 +23,11 @@ struct TDGlobals {
     Vector<std::shared_ptr<Projectile>> _projectiles{};
     WaveHandler _wh{};
     Player _pl{};
+    string *_mapPath{};
+    void setPath(string newMapPath);
+    ~TDGlobals(){
+        delete _mapPath;
+    }
 };
 extern TDGlobals *tdGlobals;
 
@@ -59,8 +64,6 @@ public:
     Vector<MenuEntry> _buildMenuEntries{};
     TDGlobals globals{};
 
-    string _mapPath;
-
     // ctor
     using GameState::GameState;
     TestTD(Game &game, string mapPath);
@@ -93,7 +96,7 @@ public:
 
     void updateEnemeies();
 
-    void handleEvent(GameEvent event);
+    void handleEvent(const GameEvent& event);
 };
 
 #endif //SDL_BASEGAME_TESTTD_H

@@ -6,40 +6,43 @@
 #define SDL_BACHELORDEFENDER_EDITOR_H
 
 class Editor;
-#include "../gamebase.h"
+#include "../util/gamebase.h"
 #include "../util/TextureCache.h"
-#include "tdTileHandler.h"
-#include "map.h"
+#include "../tdUtil/tdTileHandler.h"
+#include "../tdUtil/map.h"
 #include "../util/gui/Button.h"
 #include "../util/gui/selectorDialog.h"
 #include "../util/gui/inputDialog.h"
 #include "../util/gui/sizeDialog.h"
 #include "../util/dataHandler.h"
+#include "../util/gui/playerSettings.h"
 
 class Editor: public GameState{
 protected:
     Texture *t_tileMap= nullptr;
-    Map map;
-    WaveHandler waves;
-    Player player;
+    Map map{};
+    WaveHandler waves{};
+    Player player{};
 
     // label hint
     bool isLabelActive=false;
     int labelTimer=0;
     Point labelPos={};
-    MapObjects labelObject;
+    MapObjects labelObject{};
 
     // window handling
     Gui *focus= nullptr;
     SelectorDialog mapSelector;
     InputDialog mapNameInput;
     SizeDialog resizeMap;
+    PlayerSettings settingsDialog;
 
     // buttons
     Button btn_load;
     Button btn_save;
     Button btn_change_size;
     Button btn_path;
+    Button btn_playerSettings;
     bool showPath=false;
 
     int rainbowColor=0;
@@ -51,16 +54,17 @@ protected:
 
     // zooming
     bool _mouseWheel = false;
-    SDL_Event _wheelEvent;
+    SDL_Event _wheelEvent{};
     // scrolling
     bool _mouseMotion = false;
-    SDL_Event _motionEvent;
+    SDL_Event _motionEvent{};
     bool _mbLeft=false;
     bool _mbRight=false;
 public:
 
     // ctor
     using GameState::GameState;
+    explicit Editor(Game &game);
 
     void Init() override;
     void UnInit() override;

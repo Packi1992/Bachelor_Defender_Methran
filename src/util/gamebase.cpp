@@ -11,9 +11,12 @@ Point offset{};
 Point windowSize{};
 RenderHelper *rh{};
 int scale = 64;
-float deltaTg = 0.0f;
-u32 totalMscg = 0;
-u32 frameg = 0;
+
+// Timer
+float deltaTF = 0;
+Duration deltaT = Duration::zero();
+u32 totalMSec = 0;
+u32 frame = 0;
 
 Game::Game(const char *windowTitle, const Point wSize, const bool vSync) {
     if (SDL_Init(SDL_INIT_EVERYTHING)) {
@@ -125,24 +128,22 @@ bool Game::HandleEvent(const Event event) {
 int Game::Run() {
     SDL_assert(nextStateIdx >= 0);
 
-    Duration deltaT = Duration::zero();
+    deltaT = Duration::zero();
     Duration deltaTNeeded = Duration::zero();   // How much _time was really necessary
     TimePoint start;
 
     while (IsRunning()) {
         start = Clock::now();
 
-        const float deltaTF = std::chrono::duration<float>(deltaT).count();
+        deltaTF = std::chrono::duration<float>(deltaT).count();
         const float deltaTFNeeded = std::chrono::duration<float>(deltaTNeeded).count();
-        deltaTg = deltaTF;
 
         OutputPerformanceInfo(start, deltaTNeeded);
 
         ActivateNextState();
 
         // The difference to last frame is usually 16-17 at 60Hz, 10 at 100Hz, 8-9 at 120Hz, 6-*7* at 144Hz
-        const u32 totalMSec = SDL_GetTicks();
-        totalMscg = SDL_GetTicks();
+        totalMSec = SDL_GetTicks();
 
         SDL_GetWindowSize(window, &windowSize.x, &windowSize.y);
 
@@ -173,25 +174,25 @@ int Game::Run() {
         }
 
         ++frame;
-        frameg = frame;
     }
     return 0;
 }
 
 void Game::ActivateNextState() {
-    if (nextStateIdx != currentStateIdx
-        && nextStateIdx != -1) {
-        // Load the state or die
-        if (nextStateIdx >= (int) allStates.size() || allStates[nextStateIdx] == nullptr) {
-            cerr << "Activated out of range or nullptr state with the index: " << nextStateIdx << endl;
-            exit(11);
-        } else {
-            if (currentState != nullptr)
-                currentState->UnInit();
-
-            currentStateIdx = nextStateIdx;
-            currentState = allStates[currentStateIdx];
-            currentState->Init();
+    if (nextStateIdx == GameStates::GS_Close) {
+        close(0);
+        isRunning = false;
+        return;
+    }
+    if (currentState == nullptr || nextStateIdx != currentStateIdx) {
+        for (auto &gs: allStates) {
+            if (gs->getType() == nextStateIdx) {
+                if (currentState != nullptr)
+                    currentState->UnInit();
+                currentStateIdx = nextStateIdx;
+                currentState = gs;
+                currentState->Init();
+            }
         }
     }
 }
@@ -277,8 +278,12 @@ bool Game::onScreen(Rect dstRect) {
 }
 
 bool Game::isGameover() {
-    if(currentState != nullptr){
+    if (currentState != nullptr) {
         return currentState->_gameover;
     }
     return true;
+}
+
+GameStates GameState::getType() const {
+    return _type;
 }

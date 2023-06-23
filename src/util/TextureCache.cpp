@@ -3,16 +3,10 @@
 //
 
 #include "TextureCache.h"
-#include "../gamebase.h"
+#include "gamebase.h"
 
 Texture *TextureCache::loadTexture(const std::string &path) {
-    int imgFlags = IMG_INIT_PNG;
-    if (!(IMG_Init(imgFlags) & imgFlags)) {
-        cerr << "SDL_image could not initialize! SDL_img Error: " << IMG_GetError << endl;
-        return nullptr;
-    }
     Texture *nt = nullptr;
-    cout << "iniValues texture " << path << endl;
     Surface *loadedSurface = IMG_Load(path.c_str());
     if (loadedSurface == nullptr) {
         cerr << "Unable to create TextureCache from " << path << " ! SDL Error: " << SDL_GetError() << endl;
