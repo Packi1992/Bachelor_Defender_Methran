@@ -10,12 +10,20 @@
 class Boomerang : public Projectile {
 private:
     int _minFlyingTime = 1000;
+    int _flyingTime = 1000;
     bool _toggleDirection = false;
- //   u_int32_t _lastTimePoint = 0;
+    FPoint _endFlyPos = {0.0f, 0.0f};
+    //   u_int32_t _lastTimePoint = 0;
     int _diff = 0;
+    float _travellength = 0.0f;
+    FPoint _rotatePoint = {0.0f,0.0f};
+    void calcNextPos();
+    bool _midflight = false;
 public:
     bool _enHittable = false;
     bool _freez = false;
+    uint _stunduration = 1500;
+
     Boomerang();
 
     Boomerang(Boomerang &p, std::shared_ptr<Enemy> e, uint16_t direction);
