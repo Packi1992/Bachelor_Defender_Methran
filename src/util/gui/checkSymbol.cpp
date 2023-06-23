@@ -12,11 +12,11 @@ void CheckSymbol::set(MenuEntry entry, Rect pos) {
 bool CheckSymbol::clicked(Point p) {
     if(isPointOnBox(p)){
         _checked=!_checked;
+        if(_checked)
+            _entry._status = Status_Active;
+        else
+            _entry._status = Status_Disabled;
     }
-    if(_checked)
-        _entry._status = Status_Active;
-    else
-        _entry._status = Status_Disabled;
 }
 
 CheckSymbol::CheckSymbol(const CheckSymbol &b) {

@@ -7,8 +7,9 @@
 void SizeDialog::set(int width, int height) {
     _width = width;
     _height = height;
-    iniValues();
+
     iniUI();
+    iniValues();
 }
 
 

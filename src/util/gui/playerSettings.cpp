@@ -13,8 +13,8 @@ void PlayerSettings::set(Player pl) {
         for(auto &e: _usableTowers)
             if(e.getMenuEntry() == entry)e.setChecked(true);
     }
-    iniValues();
     iniUI();
+    iniValues();
 }
 
 
@@ -107,8 +107,10 @@ void PlayerSettings::acceptInput() {
     releaseFocus(false);
     _creditPoints = _txtb_sanity.getNumber();
     _sanity = _txtb_creditPoints.getNumber();
+
     for (auto &entry: _usableTowers) {
-        _entries.insert(entry.getMenuEntry());
+        if(entry.isChecked())
+            _entries.insert(entry.getMenuEntry());
     }
     _takeNewValues = true;
 }

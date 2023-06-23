@@ -3,7 +3,7 @@
 //
 #include "textbox.h"
 
-void TextBox::set(string label, Point pos, bool Number) {
+void TextBox::set(string label, Point pos, bool Number, bool reset) {
     _isNumber = Number;
 
     // ini label
@@ -19,8 +19,10 @@ void TextBox::set(string label, Point pos, bool Number) {
     _rInputField.w = max_length * 5 + 10;
 
     // ini actual inputText as empty
-    _renderedInput="";
-    _input = "";
+    if(reset){
+        _renderedInput="";
+        _input = "";
+    }
     _rInput.x = _rInputField.x + 5;
     _rInput.y = _rInputField.y + 5;
     _rInput.w = 0;
