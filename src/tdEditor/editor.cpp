@@ -48,7 +48,7 @@ void Editor::Update() {
             player._sanity = settingsDialog.getSanity();
             player._creditPoints = settingsDialog.getCreditPoints();
             player._usableTowers.clear();
-            for(auto &entry: settingsDialog.getUsableTowers())
+            for(auto entry: settingsDialog.getUsableTowers())
                 player._usableTowers.insert(entry);
         }
         // update "Viewport" / Zoom in or Out
@@ -177,7 +177,7 @@ void Editor::MouseDown(SDL_Event event) {
                 resizeMap.show(&focus);
             }
             else if (btn_playerSettings.clicked(event)) {
-                settingsDialog.set(&player);
+                settingsDialog.set(player);
                 settingsDialog.show(&focus);
             }
             else handleSelection(event);

@@ -31,7 +31,7 @@ public:
 
 private:
     int max_length = 30;
-    bool _isNumber;
+    bool _isNumber = false;
     int blink = 0;
 
     // label

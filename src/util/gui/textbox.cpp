@@ -35,7 +35,7 @@ void TextBox::setText(std::string text) {
     _input = std::move(text);
     if (_texInput != nullptr)
         SDL_DestroyTexture(_texInput);
-    _texInput = t_cache->getText(_input.c_str(), 18, &_rInput);
+    _texInput = t_cache->getText(_input.c_str(), 18, &_rInput,BLACK);
     _renderedInput = _input;
 }
 
@@ -48,18 +48,21 @@ int TextBox::getNumber() {
 }
 
 void TextBox::setNumber(int number) {
-    _input = std::to_string(number);
+    _input = "";
+    _input += std::to_string(number);
     if (_texInput != nullptr)
         SDL_DestroyTexture(_texInput);
-    _texInput = t_cache->getText(_input.c_str(), 18, &_rInput);
-    _renderedInput = _input;
+    _texInput = t_cache->getText(&_input, 18, &_rInput);
+    IfDebug{cout << "TextBox: length of text rect " << _rInput.w << endl;};
+    _renderedInput = "";
+    _renderedInput += _input;
 }
 
 void TextBox::Render() {
     rh->texture(_texLabel, &_rLabel);
     rh->fillRect(&_rInputField, WHITE);
     rh->rect(&_rInputField, 1,BLACK);
-    if (_renderedInput!="")
+    if (!_renderedInput.empty())
         rh->texture(_texInput, &_rInput);
     if (dialog) {
         if (blink > 20) {
@@ -93,7 +96,7 @@ void TextBox::Input() {
         switch (event.type) {
             case SDL_TEXTINPUT:
                 if (_isNumber) {
-                    char buf[50] = "";
+                    char buf[50];
                     strcat(buf, event.text.text);
                     for (char c: buf) {
                         if (c >= '0' && c <= '9')

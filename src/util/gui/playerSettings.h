@@ -16,7 +16,7 @@ class Player;
 class PlayerSettings: public Gui{
 public:
     PlayerSettings();
-    void set(Player *pl);
+    void set(Player pl);
     ~PlayerSettings();
     // read values
     int getCreditPoints();
@@ -50,6 +50,7 @@ private:
     Gui *focus{};
     int _creditPoints=0;
     int _sanity=0;
+    std::set<MenuEntries> _entries{};
 
     // towerText
     Rect _rTowerText{};
