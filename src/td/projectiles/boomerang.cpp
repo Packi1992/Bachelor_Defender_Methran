@@ -26,10 +26,10 @@ void Boomerang::Update() {
             ),
             hitList.end());
     // calculate next position
-    float flSpeed = (float) _diff * (float) _speed * 0.00001f;
-    _position.x += (_targetVec.x + _driftVec.x) * flSpeed;
-    _position.y -= (_targetVec.y + _driftVec.y) * flSpeed;
-    _driftVec += _counterDriftVec * flSpeed;
+    float flSpeed = (float) _diff * (float) _speed * 0.0001f;
+    _position.x += (_targetVec.x + _driftVec.x);
+    _position.y -= (_targetVec.y + _driftVec.y);
+    _driftVec += _counterDriftVec;
     if (!_midflight && (int) (_position.x * 10) == (int) (_targetP.x * 10) &&
         (int) (_position.y * 10) == (int) (_targetP.y * 10)) {
         _targetVec *= -1;
@@ -57,17 +57,25 @@ void Boomerang::calculateVectors() {
     float targetAngle = CT::getAngle(_position, _targetP) / 180.0f * (float) M_PI;
     _targetVec = {(float) sin(targetAngle) * totalPathLength * 0.01f,
                   (float) cos(targetAngle) * totalPathLength * 0.01f};
-    if(_targetVec.x > 0){
-        _driftVec.x
+    if(_targetVec.x >= 0 && _targetVec.y >= 0){
+        _driftVec = {_targetVec.y,-_targetVec.x};
+        _counterDriftVec = {-(_targetVec.y) * 0.01f, (-_targetVec.x) * 0.01f};
+    }else if(_targetVec.x >= 0 && _targetVec.y < 0){
+        _driftVec = {-_targetVec.y,_targetVec.x};
+        _counterDriftVec = {(_targetVec.y) * 0.01f, -(_targetVec.x) * 0.01f};
+    }else if(_targetVec.x < 0 && _targetVec.y < 0){
+        _driftVec = {_targetVec.y,-_targetVec.x};
+        _counterDriftVec = {-(_targetVec.y) * 0.01f, (_targetVec.x) * 0.01f};
+    }else if(_targetVec.x < 0 && _targetVec.y >= 0){
+        _driftVec = {-_targetVec.y,_targetVec.x};
+        _counterDriftVec = {(_targetVec.y) * 0.01f, -(_targetVec.x) * 0.01f};
     }
-    _driftVec = {_targetVec.y, _targetVec.x};
-    _counterDriftVec = {(-_driftVec.x) * 0.01f, (-_driftVec.y) * 0.01f};
+    _driftVec *= 0.5f;
 }
 
 void Boomerang::Render() {
     if (_alive && onScreen()) {
         Point pos = CT::getPosOnScreen(_position);
-        cout << "pos:" << pos.x << ", " << pos.y << "| position:" << _position.x << ", " << _position.y << endl;
         Rect srcRect = *TdTileHandler::getProjectileSrcRect(_type, totalMSec);
         float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.w;
         float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.h;
@@ -88,6 +96,13 @@ void Boomerang::Render() {
         Point targetOnScreen = CT::getPosOnScreen(_targetP);
         Rect target = {targetOnScreen.x, targetOnScreen.y, 64, 64};
         rh->fillRect(&target, RED);
+        Point targetVecP = {(int)((float)pos.x+_targetVec.x*100*(float)scale),(int)((float)pos.y-_targetVec.y*100*(float)scale)};
+        rh->line(pos, targetVecP, RED);
+        Point driftVecP = {(int)((float)pos.x+_driftVec.x*100*(float)scale),(int)((float)pos.y-_driftVec.y*100*(float)scale)};
+        rh->line(pos, driftVecP, RED);
+        Point cdriftVecP = {(int)((float)pos.x+_counterDriftVec.x*100*(float)scale),(int)((float)pos.y-_counterDriftVec.y*100*(float)scale)};
+        rh->line(pos, cdriftVecP,RED);
+        cout << "_targetVec:" << _targetVec.x << ", " << _targetVec.y << "| _driftVec:" << _driftVec.x << ", " << _driftVec.y << "| _counterDriftVec:" << _counterDriftVec.x << ", " << _counterDriftVec.y << endl;
     }
 }
 

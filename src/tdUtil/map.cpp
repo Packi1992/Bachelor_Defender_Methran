@@ -34,6 +34,7 @@ void Map::resize(Point size) {
 void Map::RenderBG(bool wire) {
     if (wire)
         drawWire();
+    drawWalls();
 }
 
 void Map::RenderRow(int row) {
@@ -411,4 +412,8 @@ void Map::CheckEnemiesPath(Point point) {
             }
         }
     }
+}
+
+void Map::drawWalls() {
+
 }
