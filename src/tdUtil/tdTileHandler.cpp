@@ -24,8 +24,8 @@ Rect *TdTileHandler::getSrcRect(MapObjects o, ul animate) {
     switch (o) {
         case Tower:
         case Empty:
-            src.x = 9 * 64;
-            src.y = 0;
+            src.x = 15 * 64;
+            src.y = 8 * 64;
             break;
         case Start:
             src.y = 0;
@@ -95,7 +95,7 @@ Rect *TdTileHandler::getEnemySrcRect(EnemyType e, ul anim, Direction d) {
         case Fast:
         case Silly:
         case Strong:
-        case Boss:
+        case Boss_Frohle_Poehlich:
             // Frohle - Pöhlich
             if (d == RIGHT || d == LEFT) {
                 src.y = 14 * 64;
@@ -105,6 +105,19 @@ Rect *TdTileHandler::getEnemySrcRect(EnemyType e, ul anim, Direction d) {
                 src.x = 11 * 64 + (int) ((anim / 100) % 4) * 64;
             } else if (d == TOP) {
                 src.y = 14 * 64;
+                src.x = 15 * 64 + (int) ((anim / 100) % 4) * 64;
+            }
+            break;
+        case Boss_Drueberbolz:
+            // Drueberholz
+            if (d == RIGHT || d == LEFT) {
+                src.y = 16 * 64;
+                src.x = 64 + (int) ((anim / 100) % 10) * 64;
+            } else if (d == BOTTOM) {
+                src.y = 16 * 64;
+                src.x = 11 * 64 + (int) ((anim / 100) % 4) * 64;
+            } else if (d == TOP) {
+                src.y = 16 * 64;
                 src.x = 15 * 64 + (int) ((anim / 100) % 4) * 64;
             }
             break;

@@ -21,13 +21,15 @@ void TestTD::Init() {
     se.SpawnPoint = 0;
     se.count = 1;
     se.speed = 100;
-    for (int i = 0; i <= 10; i++) {
+    se.type = Boss_Frohle_Poehlich;
+    for(int i = 0; i<=10; i++){
         se.time += 500;
         w1.addEvent(se);
     }
     se.SpawnPoint = 1;
     se.health += 50;
     se.time = 1000;
+    se.type = Boss_Drueberbolz;
     Wave w2;
     for (int i = 0; i <= 20; i++) {
         se.time += 500;
@@ -65,6 +67,7 @@ void TestTD::Init() {
     globals._wh.init();
     updateUI();
     Update();
+    //globals._pl._creditPoints=10000;
 }
 
 void TestTD::UnInit() {
@@ -79,25 +82,16 @@ void TestTD::UnInit() {
 void TestTD::Render() {
     // Background
     rh->background(BG);
-    _map.RenderBG(true);
-    for (int y = 0; y < _map._height; y++) {
-        _map.RenderRow(y);
-        // Tower
-        for (auto &tower: globals._towers) {
-            if (tower->isRow(y))
-                tower->Render();
-        }
-        //  render Enemies
-        for (int yx = y * 10; yx < (y + 1) * 10; yx++) {
-            for (auto &enemy: globals._enemies) {
-                if (enemy->isRow((float) yx * .1f))
-                    enemy->Render();
-            }
-        }
-
+    // Map
+    _map.Render(true);
+    // Tower
+    for (auto &tower: globals._towers) {
+        tower->Render();
     }
-    //_map.RenderPath();
-
+    //  render Enemies
+    for (auto &enemy: globals._enemies) {
+        enemy->Render();
+    }
     // projectiles and particles
     for (auto &p: tdGlobals->_projectiles) {
         if (p != nullptr) {
