@@ -29,6 +29,8 @@ struct TDGlobals {
     ~TDGlobals(){
         delete _mapPath;
     }
+
+    bool isEnemyBlocking(FPoint tile);
 };
 extern TDGlobals *tdGlobals;
 
@@ -55,6 +57,7 @@ protected:
     SDL_Event _wheelEvent{};
     bool _mouseMotion = false;
     SDL_Event _motionEvent{};
+    bool _renderPath = false;
 
     // ui
     FloatingMenu _floatingMenu;

@@ -54,6 +54,8 @@ public:
 
     void RenderPath();
 
+    void RenderPathRow(int i);
+
 private:
     struct PathEntry {
         Point pos;
@@ -85,6 +87,8 @@ private:
     void setPathEntry(int x, int y, int i, int y1);
 
     static u16 getDir(int ex, int ey, int tx, int ty);
+
+    void CheckEnemiesPath(Point point);
 };
 
 

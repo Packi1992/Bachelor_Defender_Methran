@@ -218,6 +218,7 @@ void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
             break;
     }
     switch (entry._status) {
+        case Status_EnemyBlocking:
         case Status_Disabled:
             helperInstance->texture(_blocked, center);
             break;

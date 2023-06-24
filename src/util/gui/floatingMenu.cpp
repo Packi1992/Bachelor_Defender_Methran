@@ -53,7 +53,7 @@ bool FloatingMenu::onSymbol(Point click, Point symbol, float symbolRadiant) {
 bool FloatingMenu::onMenu(Point clickPos) const {
     Point menuPos = CT::getPosOnScreen(_position);
     float size = (float) getSize() * 0.493f;
-    auto clickDistanceSquared = (float)(pow(menuPos.x - clickPos.x, 2) + pow(menuPos.y - clickPos.y, 2));
+    auto clickDistanceSquared = (float) (pow(menuPos.x - clickPos.x, 2) + pow(menuPos.y - clickPos.y, 2));
     bool assertDistanceUpper = size * size >= clickDistanceSquared;
     float size2 = size * 0.42f;
     bool assertDistanceBottom = size2 * size2 <= clickDistanceSquared;
@@ -63,10 +63,11 @@ bool FloatingMenu::onMenu(Point clickPos) const {
     // if less than 6 entries, lets have a look at the click angle
     int angle = (int) CT::getAngle(clickPos, menuPos);
     int upper_end = 65;
-    int bottom_end = upper_end-70-((int)(_menuEntries->size()-1)*60);
-    if(bottom_end<0)
+    int bottom_end = upper_end - 70 - ((int) (_menuEntries->size() - 1) * 60);
+    if (bottom_end < 0)
         bottom_end += 360;
-    bool assertAngle = bottom_end >90? angle>=bottom_end || angle <= upper_end:angle>=bottom_end && angle<=upper_end;
+    bool assertAngle =
+            bottom_end > 90 ? angle >= bottom_end || angle <= upper_end : angle >= bottom_end && angle <= upper_end;
     //cout << "click angle is:"<<  angle<< " should be: "<<bottom_end<< "- " <<upper_end<< endl;
     //cout << "angle Assert: " << (assertAngle?"True":"False") << " distance Assert upper:" << (assertDistanceUpper?"True":"False")<< endl;
     return assertAngle && assertDistanceUpper && assertDistanceBottom;
@@ -146,9 +147,14 @@ void FloatingMenu::Render() {
 
 void FloatingMenu::Update() {
     if (dialog) {
-        for (int i = 0; i < (int)_menuEntries->size(); i++) {
-            if(_menuEntries->at(i)._status != Status_Disabled){
-                tdGlobals->_pl._creditPoints >= _menuEntries->at(i)._costs? _menuEntries->at(i)._status=Status_Active:_menuEntries->at(i)._status = Status_NotEnoughMoney;
+        bool isEnemyBlockingNow = tdGlobals->isEnemyBlocking(_position);
+        for (int i = 0; i < (int) _menuEntries->size(); i++) {
+            if (_menuEntries->at(i)._status != Status_Disabled) {
+                _menuEntries->at(i)._status = Status_Active;
+                if (tdGlobals->_pl._creditPoints < _menuEntries->at(i)._costs)
+                    _menuEntries->at(i)._status = Status_NotEnoughMoney;
+                if (isEnemyBlockingNow)
+                    _menuEntries->at(i)._status = Status_EnemyBlocking;
             }
         }
         if (_mbRightDown) {
@@ -156,11 +162,11 @@ void FloatingMenu::Update() {
             _clickRel = {};
         }
         // update "Viewport" / Zoom in or Out
-        if(_mouseWheel){
+        if (_mouseWheel) {
             Game::zoomScreen(_wheelEvent);
             _mouseWheel = false;
         }
-        if (_mbLeftDown&& _anim >= ANIMATIONTIME) {
+        if (_mbLeftDown && _anim >= ANIMATIONTIME) {
             if (!onMenu(_clickPos)) {
                 SDL_PushEvent(&_lastEvent);
                 releaseFocus(false);
@@ -175,7 +181,7 @@ void FloatingMenu::Update() {
                 float symbolRadiant = 20.f / 192.0f * (float) size;
                 int direction = 30;
                 Point center{};
-                for (int i = 0; i < (int)_menuEntries->size(); i++) {
+                for (int i = 0; i < (int) _menuEntries->size(); i++) {
                     float angle = (float) direction / 180.0f * (float) M_PI;
                     center.x = renderPos.x + (int) (sin(angle) * distance);
                     center.y = renderPos.y - (int) (cos(angle) * distance);
