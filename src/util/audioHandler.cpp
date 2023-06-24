@@ -33,6 +33,9 @@ void AudioHandler::pauseMusic() {
 void AudioHandler::playSound(soundType sound, float x) {
 	int left = 255;
 	int right = 255;
+	if (channelnumber > 8) {
+		channelnumber = 0;
+	}
 	if (x > 1) {
 		x = 1;
 	}
@@ -46,9 +49,10 @@ void AudioHandler::playSound(soundType sound, float x) {
 		right = 510 * x;
 	}
 	if (_soundmixArray[sound]) {
-		int channel = Mix_PlayChannelTimed(-1, _soundmixArray[sound],0, 1500);
-		Mix_SetPanning(channel, left, right);
+		Mix_PlayChannelTimed(channelnumber, _soundmixArray[sound],0, 1500);
+		Mix_SetPanning(channelnumber, left, right);
 	}
+	channelnumber++;
 	return;
 }
 

@@ -22,6 +22,7 @@ void TestTD::Init() {
     se.SpawnPoint = 0;
     se.count = 1;
     se.speed = 100;
+    se.type = Ordinary;
     for (int i = 0; i <= 10; i++) {
         se.time += 500;
         w1.addEvent(se);
@@ -505,10 +506,26 @@ TestTD::TestTD(Game &game, string mapPath) : GameState(game, GS_TD) {
 }
 
 void TestTD::handleEvent(const GameEvent &event) {
-    std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
-    e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
-    globals._enemies.push_back(e);
-
+    switch (event.type) {
+        case Boss_Drueberbolz: {
+            std::shared_ptr<DrüberBolz> e = std::make_shared<DrüberBolz>();
+            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            globals._enemies.push_back(e);
+            break;
+        }
+        case Boss_Frohle_Poehlich: {
+            std::shared_ptr<FrolePöhlich> e = std::make_shared<FrolePöhlich>();
+            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            globals._enemies.push_back(e);
+            break;
+        }
+        case Ordinary: {
+            std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
+            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            globals._enemies.push_back(e);
+            break;
+        }
+    }
 }
 
 void TDGlobals::setPath(string newMapPath) {

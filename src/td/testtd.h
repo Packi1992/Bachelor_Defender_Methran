@@ -7,6 +7,8 @@
 #include "../util/gamebase.h"
 #include "../util/enums.h"
 #include "enemy/enemy.h"
+#include "enemy/drüberbolz.h"
+#include "enemy/frolePöhlich.h"
 #include "../tdUtil/waveHandler.h"
 #include "../tdUtil/player.h"
 #include "tower/tower.h"
