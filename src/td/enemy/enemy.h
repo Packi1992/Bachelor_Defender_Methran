@@ -27,7 +27,7 @@ public:
 
     // take damage
     void takeDamage(Projectile * p);
-    bool isCopyable();
+    bool isCopyable() const;
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;
 
@@ -40,6 +40,7 @@ public:
     [[nodiscard]] bool isStunable() const;
 
     EnemyType _type = EnemyType::Ordinary;
+    [[nodiscard]] bool isRow(float row) const;
 
     // logical pixel pos
     u16 _dir = 0;

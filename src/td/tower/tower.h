@@ -14,6 +14,7 @@ class Gui;
 
 class Tower {
 public:
+    [[nodiscard]] bool isRow(int row) const;
     explicit Tower(Point pos);
 
     virtual bool init(Gui **focus);

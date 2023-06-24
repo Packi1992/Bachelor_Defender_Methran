@@ -5,22 +5,20 @@
 #ifndef SDL_BACHELORDEFENDER_EDITOR_H
 #define SDL_BACHELORDEFENDER_EDITOR_H
 
-class Editor;
 #include "../util/gamebase.h"
-#include "../util/TextureCache.h"
-#include "../tdUtil/tdTileHandler.h"
 #include "../tdUtil/map.h"
+#include "../tdUtil/player.h"
+#include "../tdUtil/waveHandler.h"
 #include "../util/gui/Button.h"
 #include "../util/gui/selectorDialog.h"
 #include "../util/gui/inputDialog.h"
 #include "../util/gui/sizeDialog.h"
-#include "../util/dataHandler.h"
 #include "../util/gui/playerSettings.h"
 
 class Editor: public GameState{
 protected:
-    Texture *t_tileMap= nullptr;
     Map map{};
+    string mapName = "tmp";
     WaveHandler waves{};
     Player player{};
 
@@ -38,31 +36,44 @@ protected:
     PlayerSettings settingsDialog;
 
     // buttons
-    Button btn_load;
-    Button btn_save;
-    Button btn_change_size;
-    Button btn_path;
-    Button btn_playerSettings;
+    enum Buttons{
+        btn_Load,
+        btn_save,
+        btn_waveSettings,
+        btn_startGame,
+        btn_changeSize,
+        btn_playerSettings,
+        btn_pathFinding,
+    };
+    void updateButtonPos();
+    Vector<Button> _buttons;
+    int _fontSize=18;
     bool showPath=false;
-
     int rainbowColor=0;
 
     // Tile SelectorDialog
     Rect Toolbox = {};
+    void RenderToolbox();
     MapObjects selected=Empty;
-    void handleSelection(Event event);
 
     // zooming
     bool _mouseWheel = false;
     SDL_Event _wheelEvent{};
+
     // scrolling
     bool _mouseMotion = false;
     SDL_Event _motionEvent{};
+
+    Point mousePos{};
     bool _mbLeft=false;
     bool _mbRight=false;
+    void MouseClickLeft();
+    void MouseClickRight();
+    void MouseMotion(SDL_Event event);
+    void handleSelection();
+    void keyDown(SDL_Event event);
 public:
 
-    // ctor
     using GameState::GameState;
     explicit Editor(Game &game);
 
@@ -72,10 +83,6 @@ public:
     void Update() override;
     void Render() override;
 
-    // event handling
     void Events() override;
-    void MouseDown(SDL_Event event);
-    void MouseMotion(SDL_Event event);
-    void keyDown(SDL_Event event);
 };
 #endif //SDL_BACHELORDEFENDER_EDITOR_H

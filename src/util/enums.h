@@ -10,8 +10,8 @@ enum MapObjects{
     Start,
     Goal,
     Table,
-    Tower,
     Chair,
+    Tower,
     OutOfBounds,
     Map_Disabled,
 };
