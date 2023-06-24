@@ -1,33 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{e056440c-c3f6-4fef-996b-1c7f8de4e40a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\util">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\util\gui">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\tdutil">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\td">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\td\enemy">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\td\tower">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\td\Projectiles">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Maps">
-      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef47}</UniqueIdentifier>
-    </Filter>
     <Filter Include="asset">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -35,14 +8,6 @@
     <Filter Include="asset\font">
       <UniqueIdentifier>{9601a807-58a3-4a90-91db-953266201670}</UniqueIdentifier>
       <Extensions>ttf</Extensions>
-    </Filter>
-    <Filter Include="asset\_music">
-      <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4f2}</UniqueIdentifier>
-      <Extensions>mp3;ogg;wav</Extensions>
-    </Filter>
-    <Filter Include="asset\sound">
-      <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4f1}</UniqueIdentifier>
-      <Extensions>ogg;wav;mp3</Extensions>
     </Filter>
     <Filter Include="asset\graphic">
       <UniqueIdentifier>{323dc01d-da22-4f6e-92ef-39a77497c4d7}</UniqueIdentifier>
@@ -56,25 +21,60 @@
       <UniqueIdentifier>{323dc01d-da22-4f6e-92ef-39a77497c4d9}</UniqueIdentifier>
       <Extensions>png;xcf</Extensions>
     </Filter>
+    <Filter Include="asset\music">
+      <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4f2}</UniqueIdentifier>
+      <Extensions>mp3;ogg;wav</Extensions>
+    </Filter>
+    <Filter Include="asset\sound">
+      <UniqueIdentifier>{94bea3ef-0c39-48f8-ab4c-b5bbc128a4f1}</UniqueIdentifier>
+      <Extensions>ogg;wav;mp3</Extensions>
+    </Filter>
+    <Filter Include="Maps">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fdsf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Maps\gameMaps">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fdsf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{e056440c-c3f6-4fef-996b-1c7f8de4e40a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\mainMenu">
+      <UniqueIdentifier>{e056440c-c3f6-4fef-996b-1c7f8de4e40b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\td">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\td\enemy">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\td\projectiles">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\td\tower">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\tdEditor">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\tdutil">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\gui">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\worldMap">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bddgame.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\enums.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gamebase.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\global.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\introstate.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\recthelper.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\mainMenu\introstate.h">
+      <Filter>src\mainMenu</Filter>
     </ClInclude>
     <ClInclude Include="src\td\testtd.h">
       <Filter>src\td</Filter>
@@ -82,32 +82,29 @@
     <ClInclude Include="src\td\enemy\enemy.h">
       <Filter>src\td\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="src\td\enemy\smallemy.h">
-      <Filter>src\td\enemy</Filter>
+    <ClInclude Include="src\td\projectiles\arrow.h">
+      <Filter>src\td\projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="src\td\Projectiles\arrow.h">
-      <Filter>src\td\Projectiles</Filter>
+    <ClInclude Include="src\td\projectiles\baseExplosion.h">
+      <Filter>src\td\projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="src\td\Projectiles\baseExplosion.h">
-      <Filter>src\td\Projectiles</Filter>
+    <ClInclude Include="src\td\projectiles\boomerang.h">
+      <Filter>src\td\projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="src\td\Projectiles\boomerang.h">
-      <Filter>src\td\Projectiles</Filter>
+    <ClInclude Include="src\td\projectiles\fire.h">
+      <Filter>src\td\projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="src\td\Projectiles\fire.h">
-      <Filter>src\td\Projectiles</Filter>
+    <ClInclude Include="src\td\projectiles\hashbomb.h">
+      <Filter>src\td\projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="src\td\Projectiles\hashbomb.h">
-      <Filter>src\td\Projectiles</Filter>
+    <ClInclude Include="src\td\projectiles\link.h">
+      <Filter>src\td\projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="src\td\Projectiles\link.h">
-      <Filter>src\td\Projectiles</Filter>
+    <ClInclude Include="src\td\projectiles\projectile.h">
+      <Filter>src\td\projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="src\td\Projectiles\projectile.h">
-      <Filter>src\td\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="src\td\Projectiles\stringProjectile.h">
-      <Filter>src\td\Projectiles</Filter>
+    <ClInclude Include="src\td\projectiles\stringProjectile.h">
+      <Filter>src\td\projectiles</Filter>
     </ClInclude>
     <ClInclude Include="src\td\tower\hashCanon.h">
       <Filter>src\td\tower</Filter>
@@ -127,8 +124,8 @@
     <ClInclude Include="src\td\tower\tower.h">
       <Filter>src\td\tower</Filter>
     </ClInclude>
-    <ClInclude Include="src\tdUtil\editor.h">
-      <Filter>src\tdUtil</Filter>
+    <ClInclude Include="src\tdEditor\editor.h">
+      <Filter>src\tdEditor</Filter>
     </ClInclude>
     <ClInclude Include="src\tdUtil\map.h">
       <Filter>src\tdUtil</Filter>
@@ -154,6 +151,18 @@
     <ClInclude Include="src\util\dataHandler.h">
       <Filter>src\util</Filter>
     </ClInclude>
+   <ClInclude Include="src\util\enums.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+   <ClInclude Include="src\util\global.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+   <ClInclude Include="src\util\gamebase.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+   <ClInclude Include="src\util\recthelper.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
     <ClInclude Include="src\util\renderHelper.h">
       <Filter>src\util</Filter>
     </ClInclude>
@@ -161,6 +170,12 @@
       <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\gui\Button.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\gui\checkbox.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\gui\checkSymbol.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
     <ClInclude Include="src\util\gui\floatingMenu.h">
@@ -175,6 +190,9 @@
     <ClInclude Include="src\util\gui\linkEstablisher.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\gui\playerSettings.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
     <ClInclude Include="src\util\gui\selectorDialog.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
@@ -187,6 +205,9 @@
     <ClInclude Include="src\util\gui\TextWithValue.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
+    <ClInclude Include="src\worldMap\worldMap.h">
+      <Filter>src\worldMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
@@ -195,21 +216,31 @@
     <None Include=".gitignore" />
     <None Include="classdiagram.drawio" />
     <None Include="LICENSE" />
+    <None Include="newTiles.pdn" />
     <None Include="old_README.md" />
     <None Include="packages.config" />
     <None Include="README.md" />
     <None Include="tileTD.pdn" />
-    <None Include="Maps\neueMap.map">
-      <Filter>Maps</Filter>
+    <None Include="Maps\gameMaps\World1.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World2.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World3.map">
+      <Filter>Maps\gameMaps</Filter>
     </None>
     <None Include="asset\graphic\Unbenannt.xcf">
+      <Filter>asset\graphic</Filter>
+    </None>
+    <None Include="asset\graphic\bg-world.xcf">
       <Filter>asset\graphic</Filter>
     </None>
     <None Include="asset\graphic\td\tileTD.xcf">
       <Filter>asset\graphic\td</Filter>
     </None>
-    <None Include="asset\_music\severance.ogg">
-      <Filter>asset\_music</Filter>
+    <None Include="asset\music\severance.ogg">
+      <Filter>asset\music</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -249,6 +280,9 @@
     <Image Include="asset\graphic\bg-ui-testtd.png">
       <Filter>asset\graphic</Filter>
     </Image>
+    <Image Include="asset\graphic\bg-world.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
     <Image Include="asset\graphic\fire.png">
       <Filter>asset\graphic</Filter>
     </Image>
@@ -261,31 +295,28 @@
     <Image Include="asset\graphic\tf_tileSet.png">
       <Filter>asset\graphic</Filter>
     </Image>
-    <Image Include="asset\graphic\td\floatingMenu.png">
-      <Filter>asset\graphic\td</Filter>
-    </Image>
-    <Image Include="asset\graphic\td\tileTD.png">
-      <Filter>asset\graphic\td</Filter>
-    </Image>
     <Image Include="asset\graphic\editor\arrow.png">
       <Filter>asset\graphic\editor</Filter>
     </Image>
     <Image Include="asset\graphic\editor\blocked.png">
       <Filter>asset\graphic\editor</Filter>
     </Image>
+    <Image Include="asset\graphic\td\floatingMenu.png">
+      <Filter>asset\graphic\td</Filter>
+    </Image>
+    <Image Include="asset\graphic\td\tileTD.png">
+      <Filter>asset\graphic\td</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bddgame.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\gamebase.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\introstate.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mainMenu\introstate.cpp">
+      <Filter>src\mainMenu</Filter>
     </ClCompile>
     <ClCompile Include="src\td\testtd.cpp">
       <Filter>src\td</Filter>
@@ -293,32 +324,29 @@
     <ClCompile Include="src\td\enemy\enemy.cpp">
       <Filter>src\td\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="src\td\enemy\smallemy.cpp">
-      <Filter>src\td\enemy</Filter>
+    <ClCompile Include="src\td\projectiles\arrow.cpp">
+      <Filter>src\td\projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="src\td\Projectiles\arrow.cpp">
-      <Filter>src\td\Projectiles</Filter>
+    <ClCompile Include="src\td\projectiles\baseExplosion.cpp">
+      <Filter>src\td\projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="src\td\Projectiles\baseExplosion.cpp">
-      <Filter>src\td\Projectiles</Filter>
+    <ClCompile Include="src\td\projectiles\boomerang.cpp">
+      <Filter>src\td\projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="src\td\Projectiles\boomerang.cpp">
-      <Filter>src\td\Projectiles</Filter>
+    <ClCompile Include="src\td\projectiles\fire.cpp">
+      <Filter>src\td\projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="src\td\Projectiles\fire.cpp">
-      <Filter>src\td\Projectiles</Filter>
+    <ClCompile Include="src\td\projectiles\hashbomb.cpp">
+      <Filter>src\td\projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="src\td\Projectiles\hashbomb.cpp">
-      <Filter>src\td\Projectiles</Filter>
+    <ClCompile Include="src\td\projectiles\link.cpp">
+      <Filter>src\td\projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="src\td\Projectiles\link.cpp">
-      <Filter>src\td\Projectiles</Filter>
+    <ClCompile Include="src\td\projectiles\projectile.cpp">
+      <Filter>src\td\projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="src\td\Projectiles\projectile.cpp">
-      <Filter>src\td\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\td\Projectiles\stringProjectile.cpp">
-      <Filter>src\td\Projectiles</Filter>
+    <ClCompile Include="src\td\projectiles\stringProjectile.cpp">
+      <Filter>src\td\projectiles</Filter>
     </ClCompile>
     <ClCompile Include="src\td\tower\hashCanon.cpp">
       <Filter>src\td\tower</Filter>
@@ -338,8 +366,8 @@
     <ClCompile Include="src\td\tower\tower.cpp">
       <Filter>src\td\tower</Filter>
     </ClCompile>
-    <ClCompile Include="src\tdUtil\editor.cpp">
-      <Filter>src\tdutil</Filter>
+    <ClCompile Include="src\tdEditor\editor.cpp">
+      <Filter>src\tdEditor</Filter>
     </ClCompile>
     <ClCompile Include="src\tdUtil\map.cpp">
       <Filter>src\tdutil</Filter>
@@ -365,6 +393,9 @@
     <ClCompile Include="src\util\dataHandler.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\gamebase.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
     <ClCompile Include="src\util\renderHelper.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
@@ -372,6 +403,12 @@
       <Filter>src\util</Filter>
     </ClCompile>
     <ClCompile Include="src\util\gui\Button.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\checkbox.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\gui\checkSymbol.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
     <ClCompile Include="src\util\gui\floatingMenu.cpp">
@@ -386,6 +423,9 @@
     <ClCompile Include="src\util\gui\linkEstablisher.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\gui\playerSettings.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
     <ClCompile Include="src\util\gui\selectorDialog.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
@@ -398,18 +438,21 @@
     <ClCompile Include="src\util\gui\TextWithValue.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\worldMap\worldMap.cpp">
+      <Filter>src\worldMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="asset\_music\testsound.wav">
-      <Filter>asset\_music</Filter>
+    <Media Include="asset\music\testsound.wav">
+      <Filter>asset\music</Filter>
+    </Media>
+    <Media Include="asset\sound\ArrowHit.wav">
+      <Filter>asset\sound</Filter>
     </Media>
     <Media Include="asset\sound\Darth_Vader_NO.mp3">
       <Filter>asset\sound</Filter>
     </Media>
     <Media Include="asset\sound\pewf.wav">
-      <Filter>asset\sound</Filter>
-    </Media>
-    <Media Include="asset\sound\ArrowHit.wav">
       <Filter>asset\sound</Filter>
     </Media>
     <Media Include="asset\sound\thriee.wav">

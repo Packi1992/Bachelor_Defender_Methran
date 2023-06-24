@@ -158,16 +158,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\bddgame.cpp" />
-    <ClCompile Include="src\introstate.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\tdUtil\editor.cpp" />
+    <ClCompile Include="src\mainMenu\introstate.cpp" />
+    <ClCompile Include="src\tdEditor\editor.cpp" />
     <ClCompile Include="src\tdUtil\map.cpp" />
     <ClCompile Include="src\tdUtil\player.cpp" />
     <ClCompile Include="src\tdUtil\tdTileHandler.cpp" />
     <ClCompile Include="src\tdUtil\Wave.cpp" />
     <ClCompile Include="src\tdUtil\waveHandler.cpp" />
     <ClCompile Include="src\td\enemy\enemy.cpp" />
-    <ClCompile Include="src\td\enemy\smallemy.cpp" />
     <ClCompile Include="src\td\Projectiles\arrow.cpp" />
     <ClCompile Include="src\td\projectiles\baseExplosion.cpp" />
     <ClCompile Include="src\td\Projectiles\boomerang.cpp" />
@@ -186,32 +185,31 @@
     <ClCompile Include="src\util\audioHandler.cpp" />
     <ClCompile Include="src\util\coordinateTransformer.cpp" />
     <ClCompile Include="src\util\dataHandler.cpp" />
+    <ClCompile Include="src\util\gamebase.cpp" />
     <ClCompile Include="src\util\gui\Button.cpp" />
+    <ClCompile Include="src\util\gui\checkbox.cpp" />
+    <ClCompile Include="src\util\gui\checkSymbol.cpp" />
     <ClCompile Include="src\util\gui\floatingmenu.cpp" />
     <ClCompile Include="src\util\gui\gui.cpp" />
     <ClCompile Include="src\util\gui\inputDialog.cpp" />
     <ClCompile Include="src\util\gui\linkEstablisher.cpp" />
+    <ClCompile Include="src\util\gui\playerSettings.cpp" />
     <ClCompile Include="src\util\gui\selectorDialog.cpp" />
     <ClCompile Include="src\util\gui\sizeDialog.cpp" />
     <ClCompile Include="src\util\gui\textbox.cpp" />
     <ClCompile Include="src\util\gui\TextWithValue.cpp" />
     <ClCompile Include="src\util\renderHelper.cpp" />
     <ClCompile Include="src\util\TextureCache.cpp" />
+    <ClCompile Include="src\worldMap\worldMap.cpp" />
     <ClInclude Include="src\bddgame.h" />
-    <ClInclude Include="src\enums.h" />
-    <ClInclude Include="src\global.h" />
-    <ClInclude Include="src\gamebase.h" />
-    <ClCompile Include="src\gamebase.cpp" />
-    <ClInclude Include="src\introstate.h" />
-    <ClInclude Include="src\recthelper.h" />
-    <ClInclude Include="src\tdUtil\editor.h" />
+    <ClInclude Include="src\mainMenu\introstate.h" />
+    <ClInclude Include="src\tdEditor\editor.h" />
     <ClInclude Include="src\tdUtil\map.h" />
     <ClInclude Include="src\tdUtil\player.h" />
     <ClInclude Include="src\tdUtil\tdTileHandler.h" />
     <ClInclude Include="src\tdUtil\Wave.h" />
     <ClInclude Include="src\tdUtil\waveHandler.h" />
     <ClInclude Include="src\td\enemy\enemy.h" />
-    <ClInclude Include="src\td\enemy\smallemy.h" />
     <ClInclude Include="src\td\Projectiles\arrow.h" />
     <ClInclude Include="src\td\projectiles\baseExplosion.h" />
     <ClInclude Include="src\td\Projectiles\boomerang.h" />
@@ -230,26 +228,40 @@
     <ClInclude Include="src\util\audioHandler.h" />
     <ClInclude Include="src\util\coordinateTransformer.h" />
     <ClInclude Include="src\util\dataHandler.h" />
+    <ClInclude Include="src\util\enums.h" />
+    <ClInclude Include="src\util\gamebase.h" />
+    <ClInclude Include="src\util\global.h" />
     <ClInclude Include="src\util\gui\Button.h" />
+    <ClInclude Include="src\util\gui\checkbox.h" />
+    <ClInclude Include="src\util\gui\checkSymbol.h" />
     <ClInclude Include="src\util\gui\floatingmenu.h" />
     <ClInclude Include="src\util\gui\gui.h" />
     <ClInclude Include="src\util\gui\inputDialog.h" />
     <ClInclude Include="src\util\gui\linkEstablisher.h" />
+    <ClInclude Include="src\util\gui\playerSettings.h" />
     <ClInclude Include="src\util\gui\selectorDialog.h" />
     <ClInclude Include="src\util\gui\sizeDialog.h" />
     <ClInclude Include="src\util\gui\textbox.h" />
     <ClInclude Include="src\util\gui\TextWithValue.h" />
+    <ClInclude Include="src\util\recthelper.h" />
     <ClInclude Include="src\util\renderHelper.h" />
     <ClInclude Include="src\util\TextureCache.h" />
+    <ClInclude Include="src\worldMap\worldMap.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
+    <None Include="asset\graphic\bg-world.xcf" />
     <None Include="asset\graphic\td\tileTD.xcf" />
     <None Include="asset\graphic\Unbenannt.xcf" />
+    <None Include="asset\music\severance.ogg" />
     <None Include="asset\_music\severance.ogg" />
     <None Include="classdiagram.drawio" />
     <None Include="LICENSE" />
+    <None Include="Maps\gameMaps\world1.map" />
+    <None Include="Maps\gameMaps\world2.map" />
+    <None Include="Maps\gameMaps\world3.map" />
     <None Include="Maps\neueMap.map" />
+    <None Include="newTiles.pdn" />
     <None Include="old_README.md" />
     <None Include="packages.config" />
     <None Include="README.md" />
@@ -265,6 +277,7 @@
     <Image Include="asset\graphic\bg-main.png" />
     <Image Include="asset\graphic\bg-testtd.png" />
     <Image Include="asset\graphic\bg-ui-testtd.png" />
+    <Image Include="asset\graphic\bg-world.png" />
     <Image Include="asset\graphic\editor\arrow.png" />
     <Image Include="asset\graphic\editor\blocked.png" />
     <Image Include="asset\graphic\fire.png" />
@@ -283,6 +296,7 @@
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="asset\music\testsound.wav" />
     <Media Include="asset\_music\testsound.wav" />
     <Media Include="asset\sound\ArrowHit.wav" />
     <Media Include="asset\sound\Darth_Vader_NO.mp3" />
