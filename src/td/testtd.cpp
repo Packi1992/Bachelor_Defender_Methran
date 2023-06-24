@@ -21,6 +21,7 @@ void TestTD::Init() {
     se.SpawnPoint = 0;
     se.count = 1;
     se.speed = 100;
+    se.type = Boss_Frohle_Poehlich;
     for(int i = 0; i<=10; i++){
         se.time += 500;
         w1.addEvent(se);
@@ -28,6 +29,7 @@ void TestTD::Init() {
     se.SpawnPoint = 1;
     se.health += 50;
     se.time = 1000;
+    se.type = Boss_Drueberbolz;
     Wave w2;
     for(int i = 0; i<=20; i++){
         se.time += 500;
