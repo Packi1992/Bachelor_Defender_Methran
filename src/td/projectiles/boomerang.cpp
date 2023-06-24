@@ -5,6 +5,7 @@
 #include "boomerang.h"
 #include "../enemy/enemy.h"
 #include "../testtd.h"
+#include "../../util/recthelper.h"
 
 Boomerang::Boomerang() {
     _type = ProjectileType::BOOMERANG;
@@ -12,8 +13,8 @@ Boomerang::Boomerang() {
 }
 
 void Boomerang::Update() {
-    _diff = (int)(totalMSec - _lastTimePoint);
-    for(auto &entry: hitList){
+    _diff = (int) (totalMSec - _lastTimePoint);
+    for (auto &entry: hitList) {
         entry.hitCooldown -= _diff;
     }
     hitList.erase(
@@ -23,16 +24,26 @@ void Boomerang::Update() {
                     [](HitTimer mov) { return mov.hitCooldown <= 0; }
             ),
             hitList.end());
-    if(_diff < 0 )_diff = 0;
+    if (_diff < 0)_diff = 0;
     _lastTimePoint = totalMSec;
-    _direction -= 3;
-    auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
-    auto speed = (float) (((float) _speed) * 0.01f);
-    _position.x += (sin(direction) * speed);
-    _position.y -= (cos(direction) * speed);
-    _minFlyingTime -= _diff;
-    if (_minFlyingTime <= 0) {
-        _toggleDirection = !_toggleDirection;
+    if (_toggleDirection) {
+        calcNextPos();
+    }else {
+        auto direction = (float) (((double) (_direction % 360) / 180.0f) * M_PI);
+        auto speed = (float) (((float) _speed) * 0.01f);
+        _position.x += (sin(direction) * speed);
+        _position.y -= (cos(direction) * speed);
+    }
+
+    _flyingTime -= _diff;
+    if (_flyingTime <= _minFlyingTime / 2 && !_midflight) {
+        _midflight = true;
+        _rotatePoint = _position;
+    }
+    if (_flyingTime <= 0 && _toggleDirection == false) {
+        _endFlyPos = _position;
+        _toggleDirection = true;
+        //_travellength = sqrt(_endFlyPos.x * _endFlyPos.x + _endFlyPos.y * _endFlyPos.y);
     }
     if (((int) _position.x == (int) _startingPoint.x) && ((int) _position.y == (int) _startingPoint.y) &&
         _toggleDirection) {
@@ -77,23 +88,25 @@ void Boomerang::collide() {
 
 bool Boomerang::collision(std::shared_ptr<Enemy> e) {
     bool inList = false;
-    for(auto &entry: hitList){
-        if(entry.enemy == e) {
+    for (auto &entry: hitList) {
+        if (entry.enemy == e) {
             inList = true;
             break;
         }
     }
-    if(!inList && Projectile::collision(e)){
-        if(e->_copyable){
-            e->stun(true, true);
-            std::shared_ptr<Enemy> e1 = std::make_shared<Smallemy>(e->_pos, 30, 70, 0, Ordinary);
-            std::shared_ptr<Enemy> e2 = std::make_shared<Smallemy>(e->_pos, 30, 70, 0, Ordinary);
+    if (!inList && Projectile::collision(e)) {
+        if (e->isCopyable()) {
+            std::shared_ptr<Enemy> e1 = std::make_shared<Enemy>(e->_pos, 30, 70, 0, e->_type, 0.5f, false);
+            std::shared_ptr<Enemy> e2 = std::make_shared<Enemy>(e->_pos, 30, 70, 0, e->_type, 0.5f, false);
             tdGlobals->_enemies.push_back(e1);
             tdGlobals->_enemies.push_back(e2);
-            hitList.push_back({e1,500});
-            hitList.push_back({e2,500});
+            hitList.push_back({e1, 500});
+            hitList.push_back({e2, 500});
         }
-        hitList.push_back({e,250});
+        if (e->isStunable()) {
+            e->stun(_stunduration);
+        }
+        hitList.push_back({e, 500});
         return true;
     }
     return false;
@@ -101,5 +114,15 @@ bool Boomerang::collision(std::shared_ptr<Enemy> e) {
 
 Boomerang::Boomerang(Boomerang &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
     _minFlyingTime = p._minFlyingTime;
+    _flyingTime = p._minFlyingTime;
     _toggleDirection = p._toggleDirection;
+    _stunduration = p._stunduration;
+}
+
+void Boomerang::calcNextPos() {
+    float _angle = 1.0f;
+    FPoint oq = {_rotatePoint.x - _position.x, _rotatePoint.y - _position.y};
+    FPoint oq_ = {(cos(_angle) * oq.x + (-sin(_angle)) * oq.x), (sin(_angle) * oq.y + cos(_angle) * oq.y)};
+    _position = oq_ + _rotatePoint;
+    cout << _position.x << " " << _position.y << endl;
 }

@@ -14,7 +14,7 @@ MapObjects TdTileHandler::selectObject(int i) {
 }
 
 Rect TdTileHandler::src = {0, 0, 0, 0};
-int TdTileHandler::localAnimate=0;
+int TdTileHandler::localAnimate = 0;
 int TdTileHandler::TOOLCOUNT = 6;
 int TdTileHandler::OBJECTCOUNT = 9;
 
@@ -25,23 +25,23 @@ Rect *TdTileHandler::getSrcRect(MapObjects o, ul animate) {
     switch (o) {
         case Tower:
         case Empty:
-            src.x = 9*64;
+            src.x = 9 * 64;
             src.y = 0;
             break;
         case Start:
             src.y = 0;
-            localAnimate = (int)((animate / 80) % 10);
-            if(localAnimate>=5){
-                localAnimate = 9-localAnimate;
+            localAnimate = (int) ((animate / 80) % 10);
+            if (localAnimate >= 5) {
+                localAnimate = 9 - localAnimate;
             }
-            src.x = localAnimate  * 64;
+            src.x = localAnimate * 64;
             break;
         case Goal:
-            localAnimate = (int)(((animate+30) / 80) % 10);
-            if(localAnimate>=5){
-                localAnimate = 9-localAnimate;
+            localAnimate = (int) (((animate + 30) / 80) % 10);
+            if (localAnimate >= 5) {
+                localAnimate = 9 - localAnimate;
             }
-            src.x = localAnimate  * 64;
+            src.x = localAnimate * 64;
             src.y = 64;
             break;
         case Table:
@@ -67,16 +67,46 @@ Rect *TdTileHandler::getEnemySrcRect(EnemyType e, ul anim, Direction d) {
     src = {0, 0, 64, 128};
     switch (e) {
         case Ordinary:
+        case Girl:
+            // The Girl
+            if (d == RIGHT || d == LEFT) {
+                src.y = 6 * 64;
+                src.x = 64 + (int) ((anim / 100) % 10) * 64;
+            } else if (d == BOTTOM) {
+                src.y = 6 * 64;
+                src.x = 11 * 64 + (int) ((anim / 100) % 4) * 64;
+            } else if (d == TOP) {
+                src.y = 6 * 64;
+                src.x = 15 * 64 + (int) ((anim / 100) % 4) * 64;
+            }
+            break;
+        case Boy:
+            // The boy
+            if (d == RIGHT || d == LEFT) {
+                src.y = 12 * 64;
+                src.x = 64 + (int) ((anim / 100) % 10) * 64;
+            } else if (d == BOTTOM) {
+                src.y = 12 * 64;
+                src.x = 11 * 64 + (int) ((anim / 100) % 4) * 64;
+            } else if (d == TOP) {
+                src.y = 12 * 64;
+                src.x = 15 * 64 + (int) ((anim / 100) % 4) * 64;
+            }
+            break;
         case Fast:
         case Silly:
         case Strong:
         case Boss:
-            if(d == RIGHT || d == LEFT){
-                src.y = 6 * 64;
-                src.x = 64 + (int)((anim/100)%10)*64;
-            }else if(d == BOTTOM || d == TOP){
-                src.y = 6 * 64;
-                src.x = 64 + (int)((anim/100)%10)*64;
+            // Frohle - Pöhlich
+            if (d == RIGHT || d == LEFT) {
+                src.y = 14 * 64;
+                src.x = 64 + (int) ((anim / 100) % 10) * 64;
+            } else if (d == BOTTOM) {
+                src.y = 14 * 64;
+                src.x = 11 * 64 + (int) ((anim / 100) % 4) * 64;
+            } else if (d == TOP) {
+                src.y = 14 * 64;
+                src.x = 15 * 64 + (int) ((anim / 100) % 4) * 64;
             }
             break;
     }
@@ -91,25 +121,25 @@ Rect *TdTileHandler::getTowerSrcRect(TowerType t, ul anim) {
             return &src;
         case Pointer:
             src.y = 256;
-            src.x = 64 + (int)(anim%4)*64;
+            src.x = 64 + (int) (anim % 4) * 64;
             return &src;
         case RecursivBase:
             src.y = 512;
             return &src;
         case Tower_Boomerang:
             src.y = 512;
-            src.x = 64 + (int)(anim%2)*64;
+            src.x = 64 + (int) (anim % 2) * 64;
             return &src;
         case Tower_LinkedList:
             src.y = 576;
-            src.x = 64 + (int)(anim%8)*64;
+            src.x = 64 + (int) (anim % 8) * 64;
             return &src;
         case Tower_LinkedListBase:
             src.y = 576;
             return &src;
         case Hashcanon:
             src.y = 640;
-            src.x = (int)(anim%4)*64;
+            src.x = (int) (anim % 4) * 64;
             return &src;
         case StringTower:
             src.y = 704;
@@ -144,7 +174,7 @@ std::string TdTileHandler::getName(MapObjects object) {
 
 SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long anim) {
     src = {0, 0, 64, 64};
-    switch(p){
+    switch (p) {
         case ARROW:
             src = {23, 335, 18, 32};
             break;
@@ -159,8 +189,8 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
             src = {216, 525, 22, 38};
             break;
         case FFIRE:
-            localAnimate = (int)((anim / 40) % 2);
-            src.x = 64+(localAnimate* 64);
+            localAnimate = (int) ((anim / 40) % 2);
+            src.x = 64 + (localAnimate * 64);
             src.y = 320;
             break;
         case HASHBOMB:

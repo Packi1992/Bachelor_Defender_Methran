@@ -22,6 +22,8 @@ enum EnemyType{
     Silly,
     Strong,
     Boss,
+    Boy,
+    Girl,
 };
 enum ProjectileType{
     DISABLED,
