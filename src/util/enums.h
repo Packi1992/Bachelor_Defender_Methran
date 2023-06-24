@@ -21,7 +21,8 @@ enum EnemyType{
     Fast,
     Silly,
     Strong,
-    Boss,
+    Boss_Frohle_Poehlich,
+    Boss_Drueberbolz,
     Boy,
     Girl,
 };
