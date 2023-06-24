@@ -115,15 +115,28 @@ void TestTD::Render() {
     // Background
     rh->background(BG);
     // Map
-    _map.Render(true);
-    // Tower
-    for (auto &tower: globals._towers) {
-        tower->Render();
+    _map.RenderBG(true);
+    for (int y = 0; y < _map._height; y++) {
+        _map.RenderRow(y);
+        if (_renderPath)
+            _map.RenderPathRow(y);
+        // Tower
+        for (auto &tower: globals._towers) {
+            if (tower->isRow(y))
+                tower->Render();
+        }
     }
+
     //  render Enemies
-    for (auto &enemy: globals._enemies) {
-        enemy->Render();
+    for (int i = 0; i < (_map._height) * 10; i++) {
+        for (auto &enemy: globals._enemies) {
+            if (enemy->isRow((float) i * 0.1f))
+                enemy->Render();
+        }
     }
+
+
+
     // projectiles and particles
     for (auto &p: tdGlobals->_projectiles) {
         if (p != nullptr) {
@@ -269,6 +282,9 @@ void TestTD::Events() {
                 case SDL_KEYDOWN:
                     keyDown(event);
                     break;
+                case SDL_KEYUP:
+                    if (event.key.keysym.scancode == SDL_SCANCODE_P)
+                        _renderPath = false;
             }
         }
     } else {
@@ -303,6 +319,8 @@ void TestTD::keyDown(SDL_Event &event) {
         case SDL_SCANCODE_SPACE:
             _btn_space = true;
             break;
+        case SDL_SCANCODE_P:
+            _renderPath = true;
         case SDL_SCANCODE_RCTRL:
         case SDL_SCANCODE_LCTRL:
             _btn_control = true;
@@ -497,4 +515,12 @@ void TestTD::handleEvent(const GameEvent &event) {
 void TDGlobals::setPath(string newMapPath) {
     delete _mapPath;
     _mapPath = new string(std::move(newMapPath));
+}
+
+bool TDGlobals::isEnemyBlocking(FPoint tile) {
+    for(auto &e: _enemies){
+        if((int)e->_pos.x==(int)tile.x && (int)e->_pos.y == (int)tile.y)
+            return true;
+    }
+    return false;
 }

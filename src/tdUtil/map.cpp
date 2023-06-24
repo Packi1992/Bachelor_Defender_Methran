@@ -41,8 +41,15 @@ void Map::RenderRow(int row) {
     int y = (row * scale) - offset.y;
     for (int i = 0; i < _width; i++) {
         int x = (i * scale) - offset.x;
-        if(x+scale>0 && x<windowSize.x && y+scale>0 && y<windowSize.y){
+        if (x + scale > 0 && x < windowSize.x && y + scale > 0 && y < windowSize.y) {
             dstRect = {x, y, scale, scale};
+            switch (_map[i][row]) {
+                case MapObjects::Goal:
+                case MapObjects::Tower:
+                case MapObjects::Start:
+                    rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(MapObjects::Empty));
+                    break;
+            }
             rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][row], totalMSec));
         }
     }
@@ -73,6 +80,33 @@ void Map::RenderPath() {
                 rh->texture(_arrow, &dstRect, getDir(i, j, e.pos.x, e.pos.y));
             }
         }
+    }
+}
+
+void Map::RenderPathRow(int yx) {
+    Rect dstRect;
+    for (int i = 0; i < _width; i++) {
+        int x = (i * scale) - offset.x;
+        int y = (yx * scale) - offset.y;
+        dstRect = {x, y, scale, scale};
+        //Point p= {i,j};
+        PathEntry e = _pathMap[i][yx];
+        if (e.blocked)
+            rh->texture(_blocked, &dstRect);
+        else if (!e.set && !e.goal) {
+            dstRect.x += scale / 6;
+            dstRect.y += scale / 6;
+            dstRect.w -= scale / 3;
+            dstRect.h -= scale / 3;
+            rh->fillRect(&dstRect, YELLOW);
+            dstRect = {x, y, scale, scale};
+
+        } else if (e.goal) {
+            continue;
+        } else {
+            rh->texture(_arrow, &dstRect, getDir(i, yx, e.pos.x, e.pos.y));
+        }
+
     }
 }
 
@@ -165,6 +199,7 @@ void Map::setTile(Point p, MapObjects object) {
         _map[p.x][p.y] = object;
     }
     updatePathFinding();
+    CheckEnemiesPath(p);
 }
 
 MapObjects Map::getObjectAtScreenPos(Point &p) {
@@ -219,21 +254,21 @@ bool Map::updatePathFinding() {
         for (int j = 0; j < _height; j++) {
             for (int i = 0; i < _width; i++) {
                 if (!_pathMap[i][j].blocked && !_pathMap[i][j].goal && !_pathMap[i][j].set) {
-                    if(evaluatePath(i, j))
+                    if (evaluatePath(i, j))
                         changed = true;
                     allPathsFound = false;
                 }
             }
         }
-        if(!changed)
+        if (!changed)
             break;
     }
-    for(Point p: _startPoints){
-        if(!_pathMap[p.x][p.y].blocked && !_pathMap[p.x][p.y].goal && !_pathMap[p.x][p.y].set)
+    for (Point p: _startPoints) {
+        if (!_pathMap[p.x][p.y].blocked && !_pathMap[p.x][p.y].goal && !_pathMap[p.x][p.y].set)
             certificatesConnected = false;
     }
 
-    if (!allPathsFound&&!certificatesConnected) {
+    if (!allPathsFound && !certificatesConnected) {
         cerr << "updating Path failed" << endl;
         return false;
     }
@@ -355,4 +390,25 @@ Point Map::getStartPoint(int i) {
     if ((int) _startPoints.size() >= i + 1)
         return _startPoints.at(i);
     return _startPoints.at(0);
+}
+
+void Map::CheckEnemiesPath(Point point) {
+    for (auto &e: tdGlobals->_enemies) {
+        if ((int) e->_nextPos.x == point.x && (int) e->_nextPos.y == point.y){
+            switch(e->_dir){
+                case 0:
+                    e->_nextPos = {(float)point.x+0.5f,(float)point.y-1.5f};
+                    break;
+                case 90:
+                    e->_nextPos = {(float)point.x-0.5f,(float)point.y+0.5f};
+                    break;
+                case 180:
+                    e->_nextPos = {(float)point.x+0.5f,(float)point.y+1.5f};
+                    break;
+                case 270:
+                    e->_nextPos = {(float)point.x-1.5f,(float)point.y+0.5f};
+                    break;
+            }
+        }
+    }
 }

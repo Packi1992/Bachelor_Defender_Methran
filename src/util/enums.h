@@ -107,6 +107,7 @@ enum Status{
     Status_Disabled,
     Status_NotEnoughMoney,
     Status_Active,
+    Status_EnemyBlocking,
 };
 
 enum Direction{
