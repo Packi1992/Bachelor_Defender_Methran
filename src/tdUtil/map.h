@@ -48,6 +48,12 @@ public:
 
     bool blockingTile(Point point);
 
+    void RenderBG(bool wire);
+
+    void RenderRow(int row);
+
+    void RenderPath();
+
 private:
     struct PathEntry {
         Point pos;
@@ -74,7 +80,7 @@ private:
 
     bool isBlocked(int i, int j);
 
-    void evaluatePath(int x, int y);
+    bool evaluatePath(int x, int y);
 
     void setPathEntry(int x, int y, int i, int y1);
 

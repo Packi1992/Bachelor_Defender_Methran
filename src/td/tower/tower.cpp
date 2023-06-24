@@ -119,3 +119,7 @@ Point Tower::getRenderPos() {
     return _rPos;
 }
 
+bool Tower::isRow(int row) const {
+    return (int)_pos.y == row;
+}
+

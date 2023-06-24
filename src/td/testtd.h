@@ -25,6 +25,7 @@ struct TDGlobals {
     Player _pl{};
     string *_mapPath{};
     void setPath(string newMapPath);
+    bool editor = false;
     ~TDGlobals(){
         delete _mapPath;
     }

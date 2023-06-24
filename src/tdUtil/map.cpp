@@ -31,41 +31,46 @@ void Map::resize(Point size) {
     updatePathFinding();
 }
 
-void Map::Render(bool wire, bool pathFinding) {
+void Map::RenderBG(bool wire) {
     if (wire)
         drawWire();
+}
+
+void Map::RenderRow(int row) {
+    Rect dstRect;
+    int y = (row * scale) - offset.y;
+    for (int i = 0; i < _width; i++) {
+        int x = (i * scale) - offset.x;
+        if(x+scale>0 && x<windowSize.x && y+scale>0 && y<windowSize.y){
+            dstRect = {x, y, scale, scale};
+            rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][row], totalMSec));
+        }
+    }
+}
+
+void Map::RenderPath() {
     Rect dstRect;
     for (int i = 0; i < _width; i++) {
         int x = (i * scale) - offset.x;
         for (int j = 0; j < _height; j++) {
             int y = (j * scale) - offset.y;
             dstRect = {x, y, scale, scale};
-            rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][j], totalMSec));
-        }
-    }
-    if (pathFinding) {
-        for (int i = 0; i < _width; i++) {
-            int x = (i * scale) - offset.x;
-            for (int j = 0; j < _height; j++) {
-                int y = (j * scale) - offset.y;
+            //Point p= {i,j};
+            PathEntry e = _pathMap[i][j];
+            if (e.blocked)
+                rh->texture(_blocked, &dstRect);
+            else if (!e.set && !e.goal) {
+                dstRect.x += scale / 6;
+                dstRect.y += scale / 6;
+                dstRect.w -= scale / 3;
+                dstRect.h -= scale / 3;
+                rh->fillRect(&dstRect, YELLOW);
                 dstRect = {x, y, scale, scale};
-                //Point p= {i,j};
-                PathEntry e = _pathMap[i][j];
-                if (e.blocked)
-                    rh->texture(_blocked, &dstRect);
-                else if (!e.set && !e.goal) {
-                    dstRect.x += scale / 6;
-                    dstRect.y += scale / 6;
-                    dstRect.w -= scale / 3;
-                    dstRect.h -= scale / 3;
-                    rh->fillRect(&dstRect, YELLOW);
-                    dstRect = {x, y, scale, scale};
 
-                } else if (e.goal) {
-                    continue;
-                } else {
-                    rh->texture(_arrow, &dstRect, getDir(i, j, e.pos.x, e.pos.y));
-                }
+            } else if (e.goal) {
+                continue;
+            } else {
+                rh->texture(_arrow, &dstRect, getDir(i, j, e.pos.x, e.pos.y));
             }
         }
     }
@@ -195,8 +200,8 @@ bool Map::updatePathFinding() {
     // clear path array
     for (int j = 0; j < _height; j++) {
         for (int i = 0; i < _width; i++) {
-            if(_map[i][j] == MapObjects::Start)
-                _startPoints.push_back({i,j});
+            if (_map[i][j] == MapObjects::Start)
+                _startPoints.push_back({i, j});
             _pathMap[i][j].pos = {-1, -1}; //-1/-1 is not set
             _pathMap[i][j].blocked = isBlocked(i, j);
             _pathMap[i][j].goal = _map[i][j] == MapObjects::Goal;
@@ -205,20 +210,30 @@ bool Map::updatePathFinding() {
     }
     //  map should have spawn points, and at least one goal
     bool allPathsFound = false;
+    bool certificatesConnected = true;
     int loopCounter = 0;
     while (!allPathsFound && loopCounter < _width * _height) {
         loopCounter++;
         allPathsFound = true;
+        bool changed = false;
         for (int j = 0; j < _height; j++) {
             for (int i = 0; i < _width; i++) {
                 if (!_pathMap[i][j].blocked && !_pathMap[i][j].goal && !_pathMap[i][j].set) {
-                    evaluatePath(i, j);
+                    if(evaluatePath(i, j))
+                        changed = true;
                     allPathsFound = false;
                 }
             }
         }
+        if(!changed)
+            break;
     }
-    if (!allPathsFound) {
+    for(Point p: _startPoints){
+        if(!_pathMap[p.x][p.y].blocked && !_pathMap[p.x][p.y].goal && !_pathMap[p.x][p.y].set)
+            certificatesConnected = false;
+    }
+
+    if (!allPathsFound&&!certificatesConnected) {
         cerr << "updating Path failed" << endl;
         return false;
     }
@@ -249,43 +264,44 @@ bool Map::isBlocked(int i, int j) {
 }
 
 
-void Map::evaluatePath(int x, int y) {
+bool Map::evaluatePath(int x, int y) {
     // look around position if goal is reachable
     // we use 4er neighborhood stuff
     // look if a goal is reachable
     if (x + 1 < _width && _pathMap[x + 1][y].goal) {
         setPathEntry(x, y, x + 1, y);
-        return;
+        return true;
     }
     if (y + 1 < _height && _pathMap[x][y + 1].goal) {
         setPathEntry(x, y, x, y + 1);
-        return;
+        return true;
     }
     if (y - 1 >= 0 && _pathMap[x][y - 1].goal) {
         setPathEntry(x, y, x, y - 1);
-        return;
+        return true;
     }
     if (x - 1 >= 0 && _pathMap[x - 1][y].goal) {
         setPathEntry(x, y, x - 1, y);
-        return;
+        return true;
     }
     // if there is no goal found ... look for other path entries
     if (x + 1 < _width && _pathMap[x + 1][y].set && !_pathMap[x + 1][y].blocked) {
         setPathEntry(x, y, x + 1, y);
-        return;
+        return true;
     }
     if (y + 1 < _height && _pathMap[x][y + 1].set && !_pathMap[x][y + 1].blocked) {
         setPathEntry(x, y, x, y + 1);
-        return;
+        return true;
     }
     if (y - 1 >= 0 && _pathMap[x][y - 1].set && !_pathMap[x][y - 1].blocked) {
         setPathEntry(x, y, x, y - 1);
-        return;
+        return true;
     }
     if (x - 1 >= 0 && _pathMap[x - 1][y].set && !_pathMap[x - 1][y].blocked) {
         setPathEntry(x, y, x - 1, y);
-        return;
+        return true;
     }
+    return false;
 }
 
 void Map::setPathEntry(int ex, int ey, int tx, int ty) {
@@ -315,9 +331,10 @@ bool Map::checkPath(Point pos) {
     }
     return true;
 }
+
 bool Map::blockingTile(SDL_Point pos) {
-    for(auto& tower: tdGlobals->_towers){
-        if(pos.x == tower->getRenderPos().x && pos.y == tower->getRenderPos().y){
+    for (auto &tower: tdGlobals->_towers) {
+        if (pos.x == tower->getRenderPos().x && pos.y == tower->getRenderPos().y) {
             return true;
         }
     }
@@ -335,7 +352,7 @@ bool Map::blockingTile(SDL_Point pos) {
 }
 
 Point Map::getStartPoint(int i) {
-    if((int)_startPoints.size()>=i+1)
+    if ((int) _startPoints.size() >= i + 1)
         return _startPoints.at(i);
     return _startPoints.at(0);
 }

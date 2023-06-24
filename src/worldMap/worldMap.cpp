@@ -89,6 +89,7 @@ void WorldMap::Update() {
                             mapSelector.show(&focus);
                             break;
                     }
+                    tdGlobals->editor = false;
                 }
             _msBtn_left = false;
         } else {
