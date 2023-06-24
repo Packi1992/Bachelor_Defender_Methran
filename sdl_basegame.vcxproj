@@ -166,7 +166,10 @@
     <ClCompile Include="src\tdUtil\tdTileHandler.cpp" />
     <ClCompile Include="src\tdUtil\Wave.cpp" />
     <ClCompile Include="src\tdUtil\waveHandler.cpp" />
+    <ClCompile Include="src\td\enemy\bossEnemy.cpp" />
+    <ClCompile Include="src\td\enemy\drüberBolz.cpp" />
     <ClCompile Include="src\td\enemy\enemy.cpp" />
+    <ClCompile Include="src\td\enemy\frolePöhlich.cpp" />
     <ClCompile Include="src\td\Projectiles\arrow.cpp" />
     <ClCompile Include="src\td\projectiles\baseExplosion.cpp" />
     <ClCompile Include="src\td\Projectiles\boomerang.cpp" />
@@ -209,7 +212,10 @@
     <ClInclude Include="src\tdUtil\tdTileHandler.h" />
     <ClInclude Include="src\tdUtil\Wave.h" />
     <ClInclude Include="src\tdUtil\waveHandler.h" />
+    <ClInclude Include="src\td\enemy\bossEnemy.h" />
+    <ClInclude Include="src\td\enemy\drüberBolz.h" />
     <ClInclude Include="src\td\enemy\enemy.h" />
+    <ClInclude Include="src\td\enemy\frolePöhlich.h" />
     <ClInclude Include="src\td\Projectiles\arrow.h" />
     <ClInclude Include="src\td\projectiles\baseExplosion.h" />
     <ClInclude Include="src\td\Projectiles\boomerang.h" />

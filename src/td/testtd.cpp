@@ -17,6 +17,7 @@ void TestTD::Init() {
     // use wave handler
     Wave w1;
     GameEvent se{};
+    GameEvent boss{};
     se.time = 1000;
     se.SpawnPoint = 0;
     se.count = 1;

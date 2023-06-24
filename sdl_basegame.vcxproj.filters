@@ -151,16 +151,16 @@
     <ClInclude Include="src\util\dataHandler.h">
       <Filter>src\util</Filter>
     </ClInclude>
-   <ClInclude Include="src\util\enums.h">
+    <ClInclude Include="src\util\enums.h">
       <Filter>src\util</Filter>
     </ClInclude>
-   <ClInclude Include="src\util\global.h">
+    <ClInclude Include="src\util\global.h">
       <Filter>src\util</Filter>
     </ClInclude>
-   <ClInclude Include="src\util\gamebase.h">
+    <ClInclude Include="src\util\gamebase.h">
       <Filter>src\util</Filter>
     </ClInclude>
-   <ClInclude Include="src\util\recthelper.h">
+    <ClInclude Include="src\util\recthelper.h">
       <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\renderHelper.h">
@@ -208,6 +208,9 @@
     <ClInclude Include="src\worldMap\worldMap.h">
       <Filter>src\worldMap</Filter>
     </ClInclude>
+    <ClInclude Include="src\td\enemy\bossEnemy.h" />
+    <ClInclude Include="src\td\enemy\drüberBolz.h" />
+    <ClInclude Include="src\td\enemy\frolePöhlich.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
@@ -242,6 +245,10 @@
     <None Include="asset\music\severance.ogg">
       <Filter>asset\music</Filter>
     </None>
+    <None Include="asset\_music\severance.ogg">
+      <Filter>asset\music</Filter>
+    </None>
+    <None Include="Maps\neueMap.map" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="asset\font\MonkeyIsland-1991-refined.ttf">
@@ -441,6 +448,9 @@
     <ClCompile Include="src\worldMap\worldMap.cpp">
       <Filter>src\worldMap</Filter>
     </ClCompile>
+    <ClCompile Include="src\td\enemy\bossEnemy.cpp" />
+    <ClCompile Include="src\td\enemy\drüberBolz.cpp" />
+    <ClCompile Include="src\td\enemy\frolePöhlich.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="asset\music\testsound.wav">
@@ -457,6 +467,9 @@
     </Media>
     <Media Include="asset\sound\thriee.wav">
       <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\_music\testsound.wav">
+      <Filter>asset\music</Filter>
     </Media>
   </ItemGroup>
 </Project>
