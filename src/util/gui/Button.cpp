@@ -54,9 +54,6 @@ void Button::entered(Point p) {
 
 Button::Button(const Button &b) {
     strcpy(_textArr, b._textArr);
-    IfDebug{
-        std::cout << "using Copy Constructor: " << _textArr << std::endl;
-    }
     this->_size = b._size;
     this->_rect = b._rect;
     this->_id = b._id;

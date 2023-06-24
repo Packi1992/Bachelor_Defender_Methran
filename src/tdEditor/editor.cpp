@@ -2,26 +2,24 @@
 // Created by banoodle on 23.05.23.
 //
 #include "editor.h"
+#include "../util/dataHandler.h"
+#include "../td/testtd.h"
 
-Editor::Editor(Game &game) : GameState(game, GS_Editor) {
-    pGame = &game;
-    t_tileMap = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
-}
+Editor::Editor(Game &game) : GameState(game, GS_Editor) {}
 
 void Editor::Init() {
     GameState::Init();
     Toolbox = {0, windowSize.y - 100, windowSize.x, 100};
-    int yPos = windowSize.y - 90;
-    btn_load.set("Laden", 18, {5, yPos, 80, 80});
-    btn_load.setHighlightedColor(BTN_HIGHLIGHTED);
-    btn_save.set("Speichern", 18, {windowSize.x - 105, yPos, 100, 80});
-    btn_save.setHighlightedColor(BTN_HIGHLIGHTED);
-    btn_path.set("Show Path",18,{btn_save.getX()-105,yPos,100,80});
-    btn_path.setHighlightedColor(BTN_HIGHLIGHTED);
-    btn_change_size.set("Größe ändern", 18, {btn_path.getX() - 135, yPos, 130, 80});
-    btn_change_size.setHighlightedColor(BTN_HIGHLIGHTED);
-    btn_playerSettings.set("Map Settings", 18, {btn_change_size.getX() - 135, yPos, 130, 80});
-    btn_playerSettings.setHighlightedColor(BTN_HIGHLIGHTED);
+    _buttons.emplace_back("Laden", _fontSize, btn_Load);
+    _buttons.emplace_back("Speichern", _fontSize, btn_save);
+    _buttons.emplace_back("Pathfinding", _fontSize, btn_pathFinding);
+    _buttons.emplace_back("Map-Größe", _fontSize, btn_changeSize);
+    _buttons.emplace_back("Game-Settings", _fontSize, btn_playerSettings);
+    _buttons.emplace_back("Wave's", _fontSize, btn_waveSettings);
+    _buttons.emplace_back("Start Game", _fontSize, btn_startGame);
+    for (auto &btn: _buttons) {
+        btn.setHighlightedColor(BTN_HIGHLIGHTED);
+    }
     audioHandler->playMusic(MusicEditor);
 }
 
@@ -32,84 +30,77 @@ void Editor::UnInit() {
 
 void Editor::Update() {
     if (focus == nullptr) {
+        // inputhandling
+        SDL_GetMouseState(&mousePos.x, &mousePos.y);
+        if (_mbLeft)MouseClickLeft();
+        if(_mbRight)MouseClickRight();
         if (mapSelector.isFileSelected()) {
-            DataHandler::load(player,waves,map,mapSelector.getSelectedFile());
+            mapName = mapSelector.getSelectedFile();
+            DataHandler::load(player, waves, map, mapSelector.getSelectedFile());
             mapSelector.reset();
         }
         if (mapNameInput.isDone()) {
-            DataHandler::save(player,waves,map,mapNameInput.getInput());
+            DataHandler::save(player, waves, map, mapNameInput.getInput());
             mapNameInput.reset();
         }
-        if(resizeMap.isDone()){
+        if (resizeMap.isDone()) {
             map.resize(resizeMap.getInput());
             resizeMap.reset();
         }
-        if(settingsDialog.isDone()){
+        if (settingsDialog.isDone()) {
             player._sanity = settingsDialog.getSanity();
             player._creditPoints = settingsDialog.getCreditPoints();
             player._usableTowers.clear();
-            for(auto entry: settingsDialog.getUsableTowers())
+            for (auto entry: settingsDialog.getUsableTowers())
                 player._usableTowers.insert(entry);
         }
         // update "Viewport" / Zoom in or Out
-        if(_mouseWheel){
+        if (_mouseWheel) {
             Game::zoomScreen(_wheelEvent);
             _mouseWheel = false;
         }
-        if(_mouseMotion && _mbRight){
-            Game::scrollScreen(_motionEvent);
-            _mouseMotion = false;
-        }
+        updateButtonPos();
     }
 }
 
 void Editor::Render() {
     rh->background(BG);
-    // Render maps
-    map.Render(true,showPath);
+    // Render map
+    map.RenderBG(true);
+    for(int y=0; y < map._height ; y++)
+        map.RenderRow(y);
+    if(showPath)map.RenderPath();
+
     // now Render ui
-    Rect tool, symbol;
-    tool = {0, 0, 80, 80};
-    symbol = {0, 0, 64, 64};
-    rh->fillRect(&Toolbox,EDITOR_UI_BG);
-    tool.x = 100;
-    symbol.x = tool.x + 8;
-    tool.y = windowSize.y - 90;
-    symbol.y = tool.y + 8;
-    for (int i = 0; i < TdTileHandler::TOOLCOUNT; i++) {
-        rh->fillRect(&tool,WHITE);
-        rh->texture(t_tileMap, &symbol, TdTileHandler::getSrcRect(i));
-        if (this->selected == i) {
-            rh->setColor({ 0, 0, (u8)rainbowColor, 255});
-            rh->rect(&tool,5);
-            rainbowColor += 10;
-        }
-        tool.x += 90;
-        symbol.x = tool.x + 8;
-    }
-    if (isLabelActive && labelTimer > 60) {
+    RenderToolbox();
+    if (isLabelActive && labelTimer > 60)
         rh->hint(labelObject, 18, labelPos, BLACK, WHITE);
-    }
-    btn_save.draw();
-    btn_load.draw();
-    btn_path.draw();
-    btn_change_size.draw();
-    btn_playerSettings.draw();
+    for (auto &btn: _buttons)btn.draw();
     mapSelector.Render();
     mapNameInput.Render();
     resizeMap.Render();
     settingsDialog.Render();
 }
 
-void Editor::handleSelection(Event event) {
-    if (event.motion.y < windowSize.y - 10 && event.motion.y > windowSize.y - 90) {
-        int x = event.motion.x - 100;
-        if (x > 0 && x < (TdTileHandler::TOOLCOUNT * 90 - 10)) {
-            if (x % 90 < 81) {
-                selected = TdTileHandler::selectObject(x / 90);
-
-            }
+void Editor::RenderToolbox() {
+    Rect tool, symbol;
+    tool = {0, 0, 80, 80};
+    symbol = {0, 0, 64, 64};
+    rh->fillRect(&Toolbox, EDITOR_UI_BG);
+    tool.x = 100;
+    symbol.x = tool.x + 8;
+    tool.y = windowSize.y - 90;
+    symbol.y = tool.y + 8;
+    for (int i = 0; i < TdTileHandler::TOOLCOUNT; i++) {
+        rh->fillRect(&tool, WHITE);
+        rh->tile(&symbol,TdTileHandler::getSrcRect(i));
+        if (this->selected == i) {
+            rh->setColor({0, 0, (u8) rainbowColor, 255});
+            rh->rect(&tool, 5);
+            rainbowColor += 10;
         }
+        tool.x += 90;
+        symbol.x = tool.x + 8;
     }
 }
 
@@ -118,7 +109,7 @@ void Editor::Events() {
         SDL_Event event;
         labelTimer++;
         while (SDL_PollEvent(&event)) {
-            if(pGame->HandleEvent(event))
+            if (pGame->HandleEvent(event))
                 return;
             switch (event.type) {
                 case SDL_WINDOWEVENT:
@@ -126,16 +117,29 @@ void Editor::Events() {
                         game.SetNextState(GS_Close);
                     break;
                 case SDL_MOUSEBUTTONDOWN:
-                    MouseDown(event);
+                    switch (event.button.button) {
+                        case SDL_BUTTON_RIGHT:
+                            _mbRight = true;
+                            break;
+                        case SDL_BUTTON_LEFT:
+                            _mbLeft = true;
+                            break;
+                    }
                     break;
                 case SDL_MOUSEBUTTONUP:
-                    _mbLeft = false;
-                    if (event.button.button == SDL_BUTTON_RIGHT && _mbRight)_mbRight = false;
+                    switch (event.button.button) {
+                        case SDL_BUTTON_RIGHT:
+                            _mbRight = false;
+                            break;
+                        case SDL_BUTTON_LEFT:
+                            _mbLeft = false;
+                            break;
+                    }
                     break;
                 case SDL_MOUSEMOTION:
                     _motionEvent = event;
                     MouseMotion(event);
-                    _mouseMotion=true;
+                    _mouseMotion = true;
                     break;
                 case SDL_MOUSEWHEEL:
                     _mouseWheel = true;
@@ -147,43 +151,6 @@ void Editor::Events() {
         }
     } else {
         focus->Input();
-    }
-}
-
-void Editor::MouseDown(SDL_Event event) {
-    if (event.button.button == SDL_BUTTON_LEFT) {
-        if (event.motion.y < (Toolbox.y))_mbLeft = true;
-        if (_mbLeft) {
-            map.setTile(event, selected);
-            labelObject = selected;
-            labelPos = {event.motion.x, event.motion.y - 30};
-        } else {
-            if (btn_save.clicked(event)){
-                mapNameInput.set("Gib einen Mapnamen ein","Name","neueMap");
-                mapNameInput.show(&focus);
-            }
-            else if (btn_load.clicked(event)){
-                mapSelector.set( BasePath"Maps/", ".map");
-                mapSelector.show(&focus);
-            }else if (btn_path.clicked(event)){
-                showPath = !showPath;
-                if(showPath)
-                    btn_path.setColor(YELLOW);
-                else
-                    btn_path.setColor(BTN_COLOR);
-            }
-            else if (btn_change_size.clicked(event)) {
-                resizeMap.set(map._width, map._height);
-                resizeMap.show(&focus);
-            }
-            else if (btn_playerSettings.clicked(event)) {
-                settingsDialog.set(player);
-                settingsDialog.show(&focus);
-            }
-            else handleSelection(event);
-        }
-    } else if (event.button.button == SDL_BUTTON_RIGHT) {
-        _mbRight = true;
     }
 }
 
@@ -200,11 +167,8 @@ void Editor::MouseMotion(SDL_Event event) {
         labelPos.y -= 30;
         labelTimer = 0;
     }
-    btn_load.entered(event);
-    btn_path.entered(event);
-    btn_change_size.entered(event);
-    btn_save.entered(event);
-    btn_playerSettings.entered(event);
+    for (auto &btn: _buttons)
+        btn.entered(event);
 }
 
 void Editor::keyDown(SDL_Event event) {
@@ -229,5 +193,111 @@ void Editor::keyDown(SDL_Event event) {
             offset.y += 20;
         default:
             break;
+    }
+}
+
+void Editor::MouseClickLeft() {
+    if (_mbLeft) {
+        if (mousePos.y < (Toolbox.y)) {
+            map.setTile(CT::getTileInGame(mousePos), selected);
+            labelObject = selected;
+            labelPos = {mousePos.x, mousePos.y - 30};
+        } else {
+            for (auto &btn: _buttons) {
+                if (btn.clicked(mousePos)) {
+                    switch ((Buttons) btn.getId()) {
+                        case btn_Load:
+                            mapSelector.set(BasePath"Maps/", ".map");
+                            mapSelector.show(&focus);
+                            break;
+                        case btn_save:
+                            mapNameInput.set("Gib einen Mapnamen ein", "Name", mapName);
+                            mapNameInput.show(&focus);
+                            break;
+                        case btn_waveSettings:
+                            break;
+                        case btn_startGame:
+                            DataHandler::save(player, waves, map, "tmp");
+                            game.SetNextState(GS_TD);
+                            tdGlobals->setPath("tmp.map");
+                            tdGlobals->editor = true;
+                            break;
+                        case btn_changeSize:
+                            resizeMap.set(map._width, map._height);
+                            resizeMap.show(&focus);
+                            break;
+                        case btn_playerSettings:
+                            settingsDialog.set(player);
+                            settingsDialog.show(&focus);
+                            break;
+                        case btn_pathFinding:
+                            showPath = !showPath;
+                            if (showPath)
+                                btn.setColor(YELLOW);
+                            else
+                                btn.setColor(BTN_COLOR);
+                            break;
+                    }
+                    _mbLeft = false;
+                    break;
+                }
+            }
+            handleSelection();
+        }
+    }
+}
+void Editor::MouseClickRight() {
+    if (_mouseMotion) {
+        Game::scrollScreen(_motionEvent);
+        _mouseMotion = false;
+    }
+}
+
+void Editor::handleSelection() {
+    if (mousePos.y < windowSize.y - 10 && mousePos.y > windowSize.y - 90) {
+        int x = mousePos.x - 100;
+        if (x > 0 && x < (TdTileHandler::TOOLCOUNT * 90 - 10)) {
+            if (x % 90 < 81) {
+                selected = TdTileHandler::selectObject(x / 90);
+            }
+        }
+    }
+}
+
+void Editor::updateButtonPos() {
+    int yPos = windowSize.y - 90;
+    int btnHeight = 80;
+    int btnWidth = 135;
+    int btnOffset = 140;
+    Rect save = {windowSize.x - btnOffset, yPos, btnWidth, btnHeight};
+    Rect pathfinding = {save.x-btnOffset,yPos,btnWidth,btnHeight};
+    Rect changeSize = {pathfinding.x - btnOffset, yPos, btnWidth, btnHeight};
+    Rect playerSettings = {changeSize.x - btnOffset, yPos, btnWidth, btnHeight};
+    Rect waveSettings = {playerSettings.x - btnOffset, yPos, btnWidth,btnHeight};
+    Rect start = {waveSettings.x - btnOffset , yPos,btnWidth,btnHeight};
+    for(auto &btn : _buttons){
+        switch ((Buttons) btn.getId()) {
+            case btn_Load:
+                btn.setSize({5,yPos,80,btnHeight});
+                break;
+            case btn_save:
+                btn.setSize(save);
+                break;
+            case btn_waveSettings:
+                btn.setSize(waveSettings);
+                break;
+            case btn_startGame:
+                btn.setSize(start);
+                break;
+            case btn_changeSize:
+                btn.setSize(changeSize);
+                break;
+            case btn_playerSettings:
+                btn.setSize(playerSettings);
+                break;
+            case btn_pathFinding:
+                btn.setSize(pathfinding);
+                break;
+        }
     }
 }

@@ -21,9 +21,12 @@ void Enemy::Update() {
         updateDir();
         if (_pos.x == _nextPos.x && _pos.y == _nextPos.y) {
             // updated Target if reached
-            _reachedGoal = pMap->getObject(_pos) == MapObjects::Goal;
-            _nextPos = pMap->getNextPosCentre(_pos);
-        } else if (!_reachedGoal) {
+            if(pMap->getObject(_pos) != MapObjects::Goal)
+                _nextPos = pMap->getNextPosCentre(_pos);
+            else
+                _reachedGoal = true;
+        }
+        if (!_reachedGoal) {
             // actually move
             auto runLength = (float) ((float) diff * (float) _speed * 0.00001);
             if (_slowTimer > 0) {
@@ -206,7 +209,7 @@ Enemy::Enemy() {
     _animOffset = _lastTimePoint % 800;
 }
 
-bool Enemy::isCopyable() {
+bool Enemy::isCopyable() const {
     return _copyable;
 }
 
@@ -223,9 +226,14 @@ Enemy::Enemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType typ
     _copyable = false;
     _size = size;
     _stunable = stunable;
+    _lastTimePoint = totalMSec;
 }
 
 bool Enemy::isStunable() const {
     return (_stunCooldownTimer <= 0 && _stunable);
+}
+
+bool Enemy::isRow(float row) const {
+    return (int)(row*10) ==(int)(_pos.y*10);
 }
 

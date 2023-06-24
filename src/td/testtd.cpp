@@ -10,7 +10,7 @@ TDGlobals *tdGlobals{};
 
 void TestTD::Init() {
     GameState::Init();
-    DataHandler::load(globals._pl, globals._wh, _map,BasePath"Maps/"+*(tdGlobals->_mapPath));
+    DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + *(tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
 
@@ -31,7 +31,7 @@ void TestTD::Init() {
     se.time = 1000;
     se.type = Boss_Drueberbolz;
     Wave w2;
-    for(int i = 0; i<=20; i++){
+    for (int i = 0; i <= 20; i++) {
         se.time += 500;
         w2.addEvent(se);
     }
@@ -39,7 +39,7 @@ void TestTD::Init() {
     Wave w3;
     se.health += 100;
     se.time = 1000;
-    for(int i = 0; i<=25; i++){
+    for (int i = 0; i <= 25; i++) {
         se.time += 500;
         w3.addEvent(se);
     }
@@ -47,7 +47,7 @@ void TestTD::Init() {
     Wave w4;
     se.health += 200;
     se.time = 1000;
-    for(int i = 0; i<=20; i++){
+    for (int i = 0; i <= 20; i++) {
         se.time += 500;
         w4.addEvent(se);
     }
@@ -55,7 +55,7 @@ void TestTD::Init() {
     Wave w5;
     se.health += 300;
     se.time = 1000;
-    for(int i = 0; i<=100; i++){
+    for (int i = 0; i <= 100; i++) {
         se.time += 500;
         w5.addEvent(se);
     }
@@ -121,14 +121,14 @@ void TestTD::Render() {
         rh->background(BLACK, 128);
         rh->CenteredText("Game Over", 70, RED, windowSize.x, windowSize.y);
     }
-    if (!_gameover && globals._wh.isOver()){
+    if (!_gameover && globals._wh.isOver()) {
         rh->background(BLACK, 128);
         rh->CenteredText("Congraz, Du hast gewonnen!", 70, GREEN, windowSize.x, windowSize.y);
     }
 }
 
 void TestTD::Update() {
-    if (!_gameover&&!globals._wh.isOver()) {
+    if (!_gameover && !globals._wh.isOver()) {
         _floatingMenu.Update();
         handleFloatingMenuSelection();
 
@@ -140,7 +140,7 @@ void TestTD::Update() {
         // Handle new enemies
         globals._wh.Update();
         GameEvent sEvent;
-        while(globals._wh.pullEvent(sEvent)){
+        while (globals._wh.pullEvent(sEvent)) {
             handleEvent(sEvent);
         }
         // calculate sanity bar (only every 10 frames)
@@ -197,7 +197,7 @@ void TestTD::Update() {
 void TestTD::collision() {
     for (auto &p: globals._projectiles) {
         if (p->_alive) {
-            for(int i = 0; i < globals._enemies.size(); i++){
+            for (int i = 0; i < globals._enemies.size(); i++) {
                 if (globals._enemies.at(i)->_alive && p->collision(globals._enemies.at(i)) && p->_alive) {
                     p->collide();
                 }
@@ -247,7 +247,10 @@ void TestTD::Events() {
 void TestTD::keyDown(SDL_Event &event) {
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
-            game.SetNextState(GS_MainMenu);
+            if (globals.editor)
+                game.SetNextState(GS_Editor);
+            else
+                game.SetNextState(GS_MainMenu);
             break;
         case SDL_SCANCODE_D:
         case SDL_SCANCODE_RIGHT:
@@ -290,7 +293,7 @@ void TestTD::updateFloatingMenu() {
         hashCanon._status = Status_Disabled;
         stringTower._status = Status_Disabled;
     }
-    for( auto &entry :globals._pl._usableTowers){
+    for (auto &entry: globals._pl._usableTowers) {
         switch (entry) {
             case MenuEntry_POINTER:
                 _buildMenuEntries.push_back(pointerTower);
@@ -406,7 +409,7 @@ void TestTD::updateTowers() {
 
 void TestTD::updateProjectiles() {
     // NO AUTO LOOP! We add Particales in the Update function to the projectiles list.
-    for (int i = 0; i < (int)tdGlobals->_projectiles.size(); i++) {
+    for (int i = 0; i < (int) tdGlobals->_projectiles.size(); i++) {
         tdGlobals->_projectiles.at(i)->Update();
     }
     globals._projectiles.erase(
@@ -420,7 +423,7 @@ void TestTD::updateProjectiles() {
 
 void TestTD::updateEnemeies() {
     // NO AUTO LOOP! We add Enemies in the Update function to the enemy list.
-    for (int i = 0; i < (int)tdGlobals->_enemies.size(); i++) {
+    for (int i = 0; i < (int) tdGlobals->_enemies.size(); i++) {
         tdGlobals->_enemies.at(i)->Update();
     }
     globals._enemies.erase(
@@ -433,7 +436,7 @@ void TestTD::updateEnemeies() {
 }
 
 bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
-    if ((uint)tower->getCosts() > globals._pl._creditPoints) {
+    if ((uint) tower->getCosts() > globals._pl._creditPoints) {
         return false;
     }
     if (tower->init(&tdGlobals->_focus)) {
@@ -443,18 +446,18 @@ bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
     return false;
 }
 
-TestTD::TestTD(Game &game, string mapPath): GameState(game, GS_TD) {
+TestTD::TestTD(Game &game, string mapPath) : GameState(game, GS_TD) {
     tdGlobals = &globals;
     _texMethran = t_cache->get(BasePath"asset/graphic/methran1.png");
     SDL_QueryTexture(_texMethran, nullptr, nullptr, &MethranDst.w, &MethranDst.h);
     pGame = &game;
     pMap = &_map;
-    globals._mapPath =new string(std::move(mapPath));
+    globals._mapPath = new string(std::move(mapPath));
 }
 
-void TestTD::handleEvent(const GameEvent& event) {
+void TestTD::handleEvent(const GameEvent &event) {
     std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
-    e->setEnemy(pMap->getStartPoint(event.SpawnPoint),event.health,event.speed,event.value,event.type);
+    e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
     globals._enemies.push_back(e);
 
 }

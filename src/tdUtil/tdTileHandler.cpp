@@ -3,7 +3,6 @@
 //
 
 #include "tdTileHandler.h"
-
 #include "../util/global.h"
 
 MapObjects TdTileHandler::selectObject(int i) {
@@ -15,7 +14,7 @@ MapObjects TdTileHandler::selectObject(int i) {
 
 Rect TdTileHandler::src = {0, 0, 0, 0};
 int TdTileHandler::localAnimate = 0;
-int TdTileHandler::TOOLCOUNT = 6;
+int TdTileHandler::TOOLCOUNT = 5;
 int TdTileHandler::OBJECTCOUNT = 9;
 
 
