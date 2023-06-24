@@ -28,9 +28,9 @@ void Boomerang::Update() {
     // calculate next position
     float flSpeed = (float) _diff * (float) _speed * 0.0001f;
     _position.x += (_targetVec.x + _driftVec.x) * flSpeed;
-    _position.y += (_targetVec.y + _driftVec.y) * flSpeed;
-    _driftVec += _counterDriftVec * flSpeed;
-    if (!_midflight && (int) (_position.x * 10) == (int) (_targetP.x * 10) &&
+    _position.y -= (_targetVec.y + _driftVec.y) * flSpeed;
+    _driftVec += (_counterDriftVec * flSpeed);
+    if (!_midflight && (int) (_position.x) == (int) (_targetP.x) &&
         (int) (_position.y * 10) == (int) (_targetP.y * 10)) {
         _targetVec *= -1;
         _counterDriftVec *= -1;
@@ -48,29 +48,37 @@ void Boomerang::Update() {
         }
     }
 }
+
 void Boomerang::calculateVectors() {
     // boomerang is flying counter clockwise
     _targetP = _position - _targetE->_pos;
-    _targetP *= -1;
+    float length = sqrt(_targetP.x * _targetP.x + _targetP.y * _targetP.y);
+    float angle = CT::getAngle({0, 0}, _targetP);
+    angle = (float) (((int) angle + 120) % 360);
+    angle = angle / 180 * M_PI;
+    _targetP.x = sin(angle) * length;
+    _targetP.y = -cos(angle) * length;
     _targetP = _targetP + _targetE->_pos;
     float totalPathLength = (float) (sqrt(pow(_targetP.x + _position.x, 2) + pow(_targetP.y + _position.y, 2)));
     float targetAngle = CT::getAngle(_position, _targetP) / 180.0f * (float) M_PI;
     _targetVec = {(float) sin(targetAngle) * totalPathLength * 0.01f,
                   (float) cos(targetAngle) * totalPathLength * 0.01f};
-    if(_targetVec.x >= 0 && _targetVec.y >= 0){
-        _driftVec = {_targetVec.y,-_targetVec.x};
-        _counterDriftVec = {-(_targetVec.y) * 0.01f, (-_targetVec.x) * 0.01f};
-    }else if(_targetVec.x >= 0 && _targetVec.y < 0){
-        _driftVec = {-_targetVec.y,_targetVec.x};
-        _counterDriftVec = {(_targetVec.y) * 0.01f, -(_targetVec.x) * 0.01f};
-    }else if(_targetVec.x < 0 && _targetVec.y < 0){
-        _driftVec = {_targetVec.y,-_targetVec.x};
-        _counterDriftVec = {-(_targetVec.y) * 0.01f, (_targetVec.x) * 0.01f};
-    }else if(_targetVec.x < 0 && _targetVec.y >= 0){
-        _driftVec = {-_targetVec.y,_targetVec.x};
-        _counterDriftVec = {(_targetVec.y) * 0.01f, -(_targetVec.x) * 0.01f};
+    if (_targetVec.x >= 0 && _targetVec.y >= 0) {
+        _driftVec = {_targetVec.y, -_targetVec.x};
+        _counterDriftVec = {-(_driftVec.x) * 0.05f, -(_driftVec.y) * 0.05f};
+    } else if (_targetVec.x >= 0 && _targetVec.y < 0) { // unten rechts
+        _driftVec = {-_targetVec.y, _targetVec.x};
+        _counterDriftVec = {-(_driftVec.x) * 0.05f, -(_driftVec.y) * 0.05f};
+    } else if (_targetVec.x < 0 && _targetVec.y < 0) {
+        _driftVec = {_targetVec.y, -_targetVec.x};
+        _counterDriftVec = {-(_driftVec.x) * 0.05f, -(_driftVec.y) * 0.05f};
+    } else if (_targetVec.x < 0 && _targetVec.y >= 0) { // oben links
+        _driftVec = {_targetVec.y, -_targetVec.x};
+        _counterDriftVec = {-(_driftVec.x) * 0.05f, -(_driftVec.y) * 0.05f};
     }
-    _driftVec *= 0.5f;
+    _driftVec = _driftVec - _counterDriftVec;
+    IfDebug
+        e = _targetE->_pos;
 }
 
 void Boomerang::Render() {
@@ -84,25 +92,34 @@ void Boomerang::Render() {
         float angle = (float) _direction / 180.0f * (float) M_PI;
         float sinAngle = sin(angle);
         float cosAngle = cos(angle);
-        int xFix = (int) (-sizeW * 0.5 - sinAngle * sizeW);
-        int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
-        Rect dstRect = {pos.x + xFix, pos.y + yFix, (int) sizeW, (int) sizeH};
+        //int xFix = (int) (-sizeW * 0.5 - sinAngle * sizeW);
+        //int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
+        Rect dstRect = {(int)(pos.x - (float)sizeW*0.5f), (int)(pos.y - (float)sizeH*0.5f), (int) sizeW, (int) sizeH};
         rh->tile(&dstRect, 360 - (totalMSec % 360), TdTileHandler::getProjectileSrcRect(_type, totalMSec));
-        dstRect.y = pos.y;
-        dstRect.x = pos.x;
-        dstRect.w = 5;
-        dstRect.h = 5;
-        rh->fillRect(&dstRect, BLACK);
-        Point targetOnScreen = CT::getPosOnScreen(_targetP);
-        Rect target = {targetOnScreen.x, targetOnScreen.y, 64, 64};
-        rh->fillRect(&target, RED);
-        Point targetVecP = {(int)((float)pos.x+_targetVec.x*100*(float)scale),(int)((float)pos.y+_targetVec.y*100*(float)scale)};
-        rh->line(pos, targetVecP, RED);
-        Point driftVecP = {(int)((float)pos.x+_driftVec.x*100*(float)scale),(int)((float)pos.y+_driftVec.y*100*(float)scale)};
-        rh->line(pos, driftVecP, RED);
-        Point cdriftVecP = {(int)((float)pos.x+_counterDriftVec.x*100*(float)scale),(int)((float)pos.y+_counterDriftVec.y*100*(float)scale)};
-        rh->line(pos, cdriftVecP,RED);
-        cout << "_targetVec:" << _targetVec.x << ", " << _targetVec.y << "| _driftVec:" << _driftVec.x << ", " << _driftVec.y << "| _counterDriftVec:" << _counterDriftVec.x << ", " << _counterDriftVec.y << endl;
+        IfDebug {
+            dstRect.y = pos.y;
+            dstRect.x = pos.x;
+            dstRect.w = 5;
+            dstRect.h = 5;
+            rh->fillRect(&dstRect, BLACK);
+            Point targetOnScreen = CT::getPosOnScreen(_targetP);
+            Rect target = {targetOnScreen.x - 5, targetOnScreen.y - 5, 10, 10};
+            rh->fillRect(&target, RED);
+            Point targetVecP = {(int) ((float) pos.x + _targetVec.x * 100 * (float) scale),
+                                (int) ((float) pos.y - _targetVec.y * 100 * (float) scale)};
+            rh->line(pos, targetVecP, RED);
+            Point driftVecP = {(int) ((float) pos.x + _driftVec.x * 100 * (float) scale),
+                               (int) ((float) pos.y - _driftVec.y * 100 * (float) scale)};
+            rh->line(pos, driftVecP, BLUE);
+            Point cdriftVecP = {(int) ((float) pos.x + _counterDriftVec.x * 500 * (float) scale),
+                                (int) ((float) pos.y - _counterDriftVec.y * 500 * (float) scale)};
+            rh->line(pos, cdriftVecP, GREEN);
+            Point es = CT::getPosOnScreen(e);
+            Rect target2{es.x - 5, es.y - 5, 10, 10};
+            rh->fillRect(&target2, GREEN);
+            //cout << "_targetVec:" << _targetVec.x << ", " << _targetVec.y << "| _driftVec:" << _driftVec.x << ", "
+            //     << _driftVec.y << "| _counterDriftVec:" << _counterDriftVec.x << ", " << _counterDriftVec.y << endl;
+        };
     }
 }
 

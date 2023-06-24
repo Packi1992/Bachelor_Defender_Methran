@@ -47,6 +47,7 @@ protected:
 
     //  debug stuff
     int _arrowDir = 0;
+    Boomerang b{};
 
     //  buttons & events
     bool _btn_space = false;

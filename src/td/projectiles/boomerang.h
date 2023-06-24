@@ -19,6 +19,7 @@ private:
     FPoint _rotatePoint = {0.0f,0.0f};
     void calcNextPos();
     bool _midflight = false;
+    FPoint e{};
     FPoint _targetVec{};
     FPoint _driftVec{};
     FPoint _counterDriftVec{};

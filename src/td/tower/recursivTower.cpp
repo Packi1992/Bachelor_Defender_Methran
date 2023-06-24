@@ -102,8 +102,6 @@ RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _boomerang._startingPoint = _pos;
     _boomerang._freez = false;
     _boomerang._enHittable = false;
-    // have to fix the ttl...
-    _boomerang._ttl = 6000;
 }
 
 RecursivTower::~RecursivTower() = default;
