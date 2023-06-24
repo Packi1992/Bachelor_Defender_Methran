@@ -18,20 +18,21 @@ void TestTD::Init() {
     Wave w1;
     GameEvent se{};
     GameEvent boss{};
+    se.type = Ordinary;
     se.time = 1000;
     se.SpawnPoint = 0;
     se.count = 1;
     se.speed = 100;
     se.type = Ordinary;
-    for(int i = 0; i<=10; i++){
+    /*for (int i = 0; i <= 10; i++) {
         se.time += 500;
         w1.addEvent(se);
-    }
+    }*/
     boss.time = se.time + 3000;
     boss.SpawnPoint = 0;
     boss.count = 1;
     boss.speed = 200;
-    boss.health = 300;
+    boss.health = 20;
     boss.type = Boss_Drueberbolz;
     w1.addEvent(boss);
 

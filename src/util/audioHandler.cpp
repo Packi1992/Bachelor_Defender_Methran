@@ -110,10 +110,10 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "asset/sound/thriee.wav";
 		case SoundEnemyOrdinary:
 			return BasePath "asset/sound/ArrowHit.wav";
-		case SoundFrolePöhlich:
-			return BasePath "asset/sound/thriee.wav";
-		case SoundDrüberbolz:
-			return BasePath "asset/sound/thriee.wav";
+		case SoundFrolePoehlich:
+			return BasePath "asset/music/testsound.wav";
+		case SoundDrueberbolz:
+			return BasePath "asset/music/testsound.wav";
 		case SoundArrowFire:
 			return BasePath "asset/sound/pewf.wav";
 		case SoundArrowHit:
@@ -121,7 +121,7 @@ const char* AudioHandler::getSoundPath(soundType sound) {
         case SoundBoomerangFire:
             return BasePath "asset/sound/thriee.wav";
 		case SoundBoomerangHit:
-			return BasePath "asset/sound/Darth_Vader_NO.mp3";
+			return BasePath "asset/sound/thriee.wav";
 		case SoundHashbombFire:
 			return BasePath "asset/sound/thriee.wav";
 		case SoundHashbombHit:
@@ -138,7 +138,7 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "asset/sound/thriee.wav";
 		case SoundBaseExplosion:
 			return BasePath "asset/sound/thriee.wav";
-		case SoundError:
+		default:
 			cerr << "False Sound Type" << endl;
 			return "asset/sound/thriee.wav";
 	}

@@ -58,7 +58,7 @@ public:
 
     [[nodiscard]] virtual FRect getHitBox() const;
 
-
+    virtual void collide();
 
 protected:
     float _size = 1.0f;

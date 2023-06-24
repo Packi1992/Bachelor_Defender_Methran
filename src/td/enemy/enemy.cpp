@@ -60,8 +60,14 @@ void Enemy::takeDamage(Projectile *p) {
     if (_health == 0) {
         startDeathAnimation();
         tdGlobals->_pl._creditPoints += this->_value;
+        collide();
         _alive = false;
     }
+}
+
+void Enemy::collide() {
+    float x = (float)(CT::getPosOnScreen(_pos).x) / float(windowSize.x);
+    audioHandler->playSound(SoundEnemyOrdinary, x);
 }
 
 void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size, bool stunable) {
