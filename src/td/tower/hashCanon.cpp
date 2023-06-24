@@ -63,8 +63,8 @@ void HashCanon::Update() {
             if (_reloadTime <= 0) {
                 _reloadTime = _shootCoolDown;
                 float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
-                audioHandler->playSound(SoundTowerPointer, x);
-                audioHandler->playSound(SoundArrowFire, x);
+                audioHandler->playSound(SoundHashCanon, x);
+                audioHandler->playSound(SoundHashbombFire, x);
                 tdGlobals->_projectiles.push_back(
                         std::make_shared<Hashbomb>(_hashbomb, _targetEnemy->_pos));
             } else {

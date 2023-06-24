@@ -121,7 +121,7 @@ const char* AudioHandler::getSoundPath(soundType sound) {
         case SoundBoomerangFire:
             return BasePath "asset/sound/thriee.wav";
 		case SoundBoomerangHit:
-			return BasePath "asset/sound/thriee.wav";
+			return BasePath "asset/sound/Darth_Vader_NO.mp3";
 		case SoundHashbombFire:
 			return BasePath "asset/sound/thriee.wav";
 		case SoundHashbombHit:

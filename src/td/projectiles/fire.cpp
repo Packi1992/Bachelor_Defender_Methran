@@ -17,9 +17,8 @@ void Fire::Update() {
 }
 
 void Fire::collide() {
-    //float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
-
-    Projectile::collide();
+    float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+    audioHandler->playSound(SoundFire, x);
 
 }
 

@@ -70,7 +70,7 @@ void PointerTower::Update() {
                 if (_reloadTime <= 0) {
                     _reloadTime = _shootCoolDown;
                     float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
-                    audioHandler->playSound(SoundTowerPointer, x);
+                    audioHandler->playSound(SoundPointerTower, x);
                     audioHandler->playSound(SoundArrowFire, x);
                     if (!_doubleArrow)
                         tdGlobals->_projectiles.push_back(
