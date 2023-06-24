@@ -58,8 +58,6 @@ void BaseExplosion::Render() {
 }
 
 void BaseExplosion::collide() {
-    float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    audioHandler->playSound(SoundBaseExplosion, x);
 }
 
 bool BaseExplosion::collision(std::shared_ptr<Enemy> e) {

@@ -33,6 +33,7 @@ void AudioHandler::pauseMusic() {
 void AudioHandler::playSound(soundType sound, float x) {
 	int left = 255;
 	int right = 255;
+	cout << "BIG TIME THIS IS IT: " << channelnumber << endl;
 	if (channelnumber > 8) {
 		channelnumber = 0;
 	}
@@ -118,23 +119,13 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "asset/music/testsound.wav";
 		case SoundDrueberbolz:
 			return BasePath "asset/music/testsound.wav";
-		case SoundArrowFire:
-			return BasePath "asset/sound/pewf.wav";
 		case SoundArrowHit:
 			return BasePath "asset/sound/ArrowHit.wav";
-        case SoundBoomerangFire:
-            return BasePath "asset/sound/thriee.wav";
 		case SoundBoomerangHit:
-			return BasePath "asset/sound/thriee.wav";
-		case SoundHashbombFire:
 			return BasePath "asset/sound/thriee.wav";
 		case SoundHashbombHit:
 			return BasePath "asset/sound/thriee.wav";
-		case SoundLinkFire:
-			return BasePath "asset/sound/thriee.wav";
 		case SoundLinkHit:
-			return BasePath "asset/sound/thriee.wav";
-		case SoundStringProjectileFire:
 			return BasePath "asset/sound/thriee.wav";
 		case SoundStringProjectileHit:
 			return BasePath "asset/sound/thriee.wav";

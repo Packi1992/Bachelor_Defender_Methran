@@ -57,7 +57,6 @@ void StringTower::Update() {
                 _reloadTime = _shootCoolDown;
                 float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
                 audioHandler->playSound(SoundStringTower, x);
-                audioHandler->playSound(SoundStringProjectileFire, x);
                 _stringProjectile._string = strText.at(rand() % (int) strText.size());
                 tdGlobals->_projectiles.push_back(
                         std::make_shared<StringProjectile>(_stringProjectile));
