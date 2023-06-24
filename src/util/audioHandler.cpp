@@ -98,18 +98,19 @@ const char* AudioHandler::getMusicPath(musicType music) {
 // Eventually split Projectile Sound in Fire and Hit mabey dont I dont know
 const char* AudioHandler::getSoundPath(soundType sound) {
 	switch (sound) {
-		case SoundTowerPointer:
+		case SoundPointerTower:
 			return BasePath "asset/sound/thriee.wav";
 		case SoundEnemyOrdinary:
 			return BasePath "asset/sound/ArrowHit.wav";
+		case SoundFrolePöhlich:
 		case SoundArrowFire:
 			return BasePath "asset/sound/pewf.wav";
 		case SoundArrowHit:
 			return BasePath "asset/sound/ArrowHit.wav";
         case SoundBoomerangFire:
             return BasePath "asset/sound/thriee.wav";
-		case SoundBullet:
-		case SoundFFire:
+		case SoundBoomerangHit:
+		case SoundFire:
 		case SoundBaseExplosion:
 		case SoundError:
 		default:
