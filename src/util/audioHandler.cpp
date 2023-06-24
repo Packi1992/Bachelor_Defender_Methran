@@ -100,9 +100,20 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 	switch (sound) {
 		case SoundPointerTower:
 			return BasePath "asset/sound/thriee.wav";
+		case SoundHashCanon:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundLinkedListTower:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundRecursivTower:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundStringTower:
+			return BasePath "asset/sound/thriee.wav";
 		case SoundEnemyOrdinary:
 			return BasePath "asset/sound/ArrowHit.wav";
 		case SoundFrolePöhlich:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundDrüberbolz:
+			return BasePath "asset/sound/thriee.wav";
 		case SoundArrowFire:
 			return BasePath "asset/sound/pewf.wav";
 		case SoundArrowHit:
@@ -110,10 +121,24 @@ const char* AudioHandler::getSoundPath(soundType sound) {
         case SoundBoomerangFire:
             return BasePath "asset/sound/thriee.wav";
 		case SoundBoomerangHit:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundHashbombFire:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundHashbombHit:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundLinkFire:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundLinkHit:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundStringProjectileFire:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundStringProjectileHit:
+			return BasePath "asset/sound/thriee.wav";
 		case SoundFire:
+			return BasePath "asset/sound/thriee.wav";
 		case SoundBaseExplosion:
+			return BasePath "asset/sound/thriee.wav";
 		case SoundError:
-		default:
 			cerr << "False Sound Type" << endl;
 			return "asset/sound/thriee.wav";
 	}
