@@ -27,7 +27,7 @@ void TestTD::Init() {
         se.time += 500;
         w1.addEvent(se);
     }
-    boss.time = se.time + 1000;
+    boss.time = se.time + 3000;
     boss.SpawnPoint = 0;
     boss.count = 1;
     boss.speed = 200;
@@ -43,7 +43,7 @@ void TestTD::Init() {
         se.time += 500;
         w2.addEvent(se);
     }
-    boss.time = se.time + 1000;
+    boss.time = se.time + 3000;
     boss.SpawnPoint = 1;
     boss.type = Boss_Frohle_Poehlich;
     boss.health += 100;
@@ -57,7 +57,7 @@ void TestTD::Init() {
         se.time += 500;
         w3.addEvent(se);
     }
-    boss.time = se.time + 1000;
+    boss.time = se.time + 3000;
     boss.SpawnPoint = 0;
     boss.type = Boss_Frohle_Poehlich;
     boss.health += 100;
