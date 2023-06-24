@@ -27,9 +27,9 @@ void Boomerang::Update() {
             hitList.end());
     // calculate next position
     float flSpeed = (float) _diff * (float) _speed * 0.0001f;
-    _position.x += (_targetVec.x + _driftVec.x);
-    _position.y -= (_targetVec.y + _driftVec.y);
-    _driftVec += _counterDriftVec;
+    _position.x += (_targetVec.x + _driftVec.x) * flSpeed;
+    _position.y += (_targetVec.y + _driftVec.y) * flSpeed;
+    _driftVec += _counterDriftVec * flSpeed;
     if (!_midflight && (int) (_position.x * 10) == (int) (_targetP.x * 10) &&
         (int) (_position.y * 10) == (int) (_targetP.y * 10)) {
         _targetVec *= -1;
@@ -96,11 +96,11 @@ void Boomerang::Render() {
         Point targetOnScreen = CT::getPosOnScreen(_targetP);
         Rect target = {targetOnScreen.x, targetOnScreen.y, 64, 64};
         rh->fillRect(&target, RED);
-        Point targetVecP = {(int)((float)pos.x+_targetVec.x*100*(float)scale),(int)((float)pos.y-_targetVec.y*100*(float)scale)};
+        Point targetVecP = {(int)((float)pos.x+_targetVec.x*100*(float)scale),(int)((float)pos.y+_targetVec.y*100*(float)scale)};
         rh->line(pos, targetVecP, RED);
-        Point driftVecP = {(int)((float)pos.x+_driftVec.x*100*(float)scale),(int)((float)pos.y-_driftVec.y*100*(float)scale)};
+        Point driftVecP = {(int)((float)pos.x+_driftVec.x*100*(float)scale),(int)((float)pos.y+_driftVec.y*100*(float)scale)};
         rh->line(pos, driftVecP, RED);
-        Point cdriftVecP = {(int)((float)pos.x+_counterDriftVec.x*100*(float)scale),(int)((float)pos.y-_counterDriftVec.y*100*(float)scale)};
+        Point cdriftVecP = {(int)((float)pos.x+_counterDriftVec.x*100*(float)scale),(int)((float)pos.y+_counterDriftVec.y*100*(float)scale)};
         rh->line(pos, cdriftVecP,RED);
         cout << "_targetVec:" << _targetVec.x << ", " << _targetVec.y << "| _driftVec:" << _driftVec.x << ", " << _driftVec.y << "| _counterDriftVec:" << _counterDriftVec.x << ", " << _counterDriftVec.y << endl;
     }
