@@ -5,7 +5,7 @@
 
 class BossEnemy : public Enemy {
 public:
-	BossEnemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size = 1.0f, bool stunable);
+	BossEnemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size = 1.0f, bool stunable = false);
 };
 
 #endif //SDL_BASEGAME_BOSSENEMY_H
