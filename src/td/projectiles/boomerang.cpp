@@ -96,13 +96,6 @@ void Boomerang::Render() {
         Rect srcRect = *TdTileHandler::getProjectileSrcRect(_type, totalMSec);
         float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.w;
         float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.h;
-        //dstRect needs to be changed depending on direction
-        //float angle = (float)(totalMSec%360)/180.0f*(float)M_PI;
-        float angle = (float) _direction / 180.0f * (float) M_PI;
-        float sinAngle = sin(angle);
-        float cosAngle = cos(angle);
-        //int xFix = (int) (-sizeW * 0.5 - sinAngle * sizeW);
-        //int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
         Rect dstRect = {(int) (pos.x - (float) sizeW * 0.5f), (int) (pos.y - (float) sizeH * 0.5f), (int) sizeW,
                         (int) sizeH};
         rh->tile(&dstRect, 360 - (totalMSec % 360), TdTileHandler::getProjectileSrcRect(_type, totalMSec));
@@ -127,7 +120,7 @@ void Boomerang::Render() {
             Point es = CT::getPosOnScreen(e);
             Rect target2{es.x - 5, es.y - 5, 10, 10};
             rh->fillRect(&target2, GREEN);
-        };
+        }
     }
 }
 

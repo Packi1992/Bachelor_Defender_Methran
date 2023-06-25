@@ -100,8 +100,7 @@ void TestTD::Init() {
         globals._wh.addWave(w4);
         globals._wh.addWave(w5);
         globals._wh.init();
-        updateUI();
-        Update();
+
         //globals._pl._creditPoints=10000;
         globals._enemies.push_back(std::make_shared<Enemy>());
         globals._enemies.at(0)->_pos = {4.5, 4.5};
@@ -113,6 +112,8 @@ void TestTD::Init() {
         b._speed = 100;
         b._targetE = globals._enemies.at(0);
     }
+    updateUI();
+    Update();
     _gameOverAnim.reset();
 }
 
