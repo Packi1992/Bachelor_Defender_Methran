@@ -15,6 +15,7 @@
 #include "../tdUtil/map.h"
 #include "../util/gui/floatingMenu.h"
 #include "../util/gui/TextWithValue.h"
+#include "anim/gameOverAnim.h"
 
 class Gui;
 
@@ -78,6 +79,7 @@ protected:
     // ui
     FloatingMenu _floatingMenu;
     TextWithValue _creditPointDisplay;
+    GameOverAnim _gameOverAnim;
 public:
     // window handling
 

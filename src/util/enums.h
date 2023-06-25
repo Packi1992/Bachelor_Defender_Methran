@@ -40,7 +40,15 @@ enum ProjectileType{
     FFIRE,
     BOOMERANG,
     HASHBOMB,
-    STRINGPROJECTILE
+    STRINGPROJECTILE,
+};
+
+enum AnimType{
+    Gameover,
+    Gameover_Top_Left,
+    Gameover_Top_Right,
+    Gameover_Bottom_Left,
+    Gameover_Bottom_Right
 };
 
 enum TowerType{

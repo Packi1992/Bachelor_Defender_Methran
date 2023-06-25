@@ -113,6 +113,7 @@ void TestTD::Init() {
         b._speed = 100;
         b._targetE = globals._enemies.at(0);
     };
+    _gameOverAnim.reset();
 }
 
 void TestTD::UnInit() {
@@ -177,6 +178,7 @@ void TestTD::Render() {
         rh->background(BLACK, 128);
         rh->CenteredText("Game Over", 70, RED, windowSize.x, windowSize.y);
         rh->CenteredText("Drücke Enter um fortzufahren", 40, RED, windowSize.x, windowSize.y + 300);
+        _gameOverAnim.Render();
     }
     if ((!_gameover) && (globals._wh.isOver())) {
         rh->background(BLACK, 128);
@@ -257,8 +259,14 @@ void TestTD::Update() {
                 b._startingPoint = scursor;
                 globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
                 _btn_control = false;
+                _gameover = true;
             }
         };
+    }
+    if(_gameover){
+        if(_gameOverAnim.isStarted()){
+            _gameOverAnim.Update();
+        }
     }
     if (_gameover && _btn_enter) {
         if (config->worldsFinished == 0) {
@@ -369,9 +377,11 @@ void TestTD::keyDown(SDL_Event &event) {
             break;
         case SDL_SCANCODE_P:
             _renderPath = true;
+            break;
         case SDL_SCANCODE_RCTRL:
         case SDL_SCANCODE_LCTRL:
             _btn_control = true;
+            break;
         case SDL_SCANCODE_RETURN:
             _btn_enter = true;
             break;
