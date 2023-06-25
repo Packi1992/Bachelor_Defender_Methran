@@ -17,6 +17,9 @@ protected:
         btn_w3,
         btn_w4,
         btn_w5,
+        btn_w6,
+        btn_w7,
+        btn_w8,
         btn_Editor,
         btn_ChooseMap,
     };
