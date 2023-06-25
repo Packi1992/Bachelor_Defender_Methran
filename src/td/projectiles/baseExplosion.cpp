@@ -14,7 +14,7 @@ BaseExplosion::BaseExplosion() {
 
 void BaseExplosion::Update() {
     _diff = (int) (totalMSec - _lastTimePoint);
-    for(auto &entry: hitList){
+    for (auto &entry: hitList) {
         entry.hitCooldown -= _diff;
     }
     hitList.erase(
@@ -49,11 +49,13 @@ void BaseExplosion::Render() {
         int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
         Rect dstRect = {pos.x + xFix, pos.y + yFix, (int) sizeW, (int) sizeH};
         rh->tile(&dstRect, 360 - (totalMSec % 360), TdTileHandler::getProjectileSrcRect(_type, totalMSec));
-        dstRect.y = pos.y;
-        dstRect.x = pos.x;
-        dstRect.w = 5;
-        dstRect.h = 5;
-        rh->fillRect(&dstRect, BLACK);
+        IfDebug {
+            dstRect.y = pos.y;
+            dstRect.x = pos.x;
+            dstRect.w = 5;
+            dstRect.h = 5;
+            rh->fillRect(&dstRect, BLACK);
+        }
     }
 }
 
@@ -62,24 +64,25 @@ void BaseExplosion::collide() {
 
 bool BaseExplosion::collision(std::shared_ptr<Enemy> e) {
     bool inList = false;
-    for(auto &entry: hitList){
-        if(entry.enemy == e) {
+    for (auto &entry: hitList) {
+        if (entry.enemy == e) {
             inList = true;
             break;
         }
     }
-    if(!inList && Projectile::collision(e)){
-        hitList.push_back({e,250});
+    if (!inList && Projectile::collision(e)) {
+        hitList.push_back({e, 250});
         return true;
     }
     return false;
 }
 
-BaseExplosion::BaseExplosion(BaseExplosion &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
+BaseExplosion::BaseExplosion(BaseExplosion &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e,
+                                                                                                          direction) {
 
 }
 
-BaseExplosion::BaseExplosion(SDL_FPoint pos, int exdmg) : BaseExplosion(){
+BaseExplosion::BaseExplosion(SDL_FPoint pos, int exdmg) : BaseExplosion() {
     _direction = 0;
     _position = pos;
     _damage = exdmg;

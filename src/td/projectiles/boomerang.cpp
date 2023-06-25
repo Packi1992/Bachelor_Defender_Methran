@@ -15,6 +15,7 @@ Boomerang::Boomerang() {
 void Boomerang::Update() {
     // handle collisions
     _diff = (int) (totalMSec - _lastTimePoint);
+    _lastTimePoint = totalMSec;
     for (auto &entry: hitList) {
         entry.hitCooldown -= _diff;
     }
@@ -26,7 +27,7 @@ void Boomerang::Update() {
             ),
             hitList.end());
     // calculate next position
-    double flSpeed = _diff * _speed * 0.000025;
+    double flSpeed = _diff * _speed * 0.001;
     // gibt probleme wenn auf hauptachse losgeschossen wird :(
     //
     _position.x += (float) ((_targetVec.x + _driftVec.x) * flSpeed);
@@ -40,7 +41,7 @@ void Boomerang::Update() {
     }
     if (!_midflight) {
         _ttl += _diff;
-        if (_ttl >= 150000)
+        if (_ttl >= 15000)
             _alive = false;
     } else {
         if (_ttl > _diff)
@@ -96,13 +97,6 @@ void Boomerang::Render() {
         Rect srcRect = *TdTileHandler::getProjectileSrcRect(_type, totalMSec);
         float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.w;
         float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.h;
-        //dstRect needs to be changed depending on direction
-        //float angle = (float)(totalMSec%360)/180.0f*(float)M_PI;
-        float angle = (float) _direction / 180.0f * (float) M_PI;
-        float sinAngle = sin(angle);
-        float cosAngle = cos(angle);
-        //int xFix = (int) (-sizeW * 0.5 - sinAngle * sizeW);
-        //int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
         Rect dstRect = {(int) (pos.x - (float) sizeW * 0.5f), (int) (pos.y - (float) sizeH * 0.5f), (int) sizeW,
                         (int) sizeH};
         rh->tile(&dstRect, 360 - (totalMSec % 360), TdTileHandler::getProjectileSrcRect(_type, totalMSec));
@@ -163,9 +157,6 @@ bool Boomerang::collision(std::shared_ptr<Enemy> e) {
 }
 
 Boomerang::Boomerang(Boomerang &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
-    _minFlyingTime = p._minFlyingTime;
-    _flyingTime = p._minFlyingTime;
-    _toggleDirection = p._toggleDirection;
     _stunduration = p._stunduration;
     calculateVectors();
     _ttl = 0;

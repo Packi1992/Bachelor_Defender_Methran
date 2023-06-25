@@ -22,6 +22,7 @@ void HashCanon::Render() {
 }
 
 void HashCanon::Update() {
+    Tower::Update();
     if (_floatingMenu != nullptr) {
         _floatingMenu->Update();
         if (_floatingMenu->isDone()) {
@@ -65,7 +66,7 @@ void HashCanon::Update() {
                 float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
                 audioHandler->playSound(SoundHashCanon, x);
                 tdGlobals->_projectiles.push_back(
-                        std::make_shared<Hashbomb>(_hashbomb, _targetEnemy->_pos));
+                        std::make_shared<Hashbomb>(_hashbomb, _targetEnemy));
             } else {
                 _reloadTime -= _diff;
             }
@@ -73,7 +74,6 @@ void HashCanon::Update() {
 
         }
     }
-    Tower::Update();
 }
 
 int HashCanon::_creditPointCosts = 6;
@@ -95,8 +95,9 @@ HashCanon::HashCanon(Point pos) : Tower(pos) {
     _hashbomb._speed = 10;
     _hashbomb._targetE = nullptr;
     _hashbomb._size = 100;
+    _hashbomb._speed = 100;
     _hashbomb._position = _pos;
-    _hashbomb._ttl = 1500;
+    _hashbomb._ttl = 0;
     _hashbomb._exrange = 1;
     _hashbomb._exdmg = _damage;
 }

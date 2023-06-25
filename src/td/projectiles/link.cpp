@@ -42,6 +42,6 @@ LinkProjectile::LinkProjectile(LinkProjectile &p) : Projectile(p) {
 }
 
 void LinkProjectile::collide() {
-    float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+    float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
     audioHandler->playSound(SoundLinkHit, x);
 }

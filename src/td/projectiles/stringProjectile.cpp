@@ -14,7 +14,7 @@ StringProjectile::StringProjectile() {
 StringProjectile::StringProjectile(StringProjectile &p) : Projectile(p, nullptr, 0) {
     _string = p._string;
     _fontSize = p._fontSize;
-    _texture = t_cache->getText(&_string,_fontSize, &_src, GREEN);
+    _texture = t_cache->getText(&_string, _fontSize, &_src, GREEN);
 
 }
 
@@ -28,7 +28,7 @@ void StringProjectile::Update() {
             std::remove_if(
                     hitList.begin(),
                     hitList.end(),
-                    [](const HitTimer& mov) { return mov.hitCooldown <= 0; }
+                    [](const HitTimer &mov) { return mov.hitCooldown <= 0; }
             ),
             hitList.end());
     _lastTimePoint = totalMSec;
@@ -39,7 +39,7 @@ void StringProjectile::Update() {
         if (_ttl <= 0) {
             _alive = false;
         } else {
-            if (((_ttl / 10) % 100) < (int)_tick) {
+            if (((_ttl / 10) % 100) < (int) _tick) {
                 _direction += 4;
                 _tick--;
             }
@@ -51,9 +51,9 @@ void StringProjectile::Update() {
     float angle = (float) _direction / 180.0f * (float) M_PI;
     float sinAngle = sin(angle);
     float cosAngle = cos(angle);
-    _xFix = (int) (-sizeW/2+(cosAngle)*sizeW/2);
-    _yFix = (int) (-sizeH/2+(sinAngle)*sizeW/2);
-    _end = CT::getPosInGame({_posOnScreen.x + (int)(sizeW*cosAngle),_posOnScreen.y + (int)(sizeW*sinAngle)});
+    _xFix = (int) (-sizeW / 2 + (cosAngle) * sizeW / 2);
+    _yFix = (int) (-sizeH / 2 + (sinAngle) * sizeW / 2);
+    _end = CT::getPosInGame({_posOnScreen.x + (int) (sizeW * cosAngle), _posOnScreen.y + (int) (sizeW * sinAngle)});
     _dstRect = {_posOnScreen.x + _xFix, _posOnScreen.y + _yFix, (int) sizeW, (int) sizeH};
 }
 
@@ -70,7 +70,7 @@ bool StringProjectile::collision(std::shared_ptr<Enemy> e) {
             break;
         }
     }
-    if (!inList&&CT::collisionLineRect(_position, _end, e->getHitBox())) {
+    if (!inList && CT::collisionLineRect(_position, _end, e->getHitBox())) {
         e->takeDamage(this);
         collide();
     }
@@ -80,7 +80,7 @@ bool StringProjectile::collision(std::shared_ptr<Enemy> e) {
 void StringProjectile::Render() {
     if (_alive && onScreen()) {
 
-        rh->texture(_texture,&_dstRect,_direction);
+        rh->texture(_texture, &_dstRect, _direction);
 
         //rh->line(_posOnScreen,CT::getPosOnScreen(_end),BLACK);
     }
