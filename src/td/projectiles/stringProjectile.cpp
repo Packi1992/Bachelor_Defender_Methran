@@ -58,8 +58,16 @@ void StringProjectile::Update() {
 }
 
 void StringProjectile::collide() {
-    float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    audioHandler->playSound(SoundStringProjectileHit, x);
+    if (_ttl > 700 && _soundHit == 2) {
+        float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+        audioHandler->playSound(SoundStringProjectileHit, x);
+        _soundHit--;
+    }
+    else if (_ttl < 700 && _soundHit == 1) {
+        float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+        audioHandler->playSound(SoundStringProjectileHit, x);
+        _soundHit--;
+    }
 }
 
 bool StringProjectile::collision(std::shared_ptr<Enemy> e) {

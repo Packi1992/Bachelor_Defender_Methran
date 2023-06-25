@@ -31,6 +31,7 @@ public:
     int _yFix = 0;
     SDL_FPoint _end{};
     string _string;
+    int _soundHit = 2;
 };
 
 

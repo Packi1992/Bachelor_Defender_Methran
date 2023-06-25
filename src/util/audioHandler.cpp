@@ -117,13 +117,13 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 		case SoundArrowHit: 
 			return BasePath "asset/sound/arrowHit.wav";
 		case SoundBoomerangHit:
-			return BasePath "asset/sound/arrowHit.wav";
+			return BasePath "asset/sound/BoomerangAttack.wav";
 		case SoundLinkHit:
 			return BasePath "asset/sound/linkedListAttack.wav";
 		case SoundStringProjectileHit:
-			return BasePath "asset/sound/arrowHit.wav";
+			return BasePath "asset/sound/StringAttack.wav";
 		case SoundFire:
-			return BasePath "asset/sound/explosion.wav";
+			return BasePath "";
 		case SoundBaseExplosion:
 			return BasePath "asset/sound/explosion.wav";
 		default:
