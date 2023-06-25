@@ -4,6 +4,7 @@
 
 #include "introstate.h"
 #include "../util/recthelper.h"
+#include "../util/config.h"
 #include "../util/gui/Button.h"
 
 void MainMenu::Init() {
@@ -51,10 +52,10 @@ void MainMenu::Update() {
                         }
                         IfNotDebug {
                             // only if first start of Game -> we need a config / save file
-                            if (true)
-                                game.SetNextState(GS_WorldMap);
-                            else
+                            if(config->worldsFinished==0)
                                 game.SetNextState(GS_TD);
+                            else
+                                game.SetNextState(GS_WorldMap);
                         };
                         break;
                     case btn_Editor:

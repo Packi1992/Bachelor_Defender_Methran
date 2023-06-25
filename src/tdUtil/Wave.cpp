@@ -83,6 +83,10 @@ void Wave::clear() {
     this->pendingEvents.clear();
 }
 
+long Wave::getTotalEnemies() {
+    return _totalEnemies;
+}
+
 GameEvent GameEvent::readLine(string EventAsString) {
     {
         cerr << "implement Spawn Event parsing from String";

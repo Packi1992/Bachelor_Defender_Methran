@@ -65,6 +65,7 @@ public:
     void setName(std::string name);
 
     string getName();
+    long getTotalEnemies();
 
     bool hasStarted = false;
 
@@ -75,6 +76,7 @@ private:
     List<GameEvent> pendingEvents{};
     u32 _startTimePoint=0;
     string _name{};
+    long _totalEnemies{};
     bool hasEnded = false;
 
 };

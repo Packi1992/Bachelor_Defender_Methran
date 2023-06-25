@@ -5,6 +5,8 @@
 
 #include <utility>
 #include "../util/dataHandler.h"
+#include "../util/config.h"
+
 
 TDGlobals *tdGlobals{};
 
@@ -146,8 +148,6 @@ void TestTD::Render() {
         }
     }
 
-
-
     // projectiles and particles
     for (auto &p: tdGlobals->_projectiles) {
         if (p != nullptr) {
@@ -176,8 +176,9 @@ void TestTD::Render() {
     if (_gameover) {
         rh->background(BLACK, 128);
         rh->CenteredText("Game Over", 70, RED, windowSize.x, windowSize.y);
+        rh->CenteredText("Drücke Enter um fortzufahren", 40, RED, windowSize.x, windowSize.y + 300);
     }
-    if (!_gameover && globals._wh.isOver()) {
+    if ((!_gameover) && (globals._wh.isOver())) {
         rh->background(BLACK, 128);
         rh->CenteredText("Congraz, Du hast gewonnen!", 70, GREEN, windowSize.x, windowSize.y);
     }
@@ -258,6 +259,31 @@ void TestTD::Update() {
                 _btn_control = false;
             }
         };
+    }
+    if (_gameover && _btn_enter) {
+        if (config->worldsFinished == 0) {
+            game.SetNextState(GS_MainMenu);
+        } else {
+            game.SetNextState(GS_WorldMap);
+        }
+        _btn_enter = false;
+    }
+    if (!_gameover && _btn_enter && globals._wh.isOver()) {
+        if ((*(globals._mapPath)).substr(0, 14) == "gameMaps/world") {
+            string number = (*(globals._mapPath)).substr(14, (*(globals._mapPath)).size() - 18);
+            cout << number << endl;
+            int mapNr = (int) std::stol(number, nullptr, 10);
+            if (config->worldsFinished < mapNr) {
+                config->worldsFinished = mapNr;
+                config->safeConfig();
+            }
+            if(config->worldsFinished==0)
+                game.SetNextState(GS_MainMenu);
+            else
+                game.SetNextState(GS_WorldMap);
+        }
+        //config->worldsFinished
+        _btn_enter = false;
     }
 }
 
@@ -346,6 +372,9 @@ void TestTD::keyDown(SDL_Event &event) {
         case SDL_SCANCODE_RCTRL:
         case SDL_SCANCODE_LCTRL:
             _btn_control = true;
+        case SDL_SCANCODE_RETURN:
+            _btn_enter = true;
+            break;
         default:
             break;
     }
@@ -498,6 +527,7 @@ void TestTD::updateEnemeies() {
     for (int i = 0; i < (int) tdGlobals->_enemies.size(); i++) {
         tdGlobals->_enemies.at(i)->Update();
     }
+
     globals._enemies.erase(
             std::remove_if(
                     globals._enemies.begin(),
@@ -505,6 +535,7 @@ void TestTD::updateEnemeies() {
                     [](const std::shared_ptr<Enemy> &mov) { return !mov->_alive; }
             ),
             globals._enemies.end());
+    globals._enemiesOnMap = (long)globals._enemies.size();
 }
 
 bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {

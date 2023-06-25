@@ -267,3 +267,4 @@ Thumbs.db
 /cmake-build-*/
 build/
 .vscode/c_cpp_properties.json
+/Config/config.txt

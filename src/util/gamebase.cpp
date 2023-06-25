@@ -1,5 +1,6 @@
 #include "gamebase.h"
 #include "recthelper.h"
+#include "config.h"
 
 // ini globals
 AudioHandler *audioHandler{};
@@ -7,6 +8,7 @@ TextureCache *t_cache{};
 Renderer *render{};
 Game *pGame{};
 Map *pMap{};
+Config *config{};
 Point offset{};
 Point windowSize{};
 RenderHelper *rh{};
@@ -47,6 +49,8 @@ Game::Game(const char *windowTitle, const Point wSize, const bool vSync) {
         cerr << "Mix_OpenAudio failed: " << Mix_GetError() << endl;
         exit(5);
     }
+
+    config = Config::getConfig();
 
     window = SDL_CreateWindow(
             windowTitle,
