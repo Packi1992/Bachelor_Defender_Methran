@@ -21,7 +21,7 @@ bool Player::load(const Vector<string> &data) {
         }
         if(line.substr(0, 13) == ("TOWER-ENTRY :")){
             _usableTowers.insert((MenuEntries) strtol(line.substr(13).c_str(), nullptr, 10));
-            bool towerLoaded = true;
+            towerLoaded = true;
         }
     }
     return SanityLoaded&&creditPointsLoaded&&towerLoaded;

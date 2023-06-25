@@ -19,6 +19,7 @@ void Config::loadConfig() {
     if (std::filesystem::exists(_configPath)) {
         string line;
         std::ifstream iStream;
+        iStream.open(_configPath);
         IfDebug cout << "Load Data: " << _configPath << endl;
         if (iStream.is_open()) {
             while (getline(iStream, line)) {
