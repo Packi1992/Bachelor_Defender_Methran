@@ -89,6 +89,8 @@ private:
     static u16 getDir(int ex, int ey, int tx, int ty);
 
     void CheckEnemiesPath(Point point);
+
+    void drawWalls();
 };
 
 

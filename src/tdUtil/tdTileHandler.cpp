@@ -51,6 +51,25 @@ Rect *TdTileHandler::getSrcRect(MapObjects o, ul animate) {
             src.x = 128;
             src.y = 128;
             break;
+        case Plain_Wall:
+            src.x = 11 *64;
+            src.y = 8 * 64;
+            src.h = 128;
+            break;
+        case Side_Wall:
+            src.x = 14 * 64 + 54;
+            src.y = 8 * 64;
+            break;
+        case Door_Wall:
+            src.x = 13*64;
+            src.y = 8 * 64;
+            src.h = 128;
+            break;
+        case Window_Wall:
+            src.x = 12*64;
+            src.y = 8 * 64;
+            src.h = 128;
+            break;
         default:
             cerr << "Tile not found, please provide SRC rect in TdTileHandler.cpp" << endl;
     }

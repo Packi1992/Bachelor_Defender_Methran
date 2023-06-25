@@ -19,6 +19,10 @@ private:
     FPoint _rotatePoint = {0.0f,0.0f};
     void calcNextPos();
     bool _midflight = false;
+    FPoint e{};
+    FPoint _targetVec{};
+    FPoint _driftVec{};
+    FPoint _counterDriftVec{};
 public:
     bool _enHittable = false;
     bool _freez = false;
@@ -35,6 +39,8 @@ public:
     void collide() override;
 
     bool collision(std::shared_ptr<Enemy> e) override;
+
+    void calculateVectors();
 };
 
 #endif //SDL_BACHELORDEFENDER_BOOMERANG_H

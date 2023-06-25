@@ -14,6 +14,10 @@ enum MapObjects{
     Tower,
     OutOfBounds,
     Map_Disabled,
+    Plain_Wall,
+    Window_Wall,
+    Side_Wall,
+    Door_Wall
 };
 
 enum EnemyType{

@@ -69,8 +69,6 @@ void RecursivTower::Update() {
                     float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
                     audioHandler->playSound(SoundRecursivTower, x);
                     tdGlobals->_projectiles.push_back(std::make_shared<Boomerang>(_boomerang, _targetEnemy,(((((int) _direction) % 360)/*+90*/)%360)));
-                    if(_level >=3 )
-                        tdGlobals->_projectiles.push_back(std::make_shared<Boomerang>(_boomerang, _targetEnemy,(((((int) _direction) % 360)-90)%360)));
                 } else {
                     _reloadTime -= _diff;
                 }
@@ -103,8 +101,6 @@ RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _boomerang._startingPoint = _pos;
     _boomerang._freez = false;
     _boomerang._enHittable = false;
-    // have to fix the ttl...
-    _boomerang._ttl = 6000;
 }
 
 RecursivTower::~RecursivTower() = default;

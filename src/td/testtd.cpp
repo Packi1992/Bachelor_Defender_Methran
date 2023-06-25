@@ -100,6 +100,15 @@ void TestTD::Init() {
     updateUI();
     Update();
     //globals._pl._creditPoints=10000;
+    globals._enemies.push_back(std::make_shared<Enemy>());
+    globals._enemies.at(0)->_pos = {4.5,4.5};
+    globals._enemies.at(0)->_health = 1000;
+    globals._enemies.at(0)->_alive = true;
+    globals._enemies.at(0)->stun(65000);
+
+
+    b._speed = 1;
+    b._targetE = globals._enemies.at(0);
 }
 
 void TestTD::UnInit() {
@@ -235,6 +244,15 @@ void TestTD::Update() {
                 }
             }
             _mbLeft = false;
+        }
+        if(_btn_control){
+            Point cursor;
+            SDL_GetMouseState(&cursor.x, &cursor.y);
+            FPoint scursor = CT::getPosInGame(cursor);
+            b._position = scursor;
+            b._startingPoint = scursor;
+            globals._projectiles.push_back(std::make_shared<Boomerang>(b,b._targetE,0));
+            _btn_control = false;
         }
     }
 }
@@ -508,13 +526,13 @@ TestTD::TestTD(Game &game, string mapPath) : GameState(game, GS_TD) {
 void TestTD::handleEvent(const GameEvent &event) {
     switch (event.type) {
         case Boss_Drueberbolz: {
-            std::shared_ptr<DrüberBolz> e = std::make_shared<DrüberBolz>();
+            std::shared_ptr<DrÃ¼berBolz> e = std::make_shared<DrÃ¼berBolz>();
             e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
             globals._enemies.push_back(e);
             break;
         }
         case Boss_Frohle_Poehlich: {
-            std::shared_ptr<FrolePöhlich> e = std::make_shared<FrolePöhlich>();
+            std::shared_ptr<FrolePÃ¶hlich> e = std::make_shared<FrolePÃ¶hlich>();
             e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
             globals._enemies.push_back(e);
             break;
