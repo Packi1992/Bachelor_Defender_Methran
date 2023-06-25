@@ -7,7 +7,9 @@
 #include "../td/testtd.h"
 
 bool WaveHandler::pullEvent(GameEvent &event) {
-    return _waveVec.at(_waveCur).PollEvent(event);
+    if(!_waveVec.empty())
+        return _waveVec.at(_waveCur).PollEvent(event);
+    return false;
 }
 
 string WaveHandler::getWaveName() {

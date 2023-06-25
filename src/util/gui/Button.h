@@ -43,8 +43,13 @@ public:
     void setHighlightedColor(const t_color *high_color = nullptr);
 
     void setHighlightedColor(t_color high_color);
-
+    void setInactivColor(t_color inactive_color);
     void setColor(t_color color);
+
+    void setActive(bool b);
+
+    void setVisible(bool b);
+
 
 private:
     bool isPointOnBtn(Point &p) const;
@@ -56,11 +61,15 @@ private:
     Texture *_texText{};
     Color _buttonColor{};
     Color _highlightedColor{};
+    Color _inactivColor{};
     Color _drawColor{};
     int _size{};
     int _id = 0;
+    int _strokeThickness = 2;
     bool _blend = false;
     char _textArr[50]{};
+    bool _active = true;
+    bool _visible = true;
 };
 
 #endif //JUMPNRUN_BUTTON_H

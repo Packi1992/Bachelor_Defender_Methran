@@ -17,10 +17,11 @@ Color RenderHelper::getColor(t_color color) {
             return {0, 0, 0, 255};
         case WHITE:
             return {255, 255, 255, 255};
+        case BTN_INACTIVE:
+            return {0x0E,0x41,0x57, 255};
         case BTN_COLOR:
             return {0x07, 0xa1, 0xe2, 255};
         case BTN_HIGHLIGHTED:
-            return {255, 0, 0, 255};
         case EDITOR_UI_BG:
             return {18, 51, 91, 255};
         case BG:
@@ -255,7 +256,6 @@ void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
 
 
 void RenderHelper::blendTexture(SDL_Texture *blendedText, SDL_Rect *r) {
-    constexpr const Point p{32, 50};
     SDL_SetTextureColorMod(blendedText, 0, 0, 0);
     for (int i = -1; i < 2; i++) {
         for (int j = -1; j < 2; j++) {

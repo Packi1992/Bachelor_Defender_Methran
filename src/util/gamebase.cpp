@@ -51,7 +51,7 @@ Game::Game(const char *windowTitle, const Point wSize, const bool vSync) {
     }
 
     config = Config::getConfig();
-
+    cout << config->worldsFinished << endl;
     window = SDL_CreateWindow(
             windowTitle,
             SDL_WINDOWPOS_CENTERED,
@@ -142,7 +142,7 @@ int Game::Run() {
         start = Clock::now();
 
         deltaTF = std::chrono::duration<float>(deltaT).count();
-        const float deltaTFNeeded = std::chrono::duration<float>(deltaTNeeded).count();
+        [[maybe_unused]] const float deltaTFNeeded = std::chrono::duration<float>(deltaTNeeded).count();
 
         OutputPerformanceInfo(start, deltaTNeeded);
 

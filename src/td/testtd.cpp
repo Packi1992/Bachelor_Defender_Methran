@@ -15,7 +15,7 @@ void TestTD::Init() {
     DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + *(tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, WHITE, true);
-
+    cout << "start map" << endl;
     IfDebug {
         // use wave handler
         Wave w1;
@@ -112,7 +112,7 @@ void TestTD::Init() {
 
         b._speed = 100;
         b._targetE = globals._enemies.at(0);
-    };
+    }
 }
 
 void TestTD::UnInit() {
@@ -258,7 +258,7 @@ void TestTD::Update() {
                 globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
                 _btn_control = false;
             }
-        };
+        }
     }
     if (_gameover && _btn_enter) {
         if (config->worldsFinished == 0) {
@@ -369,9 +369,11 @@ void TestTD::keyDown(SDL_Event &event) {
             break;
         case SDL_SCANCODE_P:
             _renderPath = true;
+            break;
         case SDL_SCANCODE_RCTRL:
         case SDL_SCANCODE_LCTRL:
             _btn_control = true;
+            break;
         case SDL_SCANCODE_RETURN:
             _btn_enter = true;
             break;

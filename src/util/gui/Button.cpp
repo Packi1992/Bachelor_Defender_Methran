@@ -5,20 +5,25 @@
 #include "Button.h"
 
 void Button::Render(bool highlighted) {
-    if (_blend) {
-        rh->fillRect(&_rect, highlighted?_highlightedColor:_drawColor, 180);
-    } else {
-        if (highlighted)
-            rh->setColor(_highlightedColor);
-        else
-            rh->setColor(_drawColor);
-        rh->fillRect(&_rect);
-    }
-    rh->rect(&_rect, _blend?0:2, BLACK);
+    if(_visible){
+        if (_blend) {
+            rh->fillRect(&_rect, highlighted?_highlightedColor:_drawColor, 180);
+        } else {
+            if (!_active)
+                rh->setColor(_inactivColor);
+            else if (highlighted)
+                rh->setColor(_highlightedColor);
+            else
+                rh->setColor(_drawColor);
+            rh->fillRect(&_rect);
+        }
+        if(_strokeThickness>0)
+            rh->rect(&_rect, _strokeThickness, BLACK);
 
-    // Text Render
-    rh->blendTexture(_texText,&_rText);
-    //rh->texture(_texText, &_rText);
+        // Text Render
+        rh->blendTexture(_texText,&_rText);
+        //rh->texture(_texText, &_rText);
+    }
 }
 
 bool Button::isPointOnBtn(Point &p) const {
@@ -53,7 +58,7 @@ void Button::entered(SDL_Event e) {
 }
 
 void Button::entered(Point p) {
-    if (isPointOnBtn(p)) {
+    if (_active&&isPointOnBtn(p)) {
         _drawColor = _highlightedColor;
     } else {
         _drawColor = _buttonColor;
@@ -69,6 +74,9 @@ Button::Button(const Button &b) {
     this->_buttonColor = b._buttonColor;
     this->_drawColor = b._drawColor;
     this->_highlightedColor = b._highlightedColor;
+    this->_inactivColor = b._inactivColor;
+    this->_active = b._active;
+    this->_visible = b._visible;
     this->_texText = t_cache->getBlendedText(_textArr, _size, &_rText);
 
     _rText.x = _rect.x + (_rect.w - _rText.w) / 2;
@@ -83,6 +91,8 @@ void Button::set(const string &label, int nSize, Rect nRect, int id, t_color btn
     this->_id = id;
     setHighlightedColor(&btnColor);
     this->_blend = blend;
+    if(_blend)
+        _strokeThickness = 0;
     this->_texText = t_cache->getBlendedText(_textArr, _size, &_rText);
 
     _rText.x = _rect.x + (_rect.w - _rText.w) / 2;
@@ -115,6 +125,9 @@ void Button::setHighlightedColor(const t_color *high_color) {
 void Button::setHighlightedColor(t_color high_color) {
     this->_highlightedColor = RenderHelper::getColor(high_color);
 }
+void Button::setInactivColor(t_color inactive_color) {
+    this->_inactivColor= RenderHelper::getColor(inactive_color);
+}
 
 
 void Button::setSize(SDL_Rect nRect) {
@@ -138,3 +151,13 @@ int Button::getId() const {
 Button::Button(const string &label, int size, int id, t_color btn_color, bool blend) {
     set(label, size, {}, id, btn_color, blend);
 }
+
+void Button::setActive(bool b) {
+    _active = b;
+}
+
+void Button::setVisible(bool b) {
+    _visible = b;
+}
+
+
