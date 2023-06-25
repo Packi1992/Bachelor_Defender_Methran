@@ -73,12 +73,8 @@ void Hashbomb::Render() {
 }
 
 void Hashbomb::collide() {
-<<<<<<< HEAD
-    float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
-=======
     float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
     audioHandler->playSound(SoundHashbombHit, x);
->>>>>>> origin/main
     audioHandler->playSound(SoundBaseExplosion, x);
 }
 
