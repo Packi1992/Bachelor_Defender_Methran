@@ -166,10 +166,11 @@
     <ClCompile Include="src\tdUtil\tdTileHandler.cpp" />
     <ClCompile Include="src\tdUtil\Wave.cpp" />
     <ClCompile Include="src\tdUtil\waveHandler.cpp" />
+    <ClCompile Include="src\td\anim\gameOverAnim.cpp" />
     <ClCompile Include="src\td\enemy\bossEnemy.cpp" />
-    <ClCompile Include="src\td\enemy\drüberBolz.cpp" />
+    <ClCompile Include="src\td\enemy\drueberBolz.cpp" />
     <ClCompile Include="src\td\enemy\enemy.cpp" />
-    <ClCompile Include="src\td\enemy\frolePöhlich.cpp" />
+    <ClCompile Include="src\td\enemy\frolePoehlich.cpp" />
     <ClCompile Include="src\td\Projectiles\arrow.cpp" />
     <ClCompile Include="src\td\projectiles\baseExplosion.cpp" />
     <ClCompile Include="src\td\Projectiles\boomerang.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="src\td\tower\stringTower.cpp" />
     <ClCompile Include="src\td\tower\tower.cpp" />
     <ClCompile Include="src\util\audioHandler.cpp" />
+    <ClCompile Include="src\util\config.cpp" />
     <ClCompile Include="src\util\coordinateTransformer.cpp" />
     <ClCompile Include="src\util\dataHandler.cpp" />
     <ClCompile Include="src\util\gamebase.cpp" />
@@ -201,6 +203,7 @@
     <ClCompile Include="src\util\gui\sizeDialog.cpp" />
     <ClCompile Include="src\util\gui\textbox.cpp" />
     <ClCompile Include="src\util\gui\TextWithValue.cpp" />
+    <ClCompile Include="src\util\gui\TextWithValue_MaxValue.cpp" />
     <ClCompile Include="src\util\renderHelper.cpp" />
     <ClCompile Include="src\util\TextureCache.cpp" />
     <ClCompile Include="src\worldMap\worldMap.cpp" />
@@ -212,10 +215,11 @@
     <ClInclude Include="src\tdUtil\tdTileHandler.h" />
     <ClInclude Include="src\tdUtil\Wave.h" />
     <ClInclude Include="src\tdUtil\waveHandler.h" />
+    <ClInclude Include="src\td\anim\gameOverAnim.h" />
     <ClInclude Include="src\td\enemy\bossEnemy.h" />
-    <ClInclude Include="src\td\enemy\drüberBolz.h" />
+    <ClInclude Include="src\td\enemy\drueberBolz.h" />
     <ClInclude Include="src\td\enemy\enemy.h" />
-    <ClInclude Include="src\td\enemy\frolePöhlich.h" />
+    <ClInclude Include="src\td\enemy\frolePoehlich.h" />
     <ClInclude Include="src\td\Projectiles\arrow.h" />
     <ClInclude Include="src\td\projectiles\baseExplosion.h" />
     <ClInclude Include="src\td\Projectiles\boomerang.h" />
@@ -232,6 +236,7 @@
     <ClInclude Include="src\td\tower\stringTower.h" />
     <ClInclude Include="src\td\tower\tower.h" />
     <ClInclude Include="src\util\audioHandler.h" />
+    <ClInclude Include="src\util\config.h" />
     <ClInclude Include="src\util\coordinateTransformer.h" />
     <ClInclude Include="src\util\dataHandler.h" />
     <ClInclude Include="src\util\enums.h" />
@@ -249,6 +254,7 @@
     <ClInclude Include="src\util\gui\sizeDialog.h" />
     <ClInclude Include="src\util\gui\textbox.h" />
     <ClInclude Include="src\util\gui\TextWithValue.h" />
+    <ClInclude Include="src\util\gui\TextWithValue_Max.h" />
     <ClInclude Include="src\util\recthelper.h" />
     <ClInclude Include="src\util\renderHelper.h" />
     <ClInclude Include="src\util\TextureCache.h" />
@@ -272,6 +278,7 @@
     <None Include="packages.config" />
     <None Include="README.md" />
     <None Include="tileTD.pdn" />
+    <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="asset\graphic\background.png" />

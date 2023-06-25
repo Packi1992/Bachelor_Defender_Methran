@@ -58,8 +58,6 @@ void StringProjectile::Update() {
 }
 
 void StringProjectile::collide() {
-    float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    audioHandler->playSound(SoundStringProjectileHit, x);
 }
 
 bool StringProjectile::collision(std::shared_ptr<Enemy> e) {
