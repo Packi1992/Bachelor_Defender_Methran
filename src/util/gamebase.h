@@ -27,6 +27,10 @@ extern Game *pGame;
 class Map;
 
 extern Map *pMap;
+
+class Config;
+extern Config *config;
+
 extern Point offset;
 extern Point windowSize;
 extern int scale;

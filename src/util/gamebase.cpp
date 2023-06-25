@@ -18,6 +18,8 @@ Duration deltaT = Duration::zero();
 u32 totalMSec = 0;
 u32 frame = 0;
 
+
+
 Game::Game(const char *windowTitle, const Point wSize, const bool vSync) {
     if (SDL_Init(SDL_INIT_EVERYTHING)) {
         cerr << "SDL_Init failed: " << SDL_GetError() << endl;

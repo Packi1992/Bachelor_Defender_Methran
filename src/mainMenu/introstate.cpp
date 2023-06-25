@@ -57,9 +57,6 @@ void MainMenu::Update() {
                                 game.SetNextState(GS_TD);
                         };
                         break;
-                    case btn_Settings:
-                        game.SetNextState(GS_Settings);
-                        break;
                     case btn_Editor:
                         game.SetNextState(GS_Editor);
                         break;
@@ -97,7 +94,8 @@ void MainMenu::Render() {
 MainMenu::MainMenu(Game &game) : GameState(game, GS_MainMenu) {
     _image = t_cache->get(BasePath "asset/graphic/bg-main.png");
     _buttons.emplace_back("Start", _fontSize, Buttons::btn_Start);
-    _buttons.emplace_back("Einstellungen", _fontSize, Buttons::btn_Settings);
+    IfDebug
+        _buttons.emplace_back("Editor",_fontSize,Buttons::btn_Editor);
     _buttons.emplace_back("Beenden", _fontSize, Buttons::btn_Exit);
 }
 
