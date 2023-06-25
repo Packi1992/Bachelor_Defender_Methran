@@ -17,6 +17,7 @@ protected:
         btn_Exit,
     };
     Texture *_image = nullptr;
+    Texture *_titel = nullptr;
     Music *_music = nullptr;
     Vector<Button> _buttons{};
 

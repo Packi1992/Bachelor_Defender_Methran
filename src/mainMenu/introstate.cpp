@@ -85,14 +85,17 @@ void MainMenu::Update() {
 }
 
 void MainMenu::Render() {
-    const Rect dst_rect{0, 0, windowSize.x, windowSize.y};
+    Rect dst_rect{0, 0, windowSize.x, windowSize.y};
     SDL_RenderCopy(render, _image, EntireRect, &dst_rect /* same result as EntireRect */ );
+    dst_rect ={0,(int)((float )windowSize.y*0.1f),dst_rect.w,dst_rect.h/3};
+    SDL_RenderCopy(render, _titel, EntireRect, &dst_rect /* same result as EntireRect */ );
     for (auto &btn: _buttons)
         btn.Render();
 }
 
 MainMenu::MainMenu(Game &game) : GameState(game, GS_MainMenu) {
     _image = t_cache->get(BasePath "asset/graphic/bg-main.png");
+    _titel = t_cache->get(BasePath "asset/graphic/Titel.png");
     _buttons.emplace_back("Start", _fontSize, Buttons::btn_Start, BTN_COLOR, true);
     IfDebug
         _buttons.emplace_back("Editor",_fontSize,Buttons::btn_Editor, BTN_COLOR, true);
