@@ -49,7 +49,6 @@ bool LinkProjectile::collision(std::shared_ptr<Enemy> e) {
     }
     if (!inList && CT::collisionLineRect(_position, _position2, e->getHitBox())) {
         e->takeDamage(this);
-        collide();
         hitList.push_back({e, 100});
         return true;
     }
