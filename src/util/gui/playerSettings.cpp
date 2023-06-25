@@ -20,8 +20,8 @@ void PlayerSettings::set(Player pl, bool textborder) {
 
 
 void PlayerSettings::iniValues() {
-    _txtb_sanity.setNumber(_creditPoints);
-    _txtb_creditPoints.setNumber(_sanity);
+    _txtb_sanity.setNumber(_sanity);
+    _txtb_creditPoints.setNumber(_creditPoints);
 }
 
 void PlayerSettings::iniUI() {
