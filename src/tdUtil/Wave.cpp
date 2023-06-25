@@ -19,7 +19,7 @@ Wave::~Wave() {
 void Wave::addEvent(string Event) {
     // we need to define a function to write and load Spawn Events ...
     // maybe inside Struct?
-    if (Event.substr() == "NAME")
+    if (Event == "NAME")
         addEvent(GameEvent::readLine(Event));
 }
 
