@@ -21,6 +21,7 @@ protected:
     bool dialog=false;
     Gui **focus{};
     Gui *nextFocus{};
+    bool _textBorder = false;
 };
 
 #endif //SDL_BACHELORDEFENDER_GUI_H

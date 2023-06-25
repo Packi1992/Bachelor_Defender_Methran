@@ -13,32 +13,42 @@ public:
     Button() = default;
 
     Button(const Button &b);
-    Button(const string &label, int size, Rect rect, int id=0, t_color btn_color = BTN_COLOR);
-    Button(const string &label, int size, int id=0, t_color btn_color = BTN_COLOR);
 
-    void draw(bool highlighted = false);
+    Button(const string &label, int size, Rect rect, int id = 0, t_color btn_color = BTN_COLOR, bool blend = false);
+
+    Button(const string &label, int size, int id = 0, t_color btn_color = BTN_COLOR, bool blend = false);
+
+    void Render(bool highlighted = false);
 
     bool clicked(Event e);
+
     bool clicked(Point p);
+
     ~Button();
 
     void entered(Event e);
+
     void entered(Point p);
+
     std::string getText();
 
     int getX() const;
+
     int getId() const;
 
-    void set(const string &label, int size, Rect rect, int id=0, t_color btn_color = BTN_COLOR);
+    void set(const string &label, int size, Rect rect, int id = 0, t_color btn_color = BTN_COLOR, bool blend = false);
 
     void setSize(Rect rect);
 
     void setHighlightedColor(const t_color *high_color = nullptr);
+
     void setHighlightedColor(t_color high_color);
+
     void setColor(t_color color);
 
 private:
     bool isPointOnBtn(Point &p) const;
+
     // button background rect
     Rect _rect{};
     // text rect
@@ -48,7 +58,8 @@ private:
     Color _highlightedColor{};
     Color _drawColor{};
     int _size{};
-    int _id=0;
+    int _id = 0;
+    bool _blend = false;
     char _textArr[50]{};
 };
 

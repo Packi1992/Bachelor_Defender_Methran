@@ -23,11 +23,13 @@ public:
     Texture *getText(const char *string, u8 size, Rect *sRect = nullptr, t_color TextColor=BLACK);
     Texture *getText(string *string, u8 size, Rect *sRect = nullptr, t_color TextColor=BLACK);
     Texture *getNumber(int Number, int size, t_color fgC, Rect *sRect = nullptr);
-
     TextureCache(TextureCache &other) = delete;
     void operator=(const TextureCache &) = delete;
 
     ~TextureCache();
+
+    Texture *getBlendedText(const char *string, u8 size, Rect *sRect = nullptr, t_color TextColor=BLACK);
+
 private:
     Texture *loadTexture(const std::string &path);
     static TextureCache *cacheInstance;

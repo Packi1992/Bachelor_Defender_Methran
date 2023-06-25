@@ -5,14 +5,14 @@
 #include "TextWithValue.h"
 
 void TextWithValue::set(const string &Text, const int *valueField,
-                        Point pos, int textSize, t_color TextColor) {
+                        Point pos, int textSize, t_color TextColor, bool border_) {
     strcpy(text, Text.c_str());
     exValue = valueField;
     size = textSize;
     color = TextColor;
     // generate Label
     rectLabel = {pos.x, pos.y, 0, 0};
-    texLabel = t_cache->getText(text, size, &rectLabel,color);
+    texLabel = t_cache->getText(text, size, &rectLabel, color);
     rectValue = {rectLabel.x + rectLabel.w + 10, pos.y, 0, 0};
     // generate first Value
     value = *exValue;
@@ -23,6 +23,7 @@ void TextWithValue::set(const string &Text, const int *valueField,
         rectLabel.x = x;
         rectValue.x = rectLabel.w + x + 10;
     }
+    this->border = border_;
 }
 
 TextWithValue::~TextWithValue() {
@@ -32,11 +33,16 @@ TextWithValue::~TextWithValue() {
         SDL_DestroyTexture(texValue);
 }
 
-void TextWithValue::draw() {
+void TextWithValue::Render() {
     if (value != *exValue)
         update();
-    rh->texture(texLabel, &rectLabel);
-    rh->texture(texValue, &rectValue);
+    if (border) {
+        rh->blendTexture(texLabel, &rectLabel);
+        rh->blendTexture(texValue, &rectValue);
+    } else {
+        rh->texture(texLabel, &rectLabel);
+        rh->texture(texValue, &rectValue);
+    }
 
 }
 

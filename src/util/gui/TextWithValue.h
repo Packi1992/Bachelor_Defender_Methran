@@ -10,9 +10,9 @@
 class TextWithValue {
 public:
     void set(const string& Text,const int *value,
-             Point pos, int textSize, t_color TextColor);
+             Point pos, int textSize, t_color TextColor, bool border = false);
 
-    void draw();
+    void Render();
 
     ~TextWithValue();
 
@@ -24,7 +24,7 @@ private:
     int size{};
     t_color color{};
     bool centered = false;
-
+    bool border = false;
     // label
     char text[50]{};
     Rect rectLabel{};

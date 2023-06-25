@@ -33,7 +33,7 @@ void Editor::Update() {
         // inputhandling
         SDL_GetMouseState(&mousePos.x, &mousePos.y);
         if (_mbLeft)MouseClickLeft();
-        if(_mbRight)MouseClickRight();
+        if (_mbRight)MouseClickRight();
         if (mapSelector.isFileSelected()) {
             mapName = mapSelector.getSelectedFile();
             DataHandler::load(player, waves, map, mapSelector.getSelectedFile());
@@ -67,15 +67,15 @@ void Editor::Render() {
     rh->background(BG);
     // Render map
     map.RenderBG(true);
-    for(int y=0; y < map._height ; y++)
+    for (int y = 0; y < map._height; y++)
         map.RenderRow(y);
-    if(showPath)map.RenderPath();
+    if (showPath)map.RenderPath();
     map.RenderFrontWall();
     // now Render ui
     RenderToolbox();
     if (isLabelActive && labelTimer > 60)
         rh->hint(labelObject, 18, labelPos, BLACK, WHITE);
-    for (auto &btn: _buttons)btn.draw();
+    for (auto &btn: _buttons)btn.Render();
     mapSelector.Render();
     mapNameInput.Render();
     resizeMap.Render();
@@ -93,7 +93,7 @@ void Editor::RenderToolbox() {
     symbol.y = tool.y + 8;
     for (int i = 0; i < TdTileHandler::TOOLCOUNT; i++) {
         rh->fillRect(&tool, WHITE);
-        rh->tile(&symbol,TdTileHandler::getSrcRect(i));
+        rh->tile(&symbol, TdTileHandler::getSrcRect(i));
         if (this->selected == i) {
             rh->setColor({0, 0, (u8) rainbowColor, 255});
             rh->rect(&tool, 5);
@@ -211,7 +211,7 @@ void Editor::MouseClickLeft() {
                             mapSelector.show(&focus);
                             break;
                         case btn_save:
-                            mapNameInput.set("Gib einen Mapnamen ein", "Name", mapName);
+                            mapNameInput.set("Gib einen Mapnamen ein", "Name", mapName, 50, true);
                             mapNameInput.show(&focus);
                             break;
                         case btn_waveSettings:
@@ -223,11 +223,11 @@ void Editor::MouseClickLeft() {
                             tdGlobals->editor = true;
                             break;
                         case btn_changeSize:
-                            resizeMap.set(map._width, map._height);
+                            resizeMap.set(map._width, map._height, true);
                             resizeMap.show(&focus);
                             break;
                         case btn_playerSettings:
-                            settingsDialog.set(player);
+                            settingsDialog.set(player, true);
                             settingsDialog.show(&focus);
                             break;
                         case btn_pathFinding:
@@ -246,6 +246,7 @@ void Editor::MouseClickLeft() {
         }
     }
 }
+
 void Editor::MouseClickRight() {
     if (_mouseMotion) {
         Game::scrollScreen(_motionEvent);
@@ -270,15 +271,15 @@ void Editor::updateButtonPos() {
     int btnWidth = 135;
     int btnOffset = 140;
     Rect save = {windowSize.x - btnOffset, yPos, btnWidth, btnHeight};
-    Rect pathfinding = {save.x-btnOffset,yPos,btnWidth,btnHeight};
+    Rect pathfinding = {save.x - btnOffset, yPos, btnWidth, btnHeight};
     Rect changeSize = {pathfinding.x - btnOffset, yPos, btnWidth, btnHeight};
     Rect playerSettings = {changeSize.x - btnOffset, yPos, btnWidth, btnHeight};
-    Rect waveSettings = {playerSettings.x - btnOffset, yPos, btnWidth,btnHeight};
-    Rect start = {waveSettings.x - btnOffset , yPos,btnWidth,btnHeight};
-    for(auto &btn : _buttons){
+    Rect waveSettings = {playerSettings.x - btnOffset, yPos, btnWidth, btnHeight};
+    Rect start = {waveSettings.x - btnOffset, yPos, btnWidth, btnHeight};
+    for (auto &btn: _buttons) {
         switch ((Buttons) btn.getId()) {
             case btn_Load:
-                btn.setSize({5,yPos,80,btnHeight});
+                btn.setSize({5, yPos, 80, btnHeight});
                 break;
             case btn_save:
                 btn.setSize(save);

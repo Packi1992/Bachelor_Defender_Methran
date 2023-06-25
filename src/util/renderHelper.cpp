@@ -18,11 +18,11 @@ Color RenderHelper::getColor(t_color color) {
         case WHITE:
             return {255, 255, 255, 255};
         case BTN_COLOR:
-            return {52, 235, 125, 255};
+            return {0x07, 0xa1, 0xe2, 255};
         case BTN_HIGHLIGHTED:
             return {255, 0, 0, 255};
         case EDITOR_UI_BG:
-            return {50, 220, 50, 255};
+            return {18, 51, 91, 255};
         case BG:
             return {82, 198, 255, 255};
         case YELLOW:
@@ -32,7 +32,7 @@ Color RenderHelper::getColor(t_color color) {
         case GREEN:
             return {0, 255, 0, 255};
         case BLUE:
-            return {0,0,255,255};
+            return {0, 0, 255, 255};
         default:
             return {255, 255, 255, 255};
     }
@@ -76,17 +76,17 @@ void RenderHelper::setColor(t_color color) {
 }
 
 void RenderHelper::background(t_color color, int alpha) {
-    if(alpha == 255) {
+    if (alpha == 255) {
         setColor(color);
         SDL_RenderClear(_renderer);
-    }else{
-        SDL_SetRenderDrawBlendMode(render,SDL_BLENDMODE_BLEND);
-        Rect bg = {0,0,windowSize.x, windowSize.y};
+    } else {
+        SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
+        Rect bg = {0, 0, windowSize.x, windowSize.y};
         Color t = getColor(color);
         t.a = alpha;
-        SDL_SetRenderDrawColor(render,t.r,t.g,t.b,t.a);
+        SDL_SetRenderDrawColor(render, t.r, t.g, t.b, t.a);
         fillRect(&bg);
-        SDL_SetRenderDrawBlendMode(render,SDL_BLENDMODE_NONE);
+        SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_NONE);
     }
 }
 
@@ -138,10 +138,32 @@ void RenderHelper::rect(Rect *dst, u8 strokeThickness, t_color color) {
     dst->w += 2 * strokeThickness;
 }
 
-void RenderHelper::fillRect(Rect *dst, t_color color) {
-    if (color != EMPTY)
+void RenderHelper::fillRect(Rect *dst, t_color color, uint8_t alpha) {
+    if (alpha == 255) {
+        if (color != EMPTY)
+            setColor(color);
+        SDL_RenderFillRect(_renderer, dst);
+    } else {
+        SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
+        Color t = getColor(color);
+        t.a = alpha;
+        SDL_SetRenderDrawColor(render, t.r, t.g, t.b, t.a);
+        fillRect(dst);
+        SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_NONE);
+    }
+}
+
+void RenderHelper::fillRect(Rect *dst, SDL_Color color, uint8_t alpha) {
+    if (alpha == 255) {
         setColor(color);
-    SDL_RenderFillRect(_renderer, dst);
+        SDL_RenderFillRect(_renderer, dst);
+    } else {
+        SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
+        color.a = alpha;
+        SDL_SetRenderDrawColor(render, color.r, color.g, color.b, color.a);
+        fillRect(dst);
+        SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_NONE);
+    }
 }
 
 void RenderHelper::fillFRect(FRect *rect, t_color color) {
@@ -159,7 +181,7 @@ void RenderHelper::line(Point &A, Point &B, t_color color) {
 void RenderHelper::tile(Rect *dRect, Rect *sRect, bool vFlipped) {
     if (_texture == nullptr)
         loadTileSheet();
-    if(vFlipped)
+    if (vFlipped)
         textureHflipped(_texture, dRect, sRect);
     else
         texture(_texture, dRect, sRect);
@@ -232,6 +254,20 @@ void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
 }
 
 
+void RenderHelper::blendTexture(SDL_Texture *blendedText, SDL_Rect *r) {
+    constexpr const Point p{32, 50};
+    SDL_SetTextureColorMod(blendedText, 0, 0, 0);
+    for (int i = -1; i < 2; i++) {
+        for (int j = -1; j < 2; j++) {
+            const Rect dst_rect = Rect{r->x + i, r->y + j, r->w, r->h};
+            SDL_RenderCopy(render, blendedText, nullptr, &dst_rect);
+        }
+    }
+
+    SDL_SetTextureColorMod(blendedText, 255, 255, 255);
+    const Rect dst_rect = {r->x, r->y, r->w, r->h};
+    SDL_RenderCopy(render, blendedText, nullptr, &dst_rect);
+}
 
 
 

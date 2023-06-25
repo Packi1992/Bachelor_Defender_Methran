@@ -45,7 +45,7 @@ void SelectorDialog::Render() {
     if (dialog) {
         rh->background(BG);
         for(auto & button : buttons){
-            button->draw();
+            button->Render();
         }
     }
 }

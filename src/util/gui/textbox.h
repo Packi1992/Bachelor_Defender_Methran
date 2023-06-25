@@ -9,7 +9,7 @@
 class TextBox: public Gui {
 public:
     // ini functions
-    void set(string label, Point pos, bool Number = false, bool reset = false);
+    void set(string label, Point pos, bool Number = false, bool reset = false, bool textBorder = false);
     // for number input
     void setNumber(int number);
     // for text input

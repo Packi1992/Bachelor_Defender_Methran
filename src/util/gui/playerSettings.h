@@ -16,7 +16,7 @@ class Player;
 class PlayerSettings: public Gui{
 public:
     PlayerSettings();
-    void set(Player pl);
+    void set(Player pl,bool textborder = false);
     ~PlayerSettings();
     // read values
     int getCreditPoints();
