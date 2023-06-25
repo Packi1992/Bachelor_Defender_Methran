@@ -86,9 +86,9 @@ RecursivTower::RecursivTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 3;
     _shootCoolDown = 6000;
-    _damage = 13;
+    _damage = 11;
     _aimSpeed = 1;
-    _upgradeCosts = 10;
+    _upgradeCosts = 9;
     _sellingValue = 2;
     if (pMap->getObject(pos) == Empty)
         pMap->setTile(_rPos, MapObjects::Tower);
@@ -133,7 +133,7 @@ bool RecursivTower::upgrade() {
     if(Tower::upgrade()){
         switch (_level) {
             case 2:
-                _damage = int((float) _damage * 1.2);
+                _damage = int((float) _damage * 1.3);
                 _boomerang._damage = _damage;
                 _boomerang._freez = true;
                 _boomerang._stunduration += 200;
@@ -146,7 +146,6 @@ bool RecursivTower::upgrade() {
                 _boomerang._stunduration += 200;
                 _shootCoolDown -= 500;
                 _sellingValue = (int)((float)_sellingValue * 1.5f);
-                //_boomerang._enHittable = true;
                 break;
             default:
                 break;

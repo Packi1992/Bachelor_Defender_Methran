@@ -9,8 +9,8 @@
 #include "../enemy/enemy.h"
 
 void Projectile::Update() {
-    if(_alive){
-        u32 diff = totalMSec - _lastTimePoint;
+    if (_alive) {
+        _diff = totalMSec - _lastTimePoint;
         _lastTimePoint = totalMSec;
         _posOnScreen = CT::getPosOnScreen(_position);
         // need to fix travel speed with render time
@@ -19,7 +19,7 @@ void Projectile::Update() {
         _position.x += (sin(direction) * speed);
         _position.y -= (cos(direction) * speed);
         if (_ttl != 0) {
-            _ttl -= (int) diff;
+            _ttl -= (int) _diff;
             if (_ttl <= 0) {
                 _alive = false;
             }
@@ -27,7 +27,7 @@ void Projectile::Update() {
     }
 }
 
-bool Projectile::onScreen() const{
+bool Projectile::onScreen() const {
     return (_posOnScreen.x + _size > 0) &&      // left
            (_posOnScreen.y + _size > 0) &&             // top
            (_posOnScreen.y < windowSize.y) &&        // bot
@@ -49,11 +49,13 @@ void Projectile::Render() {
         int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
         Rect dstRect = {pos.x + xFix, pos.y + yFix, (int) sizeW, (int) sizeH};
         rh->tile(&dstRect, _direction, TdTileHandler::getProjectileSrcRect(_type, totalMSec));
-        dstRect.y = pos.y;
-        dstRect.x = pos.x;
-        dstRect.w = 5;
-        dstRect.h = 5;
-        rh->fillRect(&dstRect, BLACK);
+        IfDebug {
+            dstRect.y = pos.y;
+            dstRect.x = pos.x;
+            dstRect.w = 5;
+            dstRect.h = 5;
+            rh->fillRect(&dstRect, BLACK);
+        }
     }
 }
 

@@ -52,7 +52,7 @@ Rect *TdTileHandler::getSrcRect(MapObjects o, ul animate) {
             src.y = 128;
             break;
         case Plain_Wall:
-            src.x = 11 *64;
+            src.x = 11 * 64;
             src.y = 8 * 64;
             src.h = 128;
             break;
@@ -61,12 +61,12 @@ Rect *TdTileHandler::getSrcRect(MapObjects o, ul animate) {
             src.y = 8 * 64;
             break;
         case Door_Wall:
-            src.x = 13*64;
+            src.x = 13 * 64;
             src.y = 8 * 64;
             src.h = 128;
             break;
         case Window_Wall:
-            src.x = 12*64;
+            src.x = 12 * 64;
             src.y = 8 * 64;
             src.h = 128;
             break;
@@ -239,11 +239,49 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
         default:
             cerr << "Type not implemented";
             return nullptr;
+
     }
     return &src;
 }
 
 
-
+SDL_Rect *TdTileHandler::getAnimSrcRect(AnimType a, unsigned long anim) {
+    src = {0, 0, 64, 64};
+    switch (a) {
+        case Gameover:
+            localAnimate = (int) ((anim) % 10);
+            src.x = localAnimate * 64;
+            src.y = 64;
+            break;
+        case Gameover_Top_Left:
+            src.x = 9 * 64;
+            src.y = 64;
+            src.w = 32;
+            src.h = 32;
+            break;
+        case Gameover_Top_Right:
+            src.x = 9 * 64 + 32;
+            src.y = 64;
+            src.w = 32;
+            src.h = 32;
+            break;
+        case Gameover_Bottom_Left:
+            src.x = 9 * 64;
+            src.y = 64 + 32;
+            src.w = 32;
+            src.h = 32;
+            break;
+        case Gameover_Bottom_Right:
+            src.x = 9 * 64 + 32;
+            src.y = 64 + 32;
+            src.w = 32;
+            src.h = 32;
+            break;
+        default:
+            cerr << "Type not implemented";
+            return nullptr;
+    }
+    return &src;
+}
 
 

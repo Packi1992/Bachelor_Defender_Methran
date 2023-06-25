@@ -5,9 +5,9 @@
 #include "Button.h"
 
 void Button::Render(bool highlighted) {
-    if(_visible){
+    if (_visible) {
         if (_blend) {
-            rh->fillRect(&_rect, highlighted?_highlightedColor:_drawColor, 180);
+            rh->fillRect(&_rect, highlighted ? _highlightedColor : _drawColor, 180);
         } else {
             if (!_active)
                 rh->setColor(_inactivColor);
@@ -17,11 +17,11 @@ void Button::Render(bool highlighted) {
                 rh->setColor(_drawColor);
             rh->fillRect(&_rect);
         }
-        if(_strokeThickness>0)
+        if (_strokeThickness > 0)
             rh->rect(&_rect, _strokeThickness, BLACK);
 
         // Text Render
-        rh->blendTexture(_texText,&_rText);
+        rh->blendTexture(_texText, &_rText);
         //rh->texture(_texText, &_rText);
     }
 }
@@ -38,7 +38,7 @@ bool Button::clicked(SDL_Event e) {
 
 
 bool Button::clicked(Point p) {
-    if (isPointOnBtn(p)) {
+    if (_active && isPointOnBtn(p)) {
         IfDebug {
             std::cout << "button " << _textArr << " clicked" << std::endl;
         }
@@ -58,7 +58,7 @@ void Button::entered(SDL_Event e) {
 }
 
 void Button::entered(Point p) {
-    if (_active&&isPointOnBtn(p)) {
+    if (_active && isPointOnBtn(p)) {
         _drawColor = _highlightedColor;
     } else {
         _drawColor = _buttonColor;
@@ -91,7 +91,7 @@ void Button::set(const string &label, int nSize, Rect nRect, int id, t_color btn
     this->_id = id;
     setHighlightedColor(&btnColor);
     this->_blend = blend;
-    if(_blend)
+    if (_blend)
         _strokeThickness = 0;
     this->_texText = t_cache->getBlendedText(_textArr, _size, &_rText);
 
@@ -125,8 +125,9 @@ void Button::setHighlightedColor(const t_color *high_color) {
 void Button::setHighlightedColor(t_color high_color) {
     this->_highlightedColor = RenderHelper::getColor(high_color);
 }
+
 void Button::setInactivColor(t_color inactive_color) {
-    this->_inactivColor= RenderHelper::getColor(inactive_color);
+    this->_inactivColor = RenderHelper::getColor(inactive_color);
 }
 
 

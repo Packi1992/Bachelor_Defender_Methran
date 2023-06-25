@@ -244,15 +244,13 @@ bool LinkedListTower::upgrade() {
             case 2:
                 _damage = 2;
                 _link._damage = _damage;
-                _range++;
                 _lvld -= 2;
                 _upgradeCosts *= 2;
                 _sellingValue = (int) ((float) _sellingValue * 2.0f);
                 break;
             case 3:
-                _damage = 3;
+                _damage = 4;
                 _link._damage = _damage;
-                _range++;
                 _lvlu += 2;
                 _doubleLinkActive = true;
                 _sellingValue = (int) ((float) _sellingValue * 1.5f);

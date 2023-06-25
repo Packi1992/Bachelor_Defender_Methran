@@ -13,11 +13,11 @@ class Projectile {
 public:
     struct HitTimer {
         std::shared_ptr<Enemy> enemy = nullptr;
-        u16 hitCooldown = 0;
+        int hitCooldown = 0;
     };
     bool _alive = true;
     int _ttl = 0;
-
+    int _diff = 0;
     bool _destroy = false;
     ProjectileType _type = ProjectileType::DISABLED;
 
@@ -35,17 +35,24 @@ public:
     uint8_t _damage = 100;
     bool _moveable = false;
     Vector<HitTimer> hitList;
-    soundType _hitSound=SoundDisabled;
+    soundType _hitSound = SoundDisabled;
     u32 _lastTimePoint;
 
     virtual ~Projectile();
+
     Projectile();
+
     Projectile(Projectile &p);
+
     Projectile(Projectile &p, std::shared_ptr<Enemy> e, uint16_t direction);
+
     virtual bool collision(std::shared_ptr<Enemy> e);
+
     virtual void collide();
+
     Point _posOnScreen{};
     Rect _dstRect{};
+
     virtual void Update();
 
     virtual void Render();

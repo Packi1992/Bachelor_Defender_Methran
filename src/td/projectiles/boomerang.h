@@ -14,10 +14,12 @@ private:
     bool _toggleDirection = false;
     FPoint _endFlyPos = {0.0f, 0.0f};
     //   u_int32_t _lastTimePoint = 0;
-    int _diff = 0;
+
     float _travellength = 0.0f;
-    FPoint _rotatePoint = {0.0f,0.0f};
+    FPoint _rotatePoint = {0.0f, 0.0f};
+
     void calcNextPos();
+
     bool _midflight = false;
     FPoint e{};
     DPoint _targetVec{};

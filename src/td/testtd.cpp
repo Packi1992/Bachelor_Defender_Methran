@@ -15,7 +15,7 @@ void TestTD::Init() {
     DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + *(tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, WHITE, true);
-    cout << "start map" << endl;
+
     IfDebug {
         // use wave handler
         Wave w1;
@@ -100,9 +100,9 @@ void TestTD::Init() {
         globals._wh.addWave(w4);
         globals._wh.addWave(w5);
         globals._wh.init();
-        updateUI();
-        Update();
+
         //globals._pl._creditPoints=10000;
+        /*
         globals._enemies.push_back(std::make_shared<Enemy>());
         globals._enemies.at(0)->_pos = {4.5, 4.5};
         globals._enemies.at(0)->_health = 1000;
@@ -111,8 +111,11 @@ void TestTD::Init() {
 
 
         b._speed = 100;
-        b._targetE = globals._enemies.at(0);
+        b._targetE = globals._enemies.at(0);        */
     }
+    updateUI();
+    Update();
+    _gameOverAnim.reset();
 }
 
 void TestTD::UnInit() {
@@ -177,6 +180,7 @@ void TestTD::Render() {
         rh->background(BLACK, 128);
         rh->CenteredText("Game Over", 70, RED, windowSize.x, windowSize.y);
         rh->CenteredText("Drücke Enter um fortzufahren", 40, RED, windowSize.x, windowSize.y + 300);
+        _gameOverAnim.Render();
     }
     if ((!_gameover) && (globals._wh.isOver())) {
         rh->background(BLACK, 128);
@@ -250,14 +254,20 @@ void TestTD::Update() {
         }
         IfDebug {
             if (_btn_control) {
-                Point cursor;
+                /*Point cursor;
                 SDL_GetMouseState(&cursor.x, &cursor.y);
                 FPoint scursor = CT::getPosInGame(cursor);
                 b._position = scursor;
                 b._startingPoint = scursor;
-                globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
+                globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));*/
                 _btn_control = false;
+                _gameover = true;
             }
+        }
+    }
+    if(_gameover){
+        if(_gameOverAnim.isStarted()){
+            _gameOverAnim.Update();
         }
     }
     if (_gameover && _btn_enter) {
