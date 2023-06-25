@@ -139,18 +139,24 @@ bool Boomerang::collision(std::shared_ptr<Enemy> e) {
         }
     }
     if (!inList && Projectile::collision(e)) {
-        if (e->isCopyable()) {
-            std::shared_ptr<Enemy> e1 = std::make_shared<Enemy>(e->_pos, 30, 70, 0, e->_type, 0.5f, false);
-            std::shared_ptr<Enemy> e2 = std::make_shared<Enemy>(e->_pos, 30, 70, 0, e->_type, 0.5f, false);
+        if (e->isRecursivable()) {
+            std::shared_ptr<Enemy> e1 = std::make_shared<Enemy>(e, true);
+            std::shared_ptr<Enemy> e2 = std::make_shared<Enemy>(e, true);
             tdGlobals->_enemies.push_back(e1);
             tdGlobals->_enemies.push_back(e2);
             hitList.push_back({e1, 500});
             hitList.push_back({e2, 500});
+            e->_alive = false;
+            tdGlobals->_pl._creditPoints += e->_value;
+        }else{
+            hitList.push_back({e,500});
+            e->takeDamage(this);
+            if(e->_type == Boss_Frohle_Poehlich|| e->_type == Boss_Drueberbolz)
+                e->setSlow(5,2000);
+            else
+                e->setSlow(30,2000);
+            collide();
         }
-        if (e->isStunable()) {
-            e->stun(_stunduration);
-        }
-        hitList.push_back({e, 500});
         return true;
     }
     return false;

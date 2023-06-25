@@ -8,7 +8,7 @@
 #include "projectile.h"
 
 class StringProjectile : public Projectile {
-    u32 _diff = 0;
+
     u32 _tick = 200;
     Rect _src{};
     Texture *_texture = nullptr;

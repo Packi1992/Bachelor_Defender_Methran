@@ -11,7 +11,7 @@ void Enemy::Update() {
     if (_stunTime > 0) {
         _stunTime -= (int) diff;
         if (_stunTime < 0) _stunTime = 0;
-    } else {
+    }else {
         // move ...
         updateDir();
         if (_pos.x == _nextPos.x && _pos.y == _nextPos.y) {
@@ -26,7 +26,9 @@ void Enemy::Update() {
             auto runLength = (float) ((float) diff * (float) _speed * 0.00001);
             if (_slowTimer > 0) {
                 _slowTimer -= (float) diff;
-                runLength = (float) ((double) runLength * (_speedDiff / 10.0));
+                if(_speedDiff > 100.0f)
+                    _speedDiff = 100.0f;
+                runLength = (float) ((double) runLength * (_speedDiff / 100.0f));
             }
             if (_dir == 0)
                 ((_pos.y - runLength) > _nextPos.y) ? _pos.y -= runLength : _pos.y = _nextPos.y;
@@ -39,7 +41,10 @@ void Enemy::Update() {
         } else {
             // enemy reached goal
             _alive = false;
-            tdGlobals->_pl._sanity -= _sanity;
+            if(tdGlobals->_pl._sanity >= _sanity)
+                tdGlobals->_pl._sanity -= _sanity;
+            else
+                tdGlobals->_pl._sanity = 0;
         }
 
         // check stun cooldown
@@ -65,7 +70,7 @@ void Enemy::collide() {
     audioHandler->playSound(SoundEnemyOrdinary, x);
 }
 
-void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size, bool stunable) {
+void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size, uint copycount) {
     _pos.x = (float) pos.x + 0.5f;
     _pos.y = (float) pos.y + 0.5f;
     _nextPos = pMap->getNextPosCentre(_pos);
@@ -80,7 +85,7 @@ void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyT
     _alive = true;
     _value = value;
     _size = size;
-    _stunable = stunable;
+    _copycount = copycount;
 }
 
 void Enemy::startDeathAnimation() {
@@ -190,7 +195,7 @@ void Enemy::stun(u16 time) {
         _stunTime = time;
         _stunCooldownTimer = _stunCooldown;
     }
-    _copyable = false;
+    _recursivable = false;
 }
 
 Enemy::Enemy() {
@@ -198,24 +203,24 @@ Enemy::Enemy() {
     _animOffset = _lastTimePoint % 800;
 }
 
-bool Enemy::isCopyable() const {
-    return _copyable;
+bool Enemy::isRecursivable() const {
+    return _recursivable && _copycount < 2;
 }
 
-Enemy::Enemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size, bool stunable) {
-    _pos.x = pos.x;
-    _pos.y = pos.y;
+Enemy::Enemy(std::shared_ptr<Enemy> e, bool recursive) {
+    _pos = e->_pos;
     _nextPos = pMap->getNextPosCentre(_pos);
-    _health = health;
-    _maxHealth = health;
-    _speed = speed;
-    _type = type;
+    _health = e->_health * (recursive?0.8f:1.0f);
+    _maxHealth = e->_health* (recursive?0.8f:1.0f);;
+    _speed = e->_speed* (recursive?0.8f:1.0f);
+    _type = e->_type;
     _alive = true;
-    _value = value;
-    _copyable = false;
-    _size = size;
-    _stunable = stunable;
+    _value = e->_value* (recursive?0:1);
+    _recursivable = e->_recursivable && (!recursive || (e->_copycount < 2));
+    _size = e->_size* (recursive?0.8f:1.0f);
+    _copycount = e->_copycount+ (recursive?1:0);
     _lastTimePoint = totalMSec;
+    _sanity = e->_sanity* (recursive?0.8f:1.0f);
 }
 
 bool Enemy::isStunable() const {
