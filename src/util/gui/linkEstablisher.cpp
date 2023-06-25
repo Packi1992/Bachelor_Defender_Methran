@@ -66,7 +66,7 @@ void LinkEstablisher::Input() {
 
 void LinkEstablisher::Render() {
     if (dialog) {
-        // draw tower on dest pos
+        // Render tower on dest pos
 
         if (_cursorRenderPos.x >= 0 && _cursorRenderPos.x < pMap->_width && _cursorRenderPos.y >= 0 &&
             _cursorRenderPos.y < pMap->_height) {
@@ -84,7 +84,7 @@ void LinkEstablisher::Render() {
             markerColorNext = GREEN;
         }
 
-        // draw range markers of tower before
+        // Render range markers of tower before
         FPoint range{0, 0};
         for (int angle = 0; angle < 360; angle += 10) {
             float angleF = (float) angle / 180.0f * (float) M_PI;
@@ -101,7 +101,7 @@ void LinkEstablisher::Render() {
             Point newTowerCenter = CT::getPosOnScreen(_cursorCenterPos);
             rh->line(towerCenter, newTowerCenter, GREEN);
         }
-        // draw range markers of next tower
+        // Render range markers of next tower
         if (_next != nullptr) {
             for (int angle = 0; angle < 360; angle += 10) {
                 float angleF = (float) angle / 180.0f * (float) M_PI;

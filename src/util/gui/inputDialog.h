@@ -11,7 +11,7 @@
 
 class InputDialog: public Gui {
 public:
-    void set(string title, const string& fieldName, string inputIniVal ="", int buffSize=50);
+    void set(string title, const string& fieldName, string inputIniVal ="", int buffSize=50, bool textBorder = false);
     ~InputDialog();
     // read value
     string getInput();

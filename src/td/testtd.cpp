@@ -14,103 +14,105 @@ void TestTD::Init() {
     GameState::Init();
     DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + *(tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
-                            {windowSize.x - 200, windowSize.y - 100}, 20, BLACK);
+                            {windowSize.x - 200, windowSize.y - 100}, 20, WHITE, true);
 
-    // use wave handler
-    Wave w1;
-    GameEvent se{};
-    GameEvent boss{};
-    se.time = 1000;
-    se.SpawnPoint = 0;
-    se.count = 1;
-    se.speed = 100;
-    se.type = Ordinary;
-    for (int i = 0; i <= 10; i++) {
-        se.time += 500;
-        w1.addEvent(se);
-    }
-    boss.time = se.time + 3000;
-    boss.SpawnPoint = 0;
-    boss.count = 1;
-    boss.speed = 200;
-    boss.health = 20;
-    boss.type = Boss_Drueberbolz;
-    w1.addEvent(boss);
+    IfDebug {
+        // use wave handler
+        Wave w1;
+        GameEvent se{};
+        GameEvent boss{};
+        se.time = 1000;
+        se.SpawnPoint = 0;
+        se.count = 1;
+        se.speed = 100;
+        se.type = Ordinary;
+        for (int i = 0; i <= 10; i++) {
+            se.time += 500;
+            w1.addEvent(se);
+        }
+        boss.time = se.time + 3000;
+        boss.SpawnPoint = 0;
+        boss.count = 1;
+        boss.speed = 200;
+        boss.health = 20;
+        boss.type = Boss_Drueberbolz;
+        w1.addEvent(boss);
 
-    se.SpawnPoint = 1;
-    se.health += 50;
-    se.time = 1000;
-    Wave w2;
-    for (int i = 0; i <= 20; i++) {
-        se.time += 500;
-        w2.addEvent(se);
-    }
-    boss.time = se.time + 3000;
-    boss.SpawnPoint = 1;
-    boss.type = Boss_Frohle_Poehlich;
-    boss.health += 100;
-    w2.addEvent(boss);
+        se.SpawnPoint = 1;
+        se.health += 50;
+        se.time = 1000;
+        Wave w2;
+        for (int i = 0; i <= 20; i++) {
+            se.time += 500;
+            w2.addEvent(se);
+        }
+        boss.time = se.time + 3000;
+        boss.SpawnPoint = 1;
+        boss.type = Boss_Frohle_Poehlich;
+        boss.health += 100;
+        w2.addEvent(boss);
 
-    se.SpawnPoint = 0;
-    Wave w3;
-    se.health += 100;
-    se.time = 1000;
-    for (int i = 0; i <= 25; i++) {
-        se.time += 500;
-        w3.addEvent(se);
-    }
-    boss.time = se.time + 3000;
-    boss.SpawnPoint = 0;
-    boss.type = Boss_Frohle_Poehlich;
-    boss.health += 100;
-    w3.addEvent(boss);
+        se.SpawnPoint = 0;
+        Wave w3;
+        se.health += 100;
+        se.time = 1000;
+        for (int i = 0; i <= 25; i++) {
+            se.time += 500;
+            w3.addEvent(se);
+        }
+        boss.time = se.time + 3000;
+        boss.SpawnPoint = 0;
+        boss.type = Boss_Frohle_Poehlich;
+        boss.health += 100;
+        w3.addEvent(boss);
 
-    se.SpawnPoint = 1;
-    Wave w4;
-    se.health += 200;
-    se.time = 1000;
-    for (int i = 0; i <= 20; i++) {
-        se.time += 500;
-        w4.addEvent(se);
-    }
-    boss.time = se.time + 1000;
-    boss.SpawnPoint = 1;
-    boss.type = Boss_Drueberbolz;
-    boss.health += 100;
-    w4.addEvent(boss);
+        se.SpawnPoint = 1;
+        Wave w4;
+        se.health += 200;
+        se.time = 1000;
+        for (int i = 0; i <= 20; i++) {
+            se.time += 500;
+            w4.addEvent(se);
+        }
+        boss.time = se.time + 1000;
+        boss.SpawnPoint = 1;
+        boss.type = Boss_Drueberbolz;
+        boss.health += 100;
+        w4.addEvent(boss);
 
-    se.SpawnPoint = 0;
-    Wave w5;
-    se.health += 300;
-    se.time = 1000;
-    for (int i = 0; i <= 100; i++) {
-        se.time += 500;
-        w5.addEvent(se);
-    }
-    boss.time = se.time + 1000;
-    boss.SpawnPoint = 0;
-    boss.type = Boss_Frohle_Poehlich;
-    boss.health += 100;
-    w5.addEvent(boss);
+        se.SpawnPoint = 0;
+        Wave w5;
+        se.health += 300;
+        se.time = 1000;
+        for (int i = 0; i <= 100; i++) {
+            se.time += 500;
+            w5.addEvent(se);
+        }
+        boss.time = se.time + 1000;
+        boss.SpawnPoint = 0;
+        boss.type = Boss_Frohle_Poehlich;
+        boss.health += 100;
+        w5.addEvent(boss);
 
-    globals._wh.addWave(w1);
-    globals._wh.addWave(w2);
-    globals._wh.addWave(w3);
-    globals._wh.addWave(w4);
-    globals._wh.addWave(w5);
-    globals._wh.init();
-    updateUI();
-    Update();
-    //globals._pl._creditPoints=10000;
-    globals._enemies.push_back(std::make_shared<Enemy>());
-    globals._enemies.at(0)->_pos = {4.5, 4.5};
-    globals._enemies.at(0)->_health = 1000;
-    globals._enemies.at(0)->_alive = true;
-    globals._enemies.at(0)->stun(65000);
+        globals._wh.addWave(w1);
+        globals._wh.addWave(w2);
+        globals._wh.addWave(w3);
+        globals._wh.addWave(w4);
+        globals._wh.addWave(w5);
+        globals._wh.init();
+        updateUI();
+        Update();
+        //globals._pl._creditPoints=10000;
+        globals._enemies.push_back(std::make_shared<Enemy>());
+        globals._enemies.at(0)->_pos = {4.5, 4.5};
+        globals._enemies.at(0)->_health = 1000;
+        globals._enemies.at(0)->_alive = true;
+        globals._enemies.at(0)->stun(65000);
 
 
-    b._speed = 100;
-    b._targetE = globals._enemies.at(0);
+        b._speed = 100;
+        b._targetE = globals._enemies.at(0);
+    };
 }
 
 void TestTD::UnInit() {
@@ -166,7 +168,7 @@ void TestTD::Render() {
     rh->texture(_texMethran, &MethranDst);
     // Menu
     rh->fillRect(&_menuBot, EDITOR_UI_BG);
-    _creditPointDisplay.draw();
+    _creditPointDisplay.Render();
     for (auto &tower: globals._towers) {
         tower->RenderMenu();
     }
@@ -247,15 +249,17 @@ void TestTD::Update() {
             }
             _mbLeft = false;
         }
-        if (_btn_control) {
-            Point cursor;
-            SDL_GetMouseState(&cursor.x, &cursor.y);
-            FPoint scursor = CT::getPosInGame(cursor);
-            b._position = scursor;
-            b._startingPoint = scursor;
-            globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
-            _btn_control = false;
-        }
+        IfDebug {
+            if (_btn_control) {
+                Point cursor;
+                SDL_GetMouseState(&cursor.x, &cursor.y);
+                FPoint scursor = CT::getPosInGame(cursor);
+                b._position = scursor;
+                b._startingPoint = scursor;
+                globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
+                _btn_control = false;
+            }
+        };
     }
     if (_gameover && _btn_enter) {
         if (config->worldsFinished == 0) {
@@ -338,7 +342,6 @@ void TestTD::Events() {
 }
 
 void TestTD::keyDown(SDL_Event &event) {
-    cout << event.key.keysym.scancode << endl;
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
             if (globals.editor)

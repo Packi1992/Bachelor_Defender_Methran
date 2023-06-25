@@ -3,12 +3,16 @@
 //
 #include "textbox.h"
 
-void TextBox::set(string label, Point pos, bool Number, bool reset) {
+void TextBox::set(string label, Point pos, bool Number, bool reset, bool textBorder) {
     _isNumber = Number;
-
+    _textBorder = textBorder;
     // ini label
     _label = std::move(label);
-    _texLabel = t_cache->getText(_label.c_str(), 18, &_rLabel);
+    if (_textBorder) {
+        _texLabel = t_cache->getText(_label.c_str(), 18, &_rLabel, WHITE);
+    } else {
+        _texLabel = t_cache->getText(_label.c_str(), 18, &_rLabel);
+    }
     _rLabel.x = pos.x;
     _rLabel.y = pos.y;
 
@@ -19,8 +23,8 @@ void TextBox::set(string label, Point pos, bool Number, bool reset) {
     _rInputField.w = max_length * 5 + 10;
 
     // ini actual inputText as empty
-    if(reset){
-        _renderedInput="";
+    if (reset) {
+        _renderedInput = "";
         _input = "";
     }
     _rInput.x = _rInputField.x + 5;
@@ -37,7 +41,7 @@ void TextBox::setText(std::string text) {
     _input = std::move(text);
     if (_texInput != nullptr)
         SDL_DestroyTexture(_texInput);
-    _texInput = t_cache->getText(_input.c_str(), 18, &_rInput,BLACK);
+    _texInput = t_cache->getText(_input.c_str(), 18, &_rInput, BLACK);
     _renderedInput = _input;
 }
 
@@ -55,24 +59,28 @@ void TextBox::setNumber(int number) {
     if (_texInput != nullptr)
         SDL_DestroyTexture(_texInput);
     _texInput = t_cache->getText(&_input, 18, &_rInput);
-    IfDebug{cout << "TextBox: length of text rect " << _rInput.w << endl;};
+    IfDebug { cout << "TextBox: length of text rect " << _rInput.w << endl; };
     _renderedInput = "";
     _renderedInput += _input;
 }
 
 void TextBox::Render() {
-    rh->texture(_texLabel, &_rLabel);
+    if (_textBorder) {
+        rh->blendTexture(_texLabel, &_rLabel);
+    } else {
+        rh->texture(_texLabel, &_rLabel);
+    }
     rh->fillRect(&_rInputField, WHITE);
-    rh->rect(&_rInputField, 1,BLACK);
+    rh->rect(&_rInputField, 1, BLACK);
     if (!_renderedInput.empty())
         rh->texture(_texInput, &_rInput);
     if (dialog) {
         if (blink > 20) {
-            Point curA,curB;
-            curA.x = curB.x= _rInput.x + _rInput.w;
+            Point curA, curB;
+            curA.x = curB.x = _rInput.x + _rInput.w;
             curA.y = _rInput.y;
             curB.y = _rInput.y + _rInput.h;
-            rh->line(curA,curB);
+            rh->line(curA, curB);
         }
     }
 }
@@ -93,7 +101,7 @@ void TextBox::Input() {
     SDL_StartTextInput();
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-        if(pGame->HandleEvent(event))
+        if (pGame->HandleEvent(event))
             return;
         switch (event.type) {
             case SDL_TEXTINPUT:
@@ -111,7 +119,7 @@ void TextBox::Input() {
             case SDL_KEYDOWN:
                 if (event.key.keysym.sym == SDLK_BACKSPACE && !_input.empty())
                     _input.erase(_input.size() - 1);
-                if (event.key.keysym.sym == SDLK_KP_ENTER){
+                if (event.key.keysym.sym == SDLK_KP_ENTER) {
                     releaseFocus(true);
                     blink = 0;
                 }
@@ -143,13 +151,13 @@ TextBox::~TextBox() {
 }
 
 void TextBox::Update() {
-    if (_input!=_renderedInput) {
+    if (_input != _renderedInput) {
         if (_texInput != nullptr)
             SDL_DestroyTexture(_texInput);
-        _texInput = t_cache->getText(_input.c_str(), 18, &_rInput,BLACK);
+        _texInput = t_cache->getText(_input.c_str(), 18, &_rInput, BLACK);
         _renderedInput = _input;
     }
-    if(dialog)
+    if (dialog)
         blink = (blink + 1) % 40;
     else
         blink = 0;
