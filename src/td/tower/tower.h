@@ -42,7 +42,7 @@ public:
 
     virtual void showMenu(Gui **focus) = 0;
 
-    void RenderMenu();
+    virtual void RenderMenu();
 
     void removeFromMap();
 

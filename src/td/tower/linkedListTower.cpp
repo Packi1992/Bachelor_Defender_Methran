@@ -16,6 +16,9 @@ void LinkedListTower::Render() {
     } else {
         rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Tower_LinkedList, animT));
     }
+}
+void LinkedListTower::RenderMenu() {
+    Tower::RenderMenu();
     _linkEstablisher.Render();
 }
 
@@ -273,3 +276,5 @@ void LinkedListTower::upgradeLinkTowers() {
         cur = cur->_next;
     } while (cur != nullptr);
 }
+
+

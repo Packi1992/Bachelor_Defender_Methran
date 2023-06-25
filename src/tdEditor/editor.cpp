@@ -70,7 +70,7 @@ void Editor::Render() {
     for(int y=0; y < map._height ; y++)
         map.RenderRow(y);
     if(showPath)map.RenderPath();
-
+    map.RenderFrontWall();
     // now Render ui
     RenderToolbox();
     if (isLabelActive && labelTimer > 60)

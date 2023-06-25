@@ -53,6 +53,18 @@ bool Tower::isClicked(Point md) {
 void Tower::RenderMenu() {
     if (_floatingMenu != nullptr)
         _floatingMenu->Render();
+    // range
+    if (_showRange) {
+        FPoint range{0, 0};
+        for (int angle = 0; angle < 360; angle += 10) {
+            float angleF = (float) angle / 180.0f * (float) M_PI;
+            range.x = _pos.x + sin(angleF) * (float) _range;
+            range.y = _pos.y + cos(angleF) * (float) _range;
+            Point range2 = CT::getPosOnScreen(range);
+            Rect dst = {range2.x, range2.y, 5, 5};
+            rh->fillRect(&dst, BLACK);
+        }
+    }
 }
 
 void Tower::removeFromMap() {
@@ -70,18 +82,7 @@ bool Tower::isDead() const {
 }
 
 void Tower::Render() {
-    // range
-    if (_showRange) {
-        FPoint range{0, 0};
-        for (int angle = 0; angle < 360; angle += 10) {
-            float angleF = (float) angle / 180.0f * (float) M_PI;
-            range.x = _pos.x + sin(angleF) * (float) _range;
-            range.y = _pos.y + cos(angleF) * (float) _range;
-            Point range2 = CT::getPosOnScreen(range);
-            Rect dst = {range2.x, range2.y, 5, 5};
-            rh->fillRect(&dst, BLACK);
-        }
-    }
+
 }
 
 void Tower::Update() {

@@ -105,6 +105,39 @@ float CoordinateTransformer::getAngle(const SDL_FPoint &p1, const SDL_FPoint &p2
     return alpha;
 }
 
+double CoordinateTransformer::getAngle(const DPoint &p1, const DPoint &p2) {
+    double y = p2.y - p1.y;
+    double x = p2.x - p1.x;
+    bool above = false;
+    if (y < 0) {
+        above = true;
+        y = -y;
+    }
+    if (y == 0) {
+        above = true;
+    }
+    bool left = false;
+    if (x < 0) {
+        left = true;
+        x = -x;
+    }
+    if (x == 0) {
+        left = true;
+    }
+    double alpha = atan(y / x) * 180.0 /  M_PI;
+    if (above && !left)
+        alpha = (90 - alpha);
+    if (!above && !left)
+        alpha += 90;
+    if (left && !above) {
+        alpha = 450 - alpha;
+        alpha += 180;
+    }
+    if (left & above)
+        alpha -= 90;
+    return alpha;
+}
+
 SDL_Point CoordinateTransformer::getMousePosTile() {
     return getTileInGame(Game::getMousePos());
 }
@@ -129,3 +162,5 @@ bool CoordinateTransformer::collisionLineRect(const SDL_FPoint &p1, const SDL_FP
     bool left = collisionLineLine(p1, p2, {r.x, r.y}, {r.x, r.y + r.h});
     return (left || top || right || bot);
 }
+
+

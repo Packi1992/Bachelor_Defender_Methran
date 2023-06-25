@@ -13,6 +13,7 @@
 class Map {
 public:
     Map();
+    ~Map();
 
     void Render(bool wire = false, bool path = false);
 
@@ -56,6 +57,8 @@ public:
 
     void RenderPathRow(int i);
 
+    void RenderFrontWall();
+
 private:
     struct PathEntry {
         Point pos;
@@ -66,6 +69,7 @@ private:
 
     Vector<Point> _startPoints{};
     Texture *_tileMap = {};
+    Texture *_frontWall = {};
     Texture *_blocked = {};
     Texture *_arrow{};
 
@@ -89,8 +93,6 @@ private:
     static u16 getDir(int ex, int ey, int tx, int ty);
 
     void CheckEnemiesPath(Point point);
-
-    void drawWalls();
 };
 
 
