@@ -43,7 +43,7 @@ public:
     [[nodiscard]] bool isRow(float row) const;
 
     // logical pixel pos
-    u16 _dir = 0;
+    Direction _dir = TOP;
     bool _alive = false;
 
     u16 _health = 0;

@@ -49,6 +49,8 @@ public:
     void Update() override;
 
     void Render() override;
+
+    void updateActiveButtons();
 };
 
 #endif //SDL_BASEGAME_WORLDMAP_H

@@ -3,12 +3,7 @@
 //
 
 #include "enemy.h"
-#include "../../util/global.h"
 #include "../testtd.h"
-#include "../projectiles/projectile.h"
-#include "../../tdUtil/tdTileHandler.h"
-#include "../../tdUtil/map.h"
-#include "../../util/gamebase.h"
 
 void Enemy::Update() {
     u32 diff = totalMSec - _lastTimePoint;
@@ -118,14 +113,14 @@ void Enemy::updateDir() {
         return;
     if (_nextPos.x == _pos.x) { // up or down
         if (_nextPos.y > _pos.y)
-            _dir = 180;
+            _dir = BOTTOM;
         else
-            _dir = 0;
+            _dir = TOP;
     } else if (_nextPos.y == _pos.y) {// left or right
         if (_nextPos.x > _pos.x)
-            _dir = 90;
+            _dir = RIGHT;
         else
-            _dir = 270;
+            _dir = LEFT;
     }
 
 }
@@ -143,30 +138,18 @@ void Enemy::Render() const {
         dstRect.y = (int) (POS.y - dstRect.h * 0.8);
         u32 anim = _stunTime > 0 ? 0 : (pGame->isGameover() ? 0 : totalMSec + _animOffset);
         // check if enemy is on screen
+
         if (Game::onScreen(dstRect)) {
-            Direction dir;
-            bool flipped = false;
+            bool flipped;
             switch (_dir) {
-                case 0:
-                    dir = Direction::TOP;
-                    flipped = false;
-                    break;
-                case 90:
-                    dir = Direction::RIGHT;
-                    flipped = false;
-                    break;
-                case 180:
-                    dir = Direction::BOTTOM;
-                    flipped = false;
-                    break;
                 case 270:
-                    dir = Direction::LEFT;
                     flipped = true;
                     break;
                 default:
+                    flipped = false;
                     break;
             }
-            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type, anim, dir), flipped);
+            rh->tile(&dstRect, TdTileHandler::getEnemySrcRect(this->_type, anim, _dir), flipped);
         }
     }
 }

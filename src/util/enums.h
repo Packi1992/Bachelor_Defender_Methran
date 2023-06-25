@@ -70,6 +70,7 @@ enum t_color {
     WHITE,
     BTN_COLOR,
     BTN_HIGHLIGHTED,
+    BTN_INACTIVE,
     MAP_GRID,
     EDITOR_UI_BG,
     BG,
@@ -130,10 +131,10 @@ enum Status{
 };
 
 enum Direction{
-    TOP,
-    RIGHT,
-    BOTTOM,
-    LEFT
+    TOP = 0,
+    RIGHT = 90,
+    BOTTOM = 180,
+    LEFT = 270,
 };
 
 enum GameStates{

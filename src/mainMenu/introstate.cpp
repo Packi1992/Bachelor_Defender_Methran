@@ -6,6 +6,7 @@
 #include "../util/recthelper.h"
 #include "../util/config.h"
 #include "../util/gui/Button.h"
+#include "../td/testtd.h"
 
 void MainMenu::Init() {
     audioHandler->playMusic(MusicMainMenu);
@@ -47,16 +48,18 @@ void MainMenu::Update() {
             if (btn.clicked(mousePos)) {
                 switch (btn.getId()) {
                     case btn_Start:
-                        IfDebug {
+                        //IfDebug {
+                        //    game.SetNextState(GS_WorldMap);
+                        //}
+                        //IfNotDebug {
+                        // only if first start of Game -> we need a config / save file
+                        if (config->worldsFinished == 0) {
+                            cout << "no worlds finished!" << endl;
+                            game.SetNextState(GS_TD);
+                            tdGlobals->setPath("gameMaps/world1.map");
+                        } else
                             game.SetNextState(GS_WorldMap);
-                        }
-                        IfNotDebug {
-                            // only if first start of Game -> we need a config / save file
-                            if(config->worldsFinished==0)
-                                game.SetNextState(GS_TD);
-                            else
-                                game.SetNextState(GS_WorldMap);
-                        };
+                        //}
                         break;
                     case btn_Editor:
                         game.SetNextState(GS_Editor);
@@ -88,7 +91,8 @@ void MainMenu::Update() {
 void MainMenu::Render() {
     Rect dst_rect{0, 0, windowSize.x, windowSize.y};
     SDL_RenderCopy(render, _image, EntireRect, &dst_rect /* same result as EntireRect */ );
-    dst_rect ={0,(int)((float )windowSize.y*0.1f),dst_rect.w,dst_rect.h/3};
+    rh->background(BLACK, 120);
+    dst_rect = {0, (int) ((float) windowSize.y * 0.1f), dst_rect.w, dst_rect.h / 3};
     SDL_RenderCopy(render, _titel, EntireRect, &dst_rect /* same result as EntireRect */ );
     for (auto &btn: _buttons)
         btn.Render();
@@ -98,9 +102,13 @@ MainMenu::MainMenu(Game &game) : GameState(game, GS_MainMenu) {
     _image = t_cache->get(BasePath "asset/graphic/bg-main.png");
     _titel = t_cache->get(BasePath "asset/graphic/Titel.png");
     _buttons.emplace_back("Start", _fontSize, Buttons::btn_Start, BTN_COLOR, true);
-    IfDebug
-        _buttons.emplace_back("Editor",_fontSize,Buttons::btn_Editor, BTN_COLOR, true);
+    _buttons.at(_buttons.size() - 1).setHighlightedColor(BTN_HIGHLIGHTED);
+    IfDebug {
+        _buttons.emplace_back("Editor", _fontSize, Buttons::btn_Editor, BTN_COLOR, true);
+        _buttons.at(_buttons.size() - 1).setHighlightedColor(BTN_HIGHLIGHTED);
+    };
     _buttons.emplace_back("Beenden", _fontSize, Buttons::btn_Exit, BTN_COLOR, true);
+    _buttons.at(_buttons.size() - 1).setHighlightedColor(BTN_HIGHLIGHTED);
 }
 
 MainMenu::~MainMenu() {

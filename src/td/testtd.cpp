@@ -112,7 +112,7 @@ void TestTD::Init() {
 
         b._speed = 100;
         b._targetE = globals._enemies.at(0);
-    };
+    }
     _gameOverAnim.reset();
 }
 
@@ -261,7 +261,7 @@ void TestTD::Update() {
                 _btn_control = false;
                 _gameover = true;
             }
-        };
+        }
     }
     if(_gameover){
         if(_gameOverAnim.isStarted()){

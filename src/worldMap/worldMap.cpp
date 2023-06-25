@@ -6,6 +6,7 @@
 #include "../util/recthelper.h"
 #include "../util/gui/Button.h"
 #include "../td/testtd.h"
+#include "../util/config.h"
 
 void WorldMap::Init() {
     audioHandler->playMusic(MusicMainMenu);
@@ -17,7 +18,7 @@ void WorldMap::UnInit() {
 }
 
 void WorldMap::Events() {
-    if(focus == nullptr) {
+    if (focus == nullptr) {
         SDL_PumpEvents();
         Event event;
         while (SDL_PollEvent(&event)) {
@@ -33,7 +34,7 @@ void WorldMap::Events() {
                         // crash/shutdown, since State #99 does not exist
                         game.SetNextState(GS_Close);
                     }
-                    if(what_key.scancode== SDL_SCANCODE_ESCAPE){
+                    if (what_key.scancode == SDL_SCANCODE_ESCAPE) {
                         game.SetNextState(GS_MainMenu);
                     }
                 }
@@ -41,15 +42,14 @@ void WorldMap::Events() {
                     break;
             }
         }
-    }
-    else{
+    } else {
         focus->Input();
     }
 }
 
 void WorldMap::Update() {
-    if(focus== nullptr) {
-        if(mapSelector.isFileSelected()){
+    if (focus == nullptr) {
+        if (mapSelector.isFileSelected()) {
             tdGlobals->setPath(mapSelector.getSelectedFile());
             mapSelector.reset();
             game.SetNextState(GS_TD);
@@ -97,7 +97,7 @@ void WorldMap::Update() {
                             game.SetNextState(GS_Editor);
                             break;
                         case btn_ChooseMap:
-                            mapSelector.set( BasePath"Maps/", ".map");
+                            mapSelector.set(BasePath"Maps/", ".map");
                             mapSelector.show(&focus);
                             break;
                         case btn_backToMain:
@@ -113,76 +113,74 @@ void WorldMap::Update() {
         }
         if (!_buttons.empty()) {
             // buttons will have both 80% (window.height and window.width)
-            int btnSize = (int)((float)windowSize.x*0.04f);
-            Point  btnEdit, btnChoose;
-            for (auto & _button : _buttons) {
-                Rect size = {0,0,btnSize,btnSize};
-                switch ((Buttons)_button.getId()) {
+            int btnSize = (int) ((float) windowSize.x * 0.04f);
+            for (auto &_button: _buttons) {
+                Rect size = {0, 0, btnSize, btnSize};
+                switch ((Buttons) _button.getId()) {
 
                     case btn_w1:
-                        size.x = (int)((float)windowSize.x * 0.33f);
-                        size.y = (int)((float)windowSize.y * 0.765f);
+                        size.x = (int) ((float) windowSize.x * 0.33f);
+                        size.y = (int) ((float) windowSize.y * 0.765f);
                         _button.setSize(size);
                         break;
                     case btn_w2:
-                        size.x = (int)((float)windowSize.x * 0.43f);
-                        size.y = (int)((float)windowSize.y * 0.765f);
+                        size.x = (int) ((float) windowSize.x * 0.43f);
+                        size.y = (int) ((float) windowSize.y * 0.765f);
                         _button.setSize(size);
                         break;
                     case btn_w3:
-                        size.x = (int)((float)windowSize.x * 0.56f);
-                        size.y = (int)((float)windowSize.y * 0.55f);
+                        size.x = (int) ((float) windowSize.x * 0.56f);
+                        size.y = (int) ((float) windowSize.y * 0.55f);
                         _button.setSize(size);
                         break;
                     case btn_w4:
-                        size.x = (int)((float)windowSize.x * 0.56f);
-                        size.y = (int)((float)windowSize.y * 0.45f);
+                        size.x = (int) ((float) windowSize.x * 0.56f);
+                        size.y = (int) ((float) windowSize.y * 0.45f);
                         _button.setSize(size);
                         break;
                     case btn_w5:
-                        size.x = (int)((float)windowSize.x * 0.56f);
-                        size.y = (int)((float)windowSize.y * 0.35f);
+                        size.x = (int) ((float) windowSize.x * 0.56f);
+                        size.y = (int) ((float) windowSize.y * 0.35f);
                         _button.setSize(size);
                         break;
                     case btn_w6:
-                        size.x = (int)((float)windowSize.x * 0.772f);
-                        size.y = (int)((float)windowSize.y * 0.44f);
+                        size.x = (int) ((float) windowSize.x * 0.772f);
+                        size.y = (int) ((float) windowSize.y * 0.44f);
                         _button.setSize(size);
                         break;
                     case btn_w7:
-                        size.x = (int)((float)windowSize.x * 0.775f);
-                        size.y = (int)((float)windowSize.y * 0.17f);
+                        size.x = (int) ((float) windowSize.x * 0.775f);
+                        size.y = (int) ((float) windowSize.y * 0.17f);
                         _button.setSize(size);
                         break;
                     case btn_w8:
-                        size.x = (int)((float)windowSize.x * 0.58f);
-                        size.y = (int)((float)windowSize.y * 0.21f);
+                        size.x = (int) ((float) windowSize.x * 0.58f);
+                        size.y = (int) ((float) windowSize.y * 0.21f);
                         _button.setSize(size);
                         break;
                     case btn_Editor:
-                        size.x = (int)((float)windowSize.x * 0.8f);
-                        size.y = (int)((float)windowSize.y * 0.05f);
-                        size.w = (int)((float)windowSize.x*0.15f);
+                        size.x = (int) ((float) windowSize.x * 0.8f);
+                        size.y = (int) ((float) windowSize.y * 0.05f);
+                        size.w = (int) ((float) windowSize.x * 0.15f);
                         _button.setSize(size);
                         break;
                     case btn_ChooseMap:
-                        size.x = (int)((float)windowSize.x * 0.05f);
-                        size.y = (int)((float)windowSize.y * 0.05f);
-                        size.w = (int)((float)windowSize.x*0.20f);
+                        size.x = (int) ((float) windowSize.x * 0.05f);
+                        size.y = (int) ((float) windowSize.y * 0.05f);
+                        size.w = (int) ((float) windowSize.x * 0.20f);
                         _button.setSize(size);
                         break;
                     case btn_backToMain:
-                        size.x = (int)((float)windowSize.x * 0.35f);
-                        size.y = (int)((float)windowSize.y * 0.90f);
-                        size.w = (int)((float)windowSize.x*0.25f);
+                        size.x = (int) ((float) windowSize.x * 0.35f);
+                        size.y = (int) ((float) windowSize.y * 0.90f);
+                        size.w = (int) ((float) windowSize.x * 0.25f);
                         _button.setSize(size);
                         break;
                 }
 
             }
         }
-    }
-    else{
+    } else {
         focus->Update();
     }
 }
@@ -205,13 +203,53 @@ WorldMap::WorldMap(Game &game) : GameState(game, GS_WorldMap) {
     _buttons.emplace_back("6", _fontSize, btn_w6);
     _buttons.emplace_back("7", _fontSize, btn_w7);
     _buttons.emplace_back("8", _fontSize, btn_w8);
-    _buttons.emplace_back("Editor",_fontSize,btn_Editor);
-    _buttons.emplace_back("Eigene Map", _fontSize,btn_ChooseMap);
-    _buttons.emplace_back("Zurück zum Hauptmenu", _fontSize,btn_backToMain);
 
+    if (config->worldsFinished >= 7) {
+        _buttons.emplace_back("Editor", _fontSize, btn_Editor);
+        _buttons.emplace_back("Eigene Map", _fontSize, btn_ChooseMap);
+    }
+    _buttons.emplace_back("Zurück zum Hauptmenu", _fontSize, btn_backToMain);
+    for(auto& btn: _buttons){
+        btn.setInactivColor(BTN_INACTIVE);
+        btn.setHighlightedColor( BTN_HIGHLIGHTED);
+    }
+    updateActiveButtons();
 }
 
 WorldMap::~WorldMap() {
     _buttons.clear();
     GameState::~GameState();
+}
+
+void WorldMap::updateActiveButtons() {
+    for (auto &btn: _buttons) {
+        switch (btn.getId()) {
+            case btn_w2:
+                btn.setActive(config->worldsFinished >= 1);
+                break;
+            case btn_w3:
+                btn.setActive(config->worldsFinished >= 2);
+                break;
+            case btn_w4:
+                btn.setActive(config->worldsFinished >= 3);
+                break;
+            case btn_w5:
+                btn.setActive(config->worldsFinished >= 4);
+                break;
+            case btn_w6:
+                btn.setActive(config->worldsFinished >= 5);
+                break;
+            case btn_w7:
+                btn.setActive(config->worldsFinished >= 6);
+                break;
+            case btn_w8:
+                btn.setActive(config->worldsFinished >= 7);
+                break;
+            case btn_Editor:
+            case btn_ChooseMap:
+                btn.setActive(config->worldsFinished >= 8);
+                btn.setVisible(config->worldsFinished >= 8);
+        }
+    }
+
 }
