@@ -277,7 +277,7 @@ void TestTD::Update() {
                 config->worldsFinished = mapNr;
                 config->safeConfig();
             }
-            if(config->worldsFinished==0)
+            if (config->worldsFinished == 0)
                 game.SetNextState(GS_MainMenu);
             else
                 game.SetNextState(GS_WorldMap);
@@ -290,7 +290,7 @@ void TestTD::Update() {
 void TestTD::collision() {
     for (auto &p: globals._projectiles) {
         if (p->_alive) {
-            for (int i = 0; i < globals._enemies.size(); i++) {
+            for (int i = 0; i < (int)globals._enemies.size(); i++) {
                 if (globals._enemies.at(i)->_alive && p->collision(globals._enemies.at(i)) && p->_alive) {
                     p->collide();
                 }
@@ -537,7 +537,7 @@ void TestTD::updateEnemeies() {
                     [](const std::shared_ptr<Enemy> &mov) { return !mov->_alive; }
             ),
             globals._enemies.end());
-    globals._enemiesOnMap = (long)globals._enemies.size();
+    globals._enemiesOnMap = (long) globals._enemies.size();
 }
 
 bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
@@ -575,7 +575,7 @@ void TestTD::handleEvent(const GameEvent &event) {
             globals._enemies.push_back(e);
             break;
         }
-        case Ordinary: {
+        default: {
             std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
             e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
             globals._enemies.push_back(e);

@@ -140,6 +140,7 @@ enum GameStates{
 };
 
 enum GameEvents{
-    GE_
+    GE_Spawn,
+    GE_Message,0
 };
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

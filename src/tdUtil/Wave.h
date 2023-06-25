@@ -7,6 +7,7 @@
 #include "../util/global.h"
 
 struct GameEvent{
+    GameEvents eventType=GameEvents::GE_Spawn;
     //  Enemy Type, which will be spawned
     EnemyType type=EnemyType::Ordinary;
     //  Spawn Time (0 will be directly spawned)
@@ -35,7 +36,7 @@ struct GameEvent{
                 (value == other.value);
     }
 
-    static GameEvent readLine(string EventAsString);
+    static GameEvent readLine(const string EventAsString);
 };
 #include "../td/enemy/enemy.h"
 

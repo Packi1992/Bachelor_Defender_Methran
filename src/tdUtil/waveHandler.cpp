@@ -26,8 +26,8 @@ bool WaveHandler::load(const Vector<string> &vector1) {
         if (waveStart && line.substr(0, 5) == "NAME :") {
             newWave.setName(line.substr(5));
         }
-        if (waveStart && line.substr( 0,6) == "SPAWN:"){
-            newWave.addEvent(line.substr(5));
+        if (waveStart && line.substr( 0,6) == "EVENT:"){
+            newWave.addEvent(line.substr(6));
         }
         if (waveStart && line.substr(0,8) == "WAVE-END"){
             waveStart = false;
@@ -38,7 +38,7 @@ bool WaveHandler::load(const Vector<string> &vector1) {
         // WAVE : 1
         // NAME : super-duper Wave Name
         //
-        // SPAWN-EVENT : EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
+        // EVENT : EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
         // EVENT : .. ..
         // WAVE-END
         // WAVE : 2
