@@ -148,7 +148,7 @@ public:
 
     virtual ~GameState() = default;
 
-    virtual void Init() {}
+    virtual void Init() {  _gameover = false;}
 
     virtual void UnInit() {}
 

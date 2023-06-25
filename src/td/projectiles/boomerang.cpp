@@ -121,7 +121,7 @@ void Boomerang::Render() {
             Point es = CT::getPosOnScreen(e);
             Rect target2{es.x - 5, es.y - 5, 10, 10};
             rh->fillRect(&target2, GREEN);
-        };
+        }
     }
 }
 
