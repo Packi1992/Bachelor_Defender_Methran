@@ -4,10 +4,10 @@
 
 #include "sizeDialog.h"
 
-void SizeDialog::set(int width, int height) {
+void SizeDialog::set(int width, int height, bool textborder) {
     _width = width;
     _height = height;
-
+    _textBorder = textborder;
     iniUI();
     iniValues();
 }
@@ -21,31 +21,33 @@ void SizeDialog::iniValues() {
 void SizeDialog::iniUI() {
     _rDialog = {windowSize.x / 2 - 250, windowSize.y / 2 - 200, 500, 400};
     // Title
-    _texTitle = t_cache->getText("Ändere die Größe der Map", 30, &_rTitle);
+    if(_textBorder) {
+        _texTitle = t_cache->getBlendedText("Ändere die Größe der Map", 30, &_rTitle, WHITE);
+    }else{
+        _texTitle = t_cache->getBlendedText("Ändere die Größe der Map", 30, &_rTitle, BLACK);
+    }
     // Align Buttons
     int btnY = _rDialog.y + _rDialog.h - 50;
 
     _rTitle.x = _rDialog.x + _rDialog.w / 2 - _rTitle.w / 2;
     _rTitle.y = _rDialog.y + 10;
-    _btn_ok.set( "OK", 18, {_rDialog.x + _rDialog.w - 100, btnY, 80, 40});
-    _btn_abb.set( "ABBRUCH", 18, {_rDialog.x + 20, btnY, 100, 40});
-    _txtb_width.set( "Breite", {_rDialog.x + 20, _rDialog.y + 80}, true);
-    _txtb_height.set( "Höhe", {_rDialog.x + 20, _rDialog.y + 160}, true);
+    _btn_ok.set("OK", 18, {_rDialog.x + _rDialog.w - 100, btnY, 80, 40}, 0, BTN_COLOR, _textBorder);
+    _btn_abb.set("ABBRUCH", 18, {_rDialog.x + 20, btnY, 100, 40}, 0, BTN_COLOR, _textBorder);
+    _txtb_width.set("Breite", {_rDialog.x + 20, _rDialog.y + 80}, true,false,_textBorder);
+    _txtb_height.set("Höhe", {_rDialog.x + 20, _rDialog.y + 160}, true,false,_textBorder);
 }
 
 
-
-
 void SizeDialog::Input() {
-    if(focus!= nullptr)
+    if (focus != nullptr)
         focus->Input();
-    if(focus == nullptr)
-    {
+    if (focus == nullptr) {
         Event event;
-        while (SDL_PollEvent(&event)){
-            if(pGame->HandleEvent(event))
+        while (SDL_PollEvent(&event)) {
+            if (pGame->HandleEvent(event))
                 return;
-            handleEvent(event);}
+            handleEvent(event);
+        }
     }
 }
 
@@ -69,14 +71,12 @@ void SizeDialog::handleEvent(Event event) {
 }
 
 
-
-
-void SizeDialog::selection(Event event){
-        if (event.button.button == SDL_BUTTON_LEFT) { //left mouse button
-        if(_txtb_height.fieldSelected(event)){
+void SizeDialog::selection(Event event) {
+    if (event.button.button == SDL_BUTTON_LEFT) { //left mouse button
+        if (_txtb_height.fieldSelected(event)) {
             _txtb_height.show(&focus);
         }
-        if(_txtb_width.fieldSelected(event)){
+        if (_txtb_width.fieldSelected(event)) {
             _txtb_width.show(&focus);
         }
         if (_btn_ok.clicked(event)) {
@@ -90,20 +90,24 @@ void SizeDialog::selection(Event event){
 
 void SizeDialog::acceptInput() {
     releaseFocus(false);
-    _width= _txtb_width.getNumber();
-    _height= _txtb_height.getNumber();
+    _width = _txtb_width.getNumber();
+    _height = _txtb_height.getNumber();
     _takeNewValues = true;
 }
 
 void SizeDialog::Render() {
-    if(dialog){
-        rh->fillRect(&_rDialog,EDITOR_UI_BG);
-        rh->texture(_texTitle,&_rTitle);
+    if (dialog) {
+        rh->fillRect(&_rDialog, EDITOR_UI_BG);
+        if(_textBorder){
+            rh->blendTexture(_texTitle, &_rTitle);
+        }else{
+            rh->texture(_texTitle, &_rTitle);
+        }
         _txtb_width.Render();
         _txtb_height.Render();
-        _btn_ok.draw();
-        _btn_abb.draw();
-        rh->rect(&_rDialog,3,BLACK);
+        _btn_ok.Render();
+        _btn_abb.Render();
+        rh->rect(&_rDialog, 3, BLACK);
     }
 }
 
@@ -111,18 +115,18 @@ void SizeDialog::Update() {
 }
 
 int SizeDialog::getHeight() {
-    return _height ;
+    return _height;
 }
 
 int SizeDialog::getWidth() {
     return _width;
 }
 
-Point SizeDialog::getInput(){
+Point SizeDialog::getInput() {
     return {_width, _height};
 }
 
-bool SizeDialog::isDone() const{
+bool SizeDialog::isDone() const {
     return _takeNewValues;
 }
 
@@ -131,8 +135,8 @@ SizeDialog::~SizeDialog() {
     SDL_DestroyTexture(_texTitle);
 }
 
-void SizeDialog::reset(){
-    _takeNewValues=false;
+void SizeDialog::reset() {
+    _takeNewValues = false;
 }
 
 

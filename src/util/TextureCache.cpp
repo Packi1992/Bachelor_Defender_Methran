@@ -13,7 +13,7 @@ Texture *TextureCache::loadTexture(const std::string &path) {
     } else {
         nt = SDL_CreateTextureFromSurface(render, loadedSurface);
         if (nt == nullptr) {
-            cerr << "Unable to create TextureCache from " << path << " ! SDL Error: " << SDL_GetError()<< endl;
+            cerr << "Unable to create TextureCache from " << path << " ! SDL Error: " << SDL_GetError() << endl;
         }
     }
     SDL_FreeSurface(loadedSurface);
@@ -99,13 +99,14 @@ Texture *TextureCache::getNumber(int Number, int size, t_color color, SDL_Rect *
     return texture;
 }
 
-TextureCache* TextureCache::getCache() {
-    if(cacheInstance == nullptr){
+TextureCache *TextureCache::getCache() {
+    if (cacheInstance == nullptr) {
         cacheInstance = new TextureCache();
     }
     return cacheInstance;
 }
-TextureCache* TextureCache::cacheInstance = nullptr;
+
+TextureCache *TextureCache::cacheInstance = nullptr;
 
 Texture *TextureCache::getText(string *string, u8 size, Rect *sRect, t_color TextColor) {
     auto font = TTF_OpenFont(ttf_path, size);
@@ -125,4 +126,25 @@ Texture *TextureCache::getText(string *string, u8 size, Rect *sRect, t_color Tex
     return texture;
 }
 
+Texture *TextureCache::getBlendedText(const char *string, u8 size, Rect *sRect, t_color TextColor) {
+    auto font = TTF_OpenFont(ttf_path, size);
+    if (!font) {
+        printf("[ERROR] TTF_OpenFont() Failed with: %s\n", TTF_GetError());
+        exit(2);
+    }
 
+    Surface *surface;
+    surface = TTF_RenderUTF8_Blended(font, string, {255, 255, 255, 255});
+    Texture *blendTexture = SDL_CreateTextureFromSurface(render, surface);
+
+
+    surface = TTF_RenderUTF8_Blended(font, string, RenderHelper::getColor(TextColor));
+
+    //texture = SDL_CreateTextureFromSurface(render, surface);
+    SDL_FreeSurface(surface);
+    TTF_CloseFont(font);
+    if (sRect != nullptr) {
+        SDL_QueryTexture(blendTexture, nullptr, nullptr, &sRect->w, &sRect->h);
+    }
+    return blendTexture;
+}

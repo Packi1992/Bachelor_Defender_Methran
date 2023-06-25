@@ -5,7 +5,8 @@
 #include "playerSettings.h"
 #include "../../tdUtil/player.h"
 
-void PlayerSettings::set(Player pl) {
+void PlayerSettings::set(Player pl, bool textborder) {
+    _textBorder = textborder;
     _creditPoints = (int) pl._creditPoints;
     _sanity = (int) pl._sanity;
     for (auto &entry: pl._usableTowers) {
@@ -25,19 +26,25 @@ void PlayerSettings::iniValues() {
 
 void PlayerSettings::iniUI() {
     _rDialog = {windowSize.x / 2 - 250, windowSize.y / 2 - 200, 500, 400};
-    // Title
-    _texTitle = t_cache->getText("Map Einstellungen", 30, &_rTitle);
-    // Align Buttons
-    _texTowerText = t_cache->getText("verfügbare Tower", 20, &_rTowerText);
+    if(_textBorder) {
+        _texTitle = t_cache->getBlendedText("Map Einstellungen", 30, &_rTitle, WHITE);
+        _texTowerText = t_cache->getText("verfügbare Tower", 20, &_rTowerText,WHITE);
+    }else{
+        // Title
+        _texTitle = t_cache->getText("Map Einstellungen", 30, &_rTitle);
+        // Align Buttons
+        _texTowerText = t_cache->getText("verfügbare Tower", 20, &_rTowerText);
+    }
+
 
     int btnY = _rDialog.y + _rDialog.h - 50;
 
     _rTitle.x = _rDialog.x + _rDialog.w / 2 - _rTitle.w / 2;
     _rTitle.y = _rDialog.y + 10;
-    _btn_ok.set("OK", 18, {_rDialog.x + _rDialog.w - 100, btnY, 80, 40});
-    _btn_abb.set("ABBRUCH", 18, {_rDialog.x + 20, btnY, 100, 40});
-    _txtb_sanity.set("Sanity", {_rDialog.x + 70, _rDialog.y + 80}, true);
-    _txtb_creditPoints.set("Credit Points", {_rDialog.x + 20, _rDialog.y + 160}, true);
+    _btn_ok.set("OK", 18, {_rDialog.x + _rDialog.w - 100, btnY, 80, 40},0,BTN_COLOR,_textBorder);
+    _btn_abb.set("ABBRUCH", 18, {_rDialog.x + 20, btnY, 100, 40},0,BTN_COLOR,_textBorder);
+    _txtb_sanity.set("Sanity", {_rDialog.x + 70, _rDialog.y + 80}, true,false,_textBorder);
+    _txtb_creditPoints.set("Credit Points", {_rDialog.x + 20, _rDialog.y + 160}, true,false,_textBorder);
     _rTowerText.x = _rDialog.x + _rDialog.w / 2 - _rTitle.w / 2;
     _rTowerText.y = _rDialog.y + 240;
     int yPos= _rDialog.y + 280;
@@ -118,13 +125,20 @@ void PlayerSettings::acceptInput() {
 void PlayerSettings::Render() {
     if (dialog) {
         rh->fillRect(&_rDialog, EDITOR_UI_BG);
-        rh->texture(_texTitle, &_rTitle);
+        if(_textBorder){
+            rh->blendTexture(_texTitle, &_rTitle);
+        }else{
+            rh->texture(_texTitle, &_rTitle);
+        }
         _txtb_sanity.Render();
         _txtb_creditPoints.Render();
-        _btn_ok.draw();
-        _btn_abb.draw();
-        rh->texture(_texTowerText,&_rTowerText);
-
+        _btn_ok.Render();
+        _btn_abb.Render();
+        if(_textBorder){
+            rh->blendTexture(_texTowerText, &_rTowerText);
+        }else{
+            rh->texture(_texTowerText, &_rTowerText);
+        }
         for (auto &entry: _usableTowers) {
             entry.Render();
         }

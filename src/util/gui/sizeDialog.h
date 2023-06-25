@@ -12,7 +12,7 @@
 
 class SizeDialog: public Gui{
 public:
-    void set(int width, int height);
+    void set(int width, int height, bool textborder = false);
     ~SizeDialog();
     // read values
     int getHeight();

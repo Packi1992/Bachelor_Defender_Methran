@@ -46,12 +46,12 @@ void MainMenu::Update() {
             if (btn.clicked(mousePos)) {
                 switch (btn.getId()) {
                     case btn_Start:
-                        IfDebug{
+                        IfDebug {
                             game.SetNextState(GS_WorldMap);
                         }
-                        IfNotDebug{
+                        IfNotDebug {
                             // only if first start of Game -> we need a config / save file
-                            if(true)
+                            if (true)
                                 game.SetNextState(GS_WorldMap);
                             else
                                 game.SetNextState(GS_TD);
@@ -72,10 +72,10 @@ void MainMenu::Update() {
     }
     if (!_buttons.empty()) {
         // buttons will have both 80% (window.height and window.width)
-        Point total = {(int) (windowSize.x * 0.8), (int) (windowSize.y * 0.8)};
+        Point total = {(int) (windowSize.x * 0.6), (int) (windowSize.y * 0.5)};
         int btnHeight = total.y / ((int) _buttons.size() + 1);
         int btnMargin = btnHeight / (int) _buttons.size();
-        Point btnStart = {(int) ((windowSize.x - total.x) * 0.5), (int) ((windowSize.y - total.y) * 0.5)};
+        Point btnStart = {(int) ((windowSize.x - total.x) * 0.5), (int) ((windowSize.y - total.y) * 0.8)};
         for (int i = 0; i < (int) _buttons.size(); i++) {
             _buttons[i].setSize(
                     {btnStart.x, (int) (btnStart.y + (btnHeight * i) + (btnMargin * i) + btnMargin * 0.5), total.x,
@@ -85,18 +85,21 @@ void MainMenu::Update() {
 }
 
 void MainMenu::Render() {
-    const Rect dst_rect{0, 0, windowSize.x, windowSize.y};
+    Rect dst_rect{0, 0, windowSize.x, windowSize.y};
     SDL_RenderCopy(render, _image, EntireRect, &dst_rect /* same result as EntireRect */ );
+    dst_rect ={0,(int)((float )windowSize.y*0.1f),dst_rect.w,dst_rect.h/3};
+    SDL_RenderCopy(render, _titel, EntireRect, &dst_rect /* same result as EntireRect */ );
     for (auto &btn: _buttons)
-        btn.draw();
+        btn.Render();
 }
 
 MainMenu::MainMenu(Game &game) : GameState(game, GS_MainMenu) {
     _image = t_cache->get(BasePath "asset/graphic/bg-main.png");
-    _buttons.emplace_back("Start", _fontSize, Buttons::btn_Start);
+    _titel = t_cache->get(BasePath "asset/graphic/Titel.png");
+    _buttons.emplace_back("Start", _fontSize, Buttons::btn_Start, BTN_COLOR, true);
     IfDebug
-        _buttons.emplace_back("Editor",_fontSize,Buttons::btn_Editor);
-    _buttons.emplace_back("Beenden", _fontSize, Buttons::btn_Exit);
+        _buttons.emplace_back("Editor",_fontSize,Buttons::btn_Editor, BTN_COLOR, true);
+    _buttons.emplace_back("Beenden", _fontSize, Buttons::btn_Exit, BTN_COLOR, true);
 }
 
 MainMenu::~MainMenu() {

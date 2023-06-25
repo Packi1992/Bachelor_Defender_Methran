@@ -37,8 +37,8 @@ public:
     void tile(SDL_Rect *dRect, std::uint16_t direction, SDL_Rect *sRect = nullptr);
 
     // if no color dialog, preselected color will be used
-    void fillRect(SDL_Rect *dst, t_color color = EMPTY);
-
+    void fillRect(SDL_Rect *dst, t_color color = EMPTY, uint8_t alpha = 255);
+    void fillRect(SDL_Rect *dst, SDL_Color color, uint8_t alpha = 255);
     void fillFRect(SDL_FRect *rect, t_color color = EMPTY);
 
     // if no color dialog, preselected color will be used
@@ -54,6 +54,8 @@ public:
     void Text(char *string, int size, int x, int y, t_color fgC) const;
 
     void CenteredText(const std::string &text, int size, t_color fgc, int width, int height) const;
+
+    void blendTexture(SDL_Texture * blendedText, SDL_Rect *r);
 
     RenderHelper(RenderHelper &other) = delete;
 

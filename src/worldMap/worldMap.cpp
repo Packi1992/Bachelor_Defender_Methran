@@ -170,7 +170,7 @@ void WorldMap::Render() {
     const Rect dst_rect{0, 0, windowSize.x, windowSize.y};
     SDL_RenderCopy(render, _image, EntireRect, &dst_rect /* same result as EntireRect */ );
     for (auto &btn: _buttons)
-        btn.draw();
+        btn.Render();
     mapSelector.Render();
 }
 
