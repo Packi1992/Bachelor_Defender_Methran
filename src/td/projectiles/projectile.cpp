@@ -10,7 +10,7 @@
 
 void Projectile::Update() {
     if (_alive) {
-        u32 diff = totalMSec - _lastTimePoint;
+        _diff = totalMSec - _lastTimePoint;
         _lastTimePoint = totalMSec;
         _posOnScreen = CT::getPosOnScreen(_position);
         // need to fix travel speed with render time
@@ -19,7 +19,7 @@ void Projectile::Update() {
         _position.x += (sin(direction) * speed);
         _position.y -= (cos(direction) * speed);
         if (_ttl != 0) {
-            _ttl -= (int) diff;
+            _ttl -= (int) _diff;
             if (_ttl <= 0) {
                 _alive = false;
             }

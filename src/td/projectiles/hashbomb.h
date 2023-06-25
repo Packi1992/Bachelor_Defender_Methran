@@ -11,7 +11,7 @@
 class Hashbomb : public Projectile {
 private:
     //   u_int32_t _lastTimePoint = 0;
-    int _diff = 0;
+
     int _endDirection = 0;
     bool _upDown = true;
     float _distance = 0.0f;

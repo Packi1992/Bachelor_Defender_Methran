@@ -5,19 +5,20 @@ DrueberBolz::DrueberBolz() : BossEnemy() {
     _size = 1.2f;
 }
 
-DrueberBolz::DrueberBolz(FPoint pos, uint16_t health, uint8_t speed, u8 value, float size)
-	: BossEnemy(pos, health, speed, value, EnemyType::Boss_Drueberbolz, size, false) {
-	_copyable = false;
-	_sanity *= 3;
-	_value *= 3;
+DrueberBolz::DrueberBolz(std::shared_ptr<Enemy> e)
+        : BossEnemy(e) {
+    _recursivable = false;
+    _sanity *= 3;
+    _value *= 3;
+    _type = EnemyType::Boss_Drueberbolz;
 }
 
 soundType DrueberBolz::getSoundName() {
-	return SoundDrueberbolz;
+    return SoundDrueberbolz;
 }
 
 void DrueberBolz::set(Point pos, uint16_t health, uint8_t speed, u8 value, float size) {
-    _pos = {pos.x-0.5f,pos.y-0.5f};
+    _pos = {pos.x - 0.5f, pos.y - 0.5f};
     _health = health;
     _speed = speed;
     _value = value;
