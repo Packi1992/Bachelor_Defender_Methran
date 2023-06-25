@@ -172,14 +172,13 @@ void TestTD::Render() {
     for (auto &tower: globals._towers) {
         tower->RenderMenu();
     }
-    _gameover = false;
     _floatingMenu.Render();
     if (_gameover) {
         rh->background(BLACK, 128);
         rh->CenteredText("Game Over", 70, RED, windowSize.x, windowSize.y);
         rh->CenteredText("Drücke Enter um fortzufahren", 40, RED, windowSize.x, windowSize.y + 300);
     }
-    if (!_gameover) {//&& globals._wh.isOver()) {
+    if ((!_gameover) && (globals._wh.isOver())) {
         rh->background(BLACK, 128);
         rh->CenteredText("Congraz, Du hast gewonnen!", 70, GREEN, windowSize.x, windowSize.y);
     }
@@ -269,7 +268,7 @@ void TestTD::Update() {
         }
         _btn_enter = false;
     }
-    if (!_gameover && _btn_enter) {//&& globals._wh.isOver()) {
+    if (!_gameover && _btn_enter && globals._wh.isOver()) {
         if ((*(globals._mapPath)).substr(0, 14) == "gameMaps/world") {
             string number = (*(globals._mapPath)).substr(14, (*(globals._mapPath)).size() - 18);
             cout << number << endl;
