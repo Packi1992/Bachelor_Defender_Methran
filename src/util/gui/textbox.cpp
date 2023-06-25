@@ -106,7 +106,7 @@ void TextBox::Input() {
         switch (event.type) {
             case SDL_TEXTINPUT:
                 if (_isNumber) {
-                    char buf[50];
+                    char buf[50] = {0};
                     strcat(buf, event.text.text);
                     for (char c: buf) {
                         if (c >= '0' && c <= '9')
