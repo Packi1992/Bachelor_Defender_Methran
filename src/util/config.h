@@ -15,7 +15,6 @@ private:
     std::string _configPath = BasePath"/Config/config.txt";
 
     void loadConfig();
-    void safeConfig();
 
     ~Config();
 
@@ -29,6 +28,8 @@ public:
     Config(Config &other) = delete;
 
     void operator=(const Config &) = delete;
+
+    void safeConfig();
 };
 
 

@@ -26,14 +26,26 @@ struct TDGlobals {
     WaveHandler _wh{};
     Player _pl{};
     string *_mapPath{};
+
+    // stats
+    long _enemiesKilled = 0;
+    long _bossesKilled = 0;
+    long _creditPointsEarned = 0;
+    long _waveEnemiesLeft = 0;
+    long _waveEnemiesTotal = 0;
+    long _enemiesOnMap = 0;
+
     void setPath(string newMapPath);
+
     bool editor = false;
-    ~TDGlobals(){
+
+    ~TDGlobals() {
         delete _mapPath;
     }
 
     bool isEnemyBlocking(FPoint tile);
 };
+
 extern TDGlobals *tdGlobals;
 
 class TestTD final : public GameState {
@@ -54,6 +66,7 @@ protected:
     //  buttons & events
     bool _btn_space = false;
     bool _btn_control = false;
+    bool _btn_enter = false;
     bool _mbLeft = false;
     bool _mbRight = false;
     bool _mouseWheel = false;
@@ -73,6 +86,7 @@ public:
 
     // ctor
     using GameState::GameState;
+
     TestTD(Game &game, string mapPath);
 
     void Init() override;
@@ -103,7 +117,7 @@ public:
 
     void updateEnemeies();
 
-    void handleEvent(const GameEvent& event);
+    void handleEvent(const GameEvent &event);
 };
 
 #endif //SDL_BASEGAME_TESTTD_H

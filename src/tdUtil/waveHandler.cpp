@@ -60,9 +60,9 @@ void WaveHandler::Update() {
     _lastTimePoint = totalMSec;
     bool waveIsOver = _waveVec.at(_waveCur).isOver();
     bool lastWave = _waveCur+1 >= (int) _waveVec.size();
-    cout << tdGlobals->_enemies.size() << endl;
-    cout << (lastWave?"isLastWave":"is not LastWave") << endl;
-    cout << (waveIsOver?"Wave is Over":"Wave is running")<< endl;
+    //cout << tdGlobals->_enemies.size() << endl;
+    //cout << (lastWave?"isLastWave":"is not LastWave") << endl;
+    //cout << (waveIsOver?"Wave is Over":"Wave is running")<< endl;
     _isOver = lastWave && waveIsOver;
     if (!_isOver) {
         if (_pause > diff) {

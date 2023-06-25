@@ -22,6 +22,7 @@ protected:
         btn_w8,
         btn_Editor,
         btn_ChooseMap,
+        btn_backToMain,
     };
     Texture *_image = nullptr;
     Music *_music = nullptr;

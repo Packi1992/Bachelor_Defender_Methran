@@ -5,6 +5,8 @@
 
 #include <utility>
 #include "../util/dataHandler.h"
+#include "../util/config.h"
+
 
 TDGlobals *tdGlobals{};
 
@@ -101,7 +103,7 @@ void TestTD::Init() {
     Update();
     //globals._pl._creditPoints=10000;
     globals._enemies.push_back(std::make_shared<Enemy>());
-    globals._enemies.at(0)->_pos = {4.5,4.5};
+    globals._enemies.at(0)->_pos = {4.5, 4.5};
     globals._enemies.at(0)->_health = 1000;
     globals._enemies.at(0)->_alive = true;
     globals._enemies.at(0)->stun(65000);
@@ -144,8 +146,6 @@ void TestTD::Render() {
         }
     }
 
-
-
     // projectiles and particles
     for (auto &p: tdGlobals->_projectiles) {
         if (p != nullptr) {
@@ -170,12 +170,14 @@ void TestTD::Render() {
     for (auto &tower: globals._towers) {
         tower->RenderMenu();
     }
+    _gameover = false;
     _floatingMenu.Render();
     if (_gameover) {
         rh->background(BLACK, 128);
         rh->CenteredText("Game Over", 70, RED, windowSize.x, windowSize.y);
+        rh->CenteredText("Drücke Enter um fortzufahren", 40, RED, windowSize.x, windowSize.y + 300);
     }
-    if (!_gameover && globals._wh.isOver()) {
+    if (!_gameover) {//&& globals._wh.isOver()) {
         rh->background(BLACK, 128);
         rh->CenteredText("Congraz, Du hast gewonnen!", 70, GREEN, windowSize.x, windowSize.y);
     }
@@ -245,15 +247,40 @@ void TestTD::Update() {
             }
             _mbLeft = false;
         }
-        if(_btn_control){
+        if (_btn_control) {
             Point cursor;
             SDL_GetMouseState(&cursor.x, &cursor.y);
             FPoint scursor = CT::getPosInGame(cursor);
             b._position = scursor;
             b._startingPoint = scursor;
-            globals._projectiles.push_back(std::make_shared<Boomerang>(b,b._targetE,0));
+            globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
             _btn_control = false;
         }
+    }
+    if (_gameover && _btn_enter) {
+        if (config->worldsFinished == 0) {
+            game.SetNextState(GS_MainMenu);
+        } else {
+            game.SetNextState(GS_WorldMap);
+        }
+        _btn_enter = false;
+    }
+    if (!_gameover && _btn_enter) {//&& globals._wh.isOver()) {
+        if ((*(globals._mapPath)).substr(0, 14) == "gameMaps/world") {
+            string number = (*(globals._mapPath)).substr(14, (*(globals._mapPath)).size() - 18);
+            cout << number << endl;
+            int mapNr = (int) std::stol(number, nullptr, 10);
+            if (config->worldsFinished < mapNr) {
+                config->worldsFinished = mapNr;
+                config->safeConfig();
+            }
+            if(config->worldsFinished==0)
+                game.SetNextState(GS_MainMenu);
+            else
+                game.SetNextState(GS_WorldMap);
+        }
+        //config->worldsFinished
+        _btn_enter = false;
     }
 }
 
@@ -311,6 +338,7 @@ void TestTD::Events() {
 }
 
 void TestTD::keyDown(SDL_Event &event) {
+    cout << event.key.keysym.scancode << endl;
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
             if (globals.editor)
@@ -342,6 +370,9 @@ void TestTD::keyDown(SDL_Event &event) {
         case SDL_SCANCODE_RCTRL:
         case SDL_SCANCODE_LCTRL:
             _btn_control = true;
+        case SDL_SCANCODE_RETURN:
+            _btn_enter = true;
+            break;
         default:
             break;
     }
@@ -494,6 +525,7 @@ void TestTD::updateEnemeies() {
     for (int i = 0; i < (int) tdGlobals->_enemies.size(); i++) {
         tdGlobals->_enemies.at(i)->Update();
     }
+
     globals._enemies.erase(
             std::remove_if(
                     globals._enemies.begin(),
@@ -501,6 +533,7 @@ void TestTD::updateEnemeies() {
                     [](const std::shared_ptr<Enemy> &mov) { return !mov->_alive; }
             ),
             globals._enemies.end());
+    globals._enemiesOnMap = (long)globals._enemies.size();
 }
 
 bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
@@ -553,8 +586,8 @@ void TDGlobals::setPath(string newMapPath) {
 }
 
 bool TDGlobals::isEnemyBlocking(FPoint tile) {
-    for(auto &e: _enemies){
-        if((int)e->_pos.x==(int)tile.x && (int)e->_pos.y == (int)tile.y)
+    for (auto &e: _enemies) {
+        if ((int) e->_pos.x == (int) tile.x && (int) e->_pos.y == (int) tile.y)
             return true;
     }
     return false;

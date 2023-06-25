@@ -81,12 +81,27 @@ void WorldMap::Update() {
                             tdGlobals->setPath("gameMaps/world5.map");
                             game.SetNextState(GS_TD);
                             break;
+                        case btn_w6:
+                            tdGlobals->setPath("gameMaps/world6.map");
+                            game.SetNextState(GS_TD);
+                            break;
+                        case btn_w7:
+                            tdGlobals->setPath("gameMaps/world7.map");
+                            game.SetNextState(GS_TD);
+                            break;
+                        case btn_w8:
+                            tdGlobals->setPath("gameMaps/world8.map");
+                            game.SetNextState(GS_TD);
+                            break;
                         case btn_Editor:
                             game.SetNextState(GS_Editor);
                             break;
                         case btn_ChooseMap:
                             mapSelector.set( BasePath"Maps/", ".map");
                             mapSelector.show(&focus);
+                            break;
+                        case btn_backToMain:
+                            game.SetNextState(GS_MainMenu);
                             break;
                     }
                     tdGlobals->editor = false;
@@ -156,6 +171,12 @@ void WorldMap::Update() {
                         size.w = (int)((float)windowSize.x*0.20f);
                         _button.setSize(size);
                         break;
+                    case btn_backToMain:
+                        size.x = (int)((float)windowSize.x * 0.35f);
+                        size.y = (int)((float)windowSize.y * 0.90f);
+                        size.w = (int)((float)windowSize.x*0.25f);
+                        _button.setSize(size);
+                        break;
                 }
 
             }
@@ -186,6 +207,7 @@ WorldMap::WorldMap(Game &game) : GameState(game, GS_WorldMap) {
     _buttons.emplace_back("8", _fontSize, btn_w8);
     _buttons.emplace_back("Editor",_fontSize,btn_Editor);
     _buttons.emplace_back("Eigene Map", _fontSize,btn_ChooseMap);
+    _buttons.emplace_back("Zurück zum Hauptmenu", _fontSize,btn_backToMain);
 
 }
 

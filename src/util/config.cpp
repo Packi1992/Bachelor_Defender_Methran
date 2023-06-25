@@ -37,6 +37,9 @@ void Config::loadConfig() {
             }
         }
     }
+    else{
+        safeConfig();
+    }
 }
 
 void Config::safeConfig() {
