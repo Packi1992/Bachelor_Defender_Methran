@@ -103,7 +103,7 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 		case SoundHashCanon:
 			return BasePath "asset/sound/hashCanonShot.wav";
 		case SoundLinkedListTower:
-			return BasePath "asset/sound/linkedListAttack.wav";
+			return BasePath "asset/sound/linkedListActive.wav";
 		case SoundRecursivTower:
 			return BasePath "asset/sound/thriee.wav";
 		case SoundStringTower:
@@ -111,11 +111,19 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 		case SoundEnemyOrdinary:
 			return BasePath "asset/sound/ordinary.wav";
 		case SoundFrolePoehlich:
-			return BasePath "asset/music/arrowHit.wav";
+			return BasePath "asset/sound/arrowHit.wav";
 		case SoundDrueberbolz:
-			return BasePath "asset/music/arrowHit.wav";
+			return BasePath "asset/sound/arrowHit.wav";
+		case SoundArrowHit: 
+			return BasePath "asset/sound/arrowHit.wav";
+		case SoundBoomerangHit:
+			return BasePath "asset/sound/arrowHit.wav";
+		case SoundLinkHit:
+			return BasePath "asset/sound/linkedListAttack.wav";
+		case SoundStringProjectileHit:
+			return BasePath "asset/sound/arrowHit.wav";
 		case SoundFire:
-			return BasePath "asset/sound/thriee.wav";
+			return BasePath "asset/sound/explosion.wav";
 		case SoundBaseExplosion:
 			return BasePath "asset/sound/explosion.wav";
 		default:

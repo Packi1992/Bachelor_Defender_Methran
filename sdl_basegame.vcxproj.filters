@@ -267,6 +267,7 @@
     <None Include="asset\_music\severance.ogg">
       <Filter>asset\music</Filter>
     </None>
+    <None Include="Maps\neueMap.map" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="asset\font\MonkeyIsland-1991-refined.ttf">
@@ -318,9 +319,6 @@
       <Filter>asset\graphic</Filter>
     </Image>
     <Image Include="asset\graphic\tf_tileSet.png">
-      <Filter>asset\graphic</Filter>
-    </Image>
-    <Image Include="asset\graphic\Titel.png">
       <Filter>asset\graphic</Filter>
     </Image>
     <Image Include="asset\graphic\editor\arrow.png">
@@ -506,6 +504,21 @@
     </Media>
     <Media Include="asset\_music\testsound.wav">
       <Filter>asset\music</Filter>
+    </Media>
+    <Media Include="asset\sound\ordinary.wav">
+      <Filter>asset</Filter>
+    </Media>
+    <Media Include="asset\sound\explosion.wav">
+      <Filter>asset</Filter>
+    </Media>
+    <Media Include="asset\sound\hashCanonShot.wav">
+      <Filter>asset</Filter>
+    </Media>
+    <Media Include="asset\sound\linkedListActive.wav">
+      <Filter>asset</Filter>
+    </Media>
+    <Media Include="asset\sound\linkedListAttack.wav">
+      <Filter>asset</Filter>
     </Media>
   </ItemGroup>
 </Project>

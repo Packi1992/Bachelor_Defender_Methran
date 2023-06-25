@@ -41,7 +41,6 @@ void Hashbomb::Update() {
     }
     if(xrange && yrange){
         _alive = false;
-        collide();
         addExplosion();
     }
 }
@@ -77,7 +76,6 @@ void Hashbomb::collide() {
 }
 
 bool Hashbomb::collision(std::shared_ptr<Enemy> e) {
-    collide();
     return false;
 }
 
@@ -99,6 +97,7 @@ void Hashbomb::addExplosion() {
         for (int j = (-1 * _exrange); j <= _exrange; j++) {
             SDL_FPoint tmp = {_position.x + (float) i, _position.y + (float) j};
             tdGlobals->_projectiles.push_back(std::make_shared<BaseExplosion>(tmp, _exdmg));
+            collide();
         }
     }
 }

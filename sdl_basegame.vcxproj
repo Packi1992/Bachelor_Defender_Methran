@@ -310,6 +310,11 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="asset\music\testsound.wav" />
+    <Media Include="asset\sound\explosion.wav" />
+    <Media Include="asset\sound\hashCanonShot.wav" />
+    <Media Include="asset\sound\linkedListActive.wav" />
+    <Media Include="asset\sound\linkedListAttack.wav" />
+    <Media Include="asset\sound\ordinary.wav" />
     <Media Include="asset\_music\testsound.wav" />
     <Media Include="asset\sound\ArrowHit.wav" />
     <Media Include="asset\sound\Darth_Vader_NO.mp3" />

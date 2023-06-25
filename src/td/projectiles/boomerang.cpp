@@ -125,6 +125,8 @@ void Boomerang::Render() {
 }
 
 void Boomerang::collide() {
+    float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+    audioHandler->playSound(SoundBoomerangHit, x);
 }
 
 bool Boomerang::collision(std::shared_ptr<Enemy> e) {
