@@ -39,3 +39,9 @@ void Arrow::Update() {
     }
     Projectile::Update();
 }
+
+void Arrow::collide() {
+    _alive = false;
+    float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+    audioHandler->playSound(SoundArrowHit, x);
+}

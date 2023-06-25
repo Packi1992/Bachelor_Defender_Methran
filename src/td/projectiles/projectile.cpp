@@ -72,8 +72,6 @@ bool Projectile::collision(std::shared_ptr<Enemy> e) {
 
 void Projectile::collide() {
     _alive = false;
-    float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    audioHandler->playSound(SoundArrowHit, x);
 }
 
 Projectile::Projectile() {

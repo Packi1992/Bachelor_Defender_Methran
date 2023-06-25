@@ -18,7 +18,7 @@ public:
     MenuEntries getMenuEntry();
     void set(MenuEntry entry,Rect _pos);
     void setPos(Rect pos);
-    bool clicked(Point p);
+    void clicked(Point p);
     CheckSymbol(const CheckSymbol &b);
     bool isChecked() const;
     bool isPointOnBox(Point &p) const;
