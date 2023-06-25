@@ -22,10 +22,13 @@ public:
     void Render() override;
 
     void collide() override;
-    int _fontSize=0;
+
+    int _fontSize = 0;
+
     bool collision(std::shared_ptr<Enemy> e) override;
-    int _xFix=0;
-    int _yFix=0;
+
+    int _xFix = 0;
+    int _yFix = 0;
     SDL_FPoint _end{};
     string _string;
 };

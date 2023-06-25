@@ -126,7 +126,7 @@ bool StringTower::upgrade() {
                 _damage = int((float) _damage * 1.5);
                 _stringProjectile._damage = _damage;
                 _upgradeCosts *= 2;
-                _sellingValue = (int) ((float) _sellingValue * 1.5f);
+                _sellingValue = (int) ((float) _sellingValue * 2.0f);
                 _stringProjectile._fontSize += 5;
                 break;
             case 3:

@@ -15,6 +15,7 @@ Boomerang::Boomerang() {
 void Boomerang::Update() {
     // handle collisions
     _diff = (int) (totalMSec - _lastTimePoint);
+    _lastTimePoint = totalMSec;
     for (auto &entry: hitList) {
         entry.hitCooldown -= _diff;
     }
@@ -26,7 +27,7 @@ void Boomerang::Update() {
             ),
             hitList.end());
     // calculate next position
-    double flSpeed = _diff * _speed * 0.000025;
+    double flSpeed = _diff * _speed * 0.001;
     // gibt probleme wenn auf hauptachse losgeschossen wird :(
     //
     _position.x += (float) ((_targetVec.x + _driftVec.x) * flSpeed);
@@ -40,7 +41,7 @@ void Boomerang::Update() {
     }
     if (!_midflight) {
         _ttl += _diff;
-        if (_ttl >= 150000)
+        if (_ttl >= 15000)
             _alive = false;
     } else {
         if (_ttl > _diff)
@@ -156,9 +157,6 @@ bool Boomerang::collision(std::shared_ptr<Enemy> e) {
 }
 
 Boomerang::Boomerang(Boomerang &p, std::shared_ptr<Enemy> e, uint16_t direction) : Projectile(p, e, direction) {
-    _minFlyingTime = p._minFlyingTime;
-    _flyingTime = p._minFlyingTime;
-    _toggleDirection = p._toggleDirection;
     _stunduration = p._stunduration;
     calculateVectors();
     _ttl = 0;

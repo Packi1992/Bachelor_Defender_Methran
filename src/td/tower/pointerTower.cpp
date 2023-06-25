@@ -17,7 +17,6 @@ void PointerTower::Render() {
         if(_doubleArrow){
             rh->tile(&dst, ((int) _direction+10) % 360, TdTileHandler::getProjectileSrcRect(ARROW_FULLRECT));
             rh->tile(&dst, ((int) _direction-10) % 360, TdTileHandler::getProjectileSrcRect(ARROW_FULLRECT));
-
         }
         else
             rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getProjectileSrcRect(ARROW_FULLRECT));
@@ -88,7 +87,6 @@ void PointerTower::Update() {
                 }
             }
             // enemy target is locked -> change direction to enemy and shoot
-
         }
     }
     Tower::Update();
@@ -100,7 +98,7 @@ PointerTower::PointerTower(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
     _shootCoolDown = 3000;
-    _damage = 15;
+    _damage = 30;
     _aimSpeed = 1;
     _upgradeCosts = 5;
     _sellingValue = 2;
@@ -146,7 +144,7 @@ bool PointerTower::upgrade() {
     if (Tower::upgrade()) {
         switch (_level) {
             case 2:
-                _damage = (u32)((float)_damage * 1.2);
+                _damage = (u32)((float)_damage * 1.4);
                 _arrow._damage = _damage;
                 _arrow._speed = 12;
                 _doubleArrow = false;
