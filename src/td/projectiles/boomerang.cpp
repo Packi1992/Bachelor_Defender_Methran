@@ -26,20 +26,22 @@ void Boomerang::Update() {
             ),
             hitList.end());
     // calculate next position
-    double flSpeed =  _diff * _speed * 0.000025;
+    double flSpeed = _diff * _speed * 0.000025;
     // gibt probleme wenn auf hauptachse losgeschossen wird :(
     //
-    _position.x += (float)((_targetVec.x + _driftVec.x) * flSpeed);
-    _position.y -= (float)((_targetVec.y + _driftVec.y) * flSpeed);
+    _position.x += (float) ((_targetVec.x + _driftVec.x) * flSpeed);
+    _position.y -= (float) ((_targetVec.y + _driftVec.y) * flSpeed);
     _driftVec += (_counterDriftVec * flSpeed);
-    if (!_midflight && abs(_position.x-_targetP.x)<0.15 &&
-            abs(_position.y-_targetP.y)<0.15) {
+    if (!_midflight && abs(_position.x - _targetP.x) < 0.25 &&
+        abs(_position.y - _targetP.y) < 0.25) {
         _targetVec *= -1;
         _counterDriftVec *= -1;
         _midflight = true;
     }
     if (!_midflight) {
         _ttl += _diff;
+        if (_ttl >= 150000)
+            _alive = false;
     } else {
         if (_ttl > _diff)
             _ttl -= _diff;
@@ -54,26 +56,26 @@ void Boomerang::Update() {
 void Boomerang::calculateVectors() {
     // boomerang is flying counter clockwise
     _targetP = _position - _targetE->_pos;
-    DPoint _stargetP = {(double)_targetP.x,(double)_targetP.y};
+    DPoint _stargetP = {(double) _targetP.x, (double) _targetP.y};
     float length = sqrt(_targetP.x * _targetP.x + _targetP.y * _targetP.y);
     double angle = CT::getAngle({0.0, 0.0}, _stargetP);
-    angle =  (((int) angle + 120) % 360);
+    angle = (((int) angle + 120) % 360);
     angle = angle / 180 * M_PI;
     _targetP.x = sin(angle) * length;
     _targetP.y = -cos(angle) * length;
     _targetP = _targetP + _targetE->_pos;
     // know your ***** Pythagoras
-    double totalPathLength =  (sqrt(pow(_targetP.x - _position.x, 2) + pow(_targetP.y - _position.y, 2)));
-    double targetAngle = CT::getAngle(_position, _targetP) / 180.0 *  M_PI;
-    _targetVec = { sin(targetAngle) * totalPathLength * 0.01,
-                   cos(targetAngle) * totalPathLength * 0.01};
+    double totalPathLength = (sqrt(pow(_targetP.x - _position.x, 2) + pow(_targetP.y - _position.y, 2)));
+    double targetAngle = CT::getAngle(_position, _targetP) / 180.0 * M_PI;
+    _targetVec = {sin(targetAngle) * totalPathLength * 0.01,
+                  cos(targetAngle) * totalPathLength * 0.01};
     if (_targetVec.x > 0 && _targetVec.y > 0) {
         _driftVec = {_targetVec.y, -_targetVec.x};
         _counterDriftVec = {-(_driftVec.x) * 0.02, -(_driftVec.y) * 0.02};
     } else if (_targetVec.x > 0 && _targetVec.y < 0) { // unten rechts
         _driftVec = {_targetVec.y, -_targetVec.x};
         _counterDriftVec = {-(_driftVec.x) * 0.02, -(_driftVec.y) * 0.02};
-    } else if (_targetVec.x > 0 && _targetVec.y == 0){
+    } else if (_targetVec.x > 0 && _targetVec.y == 0) {
         _driftVec = {0, -_targetVec.x};
         _counterDriftVec = {-(_driftVec.x) * 0.02, -(_driftVec.y) * 0.02};
     } else if (_targetVec.x <= 0 && _targetVec.y <= 0) {
@@ -85,8 +87,7 @@ void Boomerang::calculateVectors() {
     }
     _driftVec.x = _driftVec.x - _counterDriftVec.x;
     _driftVec.y = _driftVec.y - _counterDriftVec.y;
-    IfDebug
-        e = _targetE->_pos;
+    IfDebug e = _targetE->_pos;
 }
 
 void Boomerang::Render() {
@@ -102,7 +103,8 @@ void Boomerang::Render() {
         float cosAngle = cos(angle);
         //int xFix = (int) (-sizeW * 0.5 - sinAngle * sizeW);
         //int yFix = (int) ((cosAngle - 1) * 0.5 * sizeH);
-        Rect dstRect = {(int)(pos.x - (float)sizeW*0.5f), (int)(pos.y - (float)sizeH*0.5f), (int) sizeW, (int) sizeH};
+        Rect dstRect = {(int) (pos.x - (float) sizeW * 0.5f), (int) (pos.y - (float) sizeH * 0.5f), (int) sizeW,
+                        (int) sizeH};
         rh->tile(&dstRect, 360 - (totalMSec % 360), TdTileHandler::getProjectileSrcRect(_type, totalMSec));
         IfDebug {
             dstRect.y = pos.y;
@@ -174,7 +176,6 @@ void Boomerang::calcNextPos() {
     FPoint oq = {_rotatePoint.x - _position.x, _rotatePoint.y - _position.y};
     FPoint oq_ = {(cos(_angle) * oq.x + (-sin(_angle)) * oq.x), (sin(_angle) * oq.y + cos(_angle) * oq.y)};
     _position = oq_ + _rotatePoint;
-    cout << _position.x << " " << _position.y << endl;
 }
 
 
