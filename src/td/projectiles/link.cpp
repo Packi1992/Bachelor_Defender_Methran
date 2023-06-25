@@ -32,9 +32,9 @@ void LinkProjectile::Render() {
 bool LinkProjectile::collision(std::shared_ptr<Enemy> e) {
     if (CT::collisionLineRect(_position, _position2, e->getHitBox())) {
         e->takeDamage(this);
-        collide();
+        return true;
     }
-    return true;
+    return false;
 }
 
 LinkProjectile::LinkProjectile(LinkProjectile &p) : Projectile(p) {
@@ -42,6 +42,9 @@ LinkProjectile::LinkProjectile(LinkProjectile &p) : Projectile(p) {
 }
 
 void LinkProjectile::collide() {
-    float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    audioHandler->playSound(SoundLinkHit, x);
+    if (_soundHit) {
+        float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+        audioHandler->playSound(SoundLinkHit, x);
+        _soundHit = false;
+    }
 }

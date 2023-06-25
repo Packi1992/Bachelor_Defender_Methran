@@ -100,10 +100,14 @@ void LinkedListTower::Update() {
             _shootCoolDown = (int) _reloadTime;
             if (_trigger == _next) {
                 _link.set(_reloadTime / _lvld, _pos, _before->_pos, _damage);
+                float x = (float)CT::getPosOnScreen(_pos).x / float(windowSize.x);
+                audioHandler->playSound(SoundLinkedListTower, x);
                 tdGlobals->_projectiles.push_back(std::make_shared<LinkProjectile>(_link));
                 _before->shoot(this, _reloadTime / _lvlu);
             } else {
                 _link.set(_reloadTime / _lvld, _pos, _next->_pos, _damage);
+                float x = (float)CT::getPosOnScreen(_pos).x / float(windowSize.x);
+                audioHandler->playSound(SoundLinkedListTower, x);
                 tdGlobals->_projectiles.push_back(std::make_shared<LinkProjectile>(_link));
                 _next->shoot(this, _reloadTime / _lvlu);
             }

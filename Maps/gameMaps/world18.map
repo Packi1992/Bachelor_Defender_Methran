@@ -1,0 +1,18 @@
+PLAYER-START
+SANITY :100
+CREDIT-POINTS :20
+TOWER-ENTRY :1
+PLAYER-END
+MAP-START
+WIDTH :16
+HEIGHT:6
+ARRAY :
+ROW 0;3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 
+ROW 1;0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 
+ROW 2;1; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 2; 
+ROW 3;0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 
+ROW 4;3; 3; 0; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 
+ROW 5;4; 4; 0; 4; 4; 4; 4; 4; 4; 4; 4; 4; 4; 4; 4; 4; 
+MAP-END
+WAVES-START
+WAVES-END

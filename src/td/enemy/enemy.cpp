@@ -55,6 +55,7 @@ void Enemy::takeDamage(Projectile *p) {
     if (_health == 0) {
         startDeathAnimation();
         tdGlobals->_pl._creditPoints += this->_value;
+        collide();
         _alive = false;
     }
 }

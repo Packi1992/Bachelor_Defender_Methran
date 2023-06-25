@@ -72,10 +72,10 @@ bool StringProjectile::collision(std::shared_ptr<Enemy> e) {
     }
     if (!inList && CT::collisionLineRect(_position, _end, e->getHitBox())) {
         e->takeDamage(this);
-        collide();
         hitList.push_back({e, 30});
+        return true;
     }
-    return true;
+    return false;
 }
 
 void StringProjectile::Render() {

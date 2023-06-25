@@ -272,6 +272,11 @@
     <None Include="Maps\gameMaps\world1.map" />
     <None Include="Maps\gameMaps\world2.map" />
     <None Include="Maps\gameMaps\world3.map" />
+    <None Include="Maps\gameMaps\world4.map" />
+    <None Include="Maps\gameMaps\world5.map" />
+    <None Include="Maps\gameMaps\world6.map" />
+    <None Include="Maps\gameMaps\world7.map" />
+    <None Include="Maps\gameMaps\world8.map" />
     <None Include="Maps\neueMap.map" />
     <None Include="newTiles.pdn" />
     <None Include="old_README.md" />

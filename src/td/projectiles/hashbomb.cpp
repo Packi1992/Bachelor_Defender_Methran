@@ -92,8 +92,8 @@ void Hashbomb::addExplosion() {
     for (int i = (-1 * _exrange); i <= _exrange; i++) {
         for (int j = (-1 * _exrange); j <= _exrange; j++) {
             SDL_FPoint tmp = {_position.x + (float) i, _position.y + (float) j};
-            tdGlobals->_projectiles.push_back(std::make_shared<BaseExplosion>(tmp, _exdmg));
             collide();
+            tdGlobals->_projectiles.push_back(std::make_shared<BaseExplosion>(tmp, _exdmg));
         }
     }
 }
