@@ -29,6 +29,8 @@ public:
 
     static std::string getName(MapObjects objects);
 
+    static SDL_Rect *getAnimSrcRect(AnimType a, unsigned long anim);
+
 private:
     static SDL_Rect src;
     static int localAnimate;
