@@ -18,6 +18,7 @@ public:
 
     // Draws the tower
     void Render() override;
+    void RenderMenu() override;
 
     // Place Tower on Map
     void Update() override;

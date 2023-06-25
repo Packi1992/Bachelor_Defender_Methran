@@ -57,7 +57,7 @@ Rect *TdTileHandler::getSrcRect(MapObjects o, ul animate) {
             src.h = 128;
             break;
         case Side_Wall:
-            src.x = 14 * 64 + 54;
+            src.x = 14 * 64;
             src.y = 8 * 64;
             break;
         case Door_Wall:

@@ -107,7 +107,7 @@ void TestTD::Init() {
     globals._enemies.at(0)->stun(65000);
 
 
-    b._speed = 1;
+    b._speed = 100;
     b._targetE = globals._enemies.at(0);
 }
 
@@ -152,7 +152,7 @@ void TestTD::Render() {
             p->Render();
         }
     }
-
+    _map.RenderFrontWall();
     // render enemy extras (lifeBar or hitBox)
     for (auto &enemy: globals._enemies) {
         enemy->RenderExtras(true);
@@ -526,13 +526,14 @@ TestTD::TestTD(Game &game, string mapPath) : GameState(game, GS_TD) {
 void TestTD::handleEvent(const GameEvent &event) {
     switch (event.type) {
         case Boss_Drueberbolz: {
-            std::shared_ptr<DrüberBolz> e = std::make_shared<DrüberBolz>();
-            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            std::shared_ptr<DrueberBolz> e = std::make_shared<DrueberBolz>();
+            e->_alive = true;
+            e->set(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
             globals._enemies.push_back(e);
             break;
         }
         case Boss_Frohle_Poehlich: {
-            std::shared_ptr<FrolePöhlich> e = std::make_shared<FrolePöhlich>();
+            std::shared_ptr<FrolePoehlich> e = std::make_shared<FrolePoehlich>();
             e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
             globals._enemies.push_back(e);
             break;

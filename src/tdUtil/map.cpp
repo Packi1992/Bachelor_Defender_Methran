@@ -13,6 +13,10 @@ Map::Map() {
     _arrow = t_cache->get(BasePath "asset/graphic/editor/arrow.png");
     this->_map = std::vector(_width, Vector<MapObjects>(_height));
     this->_pathMap = std::vector(_width, Vector<PathEntry>(_height));
+    Surface *loadedSurface = IMG_Load(BasePath "asset/graphic/td/tileTD.png");
+    _frontWall = SDL_CreateTextureFromSurface(render, loadedSurface);
+    SDL_SetTextureBlendMode(_frontWall,SDL_BlendMode::SDL_BLENDMODE_BLEND);
+    SDL_SetTextureAlphaMod(_frontWall,100);
 }
 
 void Map::resize(Point size) {
@@ -34,27 +38,86 @@ void Map::resize(Point size) {
 void Map::RenderBG(bool wire) {
     if (wire)
         drawWire();
-    drawWalls();
 }
 
 void Map::RenderRow(int row) {
     Rect dstRect;
+    Rect wallRect;
     int y = (row * scale) - offset.y;
+    int yWallAbove = (row - 2 * scale) - offset.y;
+    int x = (-1 * scale) - offset.x;
+    if (row < _height - 2) {
+        wallRect = {x, row * scale - offset.y, scale, scale};
+        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall));
+    }
+    if (row == 0) {
+        wallRect = {x, -2 * scale - offset.y, scale, scale};
+        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall));
+        wallRect.y += scale;
+        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall));
+        wallRect = {_width * scale - offset.x, -2 * scale - offset.y, scale, scale};
+        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall), true);
+        wallRect.y += scale;
+        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall), true);
+    }
+    if (row < _height - 2) {
+        wallRect.y = y;
+        wallRect.x = _width * scale - offset.x;
+        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall), true);
+    }
     for (int i = 0; i < _width; i++) {
-        int x = (i * scale) - offset.x;
+        x = (i * scale) - offset.x;
         if (x + scale > 0 && x < windowSize.x && y + scale > 0 && y < windowSize.y) {
             dstRect = {x, y, scale, scale};
+            wallRect = {x, yWallAbove, scale, 2 * scale};
+            if (row == 0) {
+                if (i % 3 == 0)
+                    rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Window_Wall));
+                else
+                    rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Plain_Wall));
+            }
             switch (_map[i][row]) {
                 case MapObjects::Goal:
                 case MapObjects::Tower:
                 case MapObjects::Start:
+                case MapObjects::Chair:
                     rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(MapObjects::Empty));
+                    break;
+                default:
                     break;
             }
             rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][row], totalMSec));
         }
     }
 }
+
+void Map::RenderFrontWall() {
+    //SDL_SetRenderDrawBlendMode(render,SDL_BlendMode::SDL_BLENDMODE_ADD);
+
+    int yWallAbove = ((_height - 2) * scale) - offset.y;
+    Rect wallRect{0, yWallAbove, scale, 2 * scale};
+    for (int i = 0; i < _width; i++) {
+        int x = (i * scale) - offset.x;
+        if (x + scale > 0 && x < windowSize.x && yWallAbove + 2 * scale > 0 && yWallAbove < windowSize.y) {
+            wallRect.x = x;
+            if (i == 2)
+                rh->texture(_frontWall,&wallRect, TdTileHandler::getSrcRect(MapObjects::Door_Wall));
+            else
+                rh->texture(_frontWall,&wallRect, TdTileHandler::getSrcRect(MapObjects::Plain_Wall));
+        }
+    }
+    Rect srcRect = *TdTileHandler::getSrcRect(MapObjects::Plain_Wall);
+    srcRect.w = 10;
+    srcRect.x += 54;
+    wallRect.x = - offset.x -scale*10/64 ;
+    wallRect.w = scale*10/64;
+    rh->texture(_tileMap,&wallRect,&srcRect);
+    srcRect.x -= 54;
+    wallRect.x = _width*scale - offset.x;
+    rh->texture(_tileMap,&wallRect,&srcRect);
+
+}
+
 
 void Map::RenderPath() {
     Rect dstRect;
@@ -395,25 +458,25 @@ Point Map::getStartPoint(int i) {
 
 void Map::CheckEnemiesPath(Point point) {
     for (auto &e: tdGlobals->_enemies) {
-        if ((int) e->_nextPos.x == point.x && (int) e->_nextPos.y == point.y){
-            switch(e->_dir){
+        if ((int) e->_nextPos.x == point.x && (int) e->_nextPos.y == point.y) {
+            switch (e->_dir) {
                 case 0:
-                    e->_nextPos = {(float)point.x+0.5f,(float)point.y-1.5f};
+                    e->_nextPos = {(float) point.x + 0.5f, (float) point.y - 1.5f};
                     break;
                 case 90:
-                    e->_nextPos = {(float)point.x-0.5f,(float)point.y+0.5f};
+                    e->_nextPos = {(float) point.x - 0.5f, (float) point.y + 0.5f};
                     break;
                 case 180:
-                    e->_nextPos = {(float)point.x+0.5f,(float)point.y+1.5f};
+                    e->_nextPos = {(float) point.x + 0.5f, (float) point.y + 1.5f};
                     break;
                 case 270:
-                    e->_nextPos = {(float)point.x-1.5f,(float)point.y+0.5f};
+                    e->_nextPos = {(float) point.x - 1.5f, (float) point.y + 0.5f};
                     break;
             }
         }
     }
 }
 
-void Map::drawWalls() {
-
+Map::~Map() {
+    SDL_DestroyTexture(_frontWall);
 }

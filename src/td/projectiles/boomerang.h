@@ -20,9 +20,9 @@ private:
     void calcNextPos();
     bool _midflight = false;
     FPoint e{};
-    FPoint _targetVec{};
-    FPoint _driftVec{};
-    FPoint _counterDriftVec{};
+    DPoint _targetVec{};
+    DPoint _driftVec{};
+    DPoint _counterDriftVec{};
 public:
     bool _enHittable = false;
     bool _freez = false;

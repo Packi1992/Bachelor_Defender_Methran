@@ -95,7 +95,7 @@ RecursivTower::RecursivTower(Point pos) : Tower(pos) {
 
     _boomerang._damage = _damage;
     _boomerang._moveable = true;
-    _boomerang._speed = 10;
+    _boomerang._speed = 100;
     _boomerang._size = 100;
     _boomerang._position = _pos;
     _boomerang._startingPoint = _pos;
