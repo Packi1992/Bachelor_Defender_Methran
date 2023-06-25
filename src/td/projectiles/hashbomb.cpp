@@ -47,10 +47,12 @@ void Hashbomb::Update() {
 void Hashbomb::Render() {
     if (_alive && onScreen()) {
         Point pos = CT::getPosOnScreen(_position);
-
         Rect srcRect = *TdTileHandler::getProjectileSrcRect(_type, totalMSec);
-        float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.w;
-        float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.h;
+        float targPy = pow(_targetVec.x, 2) + pow(_targetVec.y, 2);
+        float driftPy = pow(_driftVec.x, 2) + pow(_driftVec.y, 2);
+        float flyingScale = (targPy - driftPy) / targPy * 3;
+        float sizeW = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.w * flyingScale;
+        float sizeH = ((float) scale / 64 * (float) _size / 100.0f) * (float) srcRect.h * flyingScale;
         //dstRect needs to be changed depending on direction
         //float angle = (float)(totalMSec%360)/180.0f*(float)M_PI;
         float angle = (float) _direction / 180.0f * (float) M_PI;

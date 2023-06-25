@@ -71,7 +71,7 @@ bool BaseExplosion::collision(std::shared_ptr<Enemy> e) {
         }
     }
     if (!inList && Projectile::collision(e)) {
-        hitList.push_back({e, 250});
+        hitList.push_back({e, 500});
         return true;
     }
     return false;

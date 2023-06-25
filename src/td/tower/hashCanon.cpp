@@ -17,7 +17,6 @@ void HashCanon::Render() {
     } else {
         rh->tile(&dst, 0, TdTileHandler::getTowerSrcRect(Hashcanon, 1));
     }
-    rh->tile(&dst, ((int) _direction) % 360, TdTileHandler::getTowerSrcRect(Hashcanon_Dir, 1));
     Tower::Render();
 }
 
@@ -81,8 +80,8 @@ int HashCanon::_creditPointCosts = 6;
 HashCanon::HashCanon(Point pos) : Tower(pos) {
     _health = 200;
     _range = 4;
-    _shootCoolDown = 3000;
-    _damage = 25;
+    _shootCoolDown = 5000;
+    _damage = 20;
     _aimSpeed = 1;
     _upgradeCosts = 10;
     _sellingValue = 3;
@@ -92,7 +91,7 @@ HashCanon::HashCanon(Point pos) : Tower(pos) {
     _hashbomb._direction = 0;
     _hashbomb._damage = 0;
     _hashbomb._moveable = true;
-    _hashbomb._speed = 10;
+    _hashbomb._speed = 100;
     _hashbomb._targetE = nullptr;
     _hashbomb._size = 100;
     _hashbomb._speed = 100;
@@ -134,7 +133,7 @@ bool HashCanon::upgrade() {
             case 2:
                 _damage = int((float) _damage * 1.4);
                 _hashbomb._exdmg = _damage;
-                _hashbomb._speed = 12;
+                _hashbomb._speed = 120;
                 _hashbomb._ttl = 1700;
                 _range = 6;
                 _upgradeCosts = (int)((float)_upgradeCosts * 1.8);
