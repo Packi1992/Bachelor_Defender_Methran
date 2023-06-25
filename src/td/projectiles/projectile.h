@@ -13,7 +13,7 @@ class Projectile {
 public:
     struct HitTimer {
         std::shared_ptr<Enemy> enemy = nullptr;
-        u16 hitCooldown = 0;
+        int hitCooldown = 0;
     };
     bool _alive = true;
     int _ttl = 0;

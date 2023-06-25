@@ -102,6 +102,7 @@ void TestTD::Init() {
         globals._wh.init();
 
         //globals._pl._creditPoints=10000;
+        /*
         globals._enemies.push_back(std::make_shared<Enemy>());
         globals._enemies.at(0)->_pos = {4.5, 4.5};
         globals._enemies.at(0)->_health = 1000;
@@ -110,7 +111,7 @@ void TestTD::Init() {
 
 
         b._speed = 100;
-        b._targetE = globals._enemies.at(0);
+        b._targetE = globals._enemies.at(0);        */
     }
     updateUI();
     Update();
@@ -253,12 +254,12 @@ void TestTD::Update() {
         }
         IfDebug {
             if (_btn_control) {
-                Point cursor;
+                /*Point cursor;
                 SDL_GetMouseState(&cursor.x, &cursor.y);
                 FPoint scursor = CT::getPosInGame(cursor);
                 b._position = scursor;
                 b._startingPoint = scursor;
-                globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
+                globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));*/
                 _btn_control = false;
                 _gameover = true;
             }
