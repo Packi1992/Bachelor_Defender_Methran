@@ -17,7 +17,7 @@ public:
     };
     bool _alive = true;
     int _ttl = 0;
-
+    int _diff = 0;
     bool _destroy = false;
     ProjectileType _type = ProjectileType::DISABLED;
 

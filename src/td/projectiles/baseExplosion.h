@@ -9,7 +9,7 @@
 #include "projectile.h"
 
 class BaseExplosion : public Projectile {
-    int _diff;
+
 public:
     BaseExplosion();
 

@@ -1,17 +1,18 @@
 #include "frolePoehlich.h"
 #include "../testtd.h"
 
-FrolePoehlich::FrolePoehlich() : BossEnemy(){
+FrolePoehlich::FrolePoehlich() : BossEnemy() {
     _size = 1.2f;
 }
 
-FrolePoehlich::FrolePoehlich(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size, bool stunable)
-	: BossEnemy(pos, health, speed, value, type, size, stunable) {
-	_copyable = false;
-	_sanity *= 3;
-	_value *= 3;
+FrolePoehlich::FrolePoehlich(std::shared_ptr<Enemy> e)
+        : BossEnemy(e) {
+    _recursivable = false;
+    _sanity *= 3;
+    _value *= 3;
+    _type = Boss_Frohle_Poehlich;
 }
 
 soundType FrolePoehlich::getSoundName() {
-	return SoundFrolePoehlich;
+    return SoundFrolePoehlich;
 }

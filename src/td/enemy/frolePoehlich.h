@@ -6,7 +6,7 @@
 class FrolePoehlich : public BossEnemy {
 public:
 	FrolePoehlich();
-	FrolePoehlich(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size = 1.2f, bool stunable = false);
+	FrolePoehlich(std::shared_ptr<Enemy> e);
 	soundType getSoundName() override;
 };
 

@@ -7,14 +7,14 @@ class Projectile;
 class Enemy {
 public:
     Enemy();
-    Enemy(FPoint pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size = 1.0f, bool stunable = true);
+    Enemy(std::shared_ptr<Enemy> e, bool recursiv = false);
     // move enemy -> status effects will impact here
     void Update();
 
     virtual void Render() const;
     void RenderExtras(bool life=false, bool hitBox=false) const;
     // use Enemy slot for new enemy spawn
-    void setEnemy(Point pos, u16 Health, u8 speed, u8 value,EnemyType type = EnemyType::Ordinary, float size = 1.0f, bool stunable = true);
+    void setEnemy(Point pos, u16 Health, u8 speed, u8 value,EnemyType type = EnemyType::Ordinary, float size = 1.0f, uint copycount = 0);
 
     // setTile enemy speed -- maybe a buff or something else
     void setSpeed(u8 speed);
@@ -27,7 +27,7 @@ public:
 
     // take damage
     void takeDamage(Projectile * p);
-    bool isCopyable() const;
+    bool isRecursivable() const;
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;
 
@@ -59,18 +59,19 @@ public:
     [[nodiscard]] virtual FRect getHitBox() const;
 
     virtual void collide();
+    u8 _speed = 0;
+    float _size = 1.0f;
+    uint _copycount = 0;
+    u8 _value = 0;
 
 protected:
-    float _size = 1.0f;
-    bool _copyable = true;
+    bool _recursivable = true;
     u32 _animOffset = 0;
     int small = 0;
     void startDeathAnimation();
     u32 _lastTimePoint;
     u16 _dying = false;
-    u8 _speed = 0;
     u8 _speedDiff = 0;
-    u8 _value = 0;
     u8 _poisonStrength = 0;
     int _stunTime = 0;
     int _stunCooldown = 4000;

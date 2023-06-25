@@ -21,6 +21,16 @@ void LinkProjectile::set(u16 timeToLife, FPoint position, FPoint position2, u8 d
 
 void LinkProjectile::Update() {
     Projectile::Update();
+    for (auto &entry: hitList) {
+        entry.hitCooldown -= _diff;
+    }
+    hitList.erase(
+            std::remove_if(
+                    hitList.begin(),
+                    hitList.end(),
+                    [](HitTimer mov) { return mov.hitCooldown <= 0; }
+            ),
+            hitList.end());
 }
 
 void LinkProjectile::Render() {
@@ -30,8 +40,17 @@ void LinkProjectile::Render() {
 }
 
 bool LinkProjectile::collision(std::shared_ptr<Enemy> e) {
-    if (CT::collisionLineRect(_position, _position2, e->getHitBox())) {
+    bool inList = false;
+    for (auto &entry: hitList) {
+        if (entry.enemy == e) {
+            inList = true;
+            break;
+        }
+    }
+    if (!inList && CT::collisionLineRect(_position, _position2, e->getHitBox())) {
         e->takeDamage(this);
+        collide();
+        hitList.push_back({e, 100});
         return true;
     }
     return false;
