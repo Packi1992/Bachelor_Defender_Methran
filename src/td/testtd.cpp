@@ -17,24 +17,38 @@ void TestTD::Init() {
     // use wave handler
     Wave w1;
     GameEvent se{};
+    GameEvent boss{};
     se.time = 1000;
     se.SpawnPoint = 0;
     se.count = 1;
     se.speed = 100;
-    se.type = Boss_Frohle_Poehlich;
+    se.type = Ordinary;
     for (int i = 0; i <= 10; i++) {
         se.time += 500;
         w1.addEvent(se);
     }
+    boss.time = se.time + 3000;
+    boss.SpawnPoint = 0;
+    boss.count = 1;
+    boss.speed = 200;
+    boss.health = 20;
+    boss.type = Boss_Drueberbolz;
+    w1.addEvent(boss);
+
     se.SpawnPoint = 1;
     se.health += 50;
     se.time = 1000;
-    se.type = Boss_Drueberbolz;
     Wave w2;
     for (int i = 0; i <= 20; i++) {
         se.time += 500;
         w2.addEvent(se);
     }
+    boss.time = se.time + 3000;
+    boss.SpawnPoint = 1;
+    boss.type = Boss_Frohle_Poehlich;
+    boss.health += 100;
+    w2.addEvent(boss);
+
     se.SpawnPoint = 0;
     Wave w3;
     se.health += 100;
@@ -43,6 +57,12 @@ void TestTD::Init() {
         se.time += 500;
         w3.addEvent(se);
     }
+    boss.time = se.time + 3000;
+    boss.SpawnPoint = 0;
+    boss.type = Boss_Frohle_Poehlich;
+    boss.health += 100;
+    w3.addEvent(boss);
+
     se.SpawnPoint = 1;
     Wave w4;
     se.health += 200;
@@ -51,6 +71,12 @@ void TestTD::Init() {
         se.time += 500;
         w4.addEvent(se);
     }
+    boss.time = se.time + 1000;
+    boss.SpawnPoint = 1;
+    boss.type = Boss_Drueberbolz;
+    boss.health += 100;
+    w4.addEvent(boss);
+
     se.SpawnPoint = 0;
     Wave w5;
     se.health += 300;
@@ -59,6 +85,12 @@ void TestTD::Init() {
         se.time += 500;
         w5.addEvent(se);
     }
+    boss.time = se.time + 1000;
+    boss.SpawnPoint = 0;
+    boss.type = Boss_Frohle_Poehlich;
+    boss.health += 100;
+    w5.addEvent(boss);
+
     globals._wh.addWave(w1);
     globals._wh.addWave(w2);
     globals._wh.addWave(w3);
@@ -492,9 +524,26 @@ TestTD::TestTD(Game &game, string mapPath) : GameState(game, GS_TD) {
 }
 
 void TestTD::handleEvent(const GameEvent &event) {
-    std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
-    e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
-    globals._enemies.push_back(e);
+    switch (event.type) {
+        case Boss_Drueberbolz: {
+            std::shared_ptr<DrüberBolz> e = std::make_shared<DrüberBolz>();
+            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            globals._enemies.push_back(e);
+            break;
+        }
+        case Boss_Frohle_Poehlich: {
+            std::shared_ptr<FrolePöhlich> e = std::make_shared<FrolePöhlich>();
+            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            globals._enemies.push_back(e);
+            break;
+        }
+        case Ordinary: {
+            std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
+            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            globals._enemies.push_back(e);
+            break;
+        }
+    }
 }
 
 void TDGlobals::setPath(string newMapPath) {

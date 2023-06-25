@@ -9,7 +9,7 @@ void CheckSymbol::set(MenuEntry entry, Rect pos) {
     _pos = pos;
 }
 
-bool CheckSymbol::clicked(Point p) {
+void CheckSymbol::clicked(Point p) {
     if(isPointOnBox(p)){
         _checked=!_checked;
         if(_checked)

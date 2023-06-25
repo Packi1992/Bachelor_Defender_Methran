@@ -180,7 +180,7 @@ int Game::Run() {
 
 void Game::ActivateNextState() {
     if (nextStateIdx == GameStates::GS_Close) {
-        close(0);
+        exit(0);
         isRunning = false;
         return;
     }

@@ -41,8 +41,7 @@ void Hashbomb::Update() {
     }
     if(xrange && yrange){
         _alive = false;
-        float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
-        audioHandler->playSound(SoundArrowHit, x);
+        collide();
         addExplosion();
     }
 }
@@ -73,10 +72,13 @@ void Hashbomb::Render() {
 }
 
 void Hashbomb::collide() {
-
+    float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+    audioHandler->playSound(SoundHashbombHit, x);
+    audioHandler->playSound(SoundBaseExplosion, x);
 }
 
 bool Hashbomb::collision(std::shared_ptr<Enemy> e) {
+    collide();
     return false;
 }
 

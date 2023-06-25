@@ -31,16 +31,29 @@ void AudioHandler::pauseMusic() {
 // playStereoSound using Mix_SetPanning, MixVolume, ChunkVolume 
 
 void AudioHandler::playSound(soundType sound, float x) {
+	int left = 255;
+	int right = 255;
+	cout << "BIG TIME THIS IS IT: " << channelnumber << endl;
+	if (channelnumber > 8) {
+		channelnumber = 0;
+	}
 	if (x > 1) {
 		x = 1;
 	}
 	else if (x < 0) {
 		x = 0;
 	}
-	if (_soundmixArray[sound]) {
-		int channel = Mix_PlayChannelTimed(-1, _soundmixArray[sound],0, 1500);
-		Mix_SetPanning(channel, (int)255*(1-x), (int)255*x);
+	if (x > 0.5) {
+		left = 510 * (1-x);
 	}
+	else if (x < 0.5) {
+		right = 510 * x;
+	}
+	if (_soundmixArray[sound]) {
+		Mix_PlayChannelTimed(channelnumber, _soundmixArray[sound],0, 1500);
+		Mix_SetPanning(channelnumber, left, right);
+	}
+	channelnumber++;
 	return;
 }
 
@@ -90,20 +103,36 @@ const char* AudioHandler::getMusicPath(musicType music) {
 // Eventually split Projectile Sound in Fire and Hit mabey dont I dont know
 const char* AudioHandler::getSoundPath(soundType sound) {
 	switch (sound) {
-		case SoundTowerPointer:
+		case SoundPointerTower:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundHashCanon:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundLinkedListTower:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundRecursivTower:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundStringTower:
 			return BasePath "asset/sound/thriee.wav";
 		case SoundEnemyOrdinary:
 			return BasePath "asset/sound/ArrowHit.wav";
-		case SoundArrowFire:
-			return BasePath "asset/sound/pewf.wav";
+		case SoundFrolePoehlich:
+			return BasePath "asset/music/testsound.wav";
+		case SoundDrueberbolz:
+			return BasePath "asset/music/testsound.wav";
 		case SoundArrowHit:
 			return BasePath "asset/sound/ArrowHit.wav";
-        case SoundBoomerangFire:
-            return BasePath "asset/sound/thriee.wav";
-		case SoundBullet:
-		case SoundFFire:
+		case SoundBoomerangHit:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundHashbombHit:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundLinkHit:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundStringProjectileHit:
+			return BasePath "asset/sound/thriee.wav";
+		case SoundFire:
+			return BasePath "asset/sound/thriee.wav";
 		case SoundBaseExplosion:
-		case SoundError:
+			return BasePath "asset/sound/thriee.wav";
 		default:
 			cerr << "False Sound Type" << endl;
 			return "asset/sound/thriee.wav";

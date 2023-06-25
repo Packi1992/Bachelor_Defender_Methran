@@ -70,8 +70,7 @@ void PointerTower::Update() {
                 if (_reloadTime <= 0) {
                     _reloadTime = _shootCoolDown;
                     float x = (float) CT::getPosOnScreen(_pos).x / float(windowSize.x);
-                    audioHandler->playSound(SoundTowerPointer, x);
-                    audioHandler->playSound(SoundArrowFire, x);
+                    audioHandler->playSound(SoundPointerTower, x);
                     if (!_doubleArrow)
                         tdGlobals->_projectiles.push_back(
                                 std::make_shared<Arrow>(_arrow, (_level >= 3 ? _targetEnemy : nullptr), ((int) _direction) % 360));

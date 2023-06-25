@@ -13,6 +13,7 @@ public:
     Arrow();
     Arrow(Arrow &p, std::shared_ptr<Enemy> e, uint16_t direction);
     void Update() override;
+    void collide();
 };
 
 
