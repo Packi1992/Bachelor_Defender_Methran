@@ -1,3 +1,26 @@
+#Steuerung
+Ingame:
+Linksklick -> menu öffnen um Tower zu bauen oder anzupassen 
+p -> path finding anzeigen
+rechtsklick gedrückt halten -> sichtbaren Ausschnitt verschieben 
+W,A,S,D -> Ansicht verschieben 
+Mausrad -> zoom
+Escape-> spiel verlassen 
+Enter -> Bestätigungstaste, wenn das spiel vorrüber ist 
+
+Progress:
+Maps können nach und nach freigespielt werden. 
+
+Editor:
+bisher können die Gegner einer Map
+nicht aus der Anwendung herraus erstellt werden.
+in den Vorgegebenen Karten wurden die 
+gegner per händisch hinzugefügt.
+
+Startpunkte werden ab 0 aufwärts gezählt. 
+sie werden Zeilenweise von links nach rechts hinzugefügt.
+
+
 # Methran als text
 
 
