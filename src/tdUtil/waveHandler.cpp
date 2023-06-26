@@ -157,6 +157,7 @@ void WaveHandler::reset() {
     _doRenderCounter = false;
     _waveCur = 0;
     _errorNoWavesLoaded = false;
+    _isOver = false;
 }
 
 void WaveHandler::StartNextWave() {
