@@ -44,6 +44,7 @@ private:
     SDL_Rect _txtDstRect{};
     SDL_Rect _txtDstRect2{};
     SDL_Rect _txtDstRect3{};
+    bool _errorNoWavesLoaded = false;
     bool _isOver = false;
 };
 #endif //SDL_BACHELORDEFENDER_WAVEHANDLER_H
