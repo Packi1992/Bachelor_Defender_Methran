@@ -18,7 +18,7 @@ Color RenderHelper::getColor(t_color color) {
         case WHITE:
             return {255, 255, 255, 255};
         case BTN_INACTIVE:
-            return {0x0E,0x41,0x57, 255};
+            return {0x0E, 0x41, 0x57, 255};
         case BTN_COLOR:
             return {0x07, 0xa1, 0xe2, 255};
         case BTN_HIGHLIGHTED:
@@ -251,6 +251,30 @@ void RenderHelper::symbol(SDL_Rect *center, MenuEntry &entry) {
         case Status_Active:
         default:
             break;
+    }
+    IfDebug {
+        Rect dst = *center;
+        if (entry._status == Status_Active) {
+            if (entry._costs <= 0) {
+                Texture *tex = t_cache->getNumber(-entry._costs, 16, GREEN, &dst);
+                dst.x = center->x + center->w / 2 - dst.w / 2;
+                dst.y = center->y + center->h - dst.h;
+                rh->texture(tex, &dst);
+                SDL_DestroyTexture(tex);
+            } else {
+                Texture *tex = t_cache->getNumber(entry._costs, 16, BLACK, &dst);
+                dst.x = center->x + center->w / 2 - dst.w / 2;
+                dst.y = center->y + center->h - dst.h;
+                rh->texture(tex, &dst);
+                SDL_DestroyTexture(tex);
+            }
+        } else if (entry._status == Status_NotEnoughMoney) {
+            Texture *tex = t_cache->getNumber(entry._costs, 16, RED, &dst);
+            dst.x = center->x + center->w / 2 - dst.w / 2;
+            dst.y = center->y + center->h - dst.h;
+            rh->texture(tex, &dst);
+            SDL_DestroyTexture(tex);
+        }
     }
 }
 

@@ -75,10 +75,10 @@ void PointerTower::Update() {
                                 std::make_shared<Arrow>(_arrow, (_level >= 3 ? _targetEnemy : nullptr), ((int) _direction) % 360));
                     else {
                         tdGlobals->_projectiles.push_back(
-                                std::make_shared<Arrow>(_arrow, nullptr,
+                                std::make_shared<Arrow>(_arrow, (_level >= 3 ? _targetEnemy : nullptr),
                                                         ((int) _direction + 5) % 360));
                         tdGlobals->_projectiles.push_back(
-                                std::make_shared<Arrow>(_arrow, nullptr,
+                                std::make_shared<Arrow>(_arrow, (_level >= 3 ? _targetEnemy : nullptr),
                                                         ((int) (_direction < 5 ? 360 - _direction : _direction) - 5) %
                                                         360));
                     }
@@ -119,12 +119,9 @@ PointerTower::~PointerTower() = default;
 void PointerTower::showMenu(Gui **focus) {
     delete _floatingMenu;
     _menuEntries.clear();
-    _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
+    _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, -_sellingValue});
     if (_level < 3) {
-        MenuEntry e = {MenuEntries::MenuEntry_Upgrade, Status_Active, 0};
-        if ((int) tdGlobals->_pl._creditPoints < _upgradeCosts) {
-            e._status = Status_Disabled;
-        }
+        MenuEntry e = {MenuEntries::MenuEntry_Upgrade, Status_Active, _upgradeCosts};
         _menuEntries.push_back(e);
     }
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
@@ -147,7 +144,7 @@ bool PointerTower::upgrade() {
                 _damage = (u32)((float)_damage * 1.4);
                 _arrow._damage = _damage;
                 _arrow._speed = 12;
-                _doubleArrow = false;
+                _doubleArrow = true;
                 _range++;
                 _upgradeCosts*=2;
                 _sellingValue = (int)((float)_sellingValue * 2.0f);

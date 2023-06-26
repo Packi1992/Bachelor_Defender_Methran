@@ -28,6 +28,7 @@ void DataHandler::load(Player &player, WaveHandler &waves, Map &map, const strin
                     if (line == getTypeName(static_cast<DataType>(i)) + "-START") {
                         dataType = static_cast<DataType>(i);
                         data = true;
+                        dataBuff.clear();
                     }
                 }
             } else {

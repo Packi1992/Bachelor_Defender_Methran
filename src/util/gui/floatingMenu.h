@@ -11,7 +11,7 @@
 struct MenuEntry{
     MenuEntries _menuEntry=MenuEntry_DEFAULT;
     Status _status = Status_Active;
-    uint _costs = 0;
+    int _costs = 0;
 };
 
 class FloatingMenu: public Gui {

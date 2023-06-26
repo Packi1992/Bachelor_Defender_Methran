@@ -12,10 +12,11 @@ TDGlobals *tdGlobals{};
 
 void TestTD::Init() {
     GameState::Init();
+    globals._wh.reset();
     DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + *(tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, WHITE, true);
-
+    btn_startWave.set("Start Wave",18,{20,windowSize.y-90,120,80});
     IfDebug {
         // use wave handler
         Wave w1;
@@ -171,6 +172,7 @@ void TestTD::Render() {
     rh->texture(_texMethran, &MethranDst);
     // Menu
     rh->fillRect(&_menuBot, EDITOR_UI_BG);
+    btn_startWave.Render();
     _creditPointDisplay.Render();
     for (auto &tower: globals._towers) {
         tower->RenderMenu();
@@ -226,9 +228,13 @@ void TestTD::Update() {
         }
         // input handling
         if (_mbLeft) {
+
             bool clickTower = false;
             Point cursor;
             SDL_GetMouseState(&cursor.x, &cursor.y);
+            if(btn_startWave.clicked(cursor)){
+                globals._wh.StartNextWave();
+            }
             for (auto &t: globals._towers) {
                 if (t->isClicked(cursor)) {
                     t->showMenu(&globals._focus);
@@ -330,6 +336,7 @@ void TestTD::Events() {
                     if (event.button.button == SDL_BUTTON_RIGHT && _mbRight)_mbRight = false;
                     break;
                 case SDL_MOUSEMOTION:
+                    btn_startWave.entered(event);
                     _mouseMotion = true;
                     _motionEvent = event;
                     break;
@@ -448,6 +455,7 @@ void TestTD::updateUI() {
     }
     // calculate Menu Size
     _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
+    btn_startWave.setSize({30,windowSize.y-115,120,80});
 }
 
 void TestTD::handleFloatingMenuSelection() {

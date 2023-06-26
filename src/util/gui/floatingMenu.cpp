@@ -151,7 +151,7 @@ void FloatingMenu::Update() {
         for (int i = 0; i < (int) _menuEntries->size(); i++) {
             if (_menuEntries->at(i)._status != Status_Disabled) {
                 _menuEntries->at(i)._status = Status_Active;
-                if (tdGlobals->_pl._creditPoints < _menuEntries->at(i)._costs)
+                if ((int)tdGlobals->_pl._creditPoints < _menuEntries->at(i)._costs)
                     _menuEntries->at(i)._status = Status_NotEnoughMoney;
                 if (isEnemyBlockingNow)
                     _menuEntries->at(i)._status = Status_EnemyBlocking;

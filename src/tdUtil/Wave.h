@@ -36,7 +36,7 @@ struct GameEvent{
                 (value == other.value);
     }
 
-    static GameEvent readLine(const string EventAsString);
+    static GameEvent readLine(const string& EventAsString);
 };
 #include "../td/enemy/enemy.h"
 
@@ -66,7 +66,7 @@ public:
     void setName(std::string name);
 
     string getName();
-    long getTotalEnemies();
+    long getTotalEnemies() const;
 
     bool hasStarted = false;
 

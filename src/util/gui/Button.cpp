@@ -71,6 +71,7 @@ Button::Button(const Button &b) {
     this->_rect = b._rect;
     this->_id = b._id;
     this->_blend = b._blend;
+    this->_strokeThickness = b._strokeThickness;
     this->_buttonColor = b._buttonColor;
     this->_drawColor = b._drawColor;
     this->_highlightedColor = b._highlightedColor;

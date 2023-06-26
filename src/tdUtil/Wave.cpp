@@ -82,11 +82,11 @@ void Wave::clear() {
     this->pendingEvents.clear();
 }
 
-long Wave::getTotalEnemies() {
+long Wave::getTotalEnemies() const {
     return _totalEnemies;
 }
 
-GameEvent GameEvent::readLine(const string EventAsString) {
+GameEvent GameEvent::readLine(const string& EventAsString) {
     {
         string line= EventAsString;
         cout << "this is inside GameEvent" << endl;
