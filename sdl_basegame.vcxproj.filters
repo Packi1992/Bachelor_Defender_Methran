@@ -242,7 +242,11 @@
     <None Include="packages.config" />
     <None Include="README.md" />
     <None Include="tileTD.pdn" />
+    <None Include="Titel.pdn" />
     <None Include="vcpkg.json" />
+    <None Include="Maps\tmp.map">
+      <Filter>Maps</Filter>
+    </None>
     <None Include="Maps\gameMaps\World1.map">
       <Filter>Maps\gameMaps</Filter>
     </None>
@@ -250,6 +254,21 @@
       <Filter>Maps\gameMaps</Filter>
     </None>
     <None Include="Maps\gameMaps\World3.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World4.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World5.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World6.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World7.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World8.map">
       <Filter>Maps\gameMaps</Filter>
     </None>
     <None Include="asset\graphic\Unbenannt.xcf">
@@ -319,6 +338,9 @@
       <Filter>asset\graphic</Filter>
     </Image>
     <Image Include="asset\graphic\tf_tileSet.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
+    <Image Include="asset\graphic\Titel.png">
       <Filter>asset\graphic</Filter>
     </Image>
     <Image Include="asset\graphic\editor\arrow.png">
@@ -493,32 +515,35 @@
     <Media Include="asset\sound\ArrowHit.wav">
       <Filter>asset\sound</Filter>
     </Media>
-    <Media Include="asset\sound\Darth_Vader_NO.mp3">
+    <Media Include="asset\sound\BoomerangAttack.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\explosion.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\hashCanonShot.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\linkedListActive.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\linkedListAttack.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\ordinary.wav">
       <Filter>asset\sound</Filter>
     </Media>
     <Media Include="asset\sound\pewf.wav">
       <Filter>asset\sound</Filter>
     </Media>
-    <Media Include="asset\sound\thriee.wav">
+    <Media Include="asset\sound\StringAttack.wav">
       <Filter>asset\sound</Filter>
     </Media>
-    <Media Include="asset\_music\testsound.wav">
-      <Filter>asset\music</Filter>
+    <Media Include="asset\sound\StringTower.wav">
+      <Filter>asset\sound</Filter>
     </Media>
-    <Media Include="asset\sound\ordinary.wav">
-      <Filter>asset</Filter>
-    </Media>
-    <Media Include="asset\sound\explosion.wav">
-      <Filter>asset</Filter>
-    </Media>
-    <Media Include="asset\sound\hashCanonShot.wav">
-      <Filter>asset</Filter>
-    </Media>
-    <Media Include="asset\sound\linkedListActive.wav">
-      <Filter>asset</Filter>
-    </Media>
-    <Media Include="asset\sound\linkedListAttack.wav">
-      <Filter>asset</Filter>
+    <Media Include="asset\sound\thriee.wav">
+      <Filter>asset\sound</Filter>
     </Media>
   </ItemGroup>
 </Project>
