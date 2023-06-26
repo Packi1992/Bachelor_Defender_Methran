@@ -16,7 +16,7 @@
 #include "../util/gui/floatingMenu.h"
 #include "../util/gui/TextWithValue.h"
 #include "anim/gameOverAnim.h"
-
+#include "../util/gui/Button.h"
 class Gui;
 
 struct TDGlobals {
@@ -80,6 +80,9 @@ protected:
     FloatingMenu _floatingMenu;
     TextWithValue _creditPointDisplay;
     GameOverAnim _gameOverAnim;
+    Button btn_startWave;
+    Button btn_info;
+    int _infoTimer;
 public:
     // window handling
 

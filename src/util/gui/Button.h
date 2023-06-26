@@ -51,6 +51,8 @@ public:
     void setVisible(bool b);
 
 
+    void setBlendet(bool Blendet);
+
 private:
     bool isPointOnBtn(Point &p) const;
 

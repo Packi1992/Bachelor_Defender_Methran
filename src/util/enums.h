@@ -145,4 +145,9 @@ enum GameStates{
     GS_WorldMap,
     GS_Close,
 };
+
+enum GameEvents{
+    GE_Spawn,
+    GE_Message,
+};
 #endif //SDL_BACHELORDEFENDER_ENUMS_H

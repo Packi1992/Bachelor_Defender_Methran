@@ -12,10 +12,13 @@ TDGlobals *tdGlobals{};
 
 void TestTD::Init() {
     GameState::Init();
+    globals._wh.reset();
     DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + *(tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, WHITE, true);
-
+    btn_startWave.set("Start Wave",18,{});
+    btn_info.set("?",25, {});
+    btn_info.setBlendet(true);
     IfDebug {
         // use wave handler
         Wave w1;
@@ -171,6 +174,8 @@ void TestTD::Render() {
     rh->texture(_texMethran, &MethranDst);
     // Menu
     rh->fillRect(&_menuBot, EDITOR_UI_BG);
+    btn_startWave.Render();
+    btn_info.Render();
     _creditPointDisplay.Render();
     for (auto &tower: globals._towers) {
         tower->RenderMenu();
@@ -226,9 +231,16 @@ void TestTD::Update() {
         }
         // input handling
         if (_mbLeft) {
+
             bool clickTower = false;
             Point cursor;
             SDL_GetMouseState(&cursor.x, &cursor.y);
+            if(btn_startWave.clicked(cursor)){
+                globals._wh.StartNextWave();
+            }
+            if(btn_info.clicked(cursor)){
+                _infoTimer = 5000;
+            }
             for (auto &t: globals._towers) {
                 if (t->isClicked(cursor)) {
                     t->showMenu(&globals._focus);
@@ -287,20 +299,20 @@ void TestTD::Update() {
                 config->worldsFinished = mapNr;
                 config->safeConfig();
             }
-            if(config->worldsFinished==0)
+            if (config->worldsFinished == 0)
                 game.SetNextState(GS_MainMenu);
             else
                 game.SetNextState(GS_WorldMap);
         }
         //config->worldsFinished
-        _btn_enter = false;
     }
+    _btn_enter = false;
 }
 
 void TestTD::collision() {
     for (auto &p: globals._projectiles) {
         if (p->_alive) {
-            for (int i = 0; i < globals._enemies.size(); i++) {
+            for (int i = 0; i < (int)globals._enemies.size(); i++) {
                 if (globals._enemies.at(i)->_alive && p->collision(globals._enemies.at(i)) && p->_alive) {
                     p->collide();
                 }
@@ -330,6 +342,8 @@ void TestTD::Events() {
                     if (event.button.button == SDL_BUTTON_RIGHT && _mbRight)_mbRight = false;
                     break;
                 case SDL_MOUSEMOTION:
+                    btn_startWave.entered(event);
+                    btn_info.entered(event);
                     _mouseMotion = true;
                     _motionEvent = event;
                     break;
@@ -448,6 +462,8 @@ void TestTD::updateUI() {
     }
     // calculate Menu Size
     _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
+    btn_startWave.setSize({30,windowSize.y-115,120,80});
+    btn_info.setSize({30,30,50,50});
 }
 
 void TestTD::handleFloatingMenuSelection() {
@@ -547,7 +563,7 @@ void TestTD::updateEnemeies() {
                     [](const std::shared_ptr<Enemy> &mov) { return !mov->_alive; }
             ),
             globals._enemies.end());
-    globals._enemiesOnMap = (long)globals._enemies.size();
+    globals._enemiesOnMap = (long) globals._enemies.size();
 }
 
 bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
@@ -585,7 +601,7 @@ void TestTD::handleEvent(const GameEvent &event) {
             globals._enemies.push_back(e);
             break;
         }
-        case Ordinary: {
+        default: {
             std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
             e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
             globals._enemies.push_back(e);

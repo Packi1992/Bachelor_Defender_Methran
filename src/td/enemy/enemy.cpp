@@ -142,6 +142,7 @@ void Enemy::Render() const {
         dstRect.x = (int) (POS.x - dstRect.w * 0.5);
         dstRect.y = (int) (POS.y - dstRect.h * 0.8);
         u32 anim = _stunTime > 0 ? 0 : (pGame->isGameover() ? 0 : totalMSec + _animOffset);
+        anim = (u32)((float)anim * ((float)_speed* 0.01f));
         // check if enemy is on screen
 
         if (Game::onScreen(dstRect)) {
