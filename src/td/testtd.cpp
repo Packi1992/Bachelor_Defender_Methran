@@ -105,7 +105,6 @@ void TestTD::Render() {
         rh->background(BLACK, 128);
         rh->CenteredText("Congraz, Du hast gewonnen!", 70, GREEN, windowSize.x, windowSize.y);
         rh->CenteredText("Drücke Enter um fortzufahren", 40, GREEN, windowSize.x, windowSize.y + 300);
-
     }
 }
 
