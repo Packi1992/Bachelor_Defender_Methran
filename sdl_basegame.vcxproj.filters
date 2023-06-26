@@ -44,29 +44,32 @@
     <Filter Include="src\td">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef40}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\td\enemy">
+    <Filter Include="src\td\anim">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\td\projectiles">
+    <Filter Include="src\td\enemy">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\td\tower">
+    <Filter Include="src\td\projectiles">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\tdEditor">
+    <Filter Include="src\td\tower">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\tdutil">
+    <Filter Include="src\tdEditor">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef45}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\util">
+    <Filter Include="src\tdutil">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef46}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\util\gui">
+    <Filter Include="src\util">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\worldMap">
+    <Filter Include="src\util\gui">
       <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\worldMap">
+      <UniqueIdentifier>{5bb11ad9-ae4d-409b-acba-7a60bf4fef49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +82,19 @@
     <ClInclude Include="src\td\testtd.h">
       <Filter>src\td</Filter>
     </ClInclude>
+    <ClInclude Include="src\td\anim\gameOverAnim.h">
+      <Filter>src\td\anim</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\enemy\bossEnemy.h">
+      <Filter>src\td\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\enemy\drueberBolz.h">
+      <Filter>src\td\enemy</Filter>
+    </ClInclude>
     <ClInclude Include="src\td\enemy\enemy.h">
+      <Filter>src\td\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\enemy\frolePoehlich.h">
       <Filter>src\td\enemy</Filter>
     </ClInclude>
     <ClInclude Include="src\td\projectiles\arrow.h">
@@ -145,6 +160,9 @@
     <ClInclude Include="src\util\audioHandler.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\config.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
     <ClInclude Include="src\util\coordinateTransformer.h">
       <Filter>src\util</Filter>
     </ClInclude>
@@ -154,10 +172,10 @@
     <ClInclude Include="src\util\enums.h">
       <Filter>src\util</Filter>
     </ClInclude>
-    <ClInclude Include="src\util\global.h">
+    <ClInclude Include="src\util\gamebase.h">
       <Filter>src\util</Filter>
     </ClInclude>
-    <ClInclude Include="src\util\gamebase.h">
+    <ClInclude Include="src\util\global.h">
       <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\recthelper.h">
@@ -205,12 +223,12 @@
     <ClInclude Include="src\util\gui\TextWithValue.h">
       <Filter>src\util\gui</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\gui\TextWithValue_Max.h">
+      <Filter>src\util\gui</Filter>
+    </ClInclude>
     <ClInclude Include="src\worldMap\worldMap.h">
       <Filter>src\worldMap</Filter>
     </ClInclude>
-    <ClInclude Include="src\td\enemy\bossEnemy.h" />
-    <ClInclude Include="src\td\enemy\drüberBolz.h" />
-    <ClInclude Include="src\td\enemy\frolePöhlich.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
@@ -224,6 +242,11 @@
     <None Include="packages.config" />
     <None Include="README.md" />
     <None Include="tileTD.pdn" />
+    <None Include="Titel.pdn" />
+    <None Include="vcpkg.json" />
+    <None Include="Maps\tmp.map">
+      <Filter>Maps</Filter>
+    </None>
     <None Include="Maps\gameMaps\World1.map">
       <Filter>Maps\gameMaps</Filter>
     </None>
@@ -231,6 +254,21 @@
       <Filter>Maps\gameMaps</Filter>
     </None>
     <None Include="Maps\gameMaps\World3.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World4.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World5.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World6.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World7.map">
+      <Filter>Maps\gameMaps</Filter>
+    </None>
+    <None Include="Maps\gameMaps\World8.map">
       <Filter>Maps\gameMaps</Filter>
     </None>
     <None Include="asset\graphic\Unbenannt.xcf">
@@ -302,6 +340,9 @@
     <Image Include="asset\graphic\tf_tileSet.png">
       <Filter>asset\graphic</Filter>
     </Image>
+    <Image Include="asset\graphic\Titel.png">
+      <Filter>asset\graphic</Filter>
+    </Image>
     <Image Include="asset\graphic\editor\arrow.png">
       <Filter>asset\graphic\editor</Filter>
     </Image>
@@ -328,7 +369,19 @@
     <ClCompile Include="src\td\testtd.cpp">
       <Filter>src\td</Filter>
     </ClCompile>
+    <ClCompile Include="src\td\anim\gameOverAnim.cpp">
+      <Filter>src\td\anim</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\enemy\bossEnemy.cpp">
+      <Filter>src\td\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\enemy\drueberBolz.cpp">
+      <Filter>src\td\enemy</Filter>
+    </ClCompile>
     <ClCompile Include="src\td\enemy\enemy.cpp">
+      <Filter>src\td\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\enemy\frolePoehlich.cpp">
       <Filter>src\td\enemy</Filter>
     </ClCompile>
     <ClCompile Include="src\td\projectiles\arrow.cpp">
@@ -394,6 +447,9 @@
     <ClCompile Include="src\util\audioHandler.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\config.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
     <ClCompile Include="src\util\coordinateTransformer.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
@@ -445,12 +501,12 @@
     <ClCompile Include="src\util\gui\TextWithValue.cpp">
       <Filter>src\util\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\gui\TextWithValue_MaxValue.cpp">
+      <Filter>src\util\gui</Filter>
+    </ClCompile>
     <ClCompile Include="src\worldMap\worldMap.cpp">
       <Filter>src\worldMap</Filter>
     </ClCompile>
-    <ClCompile Include="src\td\enemy\bossEnemy.cpp" />
-    <ClCompile Include="src\td\enemy\drüberBolz.cpp" />
-    <ClCompile Include="src\td\enemy\frolePöhlich.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="asset\music\testsound.wav">
@@ -459,17 +515,35 @@
     <Media Include="asset\sound\ArrowHit.wav">
       <Filter>asset\sound</Filter>
     </Media>
-    <Media Include="asset\sound\Darth_Vader_NO.mp3">
+    <Media Include="asset\sound\BoomerangAttack.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\explosion.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\hashCanonShot.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\linkedListActive.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\linkedListAttack.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\ordinary.wav">
       <Filter>asset\sound</Filter>
     </Media>
     <Media Include="asset\sound\pewf.wav">
       <Filter>asset\sound</Filter>
     </Media>
-    <Media Include="asset\sound\thriee.wav">
+    <Media Include="asset\sound\StringAttack.wav">
       <Filter>asset\sound</Filter>
     </Media>
-    <Media Include="asset\_music\testsound.wav">
-      <Filter>asset\music</Filter>
+    <Media Include="asset\sound\StringTower.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\thriee.wav">
+      <Filter>asset\sound</Filter>
     </Media>
   </ItemGroup>
 </Project>

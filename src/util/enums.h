@@ -99,11 +99,10 @@ enum soundType {
     SoundDrueberbolz,
     SoundArrowHit,
     SoundBoomerangHit,
-    SoundHashbombHit,
     SoundLinkHit,
     SoundStringProjectileHit,
     SoundFire,
-    SoundBaseExplosion,
+    SoundHashBombHit,
     SoundError,
     SoundDisabled,
 };

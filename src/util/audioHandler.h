@@ -23,7 +23,6 @@ private:
 	static AudioHandler* audioHelper;
 	Music* _musicmixArray[MusicDisabled] = {};
 	Chunk* _soundmixArray[SoundDisabled] = {};
-	int channelnumber = 0;
 };
 
 #endif //SDL_BACHELORDEFENDER_MUSICHANDLER_H

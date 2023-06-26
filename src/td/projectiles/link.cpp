@@ -10,6 +10,7 @@ LinkProjectile::LinkProjectile() {
     _speed = 0;
     _alive = true;
     _ttl = 200;
+    _lastSoundTimePoint = totalMSec;
 }
 
 void LinkProjectile::set(u16 timeToLife, FPoint position, FPoint position2, u8 damage) {
@@ -49,7 +50,6 @@ bool LinkProjectile::collision(std::shared_ptr<Enemy> e) {
     }
     if (!inList && CT::collisionLineRect(_position, _position2, e->getHitBox())) {
         e->takeDamage(this);
-        collide();
         hitList.push_back({e, 100});
         return true;
     }
@@ -61,6 +61,9 @@ LinkProjectile::LinkProjectile(LinkProjectile &p) : Projectile(p) {
 }
 
 void LinkProjectile::collide() {
-    float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    audioHandler->playSound(SoundLinkHit, x);
+    if (totalMSec - _lastSoundTimePoint > 1000) {
+        float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+        audioHandler->playSound(SoundLinkHit, x);
+        _lastSoundTimePoint = totalMSec;
+    }
 }

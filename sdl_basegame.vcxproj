@@ -272,12 +272,20 @@
     <None Include="Maps\gameMaps\world1.map" />
     <None Include="Maps\gameMaps\world2.map" />
     <None Include="Maps\gameMaps\world3.map" />
+    <None Include="Maps\gameMaps\world4.map" />
+    <None Include="Maps\gameMaps\world5.map" />
+    <None Include="Maps\gameMaps\world6.map" />
+    <None Include="Maps\gameMaps\world7.map" />
+    <None Include="Maps\gameMaps\world8.map" />
     <None Include="Maps\neueMap.map" />
+    <None Include="Maps\tmp.map" />
     <None Include="newTiles.pdn" />
     <None Include="old_README.md" />
     <None Include="packages.config" />
     <None Include="README.md" />
     <None Include="tileTD.pdn" />
+    <None Include="Titel.pdn" />
+    <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="asset\graphic\background.png" />
@@ -298,6 +306,7 @@
     <Image Include="asset\graphic\td\floatingMenu.png" />
     <Image Include="asset\graphic\td\tileTD.png" />
     <Image Include="asset\graphic\tf_tileSet.png" />
+    <Image Include="asset\graphic\Titel.png" />
     <Image Include="classdiagram.png" />
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +318,14 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="asset\music\testsound.wav" />
+    <Media Include="asset\sound\BoomerangAttack.wav" />
+    <Media Include="asset\sound\explosion.wav" />
+    <Media Include="asset\sound\hashCanonShot.wav" />
+    <Media Include="asset\sound\linkedListActive.wav" />
+    <Media Include="asset\sound\linkedListAttack.wav" />
+    <Media Include="asset\sound\ordinary.wav" />
+    <Media Include="asset\sound\StringAttack.wav" />
+    <Media Include="asset\sound\StringTower.wav" />
     <Media Include="asset\_music\testsound.wav" />
     <Media Include="asset\sound\ArrowHit.wav" />
     <Media Include="asset\sound\Darth_Vader_NO.mp3" />

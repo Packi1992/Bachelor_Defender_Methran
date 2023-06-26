@@ -9,6 +9,7 @@
 StringProjectile::StringProjectile() {
     _type = ProjectileType::STRINGPROJECTILE;
     _direction = 0;
+    _lastSoundTimePoint = totalMSec;
 }
 
 StringProjectile::StringProjectile(StringProjectile &p) : Projectile(p, nullptr, 0) {
@@ -58,8 +59,11 @@ void StringProjectile::Update() {
 }
 
 void StringProjectile::collide() {
-    float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    audioHandler->playSound(SoundStringProjectileHit, x);
+    if (totalMSec - _lastSoundTimePoint > 600) {
+        float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+        audioHandler->playSound(SoundStringProjectileHit, x);
+        _lastSoundTimePoint = totalMSec;
+    }
 }
 
 bool StringProjectile::collision(std::shared_ptr<Enemy> e) {
@@ -72,10 +76,10 @@ bool StringProjectile::collision(std::shared_ptr<Enemy> e) {
     }
     if (!inList && CT::collisionLineRect(_position, _end, e->getHitBox())) {
         e->takeDamage(this);
-        collide();
         hitList.push_back({e, 30});
+        return true;
     }
-    return true;
+    return false;
 }
 
 void StringProjectile::Render() {

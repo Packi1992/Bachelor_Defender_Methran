@@ -39,7 +39,6 @@ void Hashbomb::Update() {
             _alive = false;
     } else {
         _alive = false;
-        collide();
         addExplosion();
     }
 }
@@ -75,12 +74,10 @@ void Hashbomb::Render() {
 
 void Hashbomb::collide() {
     float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    audioHandler->playSound(SoundHashbombHit, x);
-    audioHandler->playSound(SoundBaseExplosion, x);
+    audioHandler->playSound(SoundHashBombHit, x);
 }
 
 bool Hashbomb::collision(std::shared_ptr<Enemy> e) {
-    collide();
     return false;
 }
 
@@ -96,6 +93,7 @@ void Hashbomb::addExplosion() {
         for (int j = (-1 * _exrange); j <= _exrange; j++) {
             SDL_FPoint tmp = {_position.x + (float) i, _position.y + (float) j};
             tdGlobals->_projectiles.push_back(std::make_shared<BaseExplosion>(tmp, _exdmg));
+            collide();
         }
     }
 }
