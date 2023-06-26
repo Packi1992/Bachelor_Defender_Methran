@@ -5,7 +5,7 @@ FrolePoehlich::FrolePoehlich() : BossEnemy() {
     _size = 1.2f;
 }
 
-FrolePoehlich::FrolePoehlich(std::shared_ptr<Enemy> e)
+FrolePoehlich::FrolePoehlich(std::shared_ptr<BossEnemy> e)
         : BossEnemy(e) {
     _recursivable = false;
     _sanity *= 3;

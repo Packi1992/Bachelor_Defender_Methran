@@ -592,13 +592,13 @@ void TestTD::handleEvent(const GameEvent &event) {
             std::shared_ptr<DrueberBolz> e = std::make_shared<DrueberBolz>();
             e->_alive = true;
             e->set(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
-            globals._enemies.push_back(std::make_shared<DrueberBolz>());
+            globals._enemies.push_back(std::make_shared<DrueberBolz>(e));
             break;
         }
         case Boss_Frohle_Poehlich: {
             std::shared_ptr<FrolePoehlich> e = std::make_shared<FrolePoehlich>();
             e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
-            globals._enemies.push_back(e);
+            globals._enemies.push_back(std::make_shared<FrolePoehlich>(e));
             break;
         }
         default: {
