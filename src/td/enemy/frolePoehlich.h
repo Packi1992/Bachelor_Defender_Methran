@@ -6,7 +6,7 @@
 class FrolePoehlich : public BossEnemy {
 public:
 	FrolePoehlich();
-	FrolePoehlich(std::shared_ptr<Enemy> e);
+	FrolePoehlich(std::shared_ptr<BossEnemy> e);
 	soundType getSoundName() override;
 };
 

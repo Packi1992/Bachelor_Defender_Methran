@@ -44,6 +44,7 @@ void Config::loadConfig() {
 }
 
 void Config::safeConfig() {
+    std::filesystem::create_directory(BasePath"Config/");
     // save Config Data
     std::stringstream s;
 

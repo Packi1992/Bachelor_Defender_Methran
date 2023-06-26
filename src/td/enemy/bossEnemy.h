@@ -7,6 +7,7 @@ class BossEnemy : public Enemy {
 public:
 	BossEnemy();
 	BossEnemy(std::shared_ptr<Enemy> e);
+	BossEnemy(std::shared_ptr<BossEnemy> e);
 	virtual soundType getSoundName();
 	virtual void collide() override;
 };
