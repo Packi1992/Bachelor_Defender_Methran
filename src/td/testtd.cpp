@@ -207,8 +207,6 @@ void TestTD::Update() {
     if (!_gameover && _btn_enter && globals._wh.isOver()) {
         if ((*(globals._mapPath)).substr(0, 14) == "gameMaps/world") {
             string number = (*(globals._mapPath)).substr(14, (*(globals._mapPath)).size() - 18);
-            cout << number << endl;
-            cout << "Here" << endl;
             int mapNr = (int) std::stol(number, nullptr, 10);
             if (config->worldsFinished < mapNr) {
                 config->worldsFinished = mapNr;
