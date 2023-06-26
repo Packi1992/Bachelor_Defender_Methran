@@ -166,10 +166,10 @@ LinkedListTower::~LinkedListTower() = default;
 void LinkedListTower::showMenu(Gui **focus) {
     delete _floatingMenu;
     _menuEntries.clear();
-    _menuEntries.push_back({MenuEntries::MenuEntry_AddLink, Status_Active, (uint) _linkCosts});
+    _menuEntries.push_back({MenuEntries::MenuEntry_AddLink, Status_Active, _linkCosts});
     _menuEntries.push_back({MenuEntries::MenuEntry_Sell, Status_Active, 0});
     if(_level<3)
-        _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, (uint)_upgradeCosts});
+        _menuEntries.push_back({MenuEntries::MenuEntry_Upgrade, Status_Active, _upgradeCosts});
     _floatingMenu = new FloatingMenu(&_menuEntries, _pos);
     _floatingMenu->show(focus);
 }

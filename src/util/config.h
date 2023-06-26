@@ -12,7 +12,7 @@ private:
     explicit Config() = default ;
 
     static Config *configInstance;
-    std::string _configPath = BasePath"/Config/config.txt";
+    std::string _configPath = BasePath"Config/config.txt";
 
     void loadConfig();
 

@@ -57,6 +57,7 @@ std::string WaveHandler::save() {
     for (auto &wave: _waveVec) {
         s << "WAVE : \n" << "\n";
     }
+    return "";
 }
 
 void WaveHandler::addWave(const Wave &w) {
