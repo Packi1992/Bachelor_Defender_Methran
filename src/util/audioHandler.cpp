@@ -107,7 +107,7 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 		case SoundRecursivTower:
 			return BasePath "asset/sound/thriee.wav";
 		case SoundStringTower:
-			return BasePath "asset/sound/thriee.wav";
+			return BasePath "asset/sound/StringTower.wav";
 		case SoundEnemyOrdinary:
 			return BasePath "asset/sound/ordinary.wav";
 		case SoundFrolePoehlich:
