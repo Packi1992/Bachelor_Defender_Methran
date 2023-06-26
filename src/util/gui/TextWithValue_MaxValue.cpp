@@ -6,7 +6,7 @@
 
 void TextWithValue_Max::set(const string &Text, const int *valueField, const int *maxValue,
                             Point pos, int textSize, t_color TextColor) {
-    strcpy(_text, Text.c_str());
+    strcpy_s(_text, Text.c_str());
     _exValue = valueField;
     _exValueMax = maxValue;
     _size = textSize;

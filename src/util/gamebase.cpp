@@ -249,18 +249,21 @@ void Game::zoomScreen(SDL_Event event) {
     SDL_GetMouseState(&cursor.x, &cursor.y);
     int wheel = event.wheel.y;
     FPoint cursorGamePos = CT::getPosInGame(cursor);
-    if (wheel / abs(wheel) < 1) {// zoom out
-        if (scale > 32) {
-            scale = (int) ((float) scale * 0.8f);
-            Point newScreenPos = CT::getPosOnScreen(cursorGamePos);
-            offset = offset + (newScreenPos - cursor);
+    if (wheel != 0) {
+        if (wheel / abs(wheel) < 1) {// zoom out
+            if (scale > 32) {
+                scale = (int)((float)scale * 0.8f);
+                Point newScreenPos = CT::getPosOnScreen(cursorGamePos);
+                offset = offset + (newScreenPos - cursor);
+            }
         }
-    } else {
-        if (scale < 128) {// zoom in
+        else {
+            if (scale < 128) {// zoom in
 
-            scale = (int) (scale * (1 / 0.8));
-            Point newScreenPos = CT::getPosOnScreen(cursorGamePos);
-            offset = offset + (newScreenPos - cursor);
+                scale = (int)(scale * (1 / 0.8));
+                Point newScreenPos = CT::getPosOnScreen(cursorGamePos);
+                offset = offset + (newScreenPos - cursor);
+            }
         }
     }
 }

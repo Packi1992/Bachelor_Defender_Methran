@@ -53,7 +53,7 @@ void CheckBox::entered(Point p) {
 }
 
 CheckBox::CheckBox(const CheckBox &b) {
-    strcpy(_textArr, b._textArr);
+    strcpy_s(_textArr, b._textArr);
     IfDebug{
         std::cout << "using Copy Constructor: " << _textArr << std::endl;
     }
@@ -72,7 +72,7 @@ CheckBox::CheckBox(const CheckBox &b) {
 
 void CheckBox::set(const string &label, int nSize, Rect nRect, int id, t_color btnColor) {
     this->_size = nSize;
-    strcpy(_textArr, label.c_str());
+    strcpy_s(_textArr, label.c_str());
     this->_rect = nRect;
     this->_buttonColor = RenderHelper::getColor(btnColor);
     this->_id = id;

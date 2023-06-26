@@ -67,7 +67,7 @@ void Button::entered(Point p) {
 }
 
 Button::Button(const Button &b) {
-    strcpy(_textArr, b._textArr);
+    strcpy_s(_textArr, b._textArr);
     this->_size = b._size;
     this->_rect = b._rect;
     this->_id = b._id;
@@ -87,7 +87,7 @@ Button::Button(const Button &b) {
 
 void Button::set(const string &label, int nSize, Rect nRect, int id, t_color btnColor, bool blend) {
     this->_size = nSize;
-    strcpy(_textArr, label.c_str());
+    strcpy_s(_textArr, label.c_str());
     this->_rect = nRect;
     this->_buttonColor = RenderHelper::getColor(btnColor);
     this->_id = id;

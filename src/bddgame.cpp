@@ -8,7 +8,7 @@
 #include "worldMap/worldMap.h"
 
 BddGame::BddGame() :
-        Game("Bachelor Defender: Methran und das goldene Zertifikat", {1680, 1000}, false) {
+        Game("Bachelor Defender: Methran und das goldene Zertifikat", {1440, 960}, false) {
     allStates = {
             new MainMenu(*this),
             new TestTD(*this, "gameMaps/world1.map"),
