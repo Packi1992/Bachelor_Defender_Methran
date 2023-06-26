@@ -10,6 +10,9 @@
 
 void WorldMap::Init() {
     audioHandler->playMusic(MusicMainMenu);
+    IfNotDebug {
+        updateActiveButtons();
+    }
 }
 
 void WorldMap::UnInit() {

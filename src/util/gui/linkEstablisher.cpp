@@ -58,6 +58,8 @@ void LinkEstablisher::Input() {
                         return;
                     } else {
                         tdGlobals->_pl._creditPoints += _last->getLinkCosts();
+                        releaseFocus(false);
+                        return;
                     }
                 }
         }
