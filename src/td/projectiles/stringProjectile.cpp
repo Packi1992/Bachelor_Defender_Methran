@@ -9,6 +9,7 @@
 StringProjectile::StringProjectile() {
     _type = ProjectileType::STRINGPROJECTILE;
     _direction = 0;
+    _lastSoundTimePoint = totalMSec;
 }
 
 StringProjectile::StringProjectile(StringProjectile &p) : Projectile(p, nullptr, 0) {
@@ -58,15 +59,10 @@ void StringProjectile::Update() {
 }
 
 void StringProjectile::collide() {
-    if (_ttl > 700 && _soundHit == 2) {
+    if (totalMSec - _lastSoundTimePoint > 600) {
         float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
         audioHandler->playSound(SoundStringProjectileHit, x);
-        _soundHit--;
-    }
-    else if (_ttl < 700 && _soundHit == 1) {
-        float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
-        audioHandler->playSound(SoundStringProjectileHit, x);
-        _soundHit--;
+        _lastSoundTimePoint = totalMSec;
     }
 }
 

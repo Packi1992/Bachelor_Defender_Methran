@@ -102,7 +102,7 @@ enum soundType {
     SoundLinkHit,
     SoundStringProjectileHit,
     SoundFire,
-    SoundBaseExplosion,
+    SoundHashBombHit,
     SoundError,
     SoundDisabled,
 };

@@ -111,21 +111,21 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 		case SoundEnemyOrdinary:
 			return BasePath "asset/sound/ordinary.wav";
 		case SoundFrolePoehlich:
-			return BasePath "asset/sound/arrowHit.wav";
+			return BasePath "asset/sound/ordinary.wav";
 		case SoundDrueberbolz:
-			return BasePath "asset/sound/arrowHit.wav";
+			return BasePath "asset/sound/ordinary.wav";
 		case SoundArrowHit: 
 			return BasePath "asset/sound/arrowHit.wav";
 		case SoundBoomerangHit:
 			return BasePath "asset/sound/BoomerangAttack.wav";
+		case SoundHashBombHit:
+			return BasePath "asset/sound/explosion.wav";
 		case SoundLinkHit:
 			return BasePath "asset/sound/linkedListAttack.wav";
 		case SoundStringProjectileHit:
 			return BasePath "asset/sound/StringAttack.wav";
 		case SoundFire:
 			return BasePath "";
-		case SoundBaseExplosion:
-			return BasePath "asset/sound/explosion.wav";
 		default:
 			cerr << "Not Defined Sound Type" << endl;
 			return "";

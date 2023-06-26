@@ -37,6 +37,7 @@ public:
     Vector<HitTimer> hitList;
     soundType _hitSound = SoundDisabled;
     u32 _lastTimePoint;
+    u32 _lastSoundTimePoint = 0;
 
     virtual ~Projectile();
 

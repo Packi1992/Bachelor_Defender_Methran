@@ -25,7 +25,6 @@ public:
 
 private:
     FPoint _position2{};
-    bool _soundHit = true;
 };
 
 #endif //SDL_BACHELORDEFENDER_LinkProjectile_H

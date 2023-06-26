@@ -10,6 +10,7 @@
 Boomerang::Boomerang() {
     _type = ProjectileType::BOOMERANG;
     _lastTimePoint = totalMSec;
+    _lastSoundTimePoint = totalMSec;
 }
 
 void Boomerang::Update() {
@@ -126,8 +127,11 @@ void Boomerang::Render() {
 }
 
 void Boomerang::collide() {
-    float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    audioHandler->playSound(SoundBoomerangHit, x);
+    if ((totalMSec - _lastSoundTimePoint) > 275) {
+        float x = (float)(CT::getPosOnScreen(_position).x) / float(windowSize.x);
+        audioHandler->playSound(SoundBoomerangHit, x);
+        _lastSoundTimePoint = totalMSec;
+    }
 }
 
 bool Boomerang::collision(std::shared_ptr<Enemy> e) {

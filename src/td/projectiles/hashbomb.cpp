@@ -74,7 +74,7 @@ void Hashbomb::Render() {
 
 void Hashbomb::collide() {
     float x = (float) (CT::getPosOnScreen(_position).x) / float(windowSize.x);
-    audioHandler->playSound(SoundBaseExplosion, x);
+    audioHandler->playSound(SoundHashBombHit, x);
 }
 
 bool Hashbomb::collision(std::shared_ptr<Enemy> e) {
@@ -92,8 +92,8 @@ void Hashbomb::addExplosion() {
     for (int i = (-1 * _exrange); i <= _exrange; i++) {
         for (int j = (-1 * _exrange); j <= _exrange; j++) {
             SDL_FPoint tmp = {_position.x + (float) i, _position.y + (float) j};
-            collide();
             tdGlobals->_projectiles.push_back(std::make_shared<BaseExplosion>(tmp, _exdmg));
+            collide();
         }
     }
 }
