@@ -23,6 +23,7 @@ void Button::Render(bool highlighted) {
         // Text Render
         rh->blendTexture(_texText, &_rText);
         //rh->texture(_texText, &_rText);
+
     }
 }
 
@@ -160,6 +161,17 @@ void Button::setActive(bool b) {
 
 void Button::setVisible(bool b) {
     _visible = b;
+}
+
+void Button::setBlendet(bool Blendet) {
+    if(Blendet){
+        _strokeThickness = 0;
+        _blend = true;
+    }
+    else{
+        _strokeThickness = 2;
+        _blend = false;
+    }
 }
 
 

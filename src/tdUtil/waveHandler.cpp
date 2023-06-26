@@ -46,9 +46,8 @@ bool WaveHandler::load(const Vector<string> &vector1) {
         // WAVE-END
         // WAVE : 2
     }
-    if (_waveVec.empty()) {
-        _errorNoWavesLoaded = true;
-    }
+    _errorNoWavesLoaded = _waveVec.empty();
+
     return false;
 }
 
@@ -157,6 +156,7 @@ void WaveHandler::reset() {
     _lastTimePoint = totalMSec;
     _doRenderCounter = false;
     _waveCur = 0;
+    _errorNoWavesLoaded = false;
 }
 
 void WaveHandler::StartNextWave() {

@@ -89,8 +89,6 @@ long Wave::getTotalEnemies() const {
 GameEvent GameEvent::readLine(const string& EventAsString) {
     {
         string line= EventAsString;
-        cout << "this is inside GameEvent" << endl;
-        cerr << "implement Spawn Event parsing from String";
         // EVENT : GameEvents, EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
         unsigned long token = line.find(';');
         GameEvent event;
