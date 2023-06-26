@@ -235,7 +235,7 @@ void TestTD::collision() {
 }
 
 void TestTD::Events() {
-    if (globals._focus == nullptr) {
+    if (globals._focus == nullptr || _gameover || globals._wh.isOver()) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             if (pGame->HandleEvent(event))
