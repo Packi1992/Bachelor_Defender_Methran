@@ -86,7 +86,7 @@ EVENT :0;0;6000;1;1;5;5;120;300;
 WAVE-END:
 WAVE : 4
 // EVENT :GameEvenets, EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
-NAME :Strebern
+NAME :Streber
 EVENT :0;0;0;1;1;3;5;120;500;
 EVENT :0;0;500;1;1;3;5;120;500;
 EVENT :0;0;1000;1;1;3;5;120;500;
