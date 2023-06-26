@@ -93,8 +93,8 @@ void RenderHelper::background(t_color color, int alpha) {
 
 void RenderHelper::hint(MapObjects object, int size, Point posOnScreen, t_color textColor, t_color bgColor) {
     // get hint label
-    char text[30];
-    strcpy_s(text, TdTileHandler::getName(object).c_str());
+    char text[40];
+    strncpy(text,TdTileHandler::getName(object).c_str(),40);
 
     // get hint as texture
     SDL_Rect textLocation = {posOnScreen.x, posOnScreen.y, 0, 0};

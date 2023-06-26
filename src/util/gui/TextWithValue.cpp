@@ -6,7 +6,7 @@
 
 void TextWithValue::set(const string &Text, const int *valueField,
                         Point pos, int textSize, t_color TextColor, bool border_) {
-    strcpy_s(text, Text.c_str());
+    strncpy(text, Text.c_str(),50);
     exValue = valueField;
     size = textSize;
     color = TextColor;

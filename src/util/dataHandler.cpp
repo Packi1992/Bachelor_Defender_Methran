@@ -11,7 +11,7 @@ void DataHandler::load(Player &player, WaveHandler &waves, Map &map, const strin
     std::ifstream iStream;
     cout << "Load Data: " << path << endl;
     char mnName[50];
-    strcpy_s(mnName, path.c_str());
+    strncpy(mnName, path.c_str(),50);
     iStream.open(mnName);
 
     bool Waves = false;
@@ -67,9 +67,9 @@ void DataHandler::load(Player &player, WaveHandler &waves, Map &map, const strin
 
 void DataHandler::save(Player &player, WaveHandler &waves, Map &map, const string &path) {
     char name[100];
-    strcpy_s(name, BasePath"Maps/");
-    strcat_s(name, path.c_str());
-    strcat_s(name, ".map");
+    strncpy(name, BasePath"Maps/",100);
+    strncat(name, path.c_str(),100);
+    strncat(name, ".map",100);
     // save pMap!
     std::ofstream oStream;
 
