@@ -181,12 +181,12 @@ void TestTD::Update() {
         }
         IfDebug {
             if (_btn_control) {
-                /*Point cursor;
+                Point cursor;
                 SDL_GetMouseState(&cursor.x, &cursor.y);
                 FPoint scursor = CT::getPosInGame(cursor);
                 b._position = scursor;
                 b._startingPoint = scursor;
-                globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));*/
+                globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
                 _btn_control = false;
                 //_gameover = true;
             }
