@@ -203,15 +203,20 @@ WorldMap::WorldMap(Game &game) : GameState(game, GS_WorldMap) {
     _buttons.emplace_back("6", _fontSize, btn_w6);
     _buttons.emplace_back("7", _fontSize, btn_w7);
     _buttons.emplace_back("8", _fontSize, btn_w8);
-
-    if (config->worldsFinished >= 7) {
+    IfDebug {
         _buttons.emplace_back("Editor", _fontSize, btn_Editor);
         _buttons.emplace_back("Eigene Map", _fontSize, btn_ChooseMap);
     }
+    IfNotDebug {
+        if (config->worldsFinished >= 7) {
+            _buttons.emplace_back("Editor", _fontSize, btn_Editor);
+            _buttons.emplace_back("Eigene Map", _fontSize, btn_ChooseMap);
+        }
+    }
     _buttons.emplace_back("Zurück zum Hauptmenu", _fontSize, btn_backToMain);
-    for(auto& btn: _buttons){
+    for (auto &btn: _buttons) {
         btn.setInactivColor(BTN_INACTIVE);
-        btn.setHighlightedColor( BTN_HIGHLIGHTED);
+        btn.setHighlightedColor(BTN_HIGHLIGHTED);
     }
     updateActiveButtons();
 }
@@ -222,34 +227,40 @@ WorldMap::~WorldMap() {
 }
 
 void WorldMap::updateActiveButtons() {
-    for (auto &btn: _buttons) {
-        switch (btn.getId()) {
-            case btn_w2:
-                btn.setActive(config->worldsFinished >= 1);
-                break;
-            case btn_w3:
-                btn.setActive(config->worldsFinished >= 2);
-                break;
-            case btn_w4:
-                btn.setActive(config->worldsFinished >= 3);
-                break;
-            case btn_w5:
-                btn.setActive(config->worldsFinished >= 4);
-                break;
-            case btn_w6:
-                btn.setActive(config->worldsFinished >= 5);
-                break;
-            case btn_w7:
-                btn.setActive(config->worldsFinished >= 6);
-                break;
-            case btn_w8:
-                btn.setActive(config->worldsFinished >= 7);
-                break;
-            case btn_Editor:
-            case btn_ChooseMap:
-                btn.setActive(config->worldsFinished >= 8);
-                btn.setVisible(config->worldsFinished >= 8);
+    IfNotDebug {
+        for (auto &btn: _buttons) {
+            switch (btn.getId()) {
+                case btn_w2:
+                    btn.setActive(config->worldsFinished >= 1);
+                    break;
+                case btn_w3:
+                    btn.setActive(config->worldsFinished >= 2);
+                    break;
+                case btn_w4:
+                    btn.setActive(config->worldsFinished >= 3);
+                    break;
+                case btn_w5:
+                    btn.setActive(config->worldsFinished >= 4);
+                    break;
+                case btn_w6:
+                    btn.setActive(config->worldsFinished >= 5);
+                    break;
+                case btn_w7:
+                    btn.setActive(config->worldsFinished >= 6);
+                    break;
+                case btn_w8:
+                    btn.setActive(config->worldsFinished >= 7);
+                    break;
+                case btn_Editor:
+                case btn_ChooseMap:
+                    btn.setActive(config->worldsFinished >= 8);
+                    btn.setVisible(config->worldsFinished >= 8);
+            }
         }
     }
-
+    IfDebug {
+        for (auto &btn: _buttons) {
+            btn.setActive(true);
+        }
+    }
 }

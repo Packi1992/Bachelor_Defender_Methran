@@ -48,18 +48,18 @@ void MainMenu::Update() {
             if (btn.clicked(mousePos)) {
                 switch (btn.getId()) {
                     case btn_Start:
-                        //IfDebug {
-                        //    game.SetNextState(GS_WorldMap);
-                        //}
-                        //IfNotDebug {
-                        // only if first start of Game -> we need a config / save file
-                        if (config->worldsFinished == 0) {
-                            cout << "no worlds finished!" << endl;
-                            game.SetNextState(GS_TD);
-                            tdGlobals->setPath("gameMaps/world1.map");
-                        } else
+                        IfDebug {
                             game.SetNextState(GS_WorldMap);
-                        //}
+                        }
+                        IfNotDebug {
+                            // only if first start of Game -> we need a config / save file
+                            if (config->worldsFinished == 0) {
+                                cout << "no worlds finished!" << endl;
+                                game.SetNextState(GS_TD);
+                                tdGlobals->setPath("gameMaps/world1.map");
+                            } else
+                                game.SetNextState(GS_WorldMap);
+                        }
                         break;
                     case btn_Editor:
                         game.SetNextState(GS_Editor);
