@@ -13,9 +13,8 @@
 class Map {
 public:
     Map();
-    ~Map();
 
-    void Render(bool wire = false, bool path = false);
+    ~Map();
 
     void Update();
 
@@ -31,7 +30,7 @@ public:
 
     void setTile(Event &event, MapObjects object);
 
-    void setTile(Point p, MapObjects object);
+    void setTile(Point p, MapObjects object, bool checkEPath = false);
 
     MapObjects getObjectAtScreenPos(Point &p);
 
@@ -45,6 +44,7 @@ public:
     int _height = 20;
 
     bool checkPath(Point pos);
+
     Point getStartPoint(int i);
 
     bool blockingTile(Point point);

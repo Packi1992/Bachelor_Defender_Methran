@@ -15,8 +15,8 @@ Map::Map() {
     this->_pathMap = std::vector(_width, Vector<PathEntry>(_height));
     Surface *loadedSurface = IMG_Load(BasePath "asset/graphic/td/tileTD.png");
     _frontWall = SDL_CreateTextureFromSurface(render, loadedSurface);
-    SDL_SetTextureBlendMode(_frontWall,SDL_BlendMode::SDL_BLENDMODE_BLEND);
-    SDL_SetTextureAlphaMod(_frontWall,100);
+    SDL_SetTextureBlendMode(_frontWall, SDL_BlendMode::SDL_BLENDMODE_BLEND);
+    SDL_SetTextureAlphaMod(_frontWall, 100);
 }
 
 void Map::resize(Point size) {
@@ -101,20 +101,20 @@ void Map::RenderFrontWall() {
         if (x + scale > 0 && x < windowSize.x && yWallAbove + 2 * scale > 0 && yWallAbove < windowSize.y) {
             wallRect.x = x;
             if (i == 2)
-                rh->texture(_frontWall,&wallRect, TdTileHandler::getSrcRect(MapObjects::Door_Wall));
+                rh->texture(_frontWall, &wallRect, TdTileHandler::getSrcRect(MapObjects::Door_Wall));
             else
-                rh->texture(_frontWall,&wallRect, TdTileHandler::getSrcRect(MapObjects::Plain_Wall));
+                rh->texture(_frontWall, &wallRect, TdTileHandler::getSrcRect(MapObjects::Plain_Wall));
         }
     }
     Rect srcRect = *TdTileHandler::getSrcRect(MapObjects::Plain_Wall);
     srcRect.w = 10;
     srcRect.x += 54;
-    wallRect.x = - offset.x -scale*10/64 ;
-    wallRect.w = scale*10/64;
-    rh->texture(_tileMap,&wallRect,&srcRect);
+    wallRect.x = -offset.x - scale * 10 / 64;
+    wallRect.w = scale * 10 / 64;
+    rh->texture(_tileMap, &wallRect, &srcRect);
     srcRect.x -= 54;
-    wallRect.x = _width*scale - offset.x;
-    rh->texture(_tileMap,&wallRect,&srcRect);
+    wallRect.x = _width * scale - offset.x;
+    rh->texture(_tileMap, &wallRect, &srcRect);
 
 }
 
@@ -258,12 +258,13 @@ void Map::setTile(Event &event, MapObjects object) {
     setTile(CT::getTileInGame(p), object);
 }
 
-void Map::setTile(Point p, MapObjects object) {
+void Map::setTile(Point p, MapObjects object, bool checkEPath) {
     if (p.x < _width && p.x >= 0 && p.y < _height && p.y >= 0) {
         _map[p.x][p.y] = object;
     }
     updatePathFinding();
-    CheckEnemiesPath(p);
+    if(checkEPath)
+        CheckEnemiesPath(p);
 }
 
 MapObjects Map::getObjectAtScreenPos(Point &p) {
@@ -421,12 +422,14 @@ u16 Map::getDir(int ex, int ey, int tx, int ty) {
 bool Map::checkPath(Point pos) {
 
     if (getObject(pos) == MapObjects::Empty) {
-        setTile(pos, MapObjects::Tower);
+        setTile(pos, MapObjects::Tower, false);
         if (!updatePathFinding()) {
-            setTile(pos, MapObjects::Empty);
+            setTile(pos, MapObjects::Empty, false);
+            updatePathFinding();
             return false;
         }
-        setTile(pos, MapObjects::Empty);
+        setTile(pos, MapObjects::Empty,false);
+        updatePathFinding();
     }
     return true;
 }
@@ -460,17 +463,21 @@ void Map::CheckEnemiesPath(Point point) {
     for (auto &e: tdGlobals->_enemies) {
         if ((int) e->_nextPos.x == point.x && (int) e->_nextPos.y == point.y) {
             switch (e->_dir) {
-                case 0:
-                    e->_nextPos = {(float) point.x + 0.5f, (float) point.y - 1.5f};
+                case TOP:
+                    e->_nextPos = {e->_nextPos.x, e->_nextPos.y + 1.0f};
+                    e->_dir = BOTTOM;
                     break;
-                case 90:
-                    e->_nextPos = {(float) point.x - 0.5f, (float) point.y + 0.5f};
+                case RIGHT:
+                    e->_nextPos = {e->_nextPos.x - 1.0f, e->_nextPos.y};
+                    e->_dir = LEFT;
                     break;
-                case 180:
-                    e->_nextPos = {(float) point.x + 0.5f, (float) point.y + 1.5f};
+                case BOTTOM:
+                    e->_nextPos = {e->_nextPos.x, e->_nextPos.y - 1.0f};
+                    e->_dir = TOP;
                     break;
-                case 270:
-                    e->_nextPos = {(float) point.x - 1.5f, (float) point.y + 0.5f};
+                case LEFT:
+                    e->_nextPos = {e->_nextPos.x + 1.0f, e->_nextPos.y};
+                    e->_dir = RIGHT;
                     break;
             }
         }
