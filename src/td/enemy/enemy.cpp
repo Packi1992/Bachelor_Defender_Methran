@@ -26,8 +26,8 @@ void Enemy::Update() {
             auto runLength = (float) ((float) diff * (float) _speed * 0.00001);
             if (_slowTimer > 0) {
                 _slowTimer -= (float) diff;
-                if(_speedDiff > 100.0f)
-                    _speedDiff = 100.0f;
+                if(_speedDiff > 100)
+                    _speedDiff = 100;
                 runLength = (float) ((double) runLength * (_speedDiff / 100.0f));
             }
             if (_dir == 0)
@@ -211,9 +211,9 @@ bool Enemy::isRecursivable() const {
 Enemy::Enemy(std::shared_ptr<Enemy> e, bool recursive) {
     _pos = e->_pos;
     _nextPos = pMap->getNextPosCentre(_pos);
-    _health = e->_health * (recursive?0.8f:1.0f);
-    _maxHealth = e->_health* (recursive?0.8f:1.0f);;
-    _speed = e->_speed* (recursive?0.8f:1.0f);
+    _health = (u16)((float)e->_health * (recursive?0.8f:1.0f));
+    _maxHealth = (u16)((float)e->_health* (recursive?0.8f:1.0f));
+    _speed = (u8)((float)e->_speed* (recursive?0.8f:1.0f));
     _type = e->_type;
     _alive = true;
     _value = e->_value* (recursive?0:1);
@@ -221,7 +221,7 @@ Enemy::Enemy(std::shared_ptr<Enemy> e, bool recursive) {
     _size = e->_size* (recursive?0.8f:1.0f);
     _copycount = e->_copycount+ (recursive?1:0);
     _lastTimePoint = totalMSec;
-    _sanity = e->_sanity* (recursive?0.8f:1.0f);
+    _sanity = (u16)((float)e->_sanity* (recursive?0.8f:1.0f));
 }
 
 bool Enemy::isStunable() const {

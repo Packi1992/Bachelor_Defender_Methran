@@ -132,9 +132,9 @@ void WaveHandler::Render() {
     if (_errorNoWavesLoaded){
         // i know its not the fine way of efficient rendering
         rh->CenteredText("Es sind keine Wave Daten hinterlegt.", 50, RED, windowSize.x,
-                         windowSize.y*0.5f);
+                         (int)((float)windowSize.y*0.5f));
         rh->CenteredText("Map Data Korrupted", 50, RED, windowSize.x,
-                         windowSize.y*0.7f);
+                         (int)((float)windowSize.y*0.7f));
         rh->CenteredText("Verlasse das Game mit [ESC]", 50, RED, windowSize.x,
                          windowSize.y);
     }
