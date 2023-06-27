@@ -5,9 +5,12 @@
 #ifndef SDL_BACHELORDEFENDER_METHRANNANIM_H
 #define SDL_BACHELORDEFENDER_METHRANNANIM_H
 
+#include "anim.h"
 
-class MethrannAnim {
+class MethrannAnim: public Anim{
 
+public:
+    MethrannAnim();
 };
 
 

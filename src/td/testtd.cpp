@@ -364,7 +364,7 @@ void TestTD::keyDown(SDL_Event &event) {
 void TestTD::updateFloatingMenu() {
     _buildMenuEntries.clear();
     MenuEntry linkedListTower{MenuEntry_LinkedList, Status_Active, 10};
-    MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 5};
+    MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 3};
     MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 5};
     MenuEntry hashCanon{MenuEntry_HASHCANON, Status_Active, 5};
     MenuEntry stringTower{MenuEntry_STRINGTOWER, Status_Active, 3};
