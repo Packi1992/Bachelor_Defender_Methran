@@ -54,6 +54,8 @@ bool StunBellAnim::start() {
         _lastTimePoint = totalMSec;
         _started = true;
         _animTime = 0;
+        float x = (float) (windowSize.y) / float(windowSize.x);
+        audioHandler->playSound(SoundBell, x);
     }
     return _started;
 }

@@ -126,6 +126,8 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "asset/sound/StringAttack.wav";
 		case SoundFire:
 			return BasePath "";
+        case SoundBell:
+            return BasePath "asset/sound/bell.wav";
 		default:
 			cerr << "Not Defined Sound Type" << endl;
 			return "";

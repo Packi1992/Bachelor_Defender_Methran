@@ -105,7 +105,8 @@ enum soundType {
     SoundFire,
     SoundHashBombHit,
     SoundError,
-    SoundDisabled,
+    SoundBell,
+    SoundDisabled
 };
 
 // Menu Entries for displaying Icons in FloatingMenu
