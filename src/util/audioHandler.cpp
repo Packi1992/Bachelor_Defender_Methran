@@ -128,12 +128,12 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "";
         case SoundBell:
             return BasePath "asset/sound/bell.wav";
-		case SoundMethrannCollege:
-			return BasePath "asset/sound/MethrannHochschule.wav";
-		case SoundMethrannPhysician:
-			return BasePath "asset/sound/MethrannPhysiker.wav";
-		case SoundMethrannRun:
+		case SoundMethrannBegin:
 			return BasePath "asset/sound/MethrannRennt.wav";
+		case SoundMethrannEndHochschule:
+			return BasePath "asset/sound/MethrannHochschule.wav";
+		case SoundMethrannEndPhysiker:
+			return BasePath "asset/sound/MethrannPhysiker.wav";
 		default:
 			cerr << "Not Defined Sound Type" << endl;
 			return "";

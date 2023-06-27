@@ -540,6 +540,15 @@
     <Media Include="asset\sound\linkedListAttack.wav">
       <Filter>asset\sound</Filter>
     </Media>
+    <Media Include="asset\sound\MethrannHochschule.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\MethrannPhysiker.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\MethrannRennt.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
     <Media Include="asset\sound\ordinary.wav">
       <Filter>asset\sound</Filter>
     </Media>
@@ -560,15 +569,6 @@
     </Media>
     <Media Include="asset\sound\Darth_Vader_NO.mp3">
       <Filter>asset\music</Filter>
-    </Media>
-    <Media Include="asset\sound\MethrannHochschule.wav">
-      <Filter>asset</Filter>
-    </Media>
-    <Media Include="asset\sound\MethrannPhysiker.wav">
-      <Filter>asset</Filter>
-    </Media>
-    <Media Include="asset\sound\MethrannRennt.wav">
-      <Filter>asset</Filter>
     </Media>
   </ItemGroup>
 </Project>
