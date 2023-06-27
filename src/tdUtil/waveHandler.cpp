@@ -52,10 +52,10 @@ bool WaveHandler::load(const Vector<string> &vector1) {
 }
 
 std::string WaveHandler::save() {
-    std::stringstream s;
+    /*std::stringstream s;
     for (auto &wave: _waveVec) {
         s << "WAVE : \n" << "\n";
-    }
+    }*/
     return "";
 }
 
