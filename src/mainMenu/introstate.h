@@ -15,6 +15,7 @@ protected:
         btn_Settings,
         btn_Editor,
         btn_Exit,
+        btn_Mohrhuhn,
     };
     Texture *_image = nullptr;
     Texture *_titel = nullptr;

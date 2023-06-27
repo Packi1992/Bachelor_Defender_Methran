@@ -64,6 +64,9 @@ void MainMenu::Update() {
                     case btn_Editor:
                         game.SetNextState(GS_Editor);
                         break;
+                    case btn_Mohrhuhn:
+                        game.SetNextState(GS_Moorhuhn);
+                        break;
                     case btn_Exit:
                         game.SetNextState(GS_Close);
                         break;
@@ -105,6 +108,8 @@ MainMenu::MainMenu(Game &game) : GameState(game, GS_MainMenu) {
     _buttons.at(_buttons.size() - 1).setHighlightedColor(BTN_HIGHLIGHTED);
     IfDebug {
         _buttons.emplace_back("Editor", _fontSize, Buttons::btn_Editor, BTN_COLOR, true);
+        _buttons.at(_buttons.size() - 1).setHighlightedColor(BTN_HIGHLIGHTED);
+        _buttons.emplace_back("Moorhuhn",_fontSize,Buttons::btn_Mohrhuhn, BTN_COLOR, true);
         _buttons.at(_buttons.size() - 1).setHighlightedColor(BTN_HIGHLIGHTED);
     };
     _buttons.emplace_back("Beenden", _fontSize, Buttons::btn_Exit, BTN_COLOR, true);
