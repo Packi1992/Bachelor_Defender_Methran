@@ -136,7 +136,7 @@ LinkedListTower::LinkedListTower(Point pos) : Tower(pos) {
     _upgradeCosts = 10;
     _sellingValue = 2;
     if (pMap->getObject(pos) == Empty)
-        pMap->setTile(_rPos, MapObjects::Tower);
+        pMap->setTile(_rPos, MapObjects::Tower,true);
     _link._direction = 0;
     _link._damage = _damage;
     _link._moveable = true;

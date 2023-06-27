@@ -40,9 +40,6 @@ void TestTD::Init() {
     }
     updateUI();
     Update();
-    globals._pl._creditPoints = 200;
-    globals._pl._maxSanity = 100;
-    globals._pl._sanity = 9;
 }
 
 void TestTD::UnInit() {
@@ -126,7 +123,7 @@ void TestTD::Render() {
 }
 
 void TestTD::Update() {
-    int diff = totalMSec - _lastTimePoint;
+    u32 diff = totalMSec - _lastTimePoint;
     _lastTimePoint = totalMSec;
     if (!_gameover && !globals._wh.isOver()) {
         _floatingMenu.Update();
@@ -546,6 +543,8 @@ bool TestTD::buyTower(const std::shared_ptr<class Tower> &tower) {
 
 TestTD::TestTD(Game &game, string mapPath) : GameState(game, GS_TD) {
     tdGlobals = &globals;
+    _texMethran = t_cache->get(BasePath"asset/graphic/methran1.png");
+    SDL_QueryTexture(_texMethran, nullptr, nullptr, &MethranDst.w, &MethranDst.h);
     pGame = &game;
     pMap = &_map;
     globals._mapPath = new string(std::move(mapPath));

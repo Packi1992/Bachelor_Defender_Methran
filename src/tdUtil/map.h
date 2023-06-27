@@ -28,7 +28,7 @@ public:
     // used in game
     FPoint getNextPosCentre(FPoint p);
 
-    void setTile(Event &event, MapObjects object);
+    void setTile(Event &event, MapObjects object, bool checkEPath = false);
 
     void setTile(Point p, MapObjects object, bool checkEPath = false);
 

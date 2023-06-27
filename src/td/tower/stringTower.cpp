@@ -79,7 +79,7 @@ StringTower::StringTower(Point pos) : Tower(pos) {
     _upgradeCosts = 8;
     _sellingValue = 2;
     if (pMap->getObject(pos) == Empty)
-        pMap->setTile(_rPos, MapObjects::Tower);
+        pMap->setTile(_rPos, MapObjects::Tower, true);
 
     _stringProjectile._direction = 0;
     _stringProjectile._damage = _damage;
