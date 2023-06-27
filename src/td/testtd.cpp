@@ -17,11 +17,11 @@ void TestTD::Init() {
     DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + *(tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, WHITE, true);
-    btn_startWave.set("Start Wave",18,{});
+    btn_startWave.set("Start Wave", 18, {});
     btn_startWave.setInactivColor(BTN_INACTIVE);
-    btn_bell.set("Läute die Glocke 25 CP",18,{});
+    btn_bell.set("Läute die Glocke 25 CP", 18, {});
     btn_bell.setInactivColor(BTN_INACTIVE);
-    btn_info.set("?",25, {});
+    btn_info.set("?", 25, {});
     btn_info.setBlendet(true);
     IfDebug {
         globals._enemies.push_back(std::make_shared<Enemy>());
@@ -38,7 +38,6 @@ void TestTD::Init() {
     Update();
     _gameOverAnim.reset();
     _stunBellAnim.reset();
-    globals._pl._creditPoints = 200;
 }
 
 void TestTD::UnInit() {
@@ -100,7 +99,7 @@ void TestTD::Render() {
     btn_startWave.Render();
     btn_info.Render();
     btn_bell.Render();
-    if(_stunBellAnim.isStarted())
+    if (_stunBellAnim.isStarted())
         _stunBellAnim.Render();
     _creditPointDisplay.Render();
     for (auto &tower: globals._towers) {
@@ -121,23 +120,20 @@ void TestTD::Render() {
 }
 
 void TestTD::Update() {
-    int diff = _lastTimePoint - totalMSec;
+    int diff = totalMSec - _lastTimePoint;
     _lastTimePoint = totalMSec;
     if (!_gameover && !globals._wh.isOver()) {
         _floatingMenu.Update();
         handleFloatingMenuSelection();
 
-        if(_bellTimer>0){
-            if((int)_bellTimer - diff < 0)
-                _bellTimer = 0;
-            else
-                _bellTimer -= diff;
-            if(_bellTimer <= 0){
+        if (_bellTimer > 0) {
+            if (_bellTimer <= (u32) diff) {
                 _stunBellAnim.reset();
                 btn_bell.setActive(true);
-            }
+                _bellTimer = 0;
+            } else
+                _bellTimer -= diff;
         }
-
         btn_startWave.setActive(globals._wh.isPause());
 
         // collision detection
@@ -177,21 +173,24 @@ void TestTD::Update() {
             bool clickTower = false;
             Point cursor;
             SDL_GetMouseState(&cursor.x, &cursor.y);
-            if(btn_startWave.clicked(cursor)){
+            if (btn_startWave.clicked(cursor)) {
                 globals._wh.StartNextWave();
                 btn_startWave.setActive(false);
             }
-            if(btn_info.clicked(cursor)){
+            if (btn_info.clicked(cursor)) {
                 _infoTimer = 5000;
             }
-            if(btn_bell.clicked(cursor)){
-                _stunBellAnim.start();
-                for(auto &e: globals._enemies){
-                    e->stun(2000);
-                    //----- ---------------   trigger bell animation here -------------------------
+            if (btn_bell.clicked(cursor)) {
+                if (globals._pl._creditPoints >= 25) {
+                    globals._pl._creditPoints -= 25;
+                    _stunBellAnim.start();
+                    for (auto &e: globals._enemies) {
+                        e->stun(2000);
+                        //----- ---------------   trigger bell animation here -------------------------
+                    }
+                    btn_bell.setActive(false);
+                    _bellTimer = 30000;
                 }
-                btn_bell.setActive(false);
-                _bellTimer = 30000;
             }
             for (auto &t: globals._towers) {
                 if (t->isClicked(cursor)) {
@@ -229,8 +228,8 @@ void TestTD::Update() {
             }
         }
     }
-    if(_gameover){
-        if(_gameOverAnim.isStarted()){
+    if (_gameover) {
+        if (_gameOverAnim.isStarted()) {
             _gameOverAnim.Update();
         }
     }
@@ -256,7 +255,7 @@ void TestTD::Update() {
         }
         //config->worldsFinished
     }
-    if(_stunBellAnim.isStarted())
+    if (_stunBellAnim.isStarted())
         _stunBellAnim.Update();
     _btn_enter = false;
 }
@@ -264,7 +263,7 @@ void TestTD::Update() {
 void TestTD::collision() {
     for (auto &p: globals._projectiles) {
         if (p->_alive) {
-            for (int i = 0; i < (int)globals._enemies.size(); i++) {
+            for (int i = 0; i < (int) globals._enemies.size(); i++) {
                 if (globals._enemies.at(i)->_alive && p->collision(globals._enemies.at(i)) && p->_alive) {
                     p->collide();
                 }
@@ -414,9 +413,9 @@ void TestTD::updateUI() {
     }
     // calculate Menu Size
     _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
-    btn_startWave.setSize({30,windowSize.y-115,120,80});
-    btn_bell.setSize({btn_startWave.getX()+130,windowSize.y-115,220,80});
-    btn_info.setSize({30,30,50,50});
+    btn_startWave.setSize({30, windowSize.y - 115, 120, 80});
+    btn_bell.setSize({btn_startWave.getX() + 130, windowSize.y - 115, 220, 80});
+    btn_info.setSize({30, 30, 50, 50});
 }
 
 void TestTD::handleFloatingMenuSelection() {
