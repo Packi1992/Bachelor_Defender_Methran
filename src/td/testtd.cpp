@@ -232,6 +232,9 @@ void TestTD::Update() {
     if (_gameover) {
         if (_gameOverAnim.isStarted()) {
             _gameOverAnim.Update();
+        }else{
+            _gameOverAnim.reset();
+            _gameOverAnim.start();
         }
     }
     if (_gameover && _btn_enter) {

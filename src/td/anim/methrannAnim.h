@@ -1,0 +1,14 @@
+//
+// Created by dex on 6/27/23.
+//
+
+#ifndef SDL_BACHELORDEFENDER_METHRANNANIM_H
+#define SDL_BACHELORDEFENDER_METHRANNANIM_H
+
+
+class MethrannAnim {
+
+};
+
+
+#endif //SDL_BACHELORDEFENDER_METHRANNANIM_H

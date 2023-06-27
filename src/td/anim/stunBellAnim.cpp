@@ -6,7 +6,7 @@
 
 StunBellAnim::StunBellAnim() {
     _type = Bell;
-    _bellImg = t_cache->get(BasePath "asset/graphic/td/bell.png");
+    _texture = t_cache->get(BasePath "asset/graphic/td/bell.png");
     _direction = 0;
     _lastTimePoint = totalMSec;
 }
@@ -39,21 +39,8 @@ void StunBellAnim::Update() {
     }
 }
 
-void StunBellAnim::Render() {
-    if (!_finishAnimation) {
-        rh->texture(_bellImg, &_dstRect, _direction, TdTileHandler::getAnimSrcRect(_type, 0));
-    }
-}
-
-bool StunBellAnim::isStarted() {
-    return _started;
-}
-
 bool StunBellAnim::start() {
-    if (!_started) {
-        _lastTimePoint = totalMSec;
-        _started = true;
-        _animTime = 0;
+    if (Anim::start()) {
         float x = (float) (windowSize.y) / float(windowSize.x);
         audioHandler->playSound(SoundBell, x);
     }
@@ -61,9 +48,6 @@ bool StunBellAnim::start() {
 }
 
 void StunBellAnim::reset() {
-    _started = false;
-    _lastTimePoint = totalMSec;
-    _finishAnimation = false;
-    _direction = 0;
+    Anim::reset();
     _fDirection = 0;
 }
