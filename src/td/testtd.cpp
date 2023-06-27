@@ -40,6 +40,7 @@ void TestTD::Init() {
     }
     updateUI();
     Update();
+    audioHandler->playSound(SoundMethrannBegin);
 }
 
 void TestTD::UnInit() {
@@ -125,6 +126,13 @@ void TestTD::Render() {
 void TestTD::Update() {
     u32 diff = totalMSec - _lastTimePoint;
     _lastTimePoint = totalMSec;
+
+    //checking for death
+    if (globals._pl._sanity <= 0) {
+        _gameover = true;
+        _methrannAnim.nextStep();
+    }
+
     if (!_gameover && !globals._wh.isOver()) {
         _floatingMenu.Update();
         handleFloatingMenuSelection();
@@ -153,11 +161,6 @@ void TestTD::Update() {
         // calculate sanity bar (only every 10 frames)
         if (frame % 10 == 0) {
             updateUI();
-        }
-        //checking for death
-        if(globals._pl._sanity <= 0){
-            _gameover = true;
-            _methrannAnim.nextStep();
         }
         // Update towers
         updateTowers();

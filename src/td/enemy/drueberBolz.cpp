@@ -8,8 +8,6 @@ DrueberBolz::DrueberBolz() : BossEnemy() {
 DrueberBolz::DrueberBolz(std::shared_ptr<BossEnemy> e)
         : BossEnemy(e) {
     _recursivable = false;
-    _sanity *= 3;
-    _value *= 3;
     _type = EnemyType::Boss_Drueberbolz;
 }
 

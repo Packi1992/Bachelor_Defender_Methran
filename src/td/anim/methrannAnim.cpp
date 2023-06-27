@@ -65,8 +65,10 @@ void MethrannAnim::reset() {
 }
 
 bool MethrannAnim::start() {
-    if(!_started)
+    if (!_started) {
         _animState = 1;
+        audioHandler->playSound(SoundMethrannEndHochschule);
+    }
     return Anim::start();
 }
 
@@ -80,5 +82,6 @@ void MethrannAnim::Render() {
 }
 
 void MethrannAnim::nextStep() {
+    audioHandler->playSound(SoundMethrannEndPhysiker);
     _animState += 1;
 }

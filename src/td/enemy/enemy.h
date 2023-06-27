@@ -26,7 +26,7 @@ public:
     void stun(u16 time);
 
     // take damage
-    void takeDamage(Projectile * p);
+    virtual void takeDamage(Projectile * p);
     bool isRecursivable() const;
     // status effects for Render decoration
     [[nodiscard]] bool isStunned() const;
