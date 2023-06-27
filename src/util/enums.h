@@ -49,7 +49,10 @@ enum AnimType{
     Gameover_Top_Right,
     Gameover_Bottom_Left,
     Gameover_Bottom_Right,
-    Bell
+    Bell,
+    Default_Anim,
+    Methrann_Anim,
+    Anger_Anim,
 };
 
 enum TowerType{

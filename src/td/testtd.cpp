@@ -12,11 +12,15 @@ TDGlobals *tdGlobals{};
 
 void TestTD::Init() {
     GameState::Init();
+    _gameOverAnim.reset();
+    _stunBellAnim.reset();
+    _methrannAnim.reset();
     _lastTimePoint = totalMSec;
     globals._wh.reset();
     DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + *(tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, WHITE, true);
+
     btn_startWave.set("Start Wave", 18, {});
     btn_startWave.setInactivColor(BTN_INACTIVE);
     btn_bell.set("Läute die Glocke 25 CP", 18, {});
@@ -36,8 +40,6 @@ void TestTD::Init() {
     }
     updateUI();
     Update();
-    _gameOverAnim.reset();
-    _stunBellAnim.reset();
 }
 
 void TestTD::UnInit() {
@@ -92,8 +94,8 @@ void TestTD::Render() {
     rh->fillRect(&SanityBar, RED);
     rh->fillRect(&Sanity, GREEN);
     rh->rect(&SanityBar, 4, BLACK);
-    // Methran
-    rh->texture(_texMethran, &MethranDst);
+    if(!_gameover)
+        _methrannAnim.Render();
     // Menu
     rh->fillRect(&_menuBot, EDITOR_UI_BG);
     btn_startWave.Render();
@@ -108,6 +110,7 @@ void TestTD::Render() {
     _floatingMenu.Render();
     if (_gameover) {
         rh->background(BLACK, 128);
+        _methrannAnim.Render();
         rh->CenteredText("Game Over", 70, RED, windowSize.x, windowSize.y);
         rh->CenteredText("Drücke Enter um fortzufahren", 40, RED, windowSize.x, windowSize.y + 300);
         _gameOverAnim.Render();
@@ -152,7 +155,10 @@ void TestTD::Update() {
             updateUI();
         }
         //checking for death
-        _gameover = globals._pl._sanity <= 0;
+        if(globals._pl._sanity <= 0){
+            _gameover = true;
+            _methrannAnim.nextStep();
+        }
         // Update towers
         updateTowers();
         // update projectiles
@@ -231,9 +237,13 @@ void TestTD::Update() {
     if (_gameover) {
         if (_gameOverAnim.isStarted()) {
             _gameOverAnim.Update();
+        }else{
+            _gameOverAnim.reset();
+            _gameOverAnim.start();
         }
     }
     if (_gameover && _btn_enter) {
+        _methrannAnim.stop();
         if (config->worldsFinished == 0) {
             game.SetNextState(GS_MainMenu);
         } else {
@@ -258,6 +268,15 @@ void TestTD::Update() {
     if (_stunBellAnim.isStarted())
         _stunBellAnim.Update();
     _btn_enter = false;
+
+    float fSanity = ((float) globals._pl._sanity / (float) globals._pl._maxSanity);
+    if(fSanity < 0.1f)
+        _methrannAnim.start();
+;
+    if(_methrannAnim.isStarted())
+        _methrannAnim.Update();
+    else
+        _methrannAnim.UpdateStatic();
 }
 
 void TestTD::collision() {
@@ -360,7 +379,7 @@ void TestTD::keyDown(SDL_Event &event) {
 void TestTD::updateFloatingMenu() {
     _buildMenuEntries.clear();
     MenuEntry linkedListTower{MenuEntry_LinkedList, Status_Active, 10};
-    MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 5};
+    MenuEntry pointerTower{MenuEntry_POINTER, Status_Active, 3};
     MenuEntry recursiveTower{MenuEntry_BOOMERANG, Status_Active, 5};
     MenuEntry hashCanon{MenuEntry_HASHCANON, Status_Active, 5};
     MenuEntry stringTower{MenuEntry_STRINGTOWER, Status_Active, 3};
@@ -402,15 +421,8 @@ void TestTD::updateUI() {
     Sanity.y += SanityBar.h - sanity_left;
     Sanity.h = sanity_left;
     // calculate Methran Size
-    float MethrannScaleFactor = 0.35f * (float) windowSize.y / (float) MethranDst.h;
-    MethranDst.w = (int) (MethrannScaleFactor * (float) MethranDst.w);
-    MethranDst.h = (int) (MethrannScaleFactor * (float) MethranDst.h);
-    MethranDst.x = windowSize.x - MethranDst.w - 100;
-    MethranDst.y = windowSize.y - MethranDst.h - 100;
-    if (fSanity <= 0.1f) {
-        MethranDst.x += ((int) totalMSec / 100) % 20 * ((((int) totalMSec % 3) == 1) ? (-1) : 1);
-        MethranDst.y += ((int) totalMSec / 100) % 20 * ((((int) totalMSec % 2) == 1) ? (-1) : 1);
-    }
+
+
     // calculate Menu Size
     _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
     btn_startWave.setSize({30, windowSize.y - 115, 120, 80});
