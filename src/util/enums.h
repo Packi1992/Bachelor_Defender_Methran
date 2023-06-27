@@ -48,7 +48,8 @@ enum AnimType{
     Gameover_Top_Left,
     Gameover_Top_Right,
     Gameover_Bottom_Left,
-    Gameover_Bottom_Right
+    Gameover_Bottom_Right,
+    Bell
 };
 
 enum TowerType{
@@ -104,7 +105,8 @@ enum soundType {
     SoundFire,
     SoundHashBombHit,
     SoundError,
-    SoundDisabled,
+    SoundBell,
+    SoundDisabled
 };
 
 // Menu Entries for displaying Icons in FloatingMenu

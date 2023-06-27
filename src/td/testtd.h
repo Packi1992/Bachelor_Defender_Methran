@@ -16,6 +16,7 @@
 #include "../util/gui/floatingMenu.h"
 #include "../util/gui/TextWithValue.h"
 #include "anim/gameOverAnim.h"
+#include "anim/stunBellAnim.h"
 #include "../util/gui/Button.h"
 class Gui;
 
@@ -80,11 +81,14 @@ protected:
     FloatingMenu _floatingMenu;
     TextWithValue _creditPointDisplay;
     GameOverAnim _gameOverAnim;
+    StunBellAnim _stunBellAnim;
     Button btn_startWave;
     Button btn_bell;
     Button btn_info;
     u32 _bellTimer = 0;
     int _infoTimer;
+    u32 _lastTimePoint = 0;
+
 public:
     // window handling
 
