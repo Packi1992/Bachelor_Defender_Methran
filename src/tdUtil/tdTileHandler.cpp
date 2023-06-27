@@ -248,6 +248,7 @@ SDL_Rect *TdTileHandler::getProjectileSrcRect(ProjectileType p, unsigned long an
 SDL_Rect *TdTileHandler::getAnimSrcRect(AnimType a, unsigned long anim) {
     src = {0, 0, 64, 64};
     switch (a) {
+        case Bell:
         case Gameover:
             localAnimate = (int) ((anim) % 10);
             src.x = localAnimate * 64;

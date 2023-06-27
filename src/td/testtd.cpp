@@ -12,6 +12,7 @@ TDGlobals *tdGlobals{};
 
 void TestTD::Init() {
     GameState::Init();
+    _lastTimePoint = totalMSec;
     globals._wh.reset();
     DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + *(tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
@@ -36,6 +37,7 @@ void TestTD::Init() {
     updateUI();
     Update();
     _gameOverAnim.reset();
+    _stunBellAnim.reset();
     globals._pl._creditPoints = 200;
 }
 
@@ -47,6 +49,8 @@ void TestTD::UnInit() {
     audioHandler->stopMusic();
     globals._wh.reset();
     _bellTimer = 0;
+    btn_bell.setActive(true);
+    _lastTimePoint = totalMSec;
 }
 
 void TestTD::Render() {
@@ -96,6 +100,8 @@ void TestTD::Render() {
     btn_startWave.Render();
     btn_info.Render();
     btn_bell.Render();
+    if(_stunBellAnim.isStarted())
+        _stunBellAnim.Render();
     _creditPointDisplay.Render();
     for (auto &tower: globals._towers) {
         tower->RenderMenu();
@@ -115,16 +121,20 @@ void TestTD::Render() {
 }
 
 void TestTD::Update() {
+    int diff = _lastTimePoint - totalMSec;
+    _lastTimePoint = totalMSec;
     if (!_gameover && !globals._wh.isOver()) {
         _floatingMenu.Update();
         handleFloatingMenuSelection();
 
         if(_bellTimer>0){
-            if(deltaT.count()<_bellTimer){
-                _bellTimer -= deltaT.count();
-            }
-            else{
+            if((int)_bellTimer - diff < 0)
                 _bellTimer = 0;
+            else
+                _bellTimer -= diff;
+            if(_bellTimer <= 0){
+                _stunBellAnim.reset();
+                btn_bell.setActive(true);
             }
         }
 
@@ -175,12 +185,13 @@ void TestTD::Update() {
                 _infoTimer = 5000;
             }
             if(btn_bell.clicked(cursor)){
+                _stunBellAnim.start();
                 for(auto &e: globals._enemies){
                     e->stun(2000);
-                    btn_bell.setActive(false);
-                    _bellTimer = 30000;
                     //----- ---------------   trigger bell animation here -------------------------
                 }
+                btn_bell.setActive(false);
+                _bellTimer = 30000;
             }
             for (auto &t: globals._towers) {
                 if (t->isClicked(cursor)) {
@@ -245,6 +256,8 @@ void TestTD::Update() {
         }
         //config->worldsFinished
     }
+    if(_stunBellAnim.isStarted())
+        _stunBellAnim.Update();
     _btn_enter = false;
 }
 
