@@ -16,6 +16,7 @@ private:
     u32 _lastTimePoint = 0;
     bool _finishAnimation = false;
     Texture * _bellImg = nullptr;
+    float _fDirection = 0.0f;
     int _direction = 0;
 public:
     StunBellAnim();

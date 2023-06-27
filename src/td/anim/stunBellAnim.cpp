@@ -7,6 +7,8 @@
 StunBellAnim::StunBellAnim() {
     _type = Bell;
     _bellImg = t_cache->get(BasePath "asset/graphic/td/bell.png");
+    _direction = 0;
+    _lastTimePoint = totalMSec;
 }
 
 void StunBellAnim::Update() {
@@ -17,10 +19,23 @@ void StunBellAnim::Update() {
         _posOnScreen = {(int) ((float) windowSize.x * 0.5f), (int) ((float) windowSize.y * 0.5f)};
         _dstRect = {(int) ((float) _posOnScreen.x - (float) size * 0.5f),
                     (int) ((float) _posOnScreen.y - (float) size * 0.5f), size, size};
+        u32 step = _animTime;
+        if (step < 167) {
+            _fDirection += 1.6f;
+            _direction = (int) (_fDirection) % 360;
+        } else if ((step >= 176) && (step <= 500)) {
+            _fDirection += 358.4f;
+            _direction = (int) (_fDirection) % 360;
+        } else if ((step > 500) && (step <= 883)) {
+            _fDirection += 1.6f;
+            _direction = (int) (_fDirection) % 360;
+        } else {
+            _fDirection += 358.4f;
+            _direction = (int) (_fDirection) % 360;
+        }
         if (_animTime / 100 % 10 >= 9) {
             _finishAnimation = true;
         }
-        _direction = (360 - (15 * ((_animTime % 2 == 0) ? 1 : -1))) % 360;
     }
 }
 
@@ -45,7 +60,8 @@ bool StunBellAnim::start() {
 
 void StunBellAnim::reset() {
     _started = false;
-    _lastTimePoint = 0;
+    _lastTimePoint = totalMSec;
     _finishAnimation = false;
     _direction = 0;
+    _fDirection = 0;
 }
