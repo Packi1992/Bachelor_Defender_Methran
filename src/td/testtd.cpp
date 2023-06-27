@@ -38,7 +38,6 @@ void TestTD::Init() {
     Update();
     _gameOverAnim.reset();
     _stunBellAnim.reset();
-    //globals._pl._creditPoints = 200;
 }
 
 void TestTD::UnInit() {
@@ -121,7 +120,7 @@ void TestTD::Render() {
 }
 
 void TestTD::Update() {
-    int diff = totalMSec - _lastTimePoint;
+    u32 diff = totalMSec - _lastTimePoint;
     _lastTimePoint = totalMSec;
     if (!_gameover && !globals._wh.isOver()) {
         _floatingMenu.Update();
