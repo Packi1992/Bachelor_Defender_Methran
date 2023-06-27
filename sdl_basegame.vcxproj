@@ -327,6 +327,9 @@
     <Media Include="asset\sound\hashCanonShot.wav" />
     <Media Include="asset\sound\linkedListActive.wav" />
     <Media Include="asset\sound\linkedListAttack.wav" />
+    <Media Include="asset\sound\MethrannHochschule.wav" />
+    <Media Include="asset\sound\MethrannPhysiker.wav" />
+    <Media Include="asset\sound\MethrannRennt.wav" />
     <Media Include="asset\sound\ordinary.wav" />
     <Media Include="asset\sound\StringAttack.wav" />
     <Media Include="asset\sound\StringTower.wav" />

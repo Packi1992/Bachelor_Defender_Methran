@@ -106,6 +106,9 @@ enum soundType {
     SoundHashBombHit,
     SoundError,
     SoundBell,
+    SoundMethrannCollege,
+    SoundMethrannPhysician,
+    SoundMethrannRun,
     SoundDisabled
 };
 
