@@ -84,7 +84,7 @@ void MethrannAnim::Render() {
 
 void MethrannAnim::nextStep() {
     if (totalMSec - _lastSoundTimePoint > 2500) {
-        audioHandler->playSound(SoundMethrannEndPhysiker);
+        audioHandler->playSound(SoundMethrannEndBachelor);
         _lastSoundTimePoint = totalMSec;
     }
     _animState += 1;

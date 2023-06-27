@@ -33,7 +33,6 @@ void BossEnemy::takeDamage(Projectile* p) {
     if (_health == 0) {
         startDeathAnimation();
         tdGlobals->_pl._creditPoints += this->_value;
-        collide();
         _alive = false;
         audioHandler->playSound(getSoundName());
     }
@@ -42,9 +41,4 @@ void BossEnemy::takeDamage(Projectile* p) {
 
 soundType BossEnemy::getSoundName() {
 	return SoundError;
-}
-
-void BossEnemy::collide() {
-	float x = (float)(CT::getPosOnScreen(_pos).x) / float(windowSize.x);
-	audioHandler->playSound(getSoundName(), x);
 }

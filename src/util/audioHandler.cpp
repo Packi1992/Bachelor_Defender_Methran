@@ -110,8 +110,8 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "asset/sound/StringTower.wav";
 		case SoundEnemyOrdinary:
 			return BasePath "asset/sound/ordinary.wav";
-		case SoundFrolePoehlich:
-			return BasePath "asset/sound/ordinary.wav";
+		case SoundFrohlePoehlich:
+			return BasePath "asset/sound/MethrannErodiert.wav";
 		case SoundDrueberbolz:
 			return BasePath "asset/sound/MethrannPhysiker.wav";
 		case SoundArrowHit: 
@@ -132,8 +132,8 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "asset/sound/MethrannRennt.wav";
 		case SoundMethrannEndHochschule:
 			return BasePath "asset/sound/MethrannHochschule.wav";
-		case SoundMethrannEndPhysiker:
-			return BasePath "asset/sound/MethrannPhysiker.wav";
+		case SoundMethrannEndBachelor:
+			return BasePath "asset/sound/MethrannBachelor.wav";
 		default:
 			cerr << "Not Defined Sound Type" << endl;
 			return "";

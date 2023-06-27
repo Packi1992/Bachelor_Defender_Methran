@@ -12,5 +12,5 @@ FrolePoehlich::FrolePoehlich(std::shared_ptr<BossEnemy> e)
 }
 
 soundType FrolePoehlich::getSoundName() {
-    return SoundFrolePoehlich;
+    return SoundFrohlePoehlich;
 }
