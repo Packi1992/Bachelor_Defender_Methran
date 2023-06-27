@@ -85,6 +85,9 @@
     <ClInclude Include="src\td\anim\gameOverAnim.h">
       <Filter>src\td\anim</Filter>
     </ClInclude>
+    <ClInclude Include="src\td\anim\stunBellAnim.h">
+      <Filter>src\td\anim</Filter>
+    </ClInclude>
     <ClInclude Include="src\td\enemy\bossEnemy.h">
       <Filter>src\td\enemy</Filter>
     </ClInclude>
@@ -236,6 +239,7 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="classdiagram.drawio" />
+    <None Include="CMakeSettings.json" />
     <None Include="LICENSE" />
     <None Include="newTiles.pdn" />
     <None Include="old_README.md" />
@@ -370,6 +374,9 @@
       <Filter>src\td</Filter>
     </ClCompile>
     <ClCompile Include="src\td\anim\gameOverAnim.cpp">
+      <Filter>src\td\anim</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\anim\stunBellAnim.cpp">
       <Filter>src\td\anim</Filter>
     </ClCompile>
     <ClCompile Include="src\td\enemy\bossEnemy.cpp">
@@ -513,6 +520,9 @@
       <Filter>asset\music</Filter>
     </Media>
     <Media Include="asset\sound\ArrowHit.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\bell.wav">
       <Filter>asset\sound</Filter>
     </Media>
     <Media Include="asset\sound\BoomerangAttack.wav">
