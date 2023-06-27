@@ -19,6 +19,7 @@ protected:
     Texture *_texture = nullptr;
     float _fDirection = 0.0f;
     int _direction = 0;
+    u32 _lastSoundTimePoint = 0;
 public:
     Anim();
 

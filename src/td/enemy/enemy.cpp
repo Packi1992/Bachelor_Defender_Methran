@@ -71,8 +71,8 @@ void Enemy::collide() {
 }
 
 void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size, uint copycount) {
-    _pos.x = (float) pos.x + 0.5f;
-    _pos.y = (float) pos.y + 0.5f;
+    _pos.x = (float)pos.x + 0.5f;
+    _pos.y = (float)pos.y + 0.5f;
     _nextPos = pMap->getNextPosCentre(_pos);
     updateDir();
     _health = health;
@@ -86,6 +86,34 @@ void Enemy::setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyT
     _value = value;
     _size = size;
     _copycount = copycount;
+}
+
+void Enemy::setEnemy(const GameEvent *ev) {
+    Point pos = pMap->getStartPoint(ev->SpawnPoint);
+    _pos.x = (float) pos.x + 0.5f;
+    _pos.y = (float) pos.y + 0.5f;
+    _nextPos = pMap->getNextPosCentre(_pos);
+    updateDir();
+    _health = ev->health;
+    _maxHealth = ev->health;
+    _sanity = ev->sanity;
+    _speed = ev->speed;
+    _copycount = 0;
+    if (ev->type == Ordinary) {
+        _type = (totalMSec % 4 > 0) ? Boy : Girl;
+    }
+    _alive = true;
+    _value = ev->value;
+    switch (ev->type) {
+    case Boss_Frohle_Poehlich:
+        _size = 1.2f;
+        break;
+    case Boss_Drueberbolz:
+        _size = 1.2f;
+        break;
+    default:
+        _size = 1.0f;
+    }
 }
 
 void Enemy::startDeathAnimation() {

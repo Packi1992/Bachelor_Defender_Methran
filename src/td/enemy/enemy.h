@@ -3,6 +3,7 @@
 #define SDL_BASEGAME_ENEMY_H
 
 #include "../../util/global.h"
+#include "../../tdUtil/Wave.h"
 class Projectile;
 class Enemy {
 public:
@@ -14,7 +15,8 @@ public:
     virtual void Render() const;
     void RenderExtras(bool life=false, bool hitBox=false) const;
     // use Enemy slot for new enemy spawn
-    void setEnemy(Point pos, u16 Health, u8 speed, u8 value,EnemyType type = EnemyType::Ordinary, float size = 1.0f, uint copycount = 0);
+    void setEnemy(const GameEvent *ev);
+    void setEnemy(Point pos, uint16_t health, uint8_t speed, u8 value, EnemyType type, float size, uint copycount);
 
     // setTile enemy speed -- maybe a buff or something else
     void setSpeed(u8 speed);

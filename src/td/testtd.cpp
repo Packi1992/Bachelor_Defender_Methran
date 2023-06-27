@@ -128,7 +128,7 @@ void TestTD::Update() {
     _lastTimePoint = totalMSec;
 
     //checking for death
-    if (globals._pl._sanity <= 0) {
+    if (!_gameover && globals._pl._sanity <= 0) {
         _gameover = true;
         _methrannAnim.nextStep();
     }
@@ -558,19 +558,19 @@ void TestTD::handleEvent(const GameEvent &event) {
         case Boss_Drueberbolz: {
             std::shared_ptr<DrueberBolz> e = std::make_shared<DrueberBolz>();
             e->_alive = true;
-            e->set(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            e->setEnemy(&event);
             globals._enemies.push_back(std::make_shared<DrueberBolz>(e));
             break;
         }
         case Boss_Frohle_Poehlich: {
             std::shared_ptr<FrolePoehlich> e = std::make_shared<FrolePoehlich>();
-            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            e->setEnemy(&event);
             globals._enemies.push_back(std::make_shared<FrolePoehlich>(e));
             break;
         }
         default: {
             std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
-            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            e->setEnemy(&event);
             globals._enemies.push_back(e);
             break;
         }

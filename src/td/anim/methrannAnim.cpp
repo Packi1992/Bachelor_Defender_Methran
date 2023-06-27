@@ -68,6 +68,7 @@ bool MethrannAnim::start() {
     if (!_started) {
         _animState = 1;
         audioHandler->playSound(SoundMethrannEndHochschule);
+        _lastSoundTimePoint = totalMSec;
     }
     return Anim::start();
 }
@@ -82,6 +83,9 @@ void MethrannAnim::Render() {
 }
 
 void MethrannAnim::nextStep() {
-    audioHandler->playSound(SoundMethrannEndPhysiker);
+    if (totalMSec - _lastSoundTimePoint > 2500) {
+        audioHandler->playSound(SoundMethrannEndPhysiker);
+        _lastSoundTimePoint = totalMSec;
+    }
     _animState += 1;
 }
