@@ -163,3 +163,7 @@ void WaveHandler::reset() {
 void WaveHandler::StartNextWave() {
     _pause = 0;
 }
+
+bool WaveHandler::isPause() {
+    return _pause>0;
+}

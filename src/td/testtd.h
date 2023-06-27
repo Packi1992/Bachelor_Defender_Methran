@@ -81,7 +81,9 @@ protected:
     TextWithValue _creditPointDisplay;
     GameOverAnim _gameOverAnim;
     Button btn_startWave;
+    Button btn_bell;
     Button btn_info;
+    u32 _bellTimer = 0;
     int _infoTimer;
 public:
     // window handling

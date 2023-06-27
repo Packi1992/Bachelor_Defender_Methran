@@ -17,6 +17,9 @@ void TestTD::Init() {
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, WHITE, true);
     btn_startWave.set("Start Wave",18,{});
+    btn_startWave.setInactivColor(BTN_INACTIVE);
+    btn_bell.set("Läute die Glocke 25 CP",18,{});
+    btn_bell.setInactivColor(BTN_INACTIVE);
     btn_info.set("?",25, {});
     btn_info.setBlendet(true);
     IfDebug {
@@ -33,6 +36,7 @@ void TestTD::Init() {
     updateUI();
     Update();
     _gameOverAnim.reset();
+    globals._pl._creditPoints = 200;
 }
 
 void TestTD::UnInit() {
@@ -42,6 +46,7 @@ void TestTD::UnInit() {
     globals._enemies.clear();
     audioHandler->stopMusic();
     globals._wh.reset();
+    _bellTimer = 0;
 }
 
 void TestTD::Render() {
@@ -90,6 +95,7 @@ void TestTD::Render() {
     rh->fillRect(&_menuBot, EDITOR_UI_BG);
     btn_startWave.Render();
     btn_info.Render();
+    btn_bell.Render();
     _creditPointDisplay.Render();
     for (auto &tower: globals._towers) {
         tower->RenderMenu();
@@ -112,6 +118,17 @@ void TestTD::Update() {
     if (!_gameover && !globals._wh.isOver()) {
         _floatingMenu.Update();
         handleFloatingMenuSelection();
+
+        if(_bellTimer>0){
+            if(deltaT.count()<_bellTimer){
+                _bellTimer -= deltaT.count();
+            }
+            else{
+                _bellTimer = 0;
+            }
+        }
+
+        btn_startWave.setActive(globals._wh.isPause());
 
         // collision detection
         collision();
@@ -152,9 +169,18 @@ void TestTD::Update() {
             SDL_GetMouseState(&cursor.x, &cursor.y);
             if(btn_startWave.clicked(cursor)){
                 globals._wh.StartNextWave();
+                btn_startWave.setActive(false);
             }
             if(btn_info.clicked(cursor)){
                 _infoTimer = 5000;
+            }
+            if(btn_bell.clicked(cursor)){
+                for(auto &e: globals._enemies){
+                    e->stun(2000);
+                    btn_bell.setActive(false);
+                    _bellTimer = 30000;
+                    //----- ---------------   trigger bell animation here -------------------------
+                }
             }
             for (auto &t: globals._towers) {
                 if (t->isClicked(cursor)) {
@@ -376,6 +402,7 @@ void TestTD::updateUI() {
     // calculate Menu Size
     _menuBot = {0, windowSize.y - 150, windowSize.x, 150};
     btn_startWave.setSize({30,windowSize.y-115,120,80});
+    btn_bell.setSize({btn_startWave.getX()+130,windowSize.y-115,220,80});
     btn_info.setSize({30,30,50,50});
 }
 

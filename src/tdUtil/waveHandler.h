@@ -8,6 +8,7 @@
 
 #include "../util/global.h"
 #include "Wave.h"
+#include "../util/gui/Button.h"
 
 class WaveHandler{
 public:
@@ -24,6 +25,8 @@ public:
     void init();
     void StartNextWave();
     void reset();
+
+    bool isPause();
 
 private:
     Vector<Wave> _waveVec;
