@@ -18,6 +18,8 @@
 #include "anim/gameOverAnim.h"
 #include "anim/stunBellAnim.h"
 #include "../util/gui/Button.h"
+#include "anim/methrannAnim.h"
+
 class Gui;
 
 struct TDGlobals {
@@ -82,6 +84,7 @@ protected:
     TextWithValue _creditPointDisplay;
     GameOverAnim _gameOverAnim;
     StunBellAnim _stunBellAnim;
+    MethrannAnim _methrannAnim;
     Button btn_startWave;
     Button btn_bell;
     Button btn_info;

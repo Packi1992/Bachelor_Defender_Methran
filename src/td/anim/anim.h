@@ -20,6 +20,8 @@ protected:
     float _fDirection = 0.0f;
     int _direction = 0;
 public:
+    Anim();
+
     virtual void Update();
 
     virtual void Render();
@@ -27,6 +29,8 @@ public:
     virtual bool isStarted();
 
     virtual bool start();
+
+    virtual bool stop();
 
     virtual void reset();
 };

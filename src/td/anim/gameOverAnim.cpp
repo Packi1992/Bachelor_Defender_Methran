@@ -4,7 +4,7 @@
 
 #include "gameOverAnim.h"
 
-GameOverAnim::GameOverAnim() {
+GameOverAnim::GameOverAnim():Anim() {
     _type = Gameover;
 }
 

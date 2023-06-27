@@ -4,6 +4,11 @@
 
 #include "anim.h"
 
+Anim::Anim() {
+    _direction = 0;
+    _lastTimePoint = totalMSec;
+}
+
 void Anim::Update() {
 
 }
@@ -32,4 +37,9 @@ void Anim::reset() {
     _lastTimePoint = totalMSec;
     _finishAnimation = false;
     _direction = 0;
+}
+
+bool Anim::stop() {
+    _finishAnimation = true;
+    return true;
 }

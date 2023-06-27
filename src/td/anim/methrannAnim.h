@@ -7,10 +7,20 @@
 
 #include "anim.h"
 
-class MethrannAnim: public Anim{
-
+class MethrannAnim : public Anim {
+    u16 _animState = 0;
+    Texture * _angerSymbol = nullptr;
+    Rect _angerRect{};
 public:
     MethrannAnim();
+
+    void Render() override;
+    void Update() override;
+    void UpdateStatic();
+    void reset() override;
+    bool start() override;
+
+    void nextStep();
 };
 
 

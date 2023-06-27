@@ -4,11 +4,9 @@
 
 #include "stunBellAnim.h"
 
-StunBellAnim::StunBellAnim() {
+StunBellAnim::StunBellAnim() : Anim(){
     _type = Bell;
     _texture = t_cache->get(BasePath "asset/graphic/td/bell.png");
-    _direction = 0;
-    _lastTimePoint = totalMSec;
 }
 
 void StunBellAnim::Update() {
