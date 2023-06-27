@@ -38,7 +38,7 @@ void TestTD::Init() {
     Update();
     _gameOverAnim.reset();
     _stunBellAnim.reset();
-    globals._pl._creditPoints = 200;
+    //globals._pl._creditPoints = 200;
 }
 
 void TestTD::UnInit() {
@@ -190,7 +190,7 @@ void TestTD::Update() {
                         //----- ---------------   trigger bell animation here -------------------------
                     }
                     btn_bell.setActive(false);
-                    _bellTimer = 3000;
+                    _bellTimer = 30000;
                 }
             }
             for (auto &t: globals._towers) {
