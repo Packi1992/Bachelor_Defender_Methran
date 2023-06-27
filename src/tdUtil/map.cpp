@@ -253,9 +253,9 @@ bool Map::load(const Vector<string> &data) {
     return widthLoaded && heightLoaded && !meta;
 }
 
-void Map::setTile(Event &event, MapObjects object) {
+void Map::setTile(Event &event, MapObjects object, bool checkEPath) {
     Point p = {event.motion.x, event.motion.y};
-    setTile(CT::getTileInGame(p), object);
+    setTile(CT::getTileInGame(p), object, checkEPath);
 }
 
 void Map::setTile(Point p, MapObjects object, bool checkEPath) {

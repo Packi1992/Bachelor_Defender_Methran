@@ -86,7 +86,7 @@ HashCanon::HashCanon(Point pos) : Tower(pos) {
     _upgradeCosts = 10;
     _sellingValue = 3;
     if (pMap->getObject(pos) == Empty)
-        pMap->setTile(_rPos, MapObjects::Tower);
+        pMap->setTile(_rPos, MapObjects::Tower, true);
 
     _hashbomb._direction = 0;
     _hashbomb._damage = 0;
