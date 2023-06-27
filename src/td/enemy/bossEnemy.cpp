@@ -4,8 +4,6 @@
 BossEnemy::BossEnemy() {
 	_stunable = false;
     _recursivable = false;
-	_sanity *= 3;
-	_value *= 3;
 }
 
 BossEnemy::BossEnemy(std::shared_ptr<Enemy> e)
@@ -30,13 +28,17 @@ BossEnemy::BossEnemy(std::shared_ptr<BossEnemy> e) {
     _sanity = e->_sanity;
 }
 
+void BossEnemy::takeDamage(Projectile* p) {
+    _health < p->_damage ? _health = 0 : _health -= p->_damage;
+    if (_health == 0) {
+        startDeathAnimation();
+        tdGlobals->_pl._creditPoints += this->_value;
+        _alive = false;
+        audioHandler->playSound(getSoundName());
+    }
+}
+
 
 soundType BossEnemy::getSoundName() {
 	return SoundError;
-}
-
-void BossEnemy::collide() {
-	float x = (float)(CT::getPosOnScreen(_pos).x) / float(windowSize.x);
-	audioHandler->playSound(getSoundName(), x);
-	cout << getSoundName() << endl;
 }

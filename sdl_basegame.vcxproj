@@ -144,7 +144,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
@@ -166,7 +166,10 @@
     <ClCompile Include="src\tdUtil\tdTileHandler.cpp" />
     <ClCompile Include="src\tdUtil\Wave.cpp" />
     <ClCompile Include="src\tdUtil\waveHandler.cpp" />
+    <ClCompile Include="src\td\anim\anim.cpp" />
     <ClCompile Include="src\td\anim\gameOverAnim.cpp" />
+    <ClCompile Include="src\td\anim\methrannAnim.cpp" />
+    <ClCompile Include="src\td\anim\stunBellAnim.cpp" />
     <ClCompile Include="src\td\enemy\bossEnemy.cpp" />
     <ClCompile Include="src\td\enemy\drueberBolz.cpp" />
     <ClCompile Include="src\td\enemy\enemy.cpp" />
@@ -215,7 +218,10 @@
     <ClInclude Include="src\tdUtil\tdTileHandler.h" />
     <ClInclude Include="src\tdUtil\Wave.h" />
     <ClInclude Include="src\tdUtil\waveHandler.h" />
+    <ClInclude Include="src\td\anim\anim.h" />
     <ClInclude Include="src\td\anim\gameOverAnim.h" />
+    <ClInclude Include="src\td\anim\methrannAnim.h" />
+    <ClInclude Include="src\td\anim\stunBellAnim.h" />
     <ClInclude Include="src\td\enemy\bossEnemy.h" />
     <ClInclude Include="src\td\enemy\drueberBolz.h" />
     <ClInclude Include="src\td\enemy\enemy.h" />
@@ -268,6 +274,7 @@
     <None Include="asset\music\severance.ogg" />
     <None Include="asset\_music\severance.ogg" />
     <None Include="classdiagram.drawio" />
+    <None Include="CMakeSettings.json" />
     <None Include="LICENSE" />
     <None Include="Maps\gameMaps\world1.map" />
     <None Include="Maps\gameMaps\world2.map" />
@@ -303,6 +310,8 @@
     <Image Include="asset\graphic\fire.png" />
     <Image Include="asset\graphic\methran1.png" />
     <Image Include="asset\graphic\poison.png" />
+    <Image Include="asset\graphic\td\anger.png" />
+    <Image Include="asset\graphic\td\bell.png" />
     <Image Include="asset\graphic\td\floatingMenu.png" />
     <Image Include="asset\graphic\td\tileTD.png" />
     <Image Include="asset\graphic\tf_tileSet.png" />
@@ -318,11 +327,15 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="asset\music\testsound.wav" />
+    <Media Include="asset\sound\bell.wav" />
     <Media Include="asset\sound\BoomerangAttack.wav" />
     <Media Include="asset\sound\explosion.wav" />
     <Media Include="asset\sound\hashCanonShot.wav" />
     <Media Include="asset\sound\linkedListActive.wav" />
     <Media Include="asset\sound\linkedListAttack.wav" />
+    <Media Include="asset\sound\MethrannHochschule.wav" />
+    <Media Include="asset\sound\MethrannPhysiker.wav" />
+    <Media Include="asset\sound\MethrannRennt.wav" />
     <Media Include="asset\sound\ordinary.wav" />
     <Media Include="asset\sound\StringAttack.wav" />
     <Media Include="asset\sound\StringTower.wav" />

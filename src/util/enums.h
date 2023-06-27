@@ -99,7 +99,7 @@ enum soundType {
     SoundRecursivTower,
     SoundStringTower,
     SoundEnemyOrdinary,
-    SoundFrolePoehlich,
+    SoundFrohlePoehlich,
     SoundDrueberbolz,
     SoundArrowHit,
     SoundBoomerangHit,
@@ -109,6 +109,9 @@ enum soundType {
     SoundHashBombHit,
     SoundError,
     SoundBell,
+    SoundMethrannBegin,
+    SoundMethrannEndHochschule,
+    SoundMethrannEndBachelor,
     SoundDisabled
 };
 

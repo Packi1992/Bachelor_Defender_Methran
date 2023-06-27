@@ -40,6 +40,7 @@ void TestTD::Init() {
     }
     updateUI();
     Update();
+    audioHandler->playSound(SoundMethrannBegin);
 }
 
 void TestTD::UnInit() {
@@ -125,6 +126,13 @@ void TestTD::Render() {
 void TestTD::Update() {
     u32 diff = totalMSec - _lastTimePoint;
     _lastTimePoint = totalMSec;
+
+    //checking for death
+    if (!_gameover && globals._pl._sanity <= 0) {
+        _gameover = true;
+        _methrannAnim.nextStep();
+    }
+
     if (!_gameover && !globals._wh.isOver()) {
         _floatingMenu.Update();
         handleFloatingMenuSelection();
@@ -153,11 +161,6 @@ void TestTD::Update() {
         // calculate sanity bar (only every 10 frames)
         if (frame % 10 == 0) {
             updateUI();
-        }
-        //checking for death
-        if(globals._pl._sanity <= 0){
-            _gameover = true;
-            _methrannAnim.nextStep();
         }
         // Update towers
         updateTowers();
@@ -555,19 +558,19 @@ void TestTD::handleEvent(const GameEvent &event) {
         case Boss_Drueberbolz: {
             std::shared_ptr<DrueberBolz> e = std::make_shared<DrueberBolz>();
             e->_alive = true;
-            e->set(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            e->setEnemy(&event);
             globals._enemies.push_back(std::make_shared<DrueberBolz>(e));
             break;
         }
         case Boss_Frohle_Poehlich: {
             std::shared_ptr<FrolePoehlich> e = std::make_shared<FrolePoehlich>();
-            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            e->setEnemy(&event);
             globals._enemies.push_back(std::make_shared<FrolePoehlich>(e));
             break;
         }
         default: {
             std::shared_ptr<Enemy> e = std::make_shared<Enemy>();
-            e->setEnemy(pMap->getStartPoint(event.SpawnPoint), event.health, event.speed, event.value, event.type);
+            e->setEnemy(&event);
             globals._enemies.push_back(e);
             break;
         }

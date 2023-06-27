@@ -82,7 +82,16 @@
     <ClInclude Include="src\td\testtd.h">
       <Filter>src\td</Filter>
     </ClInclude>
+    <ClInclude Include="src\td\anim\anim.h">
+      <Filter>src\td\anim</Filter>
+    </ClInclude>
     <ClInclude Include="src\td\anim\gameOverAnim.h">
+      <Filter>src\td\anim</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\anim\methrannAnim.h">
+      <Filter>src\td\anim</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\anim\stunBellAnim.h">
       <Filter>src\td\anim</Filter>
     </ClInclude>
     <ClInclude Include="src\td\enemy\bossEnemy.h">
@@ -236,6 +245,7 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="classdiagram.drawio" />
+    <None Include="CMakeSettings.json" />
     <None Include="LICENSE" />
     <None Include="newTiles.pdn" />
     <None Include="old_README.md" />
@@ -349,6 +359,12 @@
     <Image Include="asset\graphic\editor\blocked.png">
       <Filter>asset\graphic\editor</Filter>
     </Image>
+    <Image Include="asset\graphic\td\anger.png">
+      <Filter>asset\graphic\td</Filter>
+    </Image>
+    <Image Include="asset\graphic\td\bell.png">
+      <Filter>asset\graphic\td</Filter>
+    </Image>
     <Image Include="asset\graphic\td\floatingMenu.png">
       <Filter>asset\graphic\td</Filter>
     </Image>
@@ -369,7 +385,16 @@
     <ClCompile Include="src\td\testtd.cpp">
       <Filter>src\td</Filter>
     </ClCompile>
+    <ClCompile Include="src\td\anim\anim.cpp">
+      <Filter>src\td\anim</Filter>
+    </ClCompile>
     <ClCompile Include="src\td\anim\gameOverAnim.cpp">
+      <Filter>src\td\anim</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\anim\methrannAnim.cpp">
+      <Filter>src\td\anim</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\anim\stunBellAnim.cpp">
       <Filter>src\td\anim</Filter>
     </ClCompile>
     <ClCompile Include="src\td\enemy\bossEnemy.cpp">
@@ -515,6 +540,9 @@
     <Media Include="asset\sound\ArrowHit.wav">
       <Filter>asset\sound</Filter>
     </Media>
+    <Media Include="asset\sound\bell.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
     <Media Include="asset\sound\BoomerangAttack.wav">
       <Filter>asset\sound</Filter>
     </Media>
@@ -528,6 +556,15 @@
       <Filter>asset\sound</Filter>
     </Media>
     <Media Include="asset\sound\linkedListAttack.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\MethrannHochschule.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\MethrannPhysiker.wav">
+      <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\sound\MethrannRennt.wav">
       <Filter>asset\sound</Filter>
     </Media>
     <Media Include="asset\sound\ordinary.wav">
@@ -544,6 +581,12 @@
     </Media>
     <Media Include="asset\sound\thriee.wav">
       <Filter>asset\sound</Filter>
+    </Media>
+    <Media Include="asset\_music\testsound.wav">
+      <Filter>asset\music</Filter>
+    </Media>
+    <Media Include="asset\sound\Darth_Vader_NO.mp3">
+      <Filter>asset\music</Filter>
     </Media>
   </ItemGroup>
 </Project>

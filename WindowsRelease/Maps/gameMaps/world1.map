@@ -1,0 +1,87 @@
+PLAYER-START
+SANITY :25
+CREDIT-POINTS :20
+TOWER-ENTRY :1
+PLAYER-END
+MAP-START
+WIDTH :16
+HEIGHT:6
+ARRAY :
+ROW 0;3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 
+ROW 1;0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 
+ROW 2;1; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 2; 
+ROW 3;0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 
+ROW 4;3; 3; 0; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 3; 
+ROW 5;4; 4; 0; 4; 4; 4; 4; 4; 4; 4; 4; 4; 4; 4; 4; 4; 
+MAP-END
+WAVES-START
+//WAVE :
+// EVENT :GameEvenets, EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
+///NAME :Normalen Studenten
+//EVENT :0;0;0;1;1;1;1;100;100;
+//EVENT :0;0;500;1;1;1;1;100;100;
+//EVENT :0;0;750;1;1;1;1;100;100;
+//EVENT :0;0;1000;1;1;1;1;100;100;
+//EVENT :0;0;1500;1;1;1;1;100;100;
+//EVENT :0;0;2000;1;1;1;1;100;100;
+//EVENT :0;0;2250;1;1;1;1;100;100;
+//EVENT :0;0;2500;1;1;1;1;100;100;
+//EVENT :0;0;2750;1;1;1;1;100;100;
+//EVENT :0;0;2950;1;1;1;1;100;100;
+//EVENT :0;0;3200;1;1;1;1;100;100;
+//WAVE-END:
+//WAVE :
+// EVENT :GameEvenets, EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
+//NAME :Zweit Semester Tutoren
+//EVENT :0;0;0;1;1;3;2;100;220;
+//EVENT :0;0;2000;1;1;3;2;100;220;
+//EVENT :0;0;4000;1;1;3;2;100;220;
+//EVENT :0;0;6000;1;1;3;2;100;220;
+//EVENT :0;0;8000;1;1;3;2;100;220;
+//EVENT :0;0;8200;1;1;3;2;100;220;
+//EVENT :0;0;8400;1;1;3;2;100;220;
+//EVENT :0;0;8600;1;1;3;2;100;220;
+//WAVE-END:
+//WAVE :
+// EVENT :GameEvenets, EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
+//NAME :Hobby Spieleentwickler
+//EVENT :0;0;0;1;1;5;5;100;300;
+//EVENT :0;0;500;1;1;5;5;100;300;
+//EVENT :0;0;1000;1;1;5;5;100;300;
+//EVENT :0;0;1500;1;1;5;5;100;300;
+//EVENT :0;0;2000;1;1;5;5;100;300;
+//EVENT :0;0;2500;1;1;5;5;100;300;
+//EVENT :0;0;3000;1;1;5;5;100;300;
+//EVENT :0;0;3500;1;1;5;5;100;300;
+//EVENT :0;0;4000;1;1;5;5;100;300;
+//EVENT :0;0;4500;1;1;5;5;100;300;
+//EVENT :0;0;5000;1;1;5;5;100;300;
+//EVENT :0;0;5500;1;1;5;5;100;300;
+//EVENT :0;0;6000;1;1;5;5;100;300;
+//EVENT :0;0;6500;1;1;5;5;100;300;
+//EVENT :0;0;7000;1;1;5;5;100;300;
+//EVENT :0;0;7500;1;1;5;5;100;300;
+//EVENT :0;0;8000;1;1;5;5;100;300;
+//EVENT :0;0;8500;1;1;5;5;100;300;
+//WAVE-END:
+WAVE :
+// EVENT :GameEvenets, EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
+NAME :DrueberBolz
+EVENT :0;5;0;1;1;20;100;100;1;
+WAVE-END:
+WAVE :
+// EVENT :GameEvenets, EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
+NAME :FrohlePoehlich
+EVENT :0;4;0;1;1;20;100;100;1;
+WAVE-END:
+WAVE :
+// EVENT :GameEvenets, EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
+NAME :DrueberBolz
+EVENT :0;5;0;1;1;20;24;100;10000;
+WAVE-END:
+WAVE :
+// EVENT :GameEvenets, EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
+NAME :DrueberBolz
+EVENT :0;5;0;1;1;20;100;100;10000;
+WAVE-END:
+WAVES-END

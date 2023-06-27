@@ -46,7 +46,7 @@ void AudioHandler::playSound(soundType sound, float x) {
 		right = 510 * x;
 	}
 	if (_soundmixArray[sound]) {
-		int channel = Mix_PlayChannelTimed(-1, _soundmixArray[sound],0, 1500);
+		int channel = Mix_PlayChannelTimed(-1, _soundmixArray[sound],0, 2500);
 		Mix_SetPanning(channel, left, right);
 	}
 	return;
@@ -110,10 +110,10 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "asset/sound/StringTower.wav";
 		case SoundEnemyOrdinary:
 			return BasePath "asset/sound/ordinary.wav";
-		case SoundFrolePoehlich:
-			return BasePath "asset/sound/ordinary.wav";
+		case SoundFrohlePoehlich:
+			return BasePath "asset/sound/MethrannErodiert.wav";
 		case SoundDrueberbolz:
-			return BasePath "asset/sound/ordinary.wav";
+			return BasePath "asset/sound/MethrannPhysiker.wav";
 		case SoundArrowHit: 
 			return BasePath "asset/sound/arrowHit.wav";
 		case SoundBoomerangHit:
@@ -128,6 +128,12 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "";
         case SoundBell:
             return BasePath "asset/sound/bell.wav";
+		case SoundMethrannBegin:
+			return BasePath "asset/sound/MethrannRennt.wav";
+		case SoundMethrannEndHochschule:
+			return BasePath "asset/sound/MethrannHochschule.wav";
+		case SoundMethrannEndBachelor:
+			return BasePath "asset/sound/MethrannBachelor.wav";
 		default:
 			cerr << "Not Defined Sound Type" << endl;
 			return "";
