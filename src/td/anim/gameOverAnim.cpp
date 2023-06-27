@@ -4,7 +4,7 @@
 
 #include "gameOverAnim.h"
 
-GameOverAnim::GameOverAnim() {
+GameOverAnim::GameOverAnim():Anim() {
     _type = Gameover;
 }
 
@@ -55,19 +55,7 @@ void GameOverAnim::Render() {
     }
 }
 
-bool GameOverAnim::isStarted() {
-    if (!_started) {
-        _lastTimePoint = totalMSec;
-        _started = true;
-        _animTime = 0;
-    }
-    return _started;
-}
-
 void GameOverAnim::reset() {
-    _started = false;
-    _lastTimePoint = 0;
-    _renderParts = false;
+    Anim::reset();
     _partDirection = 0;
-    _finishAnimation = false;
 }

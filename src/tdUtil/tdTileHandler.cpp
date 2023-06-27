@@ -249,10 +249,7 @@ SDL_Rect *TdTileHandler::getAnimSrcRect(AnimType a, unsigned long anim) {
     src = {0, 0, 64, 64};
     switch (a) {
         case Bell:
-            src.x = 0;
-            src.y = 0;
-            src.w = 1024;
-            src.h = 1024;
+            return nullptr;
         case Gameover:
             localAnimate = (int) ((anim) % 10);
             src.x = localAnimate * 64;
@@ -282,6 +279,9 @@ SDL_Rect *TdTileHandler::getAnimSrcRect(AnimType a, unsigned long anim) {
             src.w = 32;
             src.h = 32;
             break;
+        case Methrann_Anim:
+        case Anger_Anim:
+            return nullptr;
         default:
             cerr << "Type not implemented";
             return nullptr;
