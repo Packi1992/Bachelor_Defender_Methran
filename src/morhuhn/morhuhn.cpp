@@ -69,7 +69,7 @@ void Moorhuhn::Update() {
     for (huhn e: _enenmies) {
         if(e.alive){
             e.pos.x += e.speed * (int)diff;
-            e.drift = (int)(50.0*cos((totalMSec%360)/180.0*M_PI));
+            e.drift = (int)(20.0*cos((totalMSec%360)/180.0*M_PI));
             if(e.pos.x>windowSize.x+50 || e.pos.x + 50 < 0)
                 e.alive = false;
         }
@@ -77,7 +77,7 @@ void Moorhuhn::Update() {
     if(_spawnTimer==0){
         _spawnTimer = (100-_timerCount)*50;
         for (int i = 100; i>_timerCount/5; i--){
-            for(huhn e: _enenmies){
+            for(huhn &e: _enenmies){
                 if(!e.alive){
                     e.alive = true;
                     bool left =  totalMSec%2==0;
@@ -90,7 +90,7 @@ void Moorhuhn::Update() {
                         e.pos.x = windowSize.x -1;
                     }
                     e.drift = (int)totalMSec%360;
-                    e.pos.y = (int)(windowSize.y * (100/((int)totalMSec%90+1)))+150;
+                    e.pos.y = (int)(windowSize.y * (((int)totalMSec%90+1)/100))+150;
                     e.size = (int)(totalMSec % 3)*30;
                     break;
                 }
@@ -107,6 +107,7 @@ void Moorhuhn::Render() {
     for (huhn e: _enenmies) {
         if (e.alive) {
             enemy = {e.pos.x,e.pos.y+e.drift,e.size,e.size};
+            //rh->fillRect(&enemy,BLACK);
             rh->texture(_tileMap,&enemy,TdTileHandler::getSrcRect(Goal,(&enemy,(e.start+totalMSec)/10)));
         }
     }
