@@ -167,6 +167,7 @@
     <ClCompile Include="src\tdUtil\Wave.cpp" />
     <ClCompile Include="src\tdUtil\waveHandler.cpp" />
     <ClCompile Include="src\td\anim\gameOverAnim.cpp" />
+    <ClCompile Include="src\td\anim\stunBellAnim.cpp" />
     <ClCompile Include="src\td\enemy\bossEnemy.cpp" />
     <ClCompile Include="src\td\enemy\drueberBolz.cpp" />
     <ClCompile Include="src\td\enemy\enemy.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="src\tdUtil\Wave.h" />
     <ClInclude Include="src\tdUtil\waveHandler.h" />
     <ClInclude Include="src\td\anim\gameOverAnim.h" />
+    <ClInclude Include="src\td\anim\stunBellAnim.h" />
     <ClInclude Include="src\td\enemy\bossEnemy.h" />
     <ClInclude Include="src\td\enemy\drueberBolz.h" />
     <ClInclude Include="src\td\enemy\enemy.h" />
@@ -318,6 +320,7 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="asset\music\testsound.wav" />
+    <Media Include="asset\sound\bell.wav" />
     <Media Include="asset\sound\BoomerangAttack.wav" />
     <Media Include="asset\sound\explosion.wav" />
     <Media Include="asset\sound\hashCanonShot.wav" />
