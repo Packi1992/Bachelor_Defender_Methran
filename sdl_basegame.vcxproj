@@ -166,7 +166,9 @@
     <ClCompile Include="src\tdUtil\tdTileHandler.cpp" />
     <ClCompile Include="src\tdUtil\Wave.cpp" />
     <ClCompile Include="src\tdUtil\waveHandler.cpp" />
+    <ClCompile Include="src\td\anim\anim.cpp" />
     <ClCompile Include="src\td\anim\gameOverAnim.cpp" />
+    <ClCompile Include="src\td\anim\methrannAnim.cpp" />
     <ClCompile Include="src\td\anim\stunBellAnim.cpp" />
     <ClCompile Include="src\td\enemy\bossEnemy.cpp" />
     <ClCompile Include="src\td\enemy\drueberBolz.cpp" />
@@ -216,7 +218,9 @@
     <ClInclude Include="src\tdUtil\tdTileHandler.h" />
     <ClInclude Include="src\tdUtil\Wave.h" />
     <ClInclude Include="src\tdUtil\waveHandler.h" />
+    <ClInclude Include="src\td\anim\anim.h" />
     <ClInclude Include="src\td\anim\gameOverAnim.h" />
+    <ClInclude Include="src\td\anim\methrannAnim.h" />
     <ClInclude Include="src\td\anim\stunBellAnim.h" />
     <ClInclude Include="src\td\enemy\bossEnemy.h" />
     <ClInclude Include="src\td\enemy\drueberBolz.h" />
@@ -306,6 +310,8 @@
     <Image Include="asset\graphic\fire.png" />
     <Image Include="asset\graphic\methran1.png" />
     <Image Include="asset\graphic\poison.png" />
+    <Image Include="asset\graphic\td\anger.png" />
+    <Image Include="asset\graphic\td\bell.png" />
     <Image Include="asset\graphic\td\floatingMenu.png" />
     <Image Include="asset\graphic\td\tileTD.png" />
     <Image Include="asset\graphic\tf_tileSet.png" />

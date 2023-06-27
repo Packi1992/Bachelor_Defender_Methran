@@ -82,7 +82,13 @@
     <ClInclude Include="src\td\testtd.h">
       <Filter>src\td</Filter>
     </ClInclude>
+    <ClInclude Include="src\td\anim\anim.h">
+      <Filter>src\td\anim</Filter>
+    </ClInclude>
     <ClInclude Include="src\td\anim\gameOverAnim.h">
+      <Filter>src\td\anim</Filter>
+    </ClInclude>
+    <ClInclude Include="src\td\anim\methrannAnim.h">
       <Filter>src\td\anim</Filter>
     </ClInclude>
     <ClInclude Include="src\td\anim\stunBellAnim.h">
@@ -353,6 +359,12 @@
     <Image Include="asset\graphic\editor\blocked.png">
       <Filter>asset\graphic\editor</Filter>
     </Image>
+    <Image Include="asset\graphic\td\anger.png">
+      <Filter>asset\graphic\td</Filter>
+    </Image>
+    <Image Include="asset\graphic\td\bell.png">
+      <Filter>asset\graphic\td</Filter>
+    </Image>
     <Image Include="asset\graphic\td\floatingMenu.png">
       <Filter>asset\graphic\td</Filter>
     </Image>
@@ -373,7 +385,13 @@
     <ClCompile Include="src\td\testtd.cpp">
       <Filter>src\td</Filter>
     </ClCompile>
+    <ClCompile Include="src\td\anim\anim.cpp">
+      <Filter>src\td\anim</Filter>
+    </ClCompile>
     <ClCompile Include="src\td\anim\gameOverAnim.cpp">
+      <Filter>src\td\anim</Filter>
+    </ClCompile>
+    <ClCompile Include="src\td\anim\methrannAnim.cpp">
       <Filter>src\td\anim</Filter>
     </ClCompile>
     <ClCompile Include="src\td\anim\stunBellAnim.cpp">
