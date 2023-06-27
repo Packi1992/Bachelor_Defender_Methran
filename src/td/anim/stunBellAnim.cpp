@@ -6,6 +6,7 @@
 
 StunBellAnim::StunBellAnim() {
     _type = Bell;
+    _bellImg = t_cache->get(BasePath "asset/graphic/td/bell.png");
 }
 
 void StunBellAnim::Update() {
@@ -19,12 +20,13 @@ void StunBellAnim::Update() {
         if (_animTime / 100 % 10 >= 9) {
             _finishAnimation = true;
         }
+        _direction = (360 - (15 * ((_animTime % 2 == 0) ? 1 : -1))) % 360;
     }
 }
 
 void StunBellAnim::Render() {
     if (!_finishAnimation) {
-        rh->tile(&_dstRect, 0, TdTileHandler::getAnimSrcRect(_type, _animTime / 100));
+        rh->texture(_bellImg, &_dstRect, _direction, TdTileHandler::getAnimSrcRect(_type, 0));
     }
 }
 
@@ -45,4 +47,5 @@ void StunBellAnim::reset() {
     _started = false;
     _lastTimePoint = 0;
     _finishAnimation = false;
+    _direction = 0;
 }

@@ -249,6 +249,10 @@ SDL_Rect *TdTileHandler::getAnimSrcRect(AnimType a, unsigned long anim) {
     src = {0, 0, 64, 64};
     switch (a) {
         case Bell:
+            src.x = 0;
+            src.y = 0;
+            src.w = 1024;
+            src.h = 1024;
         case Gameover:
             localAnimate = (int) ((anim) % 10);
             src.x = localAnimate * 64;
