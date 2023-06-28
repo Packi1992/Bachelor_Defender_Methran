@@ -35,6 +35,9 @@ void Config::loadConfig() {
                 if (line.substr(0, 18) == ("totalCreditPoints:")) {
                     totalCreditPointsEarned = (long) strtol(line.substr(18).c_str(), nullptr, 10);
                 }
+                if (line.substr(0, 18) == ("moorhuhnHighscore:")) {
+                    highscoreMoorhuhn = (int) strtol(line.substr(18).c_str(), nullptr, 10);
+                }
             }
         }
     }
@@ -52,6 +55,7 @@ void Config::safeConfig() {
     s << "totalBosses:" << totalBossesKilled << "\n";
     s << "worldNR:" << worldsFinished << "\n";
     s << "totalCreditPoints:" << totalCreditPointsEarned << "\n";
+    s << "moorhuhnHighscore:" << highscoreMoorhuhn << "\n";
     std::ofstream oStream;
 
     oStream.open(_configPath);

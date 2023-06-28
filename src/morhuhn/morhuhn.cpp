@@ -9,8 +9,9 @@ void Moorhuhn::Init() {
     _lastTimePoint = totalMSec;
     _tileMap = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
     _bg = t_cache->get(BasePath "asset/graphic/bg-main.png");
-    timer.set("Timer: ", &_timerCount, {windowSize.x / 2, 50}, 20, WHITE, true);
-    killCount.set("Killed Certificates", &_killedCertificates, {100, 50}, 20, WHITE, true);
+    _uiTimer.set("Zeit übrig: ", &_timerCount, {windowSize.x / 2, 50}, 20, WHITE, true);
+    _uiKillCount.set("Vernichtete Zertifikate", &_killedCertificates, {100, 50}, 20, WHITE, true);
+    _uiHighscore.set("Highscore: ",&config->highscoreMoorhuhn,{windowSize.x-250,50},20,WHITE,true);
     _timer = 100000;
     _timerCount = 1;
 }
@@ -47,6 +48,10 @@ void Moorhuhn::Events() {
 
 void Moorhuhn::Update() {
     if (_timer <= 0 && !_end) {
+        if(_killedCertificates > config->highscoreMoorhuhn){
+            config->highscoreMoorhuhn = _killedCertificates;
+            config->safeConfig();
+        }
         if (_killedCertificates >= 100) {
             text += "du hast ";
             text += std::to_string(_killedCertificates);
@@ -178,8 +183,9 @@ void Moorhuhn::Render() {
         }
     }
     rh->fillRect(&ui_bg, BLACK);
-    timer.Render();
-    killCount.Render();
+    _uiTimer.Render();
+    _uiKillCount.Render();
+    _uiHighscore.Render();
     if (_end) {
         if (_gameover) {
             rh->background(BLACK, 128);
