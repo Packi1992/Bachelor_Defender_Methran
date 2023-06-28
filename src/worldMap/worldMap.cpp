@@ -76,31 +76,34 @@ void WorldMap::Update() {
                             game.SetNextState(GS_Moorhuhn);
                             break;
                         case btn_w4:
-                            tdGlobals->setPath("gameMaps/world3.map");
-                            game.SetNextState(GS_TD);
-                            break;
-                        case btn_w5:
                             tdGlobals->setPath("gameMaps/world4.map");
                             game.SetNextState(GS_TD);
                             break;
-                        case btn_w6:
+                        case btn_w5:
                             tdGlobals->setPath("gameMaps/world5.map");
                             game.SetNextState(GS_TD);
                             break;
-                        case btn_w7:
+                        case btn_w6:
                             tdGlobals->setPath("gameMaps/world6.map");
                             game.SetNextState(GS_TD);
                             break;
-                        case btn_w8:
+                        case btn_w7:
                             tdGlobals->setPath("gameMaps/world7.map");
                             game.SetNextState(GS_TD);
                             break;
-                        case btn_w9:
+                        case btn_w8:
                             tdGlobals->setPath("gameMaps/world8.map");
+                            game.SetNextState(GS_TD);
+                            break;
+                        case btn_w9:
+                            tdGlobals->setPath("gameMaps/world9.map");
                             game.SetNextState(GS_TD);
                             break;
                         case btn_Editor:
                             game.SetNextState(GS_Editor);
+                            break;
+                        case btn_Credit:
+                            game.SetNextState(GS_Credits);
                             break;
                         case btn_ChooseMap:
                             mapSelector.set(BasePath"Maps/", ".map");
@@ -181,6 +184,12 @@ void WorldMap::Update() {
                         size.w = (int) ((float) windowSize.x * 0.20f);
                         _button.setSize(size);
                         break;
+                    case btn_Credit:
+                        size.x = (int) ((float) windowSize.x * 0.43f);
+                        size.y = (int) ((float) windowSize.y * 0.05f);
+                        size.w = (int) ((float) windowSize.x * 0.15f);
+                        _button.setSize(size);
+                        break;
                     case btn_backToMain:
                         size.x = (int) ((float) windowSize.x * 0.35f);
                         size.y = (int) ((float) windowSize.y * 0.90f);
@@ -218,9 +227,11 @@ WorldMap::WorldMap(Game &game) : GameState(game, GS_WorldMap) {
     IfDebug {
         _buttons.emplace_back("Editor", _fontSize, btn_Editor);
         _buttons.emplace_back("Eigene Map", _fontSize, btn_ChooseMap);
+        _buttons.emplace_back("Credits",_fontSize,btn_Credit);
     }
     IfNotDebug {
-        if (config->worldsFinished >= 7) {
+        if (config->worldsFinished >= 9) {
+            _buttons.emplace_back("Credits",_fontSize,btn_Credit);
             _buttons.emplace_back("Editor", _fontSize, btn_Editor);
             _buttons.emplace_back("Eigene Map", _fontSize, btn_ChooseMap);
         }

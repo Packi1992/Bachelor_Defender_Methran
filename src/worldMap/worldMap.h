@@ -22,6 +22,7 @@ protected:
         btn_w8,
         btn_w9,
         btn_Editor,
+        btn_Credit,
         btn_ChooseMap,
         btn_backToMain,
     };
