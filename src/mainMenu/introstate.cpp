@@ -109,8 +109,8 @@ MainMenu::MainMenu(Game &game) : GameState(game, GS_MainMenu) {
     IfDebug {
         _buttons.emplace_back("Editor", _fontSize, Buttons::btn_Editor, BTN_COLOR, true);
         _buttons.at(_buttons.size() - 1).setHighlightedColor(BTN_HIGHLIGHTED);
-        _buttons.emplace_back("Moorhuhn",_fontSize,Buttons::btn_Mohrhuhn, BTN_COLOR, true);
-        _buttons.at(_buttons.size() - 1).setHighlightedColor(BTN_HIGHLIGHTED);
+        //_buttons.emplace_back("Moorhuhn",_fontSize,Buttons::btn_Mohrhuhn, BTN_COLOR, true);
+       // _buttons.at(_buttons.size() - 1).setHighlightedColor(BTN_HIGHLIGHTED);
     };
     _buttons.emplace_back("Beenden", _fontSize, Buttons::btn_Exit, BTN_COLOR, true);
     _buttons.at(_buttons.size() - 1).setHighlightedColor(BTN_HIGHLIGHTED);
