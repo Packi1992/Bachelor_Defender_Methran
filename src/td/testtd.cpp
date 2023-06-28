@@ -95,7 +95,7 @@ void TestTD::Render() {
     rh->fillRect(&SanityBar, RED);
     rh->fillRect(&Sanity, GREEN);
     rh->rect(&SanityBar, 4, BLACK);
-    if(!_gameover)
+    if (!_gameover)
         _methrannAnim.Render();
     // Menu
     rh->fillRect(&_menuBot, EDITOR_UI_BG);
@@ -240,7 +240,7 @@ void TestTD::Update() {
     if (_gameover) {
         if (_gameOverAnim.isStarted()) {
             _gameOverAnim.Update();
-        }else{
+        } else {
             _gameOverAnim.reset();
             _gameOverAnim.start();
         }
@@ -261,11 +261,12 @@ void TestTD::Update() {
                 config->worldsFinished = mapNr;
                 config->safeConfig();
             }
-            if (config->worldsFinished == 0)
-                game.SetNextState(GS_MainMenu);
-            else
-                game.SetNextState(GS_WorldMap);
         }
+        if (config->worldsFinished == 0)
+            game.SetNextState(GS_MainMenu);
+        else
+            game.SetNextState(GS_WorldMap);
+
         //config->worldsFinished
     }
     if (_stunBellAnim.isStarted())
@@ -273,10 +274,9 @@ void TestTD::Update() {
     _btn_enter = false;
 
     float fSanity = ((float) globals._pl._sanity / (float) globals._pl._maxSanity);
-    if(fSanity < 0.1f)
-        _methrannAnim.start();
-;
-    if(_methrannAnim.isStarted())
+    if (fSanity < 0.1f)
+        _methrannAnim.start();;
+    if (_methrannAnim.isStarted())
         _methrannAnim.Update();
     else
         _methrannAnim.UpdateStatic();
@@ -338,6 +338,7 @@ void TestTD::Events() {
 }
 
 void TestTD::keyDown(SDL_Event &event) {
+    cout << event.key.keysym.scancode << " =  ENTER" << SDL_SCANCODE_RETURN << endl;
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
             if (globals.editor)

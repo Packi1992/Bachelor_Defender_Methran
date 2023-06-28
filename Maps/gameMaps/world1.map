@@ -17,7 +17,7 @@ MAP-END
 WAVES-START
 WAVE :
 // EVENT :GameEvenets, EnemyType, Time, count, SpawnPoint, value, Sanity, Speed, health
-/NAME :Normalen Studenten
+NAME :Normalen Studenten
 EVENT :0;0;0;1;1;1;1;100;100;
 EVENT :0;0;500;1;1;1;1;100;100;
 EVENT :0;0;750;1;1;1;1;100;100;
