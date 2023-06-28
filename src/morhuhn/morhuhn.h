@@ -17,16 +17,28 @@ struct huhn{
     int drift = 0;
     bool alive = false;
 };
+
+struct deathAnim{
+    Rect pos{};
+    int size=0;
+    u32 start=0;
+    u32 anim =0;
+    bool done= true;
+};
 class Moorhuhn: public GameState  {
 private:
     Texture *_tileMap{};
+    Texture *_bg{};
+    Rect _bgRect{};
     huhn _enenmies[100];
+    deathAnim _anims[100];
     int _killedCertificates=0;
-    u32 _timer=0;
+    int32_t _timer=0;
     int _timerCount=0;
     u32 _lastTimePoint=0;
     u32 _spawnTimer=0;
     bool _mbLeft = false;
+    bool _btnReturn = false;
     Point _cursor{};
 
     Rect ui_bg{};
@@ -34,6 +46,9 @@ private:
 
     TextWithValue timer{};
     TextWithValue killCount{};
+
+    string text{};
+    bool _end = false;
 
 public:
     explicit Moorhuhn(Game &game);

@@ -20,6 +20,7 @@ protected:
         btn_w6,
         btn_w7,
         btn_w8,
+        btn_w9,
         btn_Editor,
         btn_ChooseMap,
         btn_backToMain,
