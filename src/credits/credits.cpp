@@ -18,10 +18,15 @@ constexpr const char * text =
 void Credits::Init() {
     GameState::Init();
     blendedText = t_cache->getWrappedText(text,36,windowSize.x-200,&srcRect,WHITE);
+    _creditAnim.reset();
+    _creditAnim.start();
 }
 
 void Credits::UnInit() {
     GameState::UnInit();
+    _creditAnim.stop();
+    _creditAnim.reset();
+    SDL_DestroyTexture(blendedText);
 }
 
 void Credits::Events() {
@@ -61,11 +66,13 @@ void Credits::Update() {
     _btnReturn = false;
     textRect = {100,50,windowSize.x-
                 200,srcRect.h};
+    _creditAnim.Update();
 }
 
 void Credits::Render() {
     rh->background(BLACK);
     rh->texture(blendedText,&textRect);
+    _creditAnim.Render();
 }
 
 Credits::Credits(Game &game): GameState(game,GS_Credits) {
