@@ -7,6 +7,7 @@
 
 
 #include "../util/gamebase.h"
+#include "../td/anim/creditAnim.h"
 
 class Credits: public GameState {
 private:
@@ -16,6 +17,7 @@ private:
     Texture *blendedText{};
     Rect textRect{};
     Rect srcRect{};
+    CreditAnim _creditAnim;
 public:
     explicit Credits(Game &game);
     void Init() override;

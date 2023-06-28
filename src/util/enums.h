@@ -53,6 +53,7 @@ enum AnimType{
     Default_Anim,
     Methrann_Anim,
     Anger_Anim,
+    Credit_Anim,
 };
 
 enum TowerType{
