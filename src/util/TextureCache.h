@@ -7,8 +7,10 @@
 
 #include "global.h"
 #include "../tdUtil/tdTileHandler.h"
+#include "SDL.h"
 class TextureCache;
 #include "renderHelper.h"
+
 
 class TextureCache {
 
@@ -22,6 +24,7 @@ public:
     // get Text textures
     Texture *getText(const char *string, u8 size, Rect *sRect = nullptr, t_color TextColor=BLACK);
     Texture *getText(string *string, u8 size, Rect *sRect = nullptr, t_color TextColor=BLACK);
+    Texture *getWrappedText(const char* string, u8 size, int width, Rect *sRect = nullptr, t_color TextColor=BLACK);
     Texture *getNumber(int Number, int size, t_color fgC, Rect *sRect = nullptr);
     TextureCache(TextureCache &other) = delete;
     void operator=(const TextureCache &) = delete;
