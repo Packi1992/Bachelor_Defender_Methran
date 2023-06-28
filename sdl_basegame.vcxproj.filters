@@ -238,6 +238,7 @@
     <ClInclude Include="src\worldMap\worldMap.h">
       <Filter>src\worldMap</Filter>
     </ClInclude>
+    <ClInclude Include="src\morhuhn\morhuhn.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
@@ -532,6 +533,7 @@
     <ClCompile Include="src\worldMap\worldMap.cpp">
       <Filter>src\worldMap</Filter>
     </ClCompile>
+    <ClCompile Include="src\morhuhn\morhuhn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="asset\music\testsound.wav">

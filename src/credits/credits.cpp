@@ -8,7 +8,7 @@ constexpr const char * text =
         "                                       --Bachelor Defender Credits --\n\n"
         "Game Design: Giona Mendicino, Jonas Westhofen, Patrick Gehlich\n"
         "Sound Design: Jonas Westhofen, Giona Mendicino, Patrick Gehlich\n"
-        "Windows Unterstützung: Jonas Westhofenm, Patrick Gehlich, Giona Mendicino\n"
+        "Windows Unterstützung: Jonas Westhofen, Patrick Gehlich, Giona Mendicino\n"
         "Grafik Design: Angelina Mendicino, Giona Mendicino\n"
         "Mathematik: Patrick Gehlich\n"
         "Refactoring: Patrick Gehlich\n"

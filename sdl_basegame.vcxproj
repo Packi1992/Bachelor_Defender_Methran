@@ -158,8 +158,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\bddgame.cpp" />
+    <ClCompile Include="src\credits\credits.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mainMenu\introstate.cpp" />
+    <ClCompile Include="src\morhuhn\morhuhn.cpp" />
     <ClCompile Include="src\tdEditor\editor.cpp" />
     <ClCompile Include="src\tdUtil\map.cpp" />
     <ClCompile Include="src\tdUtil\player.cpp" />
@@ -167,6 +169,7 @@
     <ClCompile Include="src\tdUtil\Wave.cpp" />
     <ClCompile Include="src\tdUtil\waveHandler.cpp" />
     <ClCompile Include="src\td\anim\anim.cpp" />
+    <ClCompile Include="src\td\anim\creditAnim.cpp" />
     <ClCompile Include="src\td\anim\gameOverAnim.cpp" />
     <ClCompile Include="src\td\anim\methrannAnim.cpp" />
     <ClCompile Include="src\td\anim\stunBellAnim.cpp" />
@@ -211,7 +214,9 @@
     <ClCompile Include="src\util\TextureCache.cpp" />
     <ClCompile Include="src\worldMap\worldMap.cpp" />
     <ClInclude Include="src\bddgame.h" />
+    <ClInclude Include="src\credits\credits.h" />
     <ClInclude Include="src\mainMenu\introstate.h" />
+    <ClInclude Include="src\morhuhn\morhuhn.h" />
     <ClInclude Include="src\tdEditor\editor.h" />
     <ClInclude Include="src\tdUtil\map.h" />
     <ClInclude Include="src\tdUtil\player.h" />
@@ -219,6 +224,7 @@
     <ClInclude Include="src\tdUtil\Wave.h" />
     <ClInclude Include="src\tdUtil\waveHandler.h" />
     <ClInclude Include="src\td\anim\anim.h" />
+    <ClInclude Include="src\td\anim\creditAnim.h" />
     <ClInclude Include="src\td\anim\gameOverAnim.h" />
     <ClInclude Include="src\td\anim\methrannAnim.h" />
     <ClInclude Include="src\td\anim\stunBellAnim.h" />
@@ -326,13 +332,14 @@
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="asset\music\testsound.wav" />
     <Media Include="asset\sound\bell.wav" />
     <Media Include="asset\sound\BoomerangAttack.wav" />
     <Media Include="asset\sound\explosion.wav" />
     <Media Include="asset\sound\hashCanonShot.wav" />
     <Media Include="asset\sound\linkedListActive.wav" />
     <Media Include="asset\sound\linkedListAttack.wav" />
+    <Media Include="asset\sound\MethrannBachelor.wav" />
+    <Media Include="asset\sound\MethrannErodiert.wav" />
     <Media Include="asset\sound\MethrannHochschule.wav" />
     <Media Include="asset\sound\MethrannPhysiker.wav" />
     <Media Include="asset\sound\MethrannRennt.wav" />
