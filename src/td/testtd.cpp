@@ -120,6 +120,7 @@ void TestTD::Render() {
 }
 
 void TestTD::Update() {
+
     u32 diff = totalMSec - _lastTimePoint;
     _lastTimePoint = totalMSec;
     if (!_gameover && !globals._wh.isOver()) {
@@ -247,6 +248,10 @@ void TestTD::Update() {
             if (config->worldsFinished < mapNr) {
                 config->worldsFinished = mapNr;
                 config->safeConfig();
+                if(mapNr == 9){
+                    game.SetNextState(GS_Credits);
+                    return;
+                }
             }
             if (config->worldsFinished == 0)
                 game.SetNextState(GS_MainMenu);

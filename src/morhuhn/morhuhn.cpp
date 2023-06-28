@@ -11,7 +11,7 @@ void Moorhuhn::Init() {
     _bg = t_cache->get(BasePath "asset/graphic/bg-main.png");
     _uiTimer.set("Zeit übrig: ", &_timerCount, {windowSize.x / 2, 50}, 20, WHITE, true);
     _uiKillCount.set("Vernichtete Zertifikate", &_killedCertificates, {100, 50}, 20, WHITE, true);
-    _uiHighscore.set("Highscore: ",&config->highscoreMoorhuhn,{windowSize.x-250,50},20,WHITE,true);
+    _uiHighscore.set("Highscore: ", &config->highscoreMoorhuhn, {windowSize.x - 250, 50}, 20, WHITE, true);
     _timer = 100000;
     _timerCount = 1;
 }
@@ -48,7 +48,7 @@ void Moorhuhn::Events() {
 
 void Moorhuhn::Update() {
     if (_timer <= 0 && !_end) {
-        if(_killedCertificates > config->highscoreMoorhuhn){
+        if (_killedCertificates > config->highscoreMoorhuhn) {
             config->highscoreMoorhuhn = _killedCertificates;
             config->safeConfig();
         }
@@ -78,8 +78,8 @@ void Moorhuhn::Update() {
         u32 diff = totalMSec - _lastTimePoint;
         _lastTimePoint = totalMSec;
         SDL_GetMouseState(&_cursor.x, &_cursor.y);
-        if (_timer > (int)diff) {
-            _timer -= (int)diff;
+        if (_timer > (int) diff) {
+            _timer -= (int) diff;
         } else {
             _timer = 0;
         }
@@ -94,21 +94,23 @@ void Moorhuhn::Update() {
         if (_mbLeft) {
             _mbLeft = false;
             for (huhn &e: _enenmies) {
-                if (abs((e.pos.y + e.size / 2) - _cursor.y) < (e.size - 10) &&
-                    abs((e.pos.x + e.size / 2) - _cursor.x) < (e.size - 10)) {
-                    e.alive = false;
-                    _killedCertificates++;
-                    for (auto &deathanim: _anims) {
-                        if (deathanim.done) {
-                            audioHandler->playSound(SoundHashCanon, (float) e.pos.x / (float) windowSize.x);
-                            deathanim.done = false;
-                            deathanim.start = totalMSec;
-                            deathanim.size = e.size;
-                            deathanim.pos = {e.pos.x, e.pos.y + e.drift, e.size, e.size};
-                            break;
+                if (e.alive) {
+                    if (abs((e.pos.y + e.size / 2) - _cursor.y) < (e.size - 10) &&
+                        abs((e.pos.x + e.size / 2) - _cursor.x) < (e.size - 10)) {
+                        e.alive = false;
+                        _killedCertificates++;
+                        for (auto &deathanim: _anims) {
+                            if (deathanim.done) {
+                                audioHandler->playSound(SoundHashCanon, (float) e.pos.x / (float) windowSize.x);
+                                deathanim.done = false;
+                                deathanim.start = totalMSec;
+                                deathanim.size = e.size;
+                                deathanim.pos = {e.pos.x, e.pos.y + e.drift, e.size, e.size};
+                                break;
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
             }
         }
