@@ -49,7 +49,10 @@ enum AnimType{
     Gameover_Top_Right,
     Gameover_Bottom_Left,
     Gameover_Bottom_Right,
-    Bell
+    Bell,
+    Default_Anim,
+    Methrann_Anim,
+    Anger_Anim,
 };
 
 enum TowerType{
@@ -96,7 +99,7 @@ enum soundType {
     SoundRecursivTower,
     SoundStringTower,
     SoundEnemyOrdinary,
-    SoundFrolePoehlich,
+    SoundFrohlePoehlich,
     SoundDrueberbolz,
     SoundArrowHit,
     SoundBoomerangHit,
@@ -106,6 +109,9 @@ enum soundType {
     SoundHashBombHit,
     SoundError,
     SoundBell,
+    SoundMethrannBegin,
+    SoundMethrannEndHochschule,
+    SoundMethrannEndBachelor,
     SoundDisabled
 };
 

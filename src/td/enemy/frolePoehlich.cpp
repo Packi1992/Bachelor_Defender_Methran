@@ -8,11 +8,9 @@ FrolePoehlich::FrolePoehlich() : BossEnemy() {
 FrolePoehlich::FrolePoehlich(std::shared_ptr<BossEnemy> e)
         : BossEnemy(e) {
     _recursivable = false;
-    _sanity *= 3;
-    _value *= 3;
     _type = Boss_Frohle_Poehlich;
 }
 
 soundType FrolePoehlich::getSoundName() {
-    return SoundFrolePoehlich;
+    return SoundFrohlePoehlich;
 }
