@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\bddgame.cpp" />
+    <ClCompile Include="src\credits\credits.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mainMenu\introstate.cpp" />
     <ClCompile Include="src\morhuhn\morhuhn.cpp" />
@@ -212,6 +213,7 @@
     <ClCompile Include="src\util\TextureCache.cpp" />
     <ClCompile Include="src\worldMap\worldMap.cpp" />
     <ClInclude Include="src\bddgame.h" />
+    <ClInclude Include="src\credits\credits.h" />
     <ClInclude Include="src\mainMenu\introstate.h" />
     <ClInclude Include="src\morhuhn\morhuhn.h" />
     <ClInclude Include="src\tdEditor\editor.h" />
