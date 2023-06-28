@@ -73,26 +73,29 @@ void WorldMap::Update() {
                             game.SetNextState(GS_TD);
                             break;
                         case btn_w3:
+                            game.SetNextState(GS_Moorhuhn);
+                            break;
+                        case btn_w4:
                             tdGlobals->setPath("gameMaps/world3.map");
                             game.SetNextState(GS_TD);
                             break;
-                        case btn_w4:
+                        case btn_w5:
                             tdGlobals->setPath("gameMaps/world4.map");
                             game.SetNextState(GS_TD);
                             break;
-                        case btn_w5:
+                        case btn_w6:
                             tdGlobals->setPath("gameMaps/world5.map");
                             game.SetNextState(GS_TD);
                             break;
-                        case btn_w6:
+                        case btn_w7:
                             tdGlobals->setPath("gameMaps/world6.map");
                             game.SetNextState(GS_TD);
                             break;
-                        case btn_w7:
+                        case btn_w8:
                             tdGlobals->setPath("gameMaps/world7.map");
                             game.SetNextState(GS_TD);
                             break;
-                        case btn_w8:
+                        case btn_w9:
                             tdGlobals->setPath("gameMaps/world8.map");
                             game.SetNextState(GS_TD);
                             break;
@@ -123,40 +126,45 @@ void WorldMap::Update() {
 
                     case btn_w1:
                         size.x = (int) ((float) windowSize.x * 0.33f);
-                        size.y = (int) ((float) windowSize.y * 0.765f);
+                        size.y = (int) ((float) windowSize.y * 0.77f);
                         _button.setSize(size);
                         break;
                     case btn_w2:
-                        size.x = (int) ((float) windowSize.x * 0.43f);
-                        size.y = (int) ((float) windowSize.y * 0.765f);
+                        size.x = (int) ((float) windowSize.x * 0.38f);
+                        size.y = (int) ((float) windowSize.y * 0.77f);
                         _button.setSize(size);
                         break;
                     case btn_w3:
-                        size.x = (int) ((float) windowSize.x * 0.56f);
-                        size.y = (int) ((float) windowSize.y * 0.55f);
+                        size.x = (int) ((float) windowSize.x * 0.43f);
+                        size.y = (int) ((float) windowSize.y * 0.77f);
                         _button.setSize(size);
                         break;
                     case btn_w4:
                         size.x = (int) ((float) windowSize.x * 0.56f);
-                        size.y = (int) ((float) windowSize.y * 0.45f);
+                        size.y = (int) ((float) windowSize.y * 0.55f);
                         _button.setSize(size);
                         break;
                     case btn_w5:
                         size.x = (int) ((float) windowSize.x * 0.56f);
-                        size.y = (int) ((float) windowSize.y * 0.35f);
+                        size.y = (int) ((float) windowSize.y * 0.45f);
                         _button.setSize(size);
                         break;
                     case btn_w6:
+                        size.x = (int) ((float) windowSize.x * 0.56f);
+                        size.y = (int) ((float) windowSize.y * 0.35f);
+                        _button.setSize(size);
+                        break;
+                    case btn_w7:
                         size.x = (int) ((float) windowSize.x * 0.772f);
                         size.y = (int) ((float) windowSize.y * 0.44f);
                         _button.setSize(size);
                         break;
-                    case btn_w7:
+                    case btn_w8:
                         size.x = (int) ((float) windowSize.x * 0.775f);
                         size.y = (int) ((float) windowSize.y * 0.17f);
                         _button.setSize(size);
                         break;
-                    case btn_w8:
+                    case btn_w9:
                         size.x = (int) ((float) windowSize.x * 0.58f);
                         size.y = (int) ((float) windowSize.y * 0.21f);
                         _button.setSize(size);
@@ -206,6 +214,7 @@ WorldMap::WorldMap(Game &game) : GameState(game, GS_WorldMap) {
     _buttons.emplace_back("6", _fontSize, btn_w6);
     _buttons.emplace_back("7", _fontSize, btn_w7);
     _buttons.emplace_back("8", _fontSize, btn_w8);
+    _buttons.emplace_back("9", _fontSize, btn_w9);
     IfDebug {
         _buttons.emplace_back("Editor", _fontSize, btn_Editor);
         _buttons.emplace_back("Eigene Map", _fontSize, btn_ChooseMap);
@@ -254,10 +263,13 @@ void WorldMap::updateActiveButtons() {
                 case btn_w8:
                     btn.setActive(config->worldsFinished >= 7);
                     break;
+                case btn_w9:
+                    btn.setActive(config->worldsFinished >= 7);
+                    break;
                 case btn_Editor:
                 case btn_ChooseMap:
-                    btn.setActive(config->worldsFinished >= 8);
-                    btn.setVisible(config->worldsFinished >= 8);
+                    btn.setActive(config->worldsFinished >= 9);
+                    btn.setVisible(config->worldsFinished >= 9);
             }
         }
     }
