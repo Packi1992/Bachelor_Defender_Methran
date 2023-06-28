@@ -26,6 +26,7 @@ void Credits::UnInit() {
     GameState::UnInit();
     _creditAnim.stop();
     _creditAnim.reset();
+    SDL_DestroyTexture(blendedText);
 }
 
 void Credits::Events() {
