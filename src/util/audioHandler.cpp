@@ -84,7 +84,7 @@ const char* AudioHandler::getMusicPath(musicType music) {
 		case MusicMainMenu:
 			return BasePath "asset/music/severance.ogg";
 		case MusicEditor:
-			return BasePath "asset/music/testsound.wav";
+			return BasePath "asset/music/severance.ogg";
 		case MusicGame:
 			return BasePath "asset/music/severance.ogg";
 		case MusicError:

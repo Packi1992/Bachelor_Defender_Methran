@@ -332,13 +332,14 @@
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="asset\music\testsound.wav" />
     <Media Include="asset\sound\bell.wav" />
     <Media Include="asset\sound\BoomerangAttack.wav" />
     <Media Include="asset\sound\explosion.wav" />
     <Media Include="asset\sound\hashCanonShot.wav" />
     <Media Include="asset\sound\linkedListActive.wav" />
     <Media Include="asset\sound\linkedListAttack.wav" />
+    <Media Include="asset\sound\MethrannBachelor.wav" />
+    <Media Include="asset\sound\MethrannErodiert.wav" />
     <Media Include="asset\sound\MethrannHochschule.wav" />
     <Media Include="asset\sound\MethrannPhysiker.wav" />
     <Media Include="asset\sound\MethrannRennt.wav" />

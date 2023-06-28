@@ -1,5 +1,0 @@
-totalEnemies:0
-totalBosses:0
-worldNR:0
-totalCreditPoints:0
-moorhuhnHighscore:0
