@@ -169,6 +169,7 @@
     <ClCompile Include="src\tdUtil\Wave.cpp" />
     <ClCompile Include="src\tdUtil\waveHandler.cpp" />
     <ClCompile Include="src\td\anim\anim.cpp" />
+    <ClCompile Include="src\td\anim\creditAnim.cpp" />
     <ClCompile Include="src\td\anim\gameOverAnim.cpp" />
     <ClCompile Include="src\td\anim\methrannAnim.cpp" />
     <ClCompile Include="src\td\anim\stunBellAnim.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="src\tdUtil\Wave.h" />
     <ClInclude Include="src\tdUtil\waveHandler.h" />
     <ClInclude Include="src\td\anim\anim.h" />
+    <ClInclude Include="src\td\anim\creditAnim.h" />
     <ClInclude Include="src\td\anim\gameOverAnim.h" />
     <ClInclude Include="src\td\anim\methrannAnim.h" />
     <ClInclude Include="src\td\anim\stunBellAnim.h" />
