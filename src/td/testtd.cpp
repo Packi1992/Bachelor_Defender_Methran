@@ -27,17 +27,6 @@ void TestTD::Init() {
     btn_bell.setInactivColor(BTN_INACTIVE);
     btn_info.set("?", 25, {});
     btn_info.setBlendet(true);
-    IfDebug {
-        globals._enemies.push_back(std::make_shared<Enemy>());
-        globals._enemies.at(0)->_pos = {4.5, 4.5};
-        globals._enemies.at(0)->_health = 1000;
-        globals._enemies.at(0)->_alive = true;
-        globals._enemies.at(0)->stun(65000);
-
-
-        b._speed = 100;
-        b._targetE = globals._enemies.at(0);
-    }
     updateUI();
     Update();
     audioHandler->playSound(SoundMethrannBegin);
@@ -95,7 +84,7 @@ void TestTD::Render() {
     rh->fillRect(&SanityBar, RED);
     rh->fillRect(&Sanity, GREEN);
     rh->rect(&SanityBar, 4, BLACK);
-    if(!_gameover)
+    if (!_gameover)
         _methrannAnim.Render();
     // Menu
     rh->fillRect(&_menuBot, EDITOR_UI_BG);
@@ -124,6 +113,7 @@ void TestTD::Render() {
 }
 
 void TestTD::Update() {
+
     u32 diff = totalMSec - _lastTimePoint;
     _lastTimePoint = totalMSec;
 
@@ -199,6 +189,9 @@ void TestTD::Update() {
                     }
                     btn_bell.setActive(false);
                     _bellTimer = 30000;
+                    IfDebug{
+                        _bellTimer = 3000;
+                    };
                 }
             }
             for (auto &t: globals._towers) {
@@ -226,12 +219,17 @@ void TestTD::Update() {
         }
         IfDebug {
             if (_btn_control) {
-                Point cursor;
-                SDL_GetMouseState(&cursor.x, &cursor.y);
-                FPoint scursor = CT::getPosInGame(cursor);
-                b._position = scursor;
-                b._startingPoint = scursor;
-                globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
+                if (!globals._enemies.empty()) {
+                    b._speed = 10;
+                    b._ttl = 15000;
+                    b._targetE = globals._enemies.at(0);
+                    Point cursor;
+                    SDL_GetMouseState(&cursor.x, &cursor.y);
+                    FPoint scursor = CT::getPosInGame(cursor);
+                    b._position = scursor;
+                    b._startingPoint = scursor;
+                    globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
+                }
                 _btn_control = false;
                 //_gameover = true;
             }
@@ -240,7 +238,7 @@ void TestTD::Update() {
     if (_gameover) {
         if (_gameOverAnim.isStarted()) {
             _gameOverAnim.Update();
-        }else{
+        } else {
             _gameOverAnim.reset();
             _gameOverAnim.start();
         }
@@ -260,12 +258,17 @@ void TestTD::Update() {
             if (config->worldsFinished < mapNr) {
                 config->worldsFinished = mapNr;
                 config->safeConfig();
+                if(mapNr == 9){
+                    game.SetNextState(GS_Credits);
+                    return;
+                }
             }
-            if (config->worldsFinished == 0)
-                game.SetNextState(GS_MainMenu);
-            else
-                game.SetNextState(GS_WorldMap);
         }
+        if (config->worldsFinished == 0)
+            game.SetNextState(GS_MainMenu);
+        else
+            game.SetNextState(GS_WorldMap);
+
         //config->worldsFinished
     }
     if (_stunBellAnim.isStarted())
@@ -273,10 +276,9 @@ void TestTD::Update() {
     _btn_enter = false;
 
     float fSanity = ((float) globals._pl._sanity / (float) globals._pl._maxSanity);
-    if(fSanity < 0.1f)
-        _methrannAnim.start();
-;
-    if(_methrannAnim.isStarted())
+    if (fSanity < 0.1f)
+        _methrannAnim.start();;
+    if (_methrannAnim.isStarted())
         _methrannAnim.Update();
     else
         _methrannAnim.UpdateStatic();

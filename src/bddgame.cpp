@@ -7,6 +7,7 @@
 #include "tdEditor/editor.h"
 #include "worldMap/worldMap.h"
 #include "morhuhn/morhuhn.h"
+#include "credits/credits.h"
 
 BddGame::BddGame() :
         Game("Bachelor Defender: Methran und das goldene Zertifikat", {1440, 960}, false) {
@@ -16,6 +17,7 @@ BddGame::BddGame() :
             new Editor(*this),
             new WorldMap(*this),
             new Moorhuhn(*this),
+            new Credits(*this),
     };
 
     Game::SetNextState(GameStates::GS_MainMenu);

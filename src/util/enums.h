@@ -151,6 +151,7 @@ enum GameStates{
     GS_Settings,
     GS_Editor,
     GS_WorldMap,
+    GS_Credits,
     GS_Close,
 };
 
