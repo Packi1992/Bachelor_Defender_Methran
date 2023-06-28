@@ -62,14 +62,14 @@ void Moorhuhn::Update() {
         }
         _end = true;
     }
-    if (_timer <= 0 && _btnReturn) {
+    if (_end && _btnReturn) {
         if (!_gameover) {
             if (config->worldsFinished < 3) {
                 config->worldsFinished = 3;
                 config->safeConfig();
             }
-            game.SetNextState(GS_WorldMap);
         }
+        game.SetNextState(GS_WorldMap);
 
     }
     _btnReturn = false;
@@ -78,8 +78,8 @@ void Moorhuhn::Update() {
         u32 diff = totalMSec - _lastTimePoint;
         _lastTimePoint = totalMSec;
         SDL_GetMouseState(&_cursor.x, &_cursor.y);
-        if (_timer > diff) {
-            _timer -= diff;
+        if (_timer > (int)diff) {
+            _timer -= (int)diff;
         } else {
             _timer = 0;
         }
