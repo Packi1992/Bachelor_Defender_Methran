@@ -27,17 +27,6 @@ void TestTD::Init() {
     btn_bell.setInactivColor(BTN_INACTIVE);
     btn_info.set("?", 25, {});
     btn_info.setBlendet(true);
-    IfDebug {
-        globals._enemies.push_back(std::make_shared<Enemy>());
-        globals._enemies.at(0)->_pos = {4.5, 4.5};
-        globals._enemies.at(0)->_health = 1000;
-        globals._enemies.at(0)->_alive = true;
-        globals._enemies.at(0)->stun(65000);
-
-
-        b._speed = 100;
-        b._targetE = globals._enemies.at(0);
-    }
     updateUI();
     Update();
     audioHandler->playSound(SoundMethrannBegin);
@@ -200,6 +189,9 @@ void TestTD::Update() {
                     }
                     btn_bell.setActive(false);
                     _bellTimer = 30000;
+                    IfDebug{
+                        _bellTimer = 3000;
+                    };
                 }
             }
             for (auto &t: globals._towers) {
@@ -227,12 +219,17 @@ void TestTD::Update() {
         }
         IfDebug {
             if (_btn_control) {
-                Point cursor;
-                SDL_GetMouseState(&cursor.x, &cursor.y);
-                FPoint scursor = CT::getPosInGame(cursor);
-                b._position = scursor;
-                b._startingPoint = scursor;
-                globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
+                if (!globals._enemies.empty()) {
+                    b._speed = 10;
+                    b._ttl = 15000;
+                    b._targetE = globals._enemies.at(0);
+                    Point cursor;
+                    SDL_GetMouseState(&cursor.x, &cursor.y);
+                    FPoint scursor = CT::getPosInGame(cursor);
+                    b._position = scursor;
+                    b._startingPoint = scursor;
+                    globals._projectiles.push_back(std::make_shared<Boomerang>(b, b._targetE, 0));
+                }
                 _btn_control = false;
                 //_gameover = true;
             }
@@ -343,7 +340,6 @@ void TestTD::Events() {
 }
 
 void TestTD::keyDown(SDL_Event &event) {
-    cout << event.key.keysym.scancode << " =  ENTER" << SDL_SCANCODE_RETURN << endl;
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
             if (globals.editor)
