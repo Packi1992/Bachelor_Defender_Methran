@@ -24,6 +24,7 @@ public:
     long totalBossesKilled = 0;
     int worldsFinished = 0;
     long totalCreditPointsEarned = 0;
+    int highscoreMoorhuhn = 0;
 
     Config(Config &other) = delete;
 

@@ -44,8 +44,9 @@ private:
     Rect ui_bg{};
     Rect enemy{};
 
-    TextWithValue timer{};
-    TextWithValue killCount{};
+    TextWithValue _uiTimer{};
+    TextWithValue _uiKillCount{};
+    TextWithValue _uiHighscore{};
 
     string text{};
     bool _end = false;
