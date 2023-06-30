@@ -29,6 +29,8 @@ class Moorhuhn: public GameState  {
 private:
     Texture *_tileMap{};
     Texture *_bg{};
+    int _size=60;
+    FPoint _hitSize = {0.5f,0.8f};
     Rect _bgRect{};
     huhn _enenmies[100];
     deathAnim _anims[100];
@@ -62,6 +64,10 @@ public:
     void Update() override;
 
     void Render() override;
+
+    void clearArrays();
+
+    bool isHit(huhn &huhn);
 };
 
 
