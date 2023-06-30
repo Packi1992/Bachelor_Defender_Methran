@@ -14,6 +14,10 @@ void Moorhuhn::Init() {
     _uiHighscore.set("Highscore: ", &config->highscoreMoorhuhn, {windowSize.x - 250, 50}, 20, WHITE, true);
     _timer = 100000;
     _timerCount = 1;
+    _killedCertificates = 0;
+    clearArrays();
+    _gameover = false;
+    _end = false;
 }
 
 void Moorhuhn::UnInit() {
@@ -95,8 +99,7 @@ void Moorhuhn::Update() {
             _mbLeft = false;
             for (huhn &e: _enenmies) {
                 if (e.alive) {
-                    if (abs((e.pos.y + e.size / 2) - _cursor.y) < (e.size - 10) &&
-                        abs((e.pos.x + e.size / 2) - _cursor.x) < (e.size - 10)) {
+                    if (isHit(e)) {
                         e.alive = false;
                         _killedCertificates++;
                         for (auto &deathanim: _anims) {
@@ -120,7 +123,7 @@ void Moorhuhn::Update() {
             if (e.alive) {
                 e.pos.x += e.speed * (int) diff / 8;
                 e.drift = (int) (((int) (100 - _timerCount) / 10) * 15 * cos((totalMSec / 50 % 360) / 180.0 * M_PI));
-                if (e.pos.x > windowSize.x + 50 || e.pos.x + 50 < 0)
+                if (e.pos.x > windowSize.x + _size || e.pos.x + _size < 0)
                     e.alive = false;
             }
         }
@@ -153,7 +156,7 @@ void Moorhuhn::Update() {
                     e.drift = (int) (totalMSec - e.start) % 360;
                     e.pos.y = (int) ((float) windowSize.y * (float) (((float) ((int) totalMSec % 60 + 1)) / 100.0f)) +
                               150;
-                    e.size = (int) (totalMSec % 3 + 1) * 50;
+                    e.size = (int) (totalMSec % 3 + 1) * _size;
                     e.pos.x += e.size / 2;
                     e.pos.y -= e.size / 2;
                     break;
@@ -173,10 +176,17 @@ void Moorhuhn::Render() {
 
     for (int i = 1; i <= 3; i++) {
         for (huhn &e: _enenmies) {
-            if (e.alive && e.size == i * 50) {
+            if (e.alive && e.size == i * _size) {
                 enemy = {e.pos.x, e.pos.y + e.drift, e.size, e.size};
-                //rh->fillRect(&enemy,BLACK);
-                rh->texture(_tileMap, &enemy, TdTileHandler::getSrcRect(Goal, (&enemy, (int) (e.start + totalMSec))));
+                rh->texture(_tileMap, &enemy, TdTileHandler::getSrcRect(Goal, (int) (e.start + totalMSec)));
+                IfDebug {
+                    rh->rect(&enemy, 4, GREEN);
+                    enemy = {e.pos.x + (int) (((float) e.size - ((float) e.size * _hitSize.x)) * 0.5f),
+                             (e.pos.y + e.drift) + (int) (((float) e.size - (float) e.size * _hitSize.y) * 0.5f),
+                             (int) ((float) e.size * _hitSize.x),
+                             (int) ((float) e.size * _hitSize.y)};
+                    rh->fillRect(&enemy, BLACK);
+                }
             }
         }
         for (deathAnim &a: _anims) {
@@ -204,4 +214,21 @@ void Moorhuhn::Render() {
 }
 
 Moorhuhn::Moorhuhn(Game &game) : GameState(game, GS_Moorhuhn) {
+}
+
+void Moorhuhn::clearArrays() {
+    for (auto &e: _enenmies) {
+        e.alive = false;
+    }
+    for (auto &da: _anims) {
+        da.done = true;
+    }
+}
+
+bool Moorhuhn::isHit(huhn &huhn) {
+
+    return abs((huhn.pos.y + (int) ((float) (huhn.size + huhn.drift) * 0.5f)) - _cursor.y) <
+           (int) ((float) huhn.size * _hitSize.y * 0.5f) &&
+           abs(huhn.pos.x + (int) ((float) huhn.size * 0.5f) - _cursor.x) <
+           (int) ((float) huhn.size * _hitSize.x * 0.5f);
 }
