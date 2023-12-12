@@ -66,10 +66,7 @@ void Editor::Update() {
 void Editor::Render() {
     rh->background(BG);
     // Render map
-    map.RenderBG(true);
-    for (int y = 0; y < map._height; y++)
-        map.RenderRow(y);
-    if (showPath)map.RenderPath();
+    map.Render(true,showPath);
     map.RenderFrontWall();
     // now Render ui
     RenderToolbox();

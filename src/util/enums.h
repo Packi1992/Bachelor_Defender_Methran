@@ -104,16 +104,17 @@ enum soundType {
     SoundDrueberbolz,
     SoundArrowHit,
     SoundBoomerangHit,
-    SoundLinkHit,
-    SoundStringProjectileHit,
-    SoundFire,
-    SoundHashBombHit,
-    SoundError,
     SoundBell,
     SoundMethrannBegin,
     SoundMethrannEndHochschule,
     SoundMethrannEndBachelor,
-    SoundDisabled
+    SoundStringProjectileHit,
+    SoundHashBombHit,
+    SoundDisabled,
+    SoundLinkHit,
+    SoundError,
+    SoundFire
+
 };
 
 // Menu Entries for displaying Icons in FloatingMenu

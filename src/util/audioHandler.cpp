@@ -73,7 +73,7 @@ void AudioHandler::loadSound() {
 	for (int i = 0; i < SoundDisabled; i++) {
 		_soundmixArray[i] = Mix_LoadWAV(getSoundPath(static_cast <soundType>(i)));
 		if (!_soundmixArray[i]) {
-			cerr << "Mix_LoadWAV failed at " << static_cast <soundType>(i) << " : " << Mix_GetError() << endl;
+			cerr << "Mix_LoadWAV failed at " << i << ":" << getSoundPath(static_cast<soundType>(i)) << " : " << Mix_GetError() << endl;
 		}
 	}
 	return;
@@ -124,8 +124,6 @@ const char* AudioHandler::getSoundPath(soundType sound) {
 			return BasePath "asset/sound/linkedListAttack.wav";
 		case SoundStringProjectileHit:
 			return BasePath "asset/sound/StringAttack.wav";
-		case SoundFire:
-			return BasePath "";
         case SoundBell:
             return BasePath "asset/sound/bell.wav";
 		case SoundMethrannBegin:

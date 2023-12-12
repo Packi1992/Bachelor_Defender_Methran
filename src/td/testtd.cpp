@@ -3,7 +3,6 @@
 //
 #include "testtd.h"
 
-#include <utility>
 #include "../util/dataHandler.h"
 #include "../util/config.h"
 
@@ -17,7 +16,7 @@ void TestTD::Init() {
     _methrannAnim.reset();
     _lastTimePoint = totalMSec;
     globals._wh.reset();
-    DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + *(tdGlobals->_mapPath));
+    DataHandler::load(globals._pl, globals._wh, _map, BasePath"Maps/" + (tdGlobals->_mapPath));
     _creditPointDisplay.set("Credit Points :", reinterpret_cast<const int *>(&globals._pl._creditPoints),
                             {windowSize.x - 200, windowSize.y - 100}, 20, WHITE, true);
 
@@ -48,11 +47,8 @@ void TestTD::Render() {
     // Background
     rh->background(BG);
     // Map
-    _map.RenderBG(true);
-    for (int y = 0; y < _map._height; y++) {
-        _map.RenderRow(y);
-        if (_renderPath)
-            _map.RenderPathRow(y);
+    _map.Render(false,_renderPath);
+    for (int y = _map._viewRect.y; y < _map._viewRect.h; y++) {
         // Tower
         for (auto &tower: globals._towers) {
             if (tower->isRow(y))
@@ -61,7 +57,7 @@ void TestTD::Render() {
     }
 
     //  render Enemies
-    for (int i = 0; i < (_map._height) * 10; i++) {
+    for (int i = _map._viewRect.y; i < (_map._viewRect.h) * 10; i++) {
         for (auto &enemy: globals._enemies) {
             if (enemy->isRow((float) i * 0.1f))
                 enemy->Render();
@@ -252,8 +248,8 @@ void TestTD::Update() {
         }
     }
     if (!_gameover && _btn_enter && globals._wh.isOver()) {
-        if ((*(globals._mapPath)).substr(0, 14) == "gameMaps/world") {
-            string number = (*(globals._mapPath)).substr(14, (*(globals._mapPath)).size() - 18);
+        if (((globals._mapPath)).substr(0, 14) == "gameMaps/world") {
+            string number = ((globals._mapPath)).substr(14, ((globals._mapPath)).size() - 18);
             int mapNr = (int) std::stol(number, nullptr, 10);
             if (config->worldsFinished < mapNr) {
                 config->worldsFinished = mapNr;
@@ -277,7 +273,7 @@ void TestTD::Update() {
 
     float fSanity = ((float) globals._pl._sanity / (float) globals._pl._maxSanity);
     if (fSanity < 0.1f)
-        _methrannAnim.start();;
+        _methrannAnim.start();
     if (_methrannAnim.isStarted())
         _methrannAnim.Update();
     else
@@ -552,7 +548,7 @@ TestTD::TestTD(Game &game, string mapPath) : GameState(game, GS_TD) {
     SDL_QueryTexture(_texMethran, nullptr, nullptr, &MethranDst.w, &MethranDst.h);
     pGame = &game;
     pMap = &_map;
-    globals._mapPath = new string(std::move(mapPath));
+    globals._mapPath = mapPath;
 }
 
 void TestTD::handleEvent(const GameEvent &event) {
@@ -580,8 +576,7 @@ void TestTD::handleEvent(const GameEvent &event) {
 }
 
 void TDGlobals::setPath(string newMapPath) {
-    delete _mapPath;
-    _mapPath = new string(std::move(newMapPath));
+    _mapPath = newMapPath;
 }
 
 bool TDGlobals::isEnemyBlocking(FPoint tile) {

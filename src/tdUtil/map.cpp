@@ -10,6 +10,7 @@ Map::Map() {
     this->_width = 16;
     _tileMap = t_cache->get(BasePath "asset/graphic/td/tileTD.png");
     _blocked = t_cache->get(BasePath "asset/graphic/editor/blocked.png");
+    _noPath = t_cache->get(BasePath "asset/graphic/editor/noPath.png");
     _arrow = t_cache->get(BasePath "asset/graphic/editor/arrow.png");
     this->_map = std::vector(_width, Vector<MapObjects>(_height));
     this->_pathMap = std::vector(_width, Vector<PathEntry>(_height));
@@ -24,8 +25,9 @@ void Map::resize(Point size) {
         _width = size.x;
         _height = size.y;
     }
-
-    cout << "resize Map to Width = " << _width << " Height = " << _height << endl;
+    IfDebug {
+        cout << "resize Map to Width = " << _width << " Height = " << _height << endl;
+    }
     _map.resize(_width);
     _pathMap.resize(_width);
     for (int i = 0; i < _width; i++) {
@@ -35,59 +37,51 @@ void Map::resize(Point size) {
     updatePathFinding();
 }
 
-void Map::RenderBG(bool wire) {
-    if (wire)
-        drawWire();
-}
-
 void Map::RenderRow(int row) {
-    Rect dstRect;
-    Rect wallRect;
-    int y = (row * scale) - offset.y;
-    int yWallAbove = (row - 2 * scale) - offset.y;
-    int x = (-1 * scale) - offset.x;
+    _dstRect.w = scale;
+    _dstRect.h = scale;
+    _dstRect.y = (row * scale) - offset.y;
+    _yWallAbove = (row - 2 * scale) - offset.y;
+    _dstX = (-1 * scale) - offset.x;
     if (row < _height - 2) {
-        wallRect = {x, row * scale - offset.y, scale, scale};
-        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall));
+        _wallRect = {_dstX, row * scale - offset.y, scale, scale};
+        rh->tile(&_wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall));
     }
     if (row == 0) {
-        wallRect = {x, -2 * scale - offset.y, scale, scale};
-        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall));
-        wallRect.y += scale;
-        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall));
-        wallRect = {_width * scale - offset.x, -2 * scale - offset.y, scale, scale};
-        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall), true);
-        wallRect.y += scale;
-        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall), true);
+        _wallRect = {_dstX, -2 * scale - offset.y, scale, scale};
+        rh->tile(&_wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall));
+        _wallRect.y += scale;
+        rh->tile(&_wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall));
+        _wallRect = {_width * scale - offset.x, -2 * scale - offset.y, scale, scale};
+        rh->tile(&_wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall), true);
+        _wallRect.y += scale;
+        rh->tile(&_wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall), true);
     }
     if (row < _height - 2) {
-        wallRect.y = y;
-        wallRect.x = _width * scale - offset.x;
-        rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall), true);
+        _wallRect.y = _dstRect.y;
+        _wallRect.x = _width * scale - offset.x;
+        rh->tile(&_wallRect, TdTileHandler::getSrcRect(MapObjects::Side_Wall), true);
     }
-    for (int i = 0; i < _width; i++) {
-        x = (i * scale) - offset.x;
-        if (x + scale > 0 && x < windowSize.x && y + scale > 0 && y < windowSize.y) {
-            dstRect = {x, y, scale, scale};
-            wallRect = {x, yWallAbove, scale, 2 * scale};
-            if (row == 0) {
-                if (i % 3 == 0)
-                    rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Window_Wall));
-                else
-                    rh->tile(&wallRect, TdTileHandler::getSrcRect(MapObjects::Plain_Wall));
-            }
-            switch (_map[i][row]) {
-                case MapObjects::Goal:
-                case MapObjects::Tower:
-                case MapObjects::Start:
-                case MapObjects::Chair:
-                    rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(MapObjects::Empty));
-                    break;
-                default:
-                    break;
-            }
-            rh->texture(_tileMap, &dstRect, TdTileHandler::getSrcRect(_map[i][row], totalMSec));
+    for (int i = _viewRect.x; i < _viewRect.w; i++) {
+        _dstRect.x = (i * scale) - offset.x;
+        _wallRect = {_dstRect.x, _yWallAbove, scale, 2 * scale};
+        if (row == 0) {
+            if (i % 3 == 0)
+                rh->tile(&_wallRect, TdTileHandler::getSrcRect(MapObjects::Window_Wall));
+            else
+                rh->tile(&_wallRect, TdTileHandler::getSrcRect(MapObjects::Plain_Wall));
         }
+        switch (_map[i][row]) {
+            case MapObjects::Goal:
+            case MapObjects::Tower:
+            case MapObjects::Start:
+            case MapObjects::Chair:
+                rh->texture(_tileMap, &_dstRect, TdTileHandler::getSrcRect(MapObjects::Empty));
+                break;
+            default:
+                break;
+        }
+        rh->texture(_tileMap, &_dstRect, TdTileHandler::getSrcRect(_map[i][row], totalMSec));
     }
 }
 
@@ -96,7 +90,7 @@ void Map::RenderFrontWall() {
 
     int yWallAbove = ((_height - 2) * scale) - offset.y;
     Rect wallRect{0, yWallAbove, scale, 2 * scale};
-    for (int i = 0; i < _width; i++) {
+    for (int i = _viewRect.x; i < _viewRect.w; i++) {
         int x = (i * scale) - offset.x;
         if (x + scale > 0 && x < windowSize.x && yWallAbove + 2 * scale > 0 && yWallAbove < windowSize.y) {
             wallRect.x = x;
@@ -118,77 +112,39 @@ void Map::RenderFrontWall() {
 
 }
 
-
 void Map::RenderPath() {
-    Rect dstRect;
-    for (int i = 0; i < _width; i++) {
-        int x = (i * scale) - offset.x;
-        for (int j = 0; j < _height; j++) {
-            int y = (j * scale) - offset.y;
-            dstRect = {x, y, scale, scale};
-            //Point p= {i,j};
-            PathEntry e = _pathMap[i][j];
-            if (e.blocked)
-                rh->texture(_blocked, &dstRect);
-            else if (!e.set && !e.goal) {
-                dstRect.x += scale / 6;
-                dstRect.y += scale / 6;
-                dstRect.w -= scale / 3;
-                dstRect.h -= scale / 3;
-                rh->fillRect(&dstRect, YELLOW);
-                dstRect = {x, y, scale, scale};
-
-            } else if (e.goal) {
+    _dstRect.w = scale;
+    _dstRect.h = scale;
+    for (int i = _viewRect.x; i < _viewRect.w; i++) {
+        _dstRect.x = (i * scale) - offset.x;
+        for (int j = _viewRect.y; j < _viewRect.h; j++) {
+            _dstRect.y = (j * scale) - offset.y;
+            if (_pathMap[i][j].blocked)
+                rh->texture(_blocked, &_dstRect);
+            else if (!_pathMap[i][j].set && !_pathMap[i][j].goal) {
+                rh->texture(_noPath, &_dstRect);
+            } else if (_pathMap[i][j].goal) {
                 continue;
             } else {
-                rh->texture(_arrow, &dstRect, getDir(i, j, e.pos.x, e.pos.y));
+                rh->texture(_arrow, &_dstRect, getDir(i, j, _pathMap[i][j].pos.x, _pathMap[i][j].pos.y));
             }
         }
     }
 }
 
-void Map::RenderPathRow(int yx) {
-    Rect dstRect;
-    for (int i = 0; i < _width; i++) {
-        int x = (i * scale) - offset.x;
-        int y = (yx * scale) - offset.y;
-        dstRect = {x, y, scale, scale};
-        //Point p= {i,j};
-        PathEntry e = _pathMap[i][yx];
-        if (e.blocked)
-            rh->texture(_blocked, &dstRect);
-        else if (!e.set && !e.goal) {
-            dstRect.x += scale / 6;
-            dstRect.y += scale / 6;
-            dstRect.w -= scale / 3;
-            dstRect.h -= scale / 3;
-            rh->fillRect(&dstRect, YELLOW);
-            dstRect = {x, y, scale, scale};
-
-        } else if (e.goal) {
-            continue;
-        } else {
-            rh->texture(_arrow, &dstRect, getDir(i, yx, e.pos.x, e.pos.y));
-        }
-
-    }
-}
-
-void Map::drawWire() const {
+void Map::drawWire() {
     rh->setColor(MAP_GRID);
-    Point p1, p2;
-
-    p1.y = -offset.y;
-    p2.y = _height * scale - offset.y;
-    for (int i = 0; i <= _width; i++) {
-        p1.x = p2.x = i * scale - offset.x;
-        rh->line(p1, p2);
+    _p1.y = _viewRect.y - offset.y;
+    _p2.y = _viewRect.h * scale - offset.y;
+    for (int i = _viewRect.x; i <= _viewRect.w; i++) {
+        _p1.x = _p2.x = i * scale - offset.x;
+        rh->line(_p1, _p2);
     }
-    p1.x = 0 - offset.x;
-    p2.x = _width * scale - offset.x;
-    for (int j = 0; j <= _height; j++) {
-        p1.y = p2.y = j * scale - offset.y;
-        rh->line(p1, p2);
+    _p1.x = _viewRect.x - offset.x;
+    _p2.x = _viewRect.w * scale - offset.x;
+    for (int j = _viewRect.y; j <= _viewRect.h; j++) {
+        _p1.y = _p2.y = j * scale - offset.y;
+        rh->line(_p1, _p2);
     }
 }
 
@@ -263,7 +219,7 @@ void Map::setTile(Point p, MapObjects object, bool checkEPath) {
         _map[p.x][p.y] = object;
     }
     updatePathFinding();
-    if(checkEPath)
+    if (checkEPath)
         CheckEnemiesPath(p);
 }
 
@@ -420,7 +376,6 @@ u16 Map::getDir(int ex, int ey, int tx, int ty) {
 }
 
 bool Map::checkPath(Point pos) {
-
     if (getObject(pos) == MapObjects::Empty) {
         setTile(pos, MapObjects::Tower, false);
         if (!updatePathFinding()) {
@@ -428,7 +383,7 @@ bool Map::checkPath(Point pos) {
             updatePathFinding();
             return false;
         }
-        setTile(pos, MapObjects::Empty,false);
+        setTile(pos, MapObjects::Empty, false);
         updatePathFinding();
     }
     return true;
@@ -440,10 +395,7 @@ bool Map::blockingTile(SDL_Point pos) {
             return true;
         }
     }
-
     MapObjects obj = getObject(pos);
-    cout << TdTileHandler::getName(obj) << endl;
-
     switch (obj) {
         case Empty:
         case Table:
@@ -486,4 +438,21 @@ void Map::CheckEnemiesPath(Point point) {
 
 Map::~Map() {
     SDL_DestroyTexture(_frontWall);
+}
+
+void Map::updateViewRect() {
+    _viewRect.x = max(offset.x / scale - 1, 0);
+    _viewRect.w = min((offset.x + windowSize.x) / scale + 1, this->_width);
+    _viewRect.y = max(offset.y / scale - 1, 0);
+    _viewRect.h = min((offset.y + windowSize.y) / scale + 1, this->_height);
+}
+
+void Map::Render(bool wire, bool path) {
+    updateViewRect();
+    if (wire)
+        drawWire();
+    for (int y = _viewRect.y; y < _viewRect.h; y++)
+        RenderRow(y);
+    if (path)
+        RenderPath();
 }
