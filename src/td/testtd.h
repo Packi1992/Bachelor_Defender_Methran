@@ -29,7 +29,7 @@ struct TDGlobals {
     Vector<std::shared_ptr<Projectile>> _projectiles{};
     WaveHandler _wh{};
     Player _pl{};
-    string *_mapPath{};
+    string _mapPath;
 
     // stats
     long _enemiesKilled = 0;
@@ -42,10 +42,6 @@ struct TDGlobals {
     void setPath(string newMapPath);
 
     bool editor = false;
-
-    ~TDGlobals() {
-        delete _mapPath;
-    }
 
     bool isEnemyBlocking(FPoint tile);
 };

@@ -9,7 +9,9 @@ void DataHandler::load(Player &player, WaveHandler &waves, Map &map, const strin
     // then we will cut the map part and load the map
     string line;
     std::ifstream iStream;
-    cout << "Load Data: " << path << endl;
+    IfDebug {
+        cout << "Load Data: " << path << endl;
+    }
     char mnName[50];
     strncpy(mnName, path.c_str(),50);
     iStream.open(mnName);
@@ -93,7 +95,9 @@ void DataHandler::save(Player &player, WaveHandler &waves, Map &map, const strin
         oStream << (getTypeName(static_cast<DataType>(i)) + "-END\n");
     }
     oStream.close();
-    cout << "Map Saved" << endl;
+    IfDebug {
+        cout << "Map Saved" << endl;
+    }
 }
 
 string DataHandler::getTypeName(DataHandler::DataType type) {

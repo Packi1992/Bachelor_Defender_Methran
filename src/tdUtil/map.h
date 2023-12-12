@@ -49,16 +49,16 @@ public:
 
     bool blockingTile(Point point);
 
-    void RenderBG(bool wire);
-
     void RenderRow(int row);
 
     void RenderPath();
 
-    void RenderPathRow(int i);
-
     void RenderFrontWall();
 
+    void updateViewRect();
+
+    void Render(bool wire = false, bool path = false);
+    Rect _viewRect = {};
 private:
     struct PathEntry {
         Point pos;
@@ -71,9 +71,10 @@ private:
     Texture *_tileMap = {};
     Texture *_frontWall = {};
     Texture *_blocked = {};
+    Texture *_noPath = {};
     Texture *_arrow{};
 
-    void drawWire() const;
+    void drawWire();
 
     void loadRow(string basicString);
 
@@ -93,6 +94,12 @@ private:
     static u16 getDir(int ex, int ey, int tx, int ty);
 
     void CheckEnemiesPath(Point point);
+
+    Rect _dstRect{};
+    Rect _wallRect{};
+    int _dstX{};
+    int _yWallAbove{};
+    Point _p1{},_p2{};
 };
 
 
