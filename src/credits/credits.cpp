@@ -5,7 +5,7 @@
 #include "credits.h"
 
 constexpr const char * text =
-        "                                       --Bachelor Defender Credits --\n\n"
+        "                                       -- Bachelor Defender Credits --\n\n"
         "Game Design: Giona Mendicino, Jonas Westhofen, Patrick Gehlich\n"
         "Sound Design: Jonas Westhofen, Giona Mendicino, Patrick Gehlich\n"
         "Windows Unterstützung: Jonas Westhofen, Patrick Gehlich, Giona Mendicino\n"
@@ -13,7 +13,7 @@ constexpr const char * text =
         "Mathematik: Patrick Gehlich\n"
         "Refactoring: Patrick Gehlich\n"
         "Animations: Giona Mendicino\n\n"
-        "Einen Speziellen Dank an Herrn Dalitz für die bereitstellung von Item Content\n";
+        "Einen speziellen Dank an Herrn Dalitz für die Bereitstellung von Item Contents\n";
 
 void Credits::Init() {
     GameState::Init();
