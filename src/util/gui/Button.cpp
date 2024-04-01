@@ -22,8 +22,6 @@ void Button::Render(bool highlighted) {
 
         // Text Render
         rh->blendTexture(_texText, &_rText);
-        //rh->texture(_texText, &_rText);
-
     }
 }
 

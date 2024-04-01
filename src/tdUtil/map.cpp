@@ -4,6 +4,7 @@
 
 #include "map.h"
 #include "../td/testtd.h"
+#include <queue>
 
 Map::Map() {
     this->_height = 8;
@@ -218,7 +219,9 @@ void Map::setTile(Point p, MapObjects object, bool checkEPath) {
     if (p.x < _width && p.x >= 0 && p.y < _height && p.y >= 0) {
         _map[p.x][p.y] = object;
     }
-    updatePathFinding();
+    // check path
+    if(!updatePointPath(p))
+        updatePathFinding();
     if (checkEPath)
         CheckEnemiesPath(p);
 }
@@ -252,46 +255,89 @@ void Map::Update() {
 }
 
 bool Map::updatePathFinding() {
+    IfDebug{
+        time(&_start);
+    }
+
     _startPoints.clear();
+    _goals.clear();
     // clear path array
     for (int j = 0; j < _height; j++) {
         for (int i = 0; i < _width; i++) {
-            if (_map[i][j] == MapObjects::Start)
+            if (_map[i][j] == MapObjects::Start) {
                 _startPoints.push_back({i, j});
+                _pathMap[i][j].cost = 0;
+            }
+            if (_map[i][j] == MapObjects::Goal)
+                _goals.push_back({i,j});
             _pathMap[i][j].pos = {-1, -1}; //-1/-1 is not set
             _pathMap[i][j].blocked = isBlocked(i, j);
             _pathMap[i][j].goal = _map[i][j] == MapObjects::Goal;
-            _pathMap[i][j].set = isBlocked(i, j);
+            _pathMap[i][j].set = _pathMap[i][j].blocked || _pathMap[i][j].goal;
+
         }
+    }
+    if(_startPoints.empty() || _goals.empty()){
+        IfDebug{
+            time(&_end);
+            std::cout << "PathCalculations failed and took: "<<  double(_end-_start) << "s" << std::endl;
+        }
+        return false;
     }
     //  map should have spawn points, and at least one goal
-    bool allPathsFound = false;
-    bool certificatesConnected = true;
     int loopCounter = 0;
-    while (!allPathsFound && loopCounter < _width * _height) {
+    std::queue<Point> pathQueue;
+    for( Point p: _goals){
+        pathQueue.push(p);
+    }
+    Point p;
+    while (!pathQueue.empty()) {
         loopCounter++;
-        allPathsFound = true;
-        bool changed = false;
-        for (int j = 0; j < _height; j++) {
-            for (int i = 0; i < _width; i++) {
-                if (!_pathMap[i][j].blocked && !_pathMap[i][j].goal && !_pathMap[i][j].set) {
-                    if (evaluatePath(i, j))
-                        changed = true;
-                    allPathsFound = false;
-                }
-            }
+         p = pathQueue.front();
+         //std::cout << "{" << p.x << "," << p.y << "}" << std::endl;
+         pathQueue.pop();
+         // Look Left
+         if(p.x>0 && !_pathMap[p.x-1][p.y].set){
+             _pathMap[p.x-1][p.y].cost = _pathMap[p.x][p.y].cost;
+             _pathMap[p.x-1][p.y].set = true;
+             _pathMap[p.x-1][p.y].pos = p;
+             pathQueue.push({p.x-1,p.y});
+         }
+         // Look Top
+         if(p.y>0 && !_pathMap[p.x][p.y-1].set) {
+             _pathMap[p.x][p.y-1].cost = _pathMap[p.x][p.y].cost;
+             _pathMap[p.x][p.y-1].set = true;
+             _pathMap[p.x][p.y-1].pos = p;
+             pathQueue.push({p.x,p.y-1});
+         }
+         // Look Right
+        if(p.x+1<_width && !_pathMap[p.x+1][p.y].set) {
+            _pathMap[p.x+1][p.y].cost = _pathMap[p.x][p.y].cost;
+            _pathMap[p.x+1][p.y].set = true;
+            _pathMap[p.x+1][p.y].pos = p;
+            pathQueue.push({p.x+1,p.y});
         }
-        if (!changed)
-            break;
+        // Look Down
+        if(p.y+1<_height && !_pathMap[p.x][p.y+1].set) {
+            _pathMap[p.x][p.y+1].cost = _pathMap[p.x][p.y].cost;
+            _pathMap[p.x][p.y+1].set = true;
+            _pathMap[p.x][p.y+1].pos = p;
+            pathQueue.push({p.x,p.y+1});
+        }
     }
-    for (Point p: _startPoints) {
-        if (!_pathMap[p.x][p.y].blocked && !_pathMap[p.x][p.y].goal && !_pathMap[p.x][p.y].set)
-            certificatesConnected = false;
+    for (Point point: _startPoints) {
+        if (!_pathMap[point.x][point.y].set) {
+            cerr << "updating Path failed" << endl;
+            IfDebug{
+                time(&_end);
+                std::cout << "PathCalculations failed and took: "<<  double(_end-_start) << "s" << std::endl;
+            }
+            return false;
+        }
     }
-
-    if (!allPathsFound && !certificatesConnected) {
-        cerr << "updating Path failed" << endl;
-        return false;
+    IfDebug{
+        time(&_end);
+        std::cout << "PathCalculations finished and took: "<<  double(_end-_start) << "s" <<std::endl;
     }
     return true;
 }
@@ -455,4 +501,11 @@ void Map::Render(bool wire, bool path) {
         RenderRow(y);
     if (path)
         RenderPath();
+}
+// true if update worked
+bool Map::updatePointPath(Point point) {
+
+    // check 4er neighbourhood
+
+    return false;
 }

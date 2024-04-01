@@ -62,12 +62,14 @@ public:
 private:
     struct PathEntry {
         Point pos;
+        int cost;
         bool blocked;
         bool goal;
         bool set;
     };
 
     Vector<Point> _startPoints{};
+    Vector<Point> _goals{};
     Texture *_tileMap = {};
     Texture *_frontWall = {};
     Texture *_blocked = {};
@@ -100,6 +102,8 @@ private:
     int _dstX{};
     int _yWallAbove{};
     Point _p1{},_p2{};
+    time_t _start, _end;
+    bool updatePointPath(Point point);
 };
 
 

@@ -55,7 +55,6 @@ public:
 
 private:
     bool isPointOnBtn(Point &p) const;
-
     // button background rect
     Rect _rect{};
     // text rect

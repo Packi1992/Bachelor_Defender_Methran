@@ -58,7 +58,7 @@ Game::Game(const char *windowTitle, const Point wSize, const bool vSync) {
             SDL_WINDOWPOS_CENTERED,
             wSize.x,
             wSize.y,
-            SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+            SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
 
     if (window == nullptr) {
         cerr << "Window could not be created: " << SDL_GetError() << endl;

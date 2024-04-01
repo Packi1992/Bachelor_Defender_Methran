@@ -18,8 +18,8 @@ private:
 	AudioHandler();
 	void loadMusic();
 	void loadSound();
-	const char *getMusicPath(musicType music);
-	const char* getSoundPath(soundType sound);
+	static const char *getMusicPath(musicType music);
+	static const char* getSoundPath(soundType sound);
 	static AudioHandler* audioHelper;
 	Music* _musicmixArray[MusicDisabled] = {};
 	Chunk* _soundmixArray[SoundDisabled] = {};
