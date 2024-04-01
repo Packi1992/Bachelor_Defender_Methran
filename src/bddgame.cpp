@@ -10,7 +10,7 @@
 #include "credits/credits.h"
 
 BddGame::BddGame() :
-        Game("Bachelor Defender: Methran und das goldene Zertifikat", {1440, 960}, false) {
+        Game("Bachelor Defender: Methran und das goldene Zertifikat", {2560, 1600}, false) {
     allStates = {
             new MainMenu(*this),
             new TestTD(*this, "gameMaps/world1.map"),

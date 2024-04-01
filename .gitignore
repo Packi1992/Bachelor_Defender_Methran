@@ -268,3 +268,4 @@ Thumbs.db
 build/
 .vscode/c_cpp_properties.json
 */config.txt
+.vscode/settings.json

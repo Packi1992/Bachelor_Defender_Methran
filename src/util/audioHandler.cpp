@@ -15,7 +15,6 @@ void AudioHandler::playMusic(musicType music) {
 	if (_musicmixArray[music]) {
 		Mix_PlayMusic(_musicmixArray[music], -1);
 	}
-	return;
 }
 
 void AudioHandler::pauseMusic() {
@@ -25,7 +24,6 @@ void AudioHandler::pauseMusic() {
 	else {
 		Mix_PauseMusic();
 	}
-	return;
 }
 
 // playStereoSound using Mix_SetPanning, MixVolume, ChunkVolume 
@@ -49,7 +47,6 @@ void AudioHandler::playSound(soundType sound, float x) {
 		int channel = Mix_PlayChannelTimed(-1, _soundmixArray[sound],0, 2500);
 		Mix_SetPanning(channel, left, right);
 	}
-	return;
 }
 
 AudioHandler* AudioHandler::getHandler() {
@@ -66,7 +63,6 @@ void AudioHandler::loadMusic() {
 			cerr << "Mix_LoadMUS failed at " << static_cast <musicType>(i) << " : " << Mix_GetError() << endl;
 		}
 	}
-	return;
 }
 
 void AudioHandler::loadSound() {
@@ -76,7 +72,6 @@ void AudioHandler::loadSound() {
 			cerr << "Mix_LoadWAV failed at " << i << ":" << getSoundPath(static_cast<soundType>(i)) << " : " << Mix_GetError() << endl;
 		}
 	}
-	return;
 }
 
 const char* AudioHandler::getMusicPath(musicType music) {
@@ -86,8 +81,6 @@ const char* AudioHandler::getMusicPath(musicType music) {
 		case MusicEditor:
 			return BasePath "asset/music/severance.ogg";
 		case MusicGame:
-			return BasePath "asset/music/severance.ogg";
-		case MusicError:
 			return BasePath "asset/music/severance.ogg";
 		default:
 			cerr << "Not Defined Music Type" << endl;
