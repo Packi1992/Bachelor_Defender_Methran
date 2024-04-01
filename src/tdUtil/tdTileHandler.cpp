@@ -281,6 +281,7 @@ SDL_Rect *TdTileHandler::getAnimSrcRect(AnimType a, unsigned long anim) {
             break;
         case Methrann_Anim:
         case Anger_Anim:
+        case Credit_Anim:
             return nullptr;
         default:
             cerr << "Type not implemented";
